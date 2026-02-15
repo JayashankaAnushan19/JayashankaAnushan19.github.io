@@ -3,148 +3,730 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jayashanka Anushan | Portfolio</title>
-  <link rel="stylesheet" href="./style.css" />
+  <title>Jayashanka Anushan | Robotics & Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1e1e1e;
+      --text-primary: #f5f5f5;
+      --text-secondary: #a3a3a3;
+      --text-muted: #737373;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --border: #2a2a2a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    /* Background gradient effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08), transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 6rem 0 8rem;
+      animation: fadeInUp 1s ease-out 0.2s backwards;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.875rem 2rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 400;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    /* Section Styles */
+    section {
+      padding: 5rem 0;
+      animation: fadeInUp 1s ease-out 0.4s backwards;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+      align-self: center;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .card-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .card li {
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .card li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .skill-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+      border-color: var(--accent);
+      background: var(--bg-secondary);
+    }
+
+    .skill-item strong {
+      color: var(--accent-light);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .skill-item span {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(-6px);
+    }
+
+    .project-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .project-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      color: var(--accent-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* About Section */
+    .about-content {
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 0 3rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .nav-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        padding: 4rem 0 5rem;
+      }
+
+      section {
+        padding: 3rem 0;
+      }
+
+      .section-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .section-divider {
+        display: none;
+      }
+
+      .projects-grid,
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Extras Section */
+    .extras {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .extras a {
+      padding: 0.75rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .extras a:hover {
+      border-color: var(--accent);
+      background: var(--bg-secondary);
+      transform: translateX(4px);
+    }
+
+    /* Contact Section */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 600px;
+      font-size: 1.05rem;
+    }
+
+    .contact-links a {
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact-links a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <header class="container">
-    <h1>Jayashanka Anushan</h1>
-    <p class="tagline">Crafting Innovative Solutions | Bridging Software, Robotics, and Automation</p>
-    <div class="links">
-      <a href="https://github.com/JayashankaAnushan19" target="_blank">GitHub</a>
-      <a href="https://medium.com/@jayasankaanushan199" target="_blank">Medium</a>
-      <a href="https://sites.google.com/view/jayashanka-anushan/home" target="_blank">Portfolio (Google Sites)</a>
+  
+  <nav>
+    <div class="container">
+      <div class="nav-content">
+        <div class="logo">Jayashanka Anushan</div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
     </div>
-  </header>
+  </nav>
 
-  <section>
-    <h2>Extras</h2>
-    <a href="/games">🎮 Games</a><br/>
-    <a href="/private">🔐 Private</a>
-  </section>
-
-  <main class="container">
-    <section>
-      <h2>About Me</h2>
-      <p>
-        I’m an IT professional with a background in Software Engineering, currently pursuing an MSc in Robotics at Middlesex University Dubai. 
-        I have over 5 years of experience in inventory management, IT systems, and process optimization. 
-        I’m passionate about robotics, automation, smart systems, and building real-world tech solutions that improve operational efficiency.
+  <div class="container">
+    <header class="hero">
+      <h1 class="hero-title">Bridging Software, Robotics, and Automation</h1>
+      <p class="hero-subtitle">
+        IT professional and robotics graduate student with 5+ years of experience in software engineering, 
+        inventory management, and systems optimization. Currently pursuing MSc in Robotics at Middlesex University Dubai.
       </p>
-    </section>
-
-    <section>
-      <h2>Skills & Tools</h2>
-      <ul class="grid">
-        <li><strong>Languages:</strong> Python, C#, PHP, JavaScript</li>
-        <li><strong>Robotics:</strong> ROS1, Gazebo, RViz, Arduino, Sensors</li>
-        <li><strong>Frameworks:</strong> Laravel, React, Node.js, Bootstrap</li>
-        <li><strong>Databases:</strong> MySQL, MSSQL, MongoDB</li>
-        <li><strong>Tools:</strong> Git, SAP, Microsoft Excel, Word, PowerPoint, Outlook</li>
-        <li><strong>OS:</strong> Ubuntu</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <div class="card">
-        <h3>MSc Robotics</h3>
-        <p>Middlesex University Dubai (2024 – 2026)</p>
+      <div class="hero-links">
+        <a href="https://github.com/JayashankaAnushan19" target="_blank" class="btn btn-primary">GitHub</a>
+        <a href="https://medium.com/@jayasankaanushan199" target="_blank" class="btn">Medium</a>
+        <a href="https://sites.google.com/view/jayashanka-anushan/home" target="_blank" class="btn">Portfolio</a>
       </div>
-      <div class="card">
-        <h3>BEng (Hons) Software Engineering</h3>
-        <p>London Metropolitan University — First Class Honours (2020 – 2021)</p>
+      <div class="extras">
+        <a href="/games">🎮 Games</a>
+        <a href="/private">🔒 Private</a>
       </div>
-      <div class="card">
-        <h3>Diploma in Information Technology (Software Engineering)</h3>
-        <p>University of Moratuwa (2020 – 2021)</p>
-      </div>
-    </section>
+    </header>
 
-    <section>
-      <h2>Experience</h2>
-      <div class="card">
-        <h3>IT Support / Administration — OPPEIN HOME (2024 – Present)</h3>
-        <ul>
-          <li>Created documentation for IT, admin, and marketing processes</li>
-          <li>Installed and troubleshot software/hardware across departments</li>
-          <li>Managed supplier databases and procurement requests</li>
-          <li>Edited company website using WordPress</li>
+    <main>
+      <section id="about">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2>About Me</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="about-content">
+          <p>
+            I'm an IT professional with a background in Software Engineering, currently pursuing an MSc in Robotics at Middlesex University Dubai. 
+            I have over 5 years of experience in inventory management, IT systems, and process optimization. 
+            I'm passionate about robotics, automation, smart systems, and building real-world tech solutions that improve operational efficiency.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h2>Skills & Tools</h2>
+          <div class="section-divider"></div>
+        </div>
+        <ul class="skills-grid">
+          <li class="skill-item">
+            <strong>Languages</strong>
+            <span>Python, C#, PHP, JavaScript</span>
+          </li>
+          <li class="skill-item">
+            <strong>Robotics</strong>
+            <span>ROS1, Gazebo, RViz, Arduino, Sensors</span>
+          </li>
+          <li class="skill-item">
+            <strong>Frameworks</strong>
+            <span>Laravel, React, Node.js, Bootstrap</span>
+          </li>
+          <li class="skill-item">
+            <strong>Databases</strong>
+            <span>MySQL, MSSQL, MongoDB</span>
+          </li>
+          <li class="skill-item">
+            <strong>Tools</strong>
+            <span>Git, SAP, Microsoft Excel, Word, PowerPoint, Outlook</span>
+          </li>
+          <li class="skill-item">
+            <strong>Operating Systems</strong>
+            <span>Ubuntu</span>
+          </li>
         </ul>
-      </div>
+      </section>
 
-      <div class="card">
-        <h3>Inventory Administrator — Alfred Talke Logistic Services Qatar LLC (2023 – 2024)</h3>
-        <ul>
-          <li>Managed 100,000+ inventory records using SAP</li>
-          <li>Built reports and reconciliations with Microsoft Excel</li>
-          <li>Improved stock rotation and shelf labelling workflows</li>
-        </ul>
-      </div>
+      <section>
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h2>Education</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="card">
+          <h3>MSc Robotics</h3>
+          <p class="card-meta">Middlesex University Dubai • 2024 – 2026</p>
+        </div>
 
-      <div class="card">
-        <h3>Technical Officer — Wayamba University of Sri Lanka (2019 – 2023)</h3>
-        <ul>
-          <li>Maintained IT systems and engineering labs</li>
-          <li>Installed PLC, Proteus, and managed user accounts</li>
-          <li>Supported lab design using SolidWorks</li>
-        </ul>
-      </div>
+        <div class="card">
+          <h3>BEng (Hons) Software Engineering</h3>
+          <p class="card-meta">London Metropolitan University • First Class Honours • 2020 – 2021</p>
+        </div>
 
-      <div class="card">
-        <h3>Associate Software Engineer (Intern) — Arya Labs Pvt Ltd (2020)</h3>
-        <ul>
-          <li>Tested and debugged AJAX, JS, and PHP systems</li>
-          <li>Helped optimize payment flows and module integrations</li>
-        </ul>
-      </div>
-    </section>
+        <div class="card">
+          <h3>Diploma in Information Technology (Software Engineering)</h3>
+          <p class="card-meta">University of Moratuwa • 2020 – 2021</p>
+        </div>
+      </section>
 
-    <section>
-      <h2>Featured Projects</h2>
+      <section id="experience">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <h2>Experience</h2>
+          <div class="section-divider"></div>
+        </div>
 
-      <div class="project">
-        <h3>Arduino Braille-to-Text</h3>
-        <p>Converts Braille input into readable text in real time using push buttons and Arduino.</p>
-        <a href="https://github.com/JayashankaAnushan19/arduino-braile-to-text" target="_blank">Source</a>
-      </div>
+        <div class="card">
+          <h3>IT Support / Administration</h3>
+          <p class="card-meta">OPPEIN HOME • 2024 – Present</p>
+          <ul>
+            <li>Created documentation for IT, admin, and marketing processes</li>
+            <li>Installed and troubleshot software/hardware across departments</li>
+            <li>Managed supplier databases and procurement requests</li>
+            <li>Edited company website using WordPress</li>
+          </ul>
+        </div>
 
-      <div class="project">
-        <h3>Robot Statics Control (WebSocket + ROS)</h3>
-        <p>Visualizes robotic sensor data and provides control via WebSockets.</p>
-        <a href="https://github.com/JayashankaAnushan19/RoboStaticsControl" target="_blank">Source</a>
-      </div>
+        <div class="card">
+          <h3>Inventory Administrator</h3>
+          <p class="card-meta">Alfred Talke Logistic Services Qatar LLC • 2023 – 2024</p>
+          <ul>
+            <li>Managed 100,000+ inventory records using SAP</li>
+            <li>Built reports and reconciliations with Microsoft Excel</li>
+            <li>Improved stock rotation and shelf labelling workflows</li>
+          </ul>
+        </div>
 
-      <div class="project">
-        <h3>ROS Arduino LED Control</h3>
-        <p>ROS ↔ Arduino communication demo to control hardware from Ubuntu VM.</p>
-        <a href="https://github.com/JayashankaAnushan19/ros-arduino-led-control" target="_blank">Source</a>
-      </div>
+        <div class="card">
+          <h3>Technical Officer</h3>
+          <p class="card-meta">Wayamba University of Sri Lanka • 2019 – 2023</p>
+          <ul>
+            <li>Maintained IT systems and engineering labs</li>
+            <li>Installed PLC, Proteus, and managed user accounts</li>
+            <li>Supported lab design using SolidWorks</li>
+          </ul>
+        </div>
 
-      <div class="project">
-        <h3>Power BI Data Visualization (Pizza Hut)</h3>
-        <p>Sales insights and KPI dashboards built from Kaggle datasets.</p>
-        <a href="https://github.com/JayashankaAnushan19/PowerBI_DataVisualization_Pizza_hut" target="_blank">Source</a>
-      </div>
+        <div class="card">
+          <h3>Associate Software Engineer (Intern)</h3>
+          <p class="card-meta">Arya Labs Pvt Ltd • 2020</p>
+          <ul>
+            <li>Tested and debugged AJAX, JS, and PHP systems</li>
+            <li>Helped optimize payment flows and module integrations</li>
+          </ul>
+        </div>
+      </section>
 
-      <div class="project">
-        <h3>Maze Game (BFS Algorithm)</h3>
-        <p>HTML Canvas game using BFS for enemy pathfinding.</p>
-        <a href="https://github.com/JayashankaAnushan19/Maze-Game-01" target="_blank">Source</a>
-      </div>
-    </section>
+      <section id="projects">
+        <div class="section-header">
+          <span class="section-number">05</span>
+          <h2>Featured Projects</h2>
+          <div class="section-divider"></div>
+        </div>
 
-    <section>
-      <h2>Contact</h2>
-      <p>
-        GitHub: <a href="https://github.com/JayashankaAnushan19" target="_blank">JayashankaAnushan19</a><br/>
-        Medium: <a href="https://medium.com/@jayasankaanushan199" target="_blank">@jayasankaanushan199</a>
-      </p>
-    </section>
-  </main>
+        <div class="projects-grid">
+          <div class="project-card">
+            <h3>Arduino Braille-to-Text</h3>
+            <p>Converts Braille input into readable text in real time using push buttons and Arduino.</p>
+            <div class="project-links">
+              <a href="https://github.com/JayashankaAnushan19/arduino-braile-to-text" target="_blank" class="project-link">View Source →</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Robot Statics Control</h3>
+            <p>Visualizes robotic sensor data and provides control via WebSockets and ROS integration.</p>
+            <div class="project-links">
+              <a href="https://github.com/JayashankaAnushan19/RoboStaticsControl" target="_blank" class="project-link">View Source →</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>ROS Arduino LED Control</h3>
+            <p>ROS ↔ Arduino communication demo to control hardware from Ubuntu VM.</p>
+            <div class="project-links">
+              <a href="https://github.com/JayashankaAnushan19/ros-arduino-led-control" target="_blank" class="project-link">View Source →</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Power BI Data Visualization</h3>
+            <p>Sales insights and KPI dashboards built from Kaggle datasets for Pizza Hut.</p>
+            <div class="project-links">
+              <a href="https://github.com/JayashankaAnushan19/PowerBI_DataVisualization_Pizza_hut" target="_blank" class="project-link">View Source →</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <h3>Maze Game (BFS Algorithm)</h3>
+            <p>HTML Canvas game using BFS algorithm for enemy pathfinding.</p>
+            <div class="project-links">
+              <a href="https://github.com/JayashankaAnushan19/Maze-Game-01" target="_blank" class="project-link">View Source →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-header">
+          <span class="section-number">06</span>
+          <h2>Contact</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="contact-links">
+          <p>
+            <strong>GitHub:</strong> 
+            <a href="https://github.com/JayashankaAnushan19" target="_blank">JayashankaAnushan19</a>
+          </p>
+          <p>
+            <strong>Medium:</strong> 
+            <a href="https://medium.com/@jayasankaanushan199" target="_blank">@jayasankaanushan199</a>
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <footer>
-    <p>© 2026 Jayashanka Anushan</p>
+    <div class="container">
+      <p>© 2026 Jayashanka Anushan • All information accurate and verified</p>
+    </div>
   </footer>
+
 </body>
 </html>
