@@ -586,22 +586,91 @@ async function openFile(file) {
   
   try {
     if (['mp4','webm'].includes(file.type)) {
-      body.innerHTML = `<video controls style="width:100%; max-height:70vh;"><source src="${file.downloadUrl}"></video><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
-    } else if (['mp3','wav'].includes(file.type)) {
-      body.innerHTML = `<audio controls style="width:100%;"><source src="${file.downloadUrl}"></audio><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
-    } else if (['jpg','png','gif'].includes(file.type)) {
-      body.innerHTML = `<img src="${file.downloadUrl}" style="max-width:100%; height:auto;"><br><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
-    } else if (file.type === 'pdf') {
-      body.innerHTML = `<iframe src="${file.downloadUrl}" style="width:100%; height:70vh; border:1px solid rgba(0,255,0,0.3);"></iframe><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button><a href="${file.downloadUrl}" download class="copy-btn" style="margin-left:1rem;">⬇ DOWNLOAD</a>`;
-    } else if (file.type === 'txt') {
+      body.innerHTML = `
+        <video controls style="width:100%; max-height:70vh;">
+          <source src="${file.downloadUrl}">
+        </video>
+        <br>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+          ⬇ DOWNLOAD VIDEO
+        </a>
+      `;
+    } 
+    else if (['mp3','wav'].includes(file.type)) {
+      body.innerHTML = `
+        <audio controls style="width:100%;">
+          <source src="${file.downloadUrl}">
+        </audio>
+        <br>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+          ⬇ DOWNLOAD AUDIO
+        </a>
+      `;
+    } 
+    else if (['jpg','png','gif'].includes(file.type)) {
+      body.innerHTML = `
+        <img src="${file.downloadUrl}" style="max-width:100%; height:auto; box-shadow: 0 0 20px rgba(0,255,0,0.3);">
+        <br>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+          ⬇ DOWNLOAD IMAGE
+        </a>
+      `;
+    } 
+    else if (file.type === 'pdf') {
+      // Use Google Docs Viewer for better PDF viewing without triggering download
+      const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(file.downloadUrl)}&embedded=true`;
+      body.innerHTML = `
+        <iframe src="${viewerUrl}" style="width:100%; height:70vh; border:1px solid rgba(0,255,0,0.3);"></iframe>
+        <br>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+          ⬇ DOWNLOAD PDF
+        </a>
+      `;
+    } 
+    else if (file.type === 'txt') {
       const res = await fetch(file.downloadUrl);
       const text = await res.text();
-      body.innerHTML = `<pre id="txt" style="background:rgba(0,255,0,0.05); padding:1.5rem; border:1px solid rgba(0,255,0,0.3); overflow:auto; max-height:60vh; white-space:pre-wrap;">${text}</pre><button class="copy-btn" onclick="copyText()">📋 COPY CONTENT</button>`;
-    } else {
-      body.innerHTML = `<div style="text-align:center; padding:2rem;"><h3 style="color:#00ff00;">📎 ${file.name}</h3><p>${file.size}</p><br><a href="${file.downloadUrl}" download class="copy-btn">⬇ DOWNLOAD</a><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')" style="margin-left:1rem;">📋 COPY URL</button></div>`;
+      body.innerHTML = `
+        <pre id="txt" style="background:rgba(0,255,0,0.05); padding:1.5rem; border:1px solid rgba(0,255,0,0.3); overflow:auto; max-height:60vh; white-space:pre-wrap; line-height:1.6;">${text}</pre>
+        <button class="copy-btn" onclick="copyText()">
+          📋 COPY CONTENT
+        </button>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn" style="margin-left:1rem;">
+          ⬇ DOWNLOAD FILE
+        </a>
+      `;
+    }
+    else if (['doc','docx'].includes(file.type)) {
+      // Use Google Docs Viewer for Word documents
+      const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(file.downloadUrl)}&embedded=true`;
+      body.innerHTML = `
+        <iframe src="${viewerUrl}" style="width:100%; height:70vh; border:1px solid rgba(0,255,0,0.3);"></iframe>
+        <br>
+        <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+          ⬇ DOWNLOAD DOCUMENT
+        </a>
+      `;
+    }
+    else {
+      body.innerHTML = `
+        <div style="text-align:center; padding:2rem;">
+          <h3 style="color:#00ff00;">📎 ${file.name}</h3>
+          <p>Type: ${file.type.toUpperCase()}</p>
+          <p>Size: ${file.size}</p>
+          <br>
+          <a href="${file.downloadUrl}" download="${file.name}" class="copy-btn">
+            ⬇ DOWNLOAD FILE
+          </a>
+        </div>
+      `;
     }
   } catch (e) {
-    body.innerHTML = `<div style="text-align:center; padding:2rem; color:#ff0000;"><h3>⚠ ERROR</h3><p>${e.message}</p></div>`;
+    body.innerHTML = `
+      <div style="text-align:center; padding:2rem; color:#ff0000;">
+        <h3>⚠ ERROR</h3>
+        <p>${e.message}</p>
+      </div>
+    `;
   }
 }
 
