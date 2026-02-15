@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VAULT • FILE SYSTEM</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>CLASSIFIED FILE SYSTEM</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Share Tech Mono', monospace;
       background: #000;
@@ -23,7 +17,6 @@
       overflow-x: hidden;
     }
 
-    /* Secure background grid */
     body::before {
       content: '';
       position: fixed;
@@ -39,7 +32,6 @@
       z-index: 0;
     }
 
-    /* Security header */
     .security-header {
       background: rgba(0, 0, 0, 0.95);
       border-bottom: 2px solid #00ff00;
@@ -53,12 +45,8 @@
       box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
+    .header-left { display: flex; align-items: center; gap: 1.5rem; }
+    
     .vault-title {
       font-family: 'Orbitron', sans-serif;
       font-size: 1.5rem;
@@ -81,17 +69,9 @@
       50% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); }
     }
 
-    .header-right {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .session-timer {
-      font-size: 0.8rem;
-      color: #ffff00;
-    }
-
+    .header-right { display: flex; gap: 1rem; align-items: center; }
+    .session-timer { font-size: 0.8rem; color: #ffff00; }
+    
     .btn-logout {
       background: transparent;
       border: 1px solid #ff0000;
@@ -109,7 +89,6 @@
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
     }
 
-    /* Main container */
     .container {
       max-width: 1400px;
       margin: 2rem auto;
@@ -118,7 +97,6 @@
       z-index: 1;
     }
 
-    /* Breadcrumb navigation */
     .breadcrumb {
       background: rgba(0, 255, 0, 0.05);
       border: 1px solid rgba(0, 255, 0, 0.3);
@@ -141,23 +119,46 @@
       text-shadow: 0 0 10px #00ffff;
     }
 
-    .breadcrumb span {
-      color: #00cc00;
-    }
-
-    /* Toolbar */
     .toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      padding: 1rem 1.5rem;
+      background: rgba(0, 255, 0, 0.03);
+      border: 1px solid rgba(0, 255, 0, 0.2);
     }
 
-    .toolbar-left {
+    .toolbar-left { display: flex; gap: 2rem; align-items: center; }
+
+    .system-status {
       display: flex;
-      gap: 1rem;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: #00ff00;
+      letter-spacing: 0.1em;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #00ff00;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px #00ff00; }
+      50% { opacity: 0.5; box-shadow: 0 0 5px #00ff00; }
+    }
+
+    .file-count {
+      font-size: 0.85rem;
+      color: #00cc00;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .btn {
@@ -172,9 +173,6 @@
       cursor: pointer;
       text-transform: uppercase;
       transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .btn:hover {
@@ -183,104 +181,64 @@
       transform: translateY(-2px);
     }
 
-    .btn-danger {
-      border-color: #ff0000;
-      color: #ff0000;
-    }
-
-    .btn-danger:hover {
-      background: rgba(255, 0, 0, 0.1);
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-    }
-
-    /* File grid */
     .file-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
       margin-bottom: 3rem;
     }
 
-    .file-item,
-    .folder-item {
-      background: rgba(0, 255, 0, 0.05);
-      border: 2px solid rgba(0, 255, 0, 0.3);
-      padding: 1.5rem;
+    .file-item, .folder-item {
+      background: transparent;
+      border: none;
+      padding: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      min-height: 150px;
+      gap: 0.5rem;
+      min-height: 110px;
+      border-radius: 4px;
     }
 
-    .folder-item {
-      border-color: #00ff00;
+    .folder-item { background: rgba(0, 255, 0, 0.02); }
+
+    .file-item:hover, .folder-item:hover {
+      background: rgba(0, 255, 0, 0.1);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
     }
 
-    .file-item:hover,
-    .folder-item:hover {
-      border-color: #00ffff;
-      background: rgba(0, 255, 255, 0.1);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-      transform: translateY(-5px);
+    .file-icon, .folder-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.5));
+      transition: all 0.3s ease;
     }
 
-    .file-icon,
-    .folder-icon {
-      font-size: 3rem;
-      filter: drop-shadow(0 0 10px #00ff00);
+    .file-item:hover .file-icon, .folder-item:hover .folder-icon {
+      filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.8));
+      transform: scale(1.1);
     }
 
-    .folder-icon {
-      font-size: 3.5rem;
-    }
+    .folder-icon { font-size: 2.8rem; }
 
-    .file-name,
-    .folder-name {
+    .file-name, .folder-name {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       word-break: break-word;
       color: #00ff00;
+      max-width: 100%;
+      line-height: 1.3;
     }
 
     .file-meta {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #00cc00;
       opacity: 0.7;
+      text-align: center;
     }
 
-    .delete-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: rgba(255, 0, 0, 0.2);
-      border: 1px solid #ff0000;
-      color: #ff0000;
-      width: 25px;
-      height: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transition: all 0.3s ease;
-      font-size: 0.8rem;
-    }
-
-    .file-item:hover .delete-btn,
-    .folder-item:hover .delete-btn {
-      opacity: 1;
-    }
-
-    .delete-btn:hover {
-      background: rgba(255, 0, 0, 0.5);
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
-    }
-
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -288,16 +246,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.97);
       z-index: 1000;
       align-items: center;
       justify-content: center;
-      animation: fadeIn 0.3s ease;
+      backdrop-filter: blur(5px);
     }
 
-    .modal.show {
-      display: flex;
-    }
+    .modal.show { display: flex; animation: fadeIn 0.3s ease; }
 
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -310,9 +266,14 @@
       max-width: 90%;
       max-height: 90%;
       padding: 2rem;
-      position: relative;
       box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
       overflow: auto;
+      animation: modalSlideIn 0.4s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .modal-header {
@@ -348,49 +309,45 @@
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
     }
 
-    .modal-body {
-      color: #00ff00;
-    }
-
-    /* Input styles */
-    input[type="text"] {
-      background: rgba(0, 255, 0, 0.05);
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 255, 0, 0.1);
       border: 2px solid #00ff00;
       color: #00ff00;
-      padding: 0.75rem 1rem;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.9rem;
-      width: 300px;
-      max-width: 100%;
-      outline: none;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
     }
 
-    input[type="text"]:focus {
-      background: rgba(0, 255, 0, 0.1);
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    .copy-btn:hover {
+      background: rgba(0, 255, 0, 0.2);
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+      transform: translateY(-2px);
     }
 
-    /* Media viewers */
-    #videoPlayer,
-    #audioPlayer,
-    #imageViewer {
-      max-width: 100%;
-      max-height: 70vh;
-      box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-    }
-
-    #pdfViewer,
-    #docViewer {
-      width: 100%;
-      height: 70vh;
-      background: rgba(0, 255, 0, 0.05);
-      border: 1px solid rgba(0, 255, 0, 0.3);
+    .copy-success {
+      display: inline-block;
+      margin-left: 1rem;
       color: #00ff00;
-      padding: 2rem;
-      overflow: auto;
+      font-size: 0.85rem;
+      opacity: 0;
+      animation: fadeInOut 2s ease;
     }
 
-    /* Empty state */
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+
     .empty-state {
       text-align: center;
       padding: 4rem 2rem;
@@ -398,13 +355,8 @@
       font-size: 0.9rem;
     }
 
-    .empty-state-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      opacity: 0.5;
-    }
+    .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
 
-    /* Access log */
     .access-log {
       margin-top: 3rem;
       padding: 2rem;
@@ -427,77 +379,43 @@
       justify-content: space-between;
     }
 
-    .log-success {
-      color: #00ff00;
-    }
+    .log-success { color: #00ff00; }
+    .log-failed { color: #ff0000; }
 
-    .log-failed {
-      color: #ff0000;
-    }
-
-    @media (max-width: 768px) {
-      .security-header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-      }
-
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .toolbar-left {
-        flex-direction: column;
-      }
-
-      .file-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 1rem;
-      }
-
-      .modal-content {
-        padding: 1rem;
-        max-width: 95%;
-      }
-
-      input[type="text"] {
-        width: 100%;
-      }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <!-- Security Header -->
   <div class="security-header">
     <div class="header-left">
-      <div class="vault-title">◆ VAULT</div>
-      <div class="security-badge">🔒 ENCRYPTED SESSION ACTIVE</div>
+      <div class="vault-title">◆ CLASSIFIED</div>
+      <div class="security-badge">🔒 SECURE SESSION</div>
     </div>
     <div class="header-right">
-      <div class="session-timer" id="sessionTimer">SESSION: <span id="timeRemaining">30:00</span></div>
+      <div class="session-timer">SESSION: <span id="timeRemaining">30:00</span></div>
       <button class="btn-logout" onclick="logout()">→ LOGOUT</button>
     </div>
   </div>
 
-  <!-- Main Container -->
   <div class="container">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb" id="breadcrumb">
+    <div class="breadcrumb">
       <span>📁</span>
-      <a href="#" onclick="navigateToRoot()">ROOT</a>
+      <a href="#" onclick="navigateToRoot()">DATA</a>
       <span id="currentPath"></span>
     </div>
 
-    <!-- Toolbar -->
     <div class="toolbar">
       <div class="toolbar-left">
-        <button class="btn" onclick="showCreateFolderModal()">
-          <span>📁</span> NEW FOLDER
-        </button>
-        <button class="btn" onclick="uploadFile()">
-          <span>📤</span> UPLOAD FILE
-        </button>
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>SYSTEM ACTIVE</span>
+        </div>
+        <div class="file-count">
+          <span>📊</span> <span id="itemCount">Loading...</span>
+        </div>
       </div>
       <div>
         <button class="btn" onclick="refreshFiles()">
@@ -506,69 +424,44 @@
       </div>
     </div>
 
-    <!-- File Grid -->
-    <div class="file-grid" id="fileGrid">
-      <!-- Files and folders will be loaded here -->
-    </div>
+    <div class="file-grid" id="fileGrid"></div>
 
-    <!-- Access Log -->
     <div class="access-log">
       <h3>⚠ ACCESS LOG</h3>
       <div id="accessLog"></div>
     </div>
   </div>
 
-  <!-- Modal for create folder -->
-  <div class="modal" id="createFolderModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">CREATE NEW FOLDER</div>
-        <button class="modal-close" onclick="closeModal('createFolderModal')">✕ CLOSE</button>
-      </div>
-      <div class="modal-body">
-        <label for="folderName">FOLDER NAME:</label>
-        <input type="text" id="folderName" placeholder="Enter folder name" />
-        <br><br>
-        <button class="btn" onclick="createFolder()">CREATE</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal for media viewing -->
   <div class="modal" id="mediaModal">
     <div class="modal-content" style="max-width: 1200px;">
       <div class="modal-header">
         <div class="modal-title" id="mediaTitle">FILE VIEWER</div>
         <button class="modal-close" onclick="closeModal('mediaModal')">✕ CLOSE</button>
       </div>
-      <div class="modal-body" id="mediaBody">
-        <!-- Media content will be loaded here -->
-      </div>
+      <div class="modal-body" id="mediaBody"></div>
     </div>
   </div>
 
   <script>
-// Vault File Manager - Secure File System
 const CONFIG = {
   SESSION_TIMEOUT: 30 * 60 * 1000,
-  GITHUB_REPO: 'JayashankaAnushan19/JayashankaAnushan19.github.io',
-  VAULT_PATH: 'private/vault'
+  GITHUB_USER: 'JayashankaAnushan19',
+  GITHUB_REPO: 'JayashankaAnushan19.github.io',
+  DATA_PATH: 'private/data'
 };
 
 let currentPath = [];
-let fileStructure = {};
+let fileStructure = null;
 
 function checkSession() {
-  const sessionToken = sessionStorage.getItem('vault_session');
-  const sessionExpiry = sessionStorage.getItem('vault_expiry');
-  if (!sessionToken || !sessionExpiry) {
+  const token = sessionStorage.getItem('vault_session');
+  const expiry = sessionStorage.getItem('vault_expiry');
+  if (!token || !expiry) {
     window.location.href = './index.html';
     return false;
   }
-  const now = Date.now();
-  const expiry = parseInt(sessionExpiry);
-  if (now >= expiry) {
-    alert('SESSION EXPIRED. Please authenticate again.');
+  if (Date.now() >= parseInt(expiry)) {
+    alert('⚠ SESSION EXPIRED\n\nAuthenticate again.');
     logout();
     return false;
   }
@@ -576,459 +469,192 @@ function checkSession() {
 }
 
 function updateSessionTimer() {
-  const sessionExpiry = sessionStorage.getItem('vault_expiry');
-  if (!sessionExpiry) return;
-  const now = Date.now();
-  const expiry = parseInt(sessionExpiry);
-  const remaining = Math.max(0, expiry - now);
-  const minutes = Math.floor(remaining / 60000);
-  const seconds = Math.floor((remaining % 60000) / 1000);
+  const expiry = sessionStorage.getItem('vault_expiry');
+  if (!expiry) return;
+  const remaining = Math.max(0, parseInt(expiry) - Date.now());
+  const min = Math.floor(remaining / 60000);
+  const sec = Math.floor((remaining % 60000) / 1000);
   document.getElementById('timeRemaining').textContent = 
-    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
   if (remaining <= 0) logout();
 }
 
 function logout() {
-  sessionStorage.removeItem('vault_session');
-  sessionStorage.removeItem('vault_expiry');
+  sessionStorage.clear();
   window.location.href = './index.html';
 }
 
-function loadFileStructure() {
-  const stored = localStorage.getItem('vault_files');
-  if (stored) {
-    try {
-      fileStructure = JSON.parse(stored);
-    } catch (e) {
-      fileStructure = {folders: {}, files: []};
+async function fetchGitHubContents(path = '') {
+  const url = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.DATA_PATH}${path ? '/' + path : ''}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    console.error('Fetch error:', e);
+    return null;
+  }
+}
+
+async function loadFileStructure() {
+  const contents = await fetchGitHubContents(currentPath.join('/'));
+  if (!contents) {
+    fileStructure = {folders: {}, files: [], error: true};
+    return;
+  }
+  const folders = {}, files = [];
+  for (const item of contents) {
+    if (item.type === 'dir') {
+      folders[item.name] = {name: item.name, path: item.path};
+    } else if (item.type === 'file' && item.name !== '.gitkeep') {
+      files.push({
+        name: item.name,
+        type: item.name.split('.').pop().toLowerCase(),
+        size: (item.size < 1024 ? item.size + ' B' : item.size < 1048576 ? (item.size / 1024).toFixed(1) + ' KB' : (item.size / 1048576).toFixed(1) + ' MB'),
+        downloadUrl: item.download_url
+      });
     }
-  } else {
-    fileStructure = {
-      folders: {
-        'research': {
-          folders: {},
-          files: [
-            {name: 'sample-notes.txt', type: 'txt', size: '2.4 KB', date: new Date().toISOString(), 
-             content: 'RESEARCH NOTES\n\nThis is a sample text file.\n\nYou can upload your own files using the UPLOAD FILE button.\n\nSupported formats:\n- Videos (MP4, WebM)\n- Audio (MP3, WAV)\n- Images (JPG, PNG, GIF)\n- Documents (PDF, DOCX, TXT)'}
-          ]
-        },
-        'projects': {folders: {}, files: []},
-        'documents': {folders: {}, files: []}
-      },
-      files: [
-        {name: 'readme.txt', type: 'txt', size: '1.2 KB', date: new Date().toISOString(),
-         content: 'SECURE VAULT SYSTEM\n\nWelcome to your encrypted vault!\n\nThis system allows you to:\n- Create and organize folders\n- Upload and view files\n- Access your content securely\n\nAll data is protected with session-based authentication.'}
-      ]
-    };
-    saveFileStructure();
   }
+  fileStructure = {folders, files};
 }
 
-function saveFileStructure() {
-  localStorage.setItem('vault_files', JSON.stringify(fileStructure));
-}
-
-function getCurrentFolder() {
-  let folder = fileStructure;
-  for (const pathPart of currentPath) {
-    folder = folder.folders[pathPart];
-  }
-  return folder;
-}
-
-function renderFiles() {
+async function renderFiles() {
   const grid = document.getElementById('fileGrid');
-  const folder = getCurrentFolder();
+  grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ffff00; padding: 2rem;">⟳ LOADING...</div>';
+  
+  await loadFileStructure();
   grid.innerHTML = '';
   updateBreadcrumb();
   
-  const hasFolders = Object.keys(folder.folders).length > 0;
-  const hasFiles = folder.files && folder.files.length > 0;
-  
-  if (!hasFolders && !hasFiles) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column: 1 / -1;">
-        <div class="empty-state-icon">📂</div>
-        <p>NO FILES OR FOLDERS</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Create a new folder or upload files to get started</p>
-      </div>
-    `;
+  if (fileStructure.error) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><div class="empty-state-icon">⚠️</div><h3 style="color: #ffff00;">DATA FOLDER NOT FOUND</h3><p>Create: <code style="background: rgba(0,255,0,0.1); padding: 0.2rem 0.5rem;">${CONFIG.DATA_PATH}</code> in your repository</p></div>`;
+    document.getElementById('itemCount').textContent = '0 FOLDERS • 0 FILES';
     return;
   }
   
-  for (const [folderName, folderData] of Object.entries(folder.folders)) {
-    const folderEl = document.createElement('div');
-    folderEl.className = 'folder-item';
-    folderEl.innerHTML = `
-      <div class="delete-btn" onclick="deleteFolder('${folderName}'); event.stopPropagation();">✕</div>
-      <div class="folder-icon">📁</div>
-      <div class="folder-name">${folderName}</div>
-      <div class="file-meta">${Object.keys(folderData.folders).length} folders • ${folderData.files.length} files</div>
-    `;
-    folderEl.onclick = () => navigateToFolder(folderName);
-    grid.appendChild(folderEl);
+  const folders = Object.entries(fileStructure.folders);
+  const files = fileStructure.files;
+  
+  if (!folders.length && !files.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><div class="empty-state-icon">📂</div><p>NO FILES</p></div>`;
+    document.getElementById('itemCount').textContent = '0 FOLDERS • 0 FILES';
+    return;
   }
   
-  if (folder.files) {
-    for (const file of folder.files) {
-      const fileEl = document.createElement('div');
-      fileEl.className = 'file-item';
-      const icon = getFileIcon(file.type);
-      fileEl.innerHTML = `
-        <div class="delete-btn" onclick="deleteFile('${file.name}'); event.stopPropagation();">✕</div>
-        <div class="file-icon">${icon}</div>
-        <div class="file-name">${file.name}</div>
-        <div class="file-meta">${file.size || 'Unknown'} • ${new Date(file.date).toLocaleDateString()}</div>
-      `;
-      fileEl.onclick = () => openFile(file);
-      grid.appendChild(fileEl);
-    }
-  }
-}
-
-function getFileIcon(type) {
-  const icons = {
-    'pdf': '📄', 'doc': '📝', 'docx': '📝', 'txt': '📃',
-    'video': '🎬', 'mp4': '🎬', 'webm': '🎬',
-    'audio': '🎵', 'mp3': '🎵', 'wav': '🎵',
-    'image': '🖼️', 'jpg': '🖼️', 'png': '🖼️', 'gif': '🖼️'
-  };
-  return icons[type] || '📎';
+  folders.forEach(([name], i) => {
+    const el = document.createElement('div');
+    el.className = 'folder-item';
+    el.innerHTML = `<div class="folder-icon">📁</div><div class="folder-name">${name}</div><div class="file-meta">FOLDER</div>`;
+    el.onclick = () => navigateToFolder(name);
+    el.style.animation = `fadeInUp 0.4s ease ${i * 0.05}s backwards`;
+    grid.appendChild(el);
+  });
+  
+  files.forEach((file, i) => {
+    const el = document.createElement('div');
+    el.className = 'file-item';
+    const icons = {pdf:'📄',doc:'📝',docx:'📝',txt:'📃',mp4:'🎬',webm:'🎬',mp3:'🎵',wav:'🎵',jpg:'🖼️',png:'🖼️',gif:'🖼️'};
+    el.innerHTML = `<div class="file-icon">${icons[file.type] || '📎'}</div><div class="file-name">${file.name}</div><div class="file-meta">${file.size}</div>`;
+    el.onclick = () => openFile(file);
+    el.style.animation = `fadeInUp 0.4s ease ${(folders.length + i) * 0.05}s backwards`;
+    grid.appendChild(el);
+  });
+  
+  document.getElementById('itemCount').textContent = `${folders.length} FOLDERS • ${files.length} FILES`;
 }
 
 function updateBreadcrumb() {
-  const pathEl = document.getElementById('currentPath');
-  if (currentPath.length === 0) {
-    pathEl.innerHTML = '';
-  } else {
-    const parts = currentPath.map((part, index) => {
-      return `<span> / </span><a href="#" onclick="navigateToIndex(${index}); return false;">${part}</a>`;
-    });
-    pathEl.innerHTML = parts.join('');
-  }
+  const el = document.getElementById('currentPath');
+  el.innerHTML = currentPath.length ? currentPath.map((p, i) => 
+    `<span> / </span><a href="#" onclick="navigateToIndex(${i}); return false;">${p}</a>`
+  ).join('') : '';
 }
 
-function navigateToRoot() {
-  currentPath = [];
-  renderFiles();
-}
+function navigateToRoot() { currentPath = []; renderFiles(); }
+function navigateToFolder(name) { currentPath.push(name); renderFiles(); }
+function navigateToIndex(i) { currentPath = currentPath.slice(0, i + 1); renderFiles(); }
+function refreshFiles() { renderFiles(); }
 
-function navigateToFolder(folderName) {
-  currentPath.push(folderName);
-  renderFiles();
-}
-
-function navigateToIndex(index) {
-  currentPath = currentPath.slice(0, index + 1);
-  renderFiles();
-}
-
-function showCreateFolderModal() {
-  document.getElementById('createFolderModal').classList.add('show');
-  document.getElementById('folderName').value = '';
-  document.getElementById('folderName').focus();
-}
-
-function createFolder() {
-  const folderName = document.getElementById('folderName').value.trim();
-  if (!folderName) {
-    alert('ERROR: Folder name cannot be empty');
-    return;
-  }
-  if (!/^[a-zA-Z0-9_-]+$/.test(folderName)) {
-    alert('ERROR: Folder name can only contain letters, numbers, hyphens, and underscores');
-    return;
-  }
-  const folder = getCurrentFolder();
-  if (folder.folders[folderName]) {
-    alert('ERROR: Folder already exists');
-    return;
-  }
-  folder.folders[folderName] = {folders: {}, files: []};
-  saveFileStructure();
-  renderFiles();
-  closeModal('createFolderModal');
-}
-
-function deleteFolder(folderName) {
-  if (!confirm(`DELETE FOLDER "${folderName}"?\n\nThis action cannot be undone.`)) return;
-  const folder = getCurrentFolder();
-  delete folder.folders[folderName];
-  saveFileStructure();
-  renderFiles();
-}
-
-function deleteFile(fileName) {
-  if (!confirm(`DELETE FILE "${fileName}"?\n\nThis action cannot be undone.`)) return;
-  const folder = getCurrentFolder();
-  folder.files = folder.files.filter(f => f.name !== fileName);
-  saveFileStructure();
-  renderFiles();
-}
-
-function uploadFile() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.multiple = true;
-  
-  input.onchange = (e) => {
-    const files = Array.from(e.target.files);
-    const folder = getCurrentFolder();
-    
-    files.forEach(file => {
-      const fileType = getFileType(file.name);
-      const reader = new FileReader();
-      
-      // For text files, read content
-      if (fileType === 'txt') {
-        reader.onload = (e) => {
-          folder.files.push({
-            name: file.name,
-            type: fileType,
-            size: formatFileSize(file.size),
-            date: new Date().toISOString(),
-            content: e.target.result,
-            localFile: URL.createObjectURL(file)
-          });
-          saveFileStructure();
-          renderFiles();
-        };
-        reader.readAsText(file);
-      } else {
-        // For other files, store blob URL
-        folder.files.push({
-          name: file.name,
-          type: fileType,
-          size: formatFileSize(file.size),
-          date: new Date().toISOString(),
-          localFile: URL.createObjectURL(file)
-        });
-        saveFileStructure();
-        renderFiles();
-      }
-    });
-    
-    alert(`${files.length} file(s) added to vault.`);
-  };
-  
-  input.click();
-}
-
-function getFileType(filename) {
-  const ext = filename.split('.').pop().toLowerCase();
-  const typeMap = {
-    'pdf': 'pdf', 'doc': 'doc', 'docx': 'docx', 'txt': 'txt',
-    'mp4': 'mp4', 'webm': 'webm', 'avi': 'video',
-    'mp3': 'mp3', 'wav': 'wav', 'ogg': 'audio',
-    'jpg': 'jpg', 'jpeg': 'jpg', 'png': 'png', 'gif': 'gif', 'webp': 'image'
-  };
-  return typeMap[ext] || 'unknown';
-}
-
-function formatFileSize(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
-function openFile(file) {
+async function openFile(file) {
   const modal = document.getElementById('mediaModal');
   const title = document.getElementById('mediaTitle');
   const body = document.getElementById('mediaBody');
   
-  title.textContent = `📁 ${file.name}`;
-  body.innerHTML = '';
-  
-  // Video files
-  if (['mp4', 'webm', 'video'].includes(file.type)) {
-    const video = document.createElement('video');
-    video.id = 'videoPlayer';
-    video.controls = true;
-    video.autoplay = false;
-    video.style.width = '100%';
-    
-    if (file.localFile) {
-      video.src = file.localFile;
-      body.appendChild(video);
-    } else {
-      body.innerHTML = `<p style="color: #ffff00;">⚠ Video file not available locally.</p><p>Upload this file using the UPLOAD FILE button to view it.</p>`;
-    }
-  }
-  // Audio files
-  else if (['mp3', 'wav', 'audio'].includes(file.type)) {
-    const audio = document.createElement('audio');
-    audio.id = 'audioPlayer';
-    audio.controls = true;
-    audio.autoplay = false;
-    audio.style.width = '100%';
-    
-    if (file.localFile) {
-      audio.src = file.localFile;
-      body.appendChild(audio);
-    } else {
-      body.innerHTML = `<p style="color: #ffff00;">⚠ Audio file not available locally.</p><p>Upload this file using the UPLOAD FILE button to play it.</p>`;
-    }
-  }
-  // Image files
-  else if (['jpg', 'png', 'gif', 'image'].includes(file.type)) {
-    const img = document.createElement('img');
-    img.id = 'imageViewer';
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-    
-    if (file.localFile) {
-      img.src = file.localFile;
-      body.appendChild(img);
-    } else {
-      body.innerHTML = `<p style="color: #ffff00;">⚠ Image file not available locally.</p><p>Upload this file using the UPLOAD FILE button to view it.</p>`;
-    }
-  }
-  // PDF files
-  else if (file.type === 'pdf') {
-    if (file.localFile) {
-      body.innerHTML = `
-        <div id="pdfViewer" style="width: 100%; height: 70vh;">
-          <iframe src="${file.localFile}" style="width: 100%; height: 100%; border: 1px solid rgba(0,255,0,0.3);"></iframe>
-        </div>
-      `;
-    } else {
-      body.innerHTML = `
-        <div id="pdfViewer">
-          <h3>📄 PDF DOCUMENT</h3>
-          <p>File: ${file.name}</p>
-          <p>Size: ${file.size}</p>
-          <br>
-          <p style="color: #ffff00;">⚠ PDF file not available locally.</p>
-          <p>To view PDF files:</p>
-          <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
-            <li>Upload the PDF file using the UPLOAD FILE button, OR</li>
-            <li>Place the PDF file in your GitHub repo at: <code style="background: rgba(0,255,0,0.1); padding: 0.2rem 0.5rem;">${CONFIG.VAULT_PATH}/${currentPath.join('/')}/</code></li>
-          </ul>
-        </div>
-      `;
-    }
-  }
-  // Word documents
-  else if (['doc', 'docx'].includes(file.type)) {
-    if (file.localFile) {
-      body.innerHTML = `
-        <div id="docViewer">
-          <h3>📝 WORD DOCUMENT</h3>
-          <p>File: ${file.name}</p>
-          <p>Size: ${file.size}</p>
-          <br>
-          <p style="color: #00ff00;">✓ File uploaded successfully!</p>
-          <p style="margin-top: 1rem;">To view Word documents in browser, you can:</p>
-          <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
-            <li>Convert to PDF before uploading</li>
-            <li>Use Google Docs or Office Online to view</li>
-            <li>Download and open in Microsoft Word</li>
-          </ul>
-          <br>
-          <a href="${file.localFile}" download="${file.name}" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; text-decoration: none; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">⬇ DOWNLOAD FILE</a>
-        </div>
-      `;
-    } else {
-      body.innerHTML = `
-        <div id="docViewer">
-          <h3>📝 WORD DOCUMENT</h3>
-          <p>File: ${file.name}</p>
-          <p>Size: ${file.size}</p>
-          <br>
-          <p style="color: #ffff00;">⚠ Document not available locally.</p>
-          <p>Upload this file using the UPLOAD FILE button to access it.</p>
-        </div>
-      `;
-    }
-  }
-  // Text files
-  else if (file.type === 'txt') {
-    const content = file.content || 'No content available. Upload this file to view its contents.';
-    body.innerHTML = `
-      <div id="docViewer">
-        <h3>📃 TEXT FILE</h3>
-        <p>File: ${file.name}</p>
-        <br>
-        <pre style="background: rgba(0,255,0,0.05); padding: 1.5rem; border: 1px solid rgba(0,255,0,0.3); overflow: auto; max-height: 60vh; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6;">${content}</pre>
-      </div>
-    `;
-  }
-  // Unknown file type
-  else {
-    body.innerHTML = `
-      <div id="docViewer">
-        <h3>📎 FILE</h3>
-        <p>File: ${file.name}</p>
-        <p>Type: ${file.type}</p>
-        <p>Size: ${file.size}</p>
-        <br>
-        <p style="color: #ffff00;">⚠ Preview not available for this file type.</p>
-        ${file.localFile ? `<br><a href="${file.localFile}" download="${file.name}" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; text-decoration: none; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">⬇ DOWNLOAD FILE</a>` : '<p>Upload this file to download it.</p>'}
-      </div>
-    `;
-  }
-  
+  title.textContent = `🔒 ${file.name}`;
+  body.innerHTML = '<div style="text-align: center; padding: 3rem; color: #ffff00;">⟳ LOADING...</div>';
   modal.classList.add('show');
+  
+  try {
+    if (['mp4','webm'].includes(file.type)) {
+      body.innerHTML = `<video controls style="width:100%; max-height:70vh;"><source src="${file.downloadUrl}"></video><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
+    } else if (['mp3','wav'].includes(file.type)) {
+      body.innerHTML = `<audio controls style="width:100%;"><source src="${file.downloadUrl}"></audio><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
+    } else if (['jpg','png','gif'].includes(file.type)) {
+      body.innerHTML = `<img src="${file.downloadUrl}" style="max-width:100%; height:auto;"><br><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button>`;
+    } else if (file.type === 'pdf') {
+      body.innerHTML = `<iframe src="${file.downloadUrl}" style="width:100%; height:70vh; border:1px solid rgba(0,255,0,0.3);"></iframe><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')">📋 COPY URL</button><a href="${file.downloadUrl}" download class="copy-btn" style="margin-left:1rem;">⬇ DOWNLOAD</a>`;
+    } else if (file.type === 'txt') {
+      const res = await fetch(file.downloadUrl);
+      const text = await res.text();
+      body.innerHTML = `<pre id="txt" style="background:rgba(0,255,0,0.05); padding:1.5rem; border:1px solid rgba(0,255,0,0.3); overflow:auto; max-height:60vh; white-space:pre-wrap;">${text}</pre><button class="copy-btn" onclick="copyText()">📋 COPY CONTENT</button>`;
+    } else {
+      body.innerHTML = `<div style="text-align:center; padding:2rem;"><h3 style="color:#00ff00;">📎 ${file.name}</h3><p>${file.size}</p><br><a href="${file.downloadUrl}" download class="copy-btn">⬇ DOWNLOAD</a><button class="copy-btn" onclick="copyUrl('${file.downloadUrl}')" style="margin-left:1rem;">📋 COPY URL</button></div>`;
+    }
+  } catch (e) {
+    body.innerHTML = `<div style="text-align:center; padding:2rem; color:#ff0000;"><h3>⚠ ERROR</h3><p>${e.message}</p></div>`;
+  }
 }
 
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.remove('show');
-  const video = document.getElementById('videoPlayer');
-  const audio = document.getElementById('audioPlayer');
-  if (video) video.pause();
-  if (audio) audio.pause();
+function copyUrl(url) {
+  navigator.clipboard.writeText(url).then(() => showSuccess()).catch(() => alert('Copy failed'));
 }
 
-function refreshFiles() {
-  loadFileStructure();
-  renderFiles();
+function copyText() {
+  const text = document.getElementById('txt').textContent;
+  navigator.clipboard.writeText(text).then(() => showSuccess()).catch(() => alert('Copy failed'));
+}
+
+function showSuccess() {
+  const ex = document.querySelector('.copy-success');
+  if (ex) ex.remove();
+  const s = document.createElement('span');
+  s.className = 'copy-success';
+  s.textContent = '✓ COPIED';
+  document.querySelector('.modal-body').appendChild(s);
+}
+
+function closeModal() {
+  document.getElementById('mediaModal').classList.remove('show');
+  const v = document.querySelector('video');
+  const a = document.querySelector('audio');
+  if (v) v.pause();
+  if (a) a.pause();
 }
 
 function loadAccessLog() {
-  const logContainer = document.getElementById('accessLog');
-  const accessLog = JSON.parse(localStorage.getItem('vault_access_log') || '[]');
-  
-  if (accessLog.length === 0) {
-    logContainer.innerHTML = '<div class="log-entry">No access logs available</div>';
+  const el = document.getElementById('accessLog');
+  const log = JSON.parse(localStorage.getItem('vault_access_log') || '[]');
+  if (!log.length) {
+    el.innerHTML = '<div class="log-entry">No logs</div>';
     return;
   }
-  
-  logContainer.innerHTML = '';
-  accessLog.reverse().slice(0, 10).forEach(entry => {
-    const logEntry = document.createElement('div');
-    logEntry.className = `log-entry ${entry.status === 'success' ? 'log-success' : 'log-failed'}`;
-    logEntry.innerHTML = `
-      <span>${new Date(entry.timestamp).toLocaleString()}</span>
-      <span>${entry.status.toUpperCase()}</span>
-    `;
-    logContainer.appendChild(logEntry);
+  el.innerHTML = '';
+  log.reverse().slice(0, 10).forEach(e => {
+    const div = document.createElement('div');
+    div.className = `log-entry log-${e.status}`;
+    div.innerHTML = `<span>${new Date(e.timestamp).toLocaleString()}</span><span>${e.status.toUpperCase()}</span>`;
+    el.appendChild(div);
   });
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   if (!checkSession()) return;
-  
-  loadFileStructure();
-  renderFiles();
+  await renderFiles();
   loadAccessLog();
   updateSessionTimer();
   setInterval(updateSessionTimer, 1000);
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal('createFolderModal');
-      closeModal('mediaModal');
-    }
-  });
-  
-  document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal(modal.id);
-      }
-    });
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  document.getElementById('mediaModal').addEventListener('click', e => { if (e.target.id === 'mediaModal') closeModal(); });
 });
   </script>
 </body>
