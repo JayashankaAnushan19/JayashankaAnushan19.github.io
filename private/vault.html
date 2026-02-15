@@ -547,6 +547,489 @@
     </div>
   </div>
 
-  <script src="./vault.js"></script>
+  <script>
+// Vault File Manager - Secure File System
+const CONFIG = {
+  SESSION_TIMEOUT: 30 * 60 * 1000,
+  GITHUB_REPO: 'JayashankaAnushan19/JayashankaAnushan19.github.io',
+  VAULT_PATH: 'private/vault'
+};
+
+let currentPath = [];
+let fileStructure = {};
+
+function checkSession() {
+  const sessionToken = sessionStorage.getItem('vault_session');
+  const sessionExpiry = sessionStorage.getItem('vault_expiry');
+  if (!sessionToken || !sessionExpiry) {
+    window.location.href = './index.html';
+    return false;
+  }
+  const now = Date.now();
+  const expiry = parseInt(sessionExpiry);
+  if (now >= expiry) {
+    alert('SESSION EXPIRED. Please authenticate again.');
+    logout();
+    return false;
+  }
+  return true;
+}
+
+function updateSessionTimer() {
+  const sessionExpiry = sessionStorage.getItem('vault_expiry');
+  if (!sessionExpiry) return;
+  const now = Date.now();
+  const expiry = parseInt(sessionExpiry);
+  const remaining = Math.max(0, expiry - now);
+  const minutes = Math.floor(remaining / 60000);
+  const seconds = Math.floor((remaining % 60000) / 1000);
+  document.getElementById('timeRemaining').textContent = 
+    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  if (remaining <= 0) logout();
+}
+
+function logout() {
+  sessionStorage.removeItem('vault_session');
+  sessionStorage.removeItem('vault_expiry');
+  window.location.href = './index.html';
+}
+
+function loadFileStructure() {
+  const stored = localStorage.getItem('vault_files');
+  if (stored) {
+    try {
+      fileStructure = JSON.parse(stored);
+    } catch (e) {
+      fileStructure = {folders: {}, files: []};
+    }
+  } else {
+    fileStructure = {
+      folders: {
+        'research': {
+          folders: {},
+          files: [
+            {name: 'sample-notes.txt', type: 'txt', size: '2.4 KB', date: new Date().toISOString(), 
+             content: 'RESEARCH NOTES\n\nThis is a sample text file.\n\nYou can upload your own files using the UPLOAD FILE button.\n\nSupported formats:\n- Videos (MP4, WebM)\n- Audio (MP3, WAV)\n- Images (JPG, PNG, GIF)\n- Documents (PDF, DOCX, TXT)'}
+          ]
+        },
+        'projects': {folders: {}, files: []},
+        'documents': {folders: {}, files: []}
+      },
+      files: [
+        {name: 'readme.txt', type: 'txt', size: '1.2 KB', date: new Date().toISOString(),
+         content: 'SECURE VAULT SYSTEM\n\nWelcome to your encrypted vault!\n\nThis system allows you to:\n- Create and organize folders\n- Upload and view files\n- Access your content securely\n\nAll data is protected with session-based authentication.'}
+      ]
+    };
+    saveFileStructure();
+  }
+}
+
+function saveFileStructure() {
+  localStorage.setItem('vault_files', JSON.stringify(fileStructure));
+}
+
+function getCurrentFolder() {
+  let folder = fileStructure;
+  for (const pathPart of currentPath) {
+    folder = folder.folders[pathPart];
+  }
+  return folder;
+}
+
+function renderFiles() {
+  const grid = document.getElementById('fileGrid');
+  const folder = getCurrentFolder();
+  grid.innerHTML = '';
+  updateBreadcrumb();
+  
+  const hasFolders = Object.keys(folder.folders).length > 0;
+  const hasFiles = folder.files && folder.files.length > 0;
+  
+  if (!hasFolders && !hasFiles) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <div class="empty-state-icon">📂</div>
+        <p>NO FILES OR FOLDERS</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Create a new folder or upload files to get started</p>
+      </div>
+    `;
+    return;
+  }
+  
+  for (const [folderName, folderData] of Object.entries(folder.folders)) {
+    const folderEl = document.createElement('div');
+    folderEl.className = 'folder-item';
+    folderEl.innerHTML = `
+      <div class="delete-btn" onclick="deleteFolder('${folderName}'); event.stopPropagation();">✕</div>
+      <div class="folder-icon">📁</div>
+      <div class="folder-name">${folderName}</div>
+      <div class="file-meta">${Object.keys(folderData.folders).length} folders • ${folderData.files.length} files</div>
+    `;
+    folderEl.onclick = () => navigateToFolder(folderName);
+    grid.appendChild(folderEl);
+  }
+  
+  if (folder.files) {
+    for (const file of folder.files) {
+      const fileEl = document.createElement('div');
+      fileEl.className = 'file-item';
+      const icon = getFileIcon(file.type);
+      fileEl.innerHTML = `
+        <div class="delete-btn" onclick="deleteFile('${file.name}'); event.stopPropagation();">✕</div>
+        <div class="file-icon">${icon}</div>
+        <div class="file-name">${file.name}</div>
+        <div class="file-meta">${file.size || 'Unknown'} • ${new Date(file.date).toLocaleDateString()}</div>
+      `;
+      fileEl.onclick = () => openFile(file);
+      grid.appendChild(fileEl);
+    }
+  }
+}
+
+function getFileIcon(type) {
+  const icons = {
+    'pdf': '📄', 'doc': '📝', 'docx': '📝', 'txt': '📃',
+    'video': '🎬', 'mp4': '🎬', 'webm': '🎬',
+    'audio': '🎵', 'mp3': '🎵', 'wav': '🎵',
+    'image': '🖼️', 'jpg': '🖼️', 'png': '🖼️', 'gif': '🖼️'
+  };
+  return icons[type] || '📎';
+}
+
+function updateBreadcrumb() {
+  const pathEl = document.getElementById('currentPath');
+  if (currentPath.length === 0) {
+    pathEl.innerHTML = '';
+  } else {
+    const parts = currentPath.map((part, index) => {
+      return `<span> / </span><a href="#" onclick="navigateToIndex(${index}); return false;">${part}</a>`;
+    });
+    pathEl.innerHTML = parts.join('');
+  }
+}
+
+function navigateToRoot() {
+  currentPath = [];
+  renderFiles();
+}
+
+function navigateToFolder(folderName) {
+  currentPath.push(folderName);
+  renderFiles();
+}
+
+function navigateToIndex(index) {
+  currentPath = currentPath.slice(0, index + 1);
+  renderFiles();
+}
+
+function showCreateFolderModal() {
+  document.getElementById('createFolderModal').classList.add('show');
+  document.getElementById('folderName').value = '';
+  document.getElementById('folderName').focus();
+}
+
+function createFolder() {
+  const folderName = document.getElementById('folderName').value.trim();
+  if (!folderName) {
+    alert('ERROR: Folder name cannot be empty');
+    return;
+  }
+  if (!/^[a-zA-Z0-9_-]+$/.test(folderName)) {
+    alert('ERROR: Folder name can only contain letters, numbers, hyphens, and underscores');
+    return;
+  }
+  const folder = getCurrentFolder();
+  if (folder.folders[folderName]) {
+    alert('ERROR: Folder already exists');
+    return;
+  }
+  folder.folders[folderName] = {folders: {}, files: []};
+  saveFileStructure();
+  renderFiles();
+  closeModal('createFolderModal');
+}
+
+function deleteFolder(folderName) {
+  if (!confirm(`DELETE FOLDER "${folderName}"?\n\nThis action cannot be undone.`)) return;
+  const folder = getCurrentFolder();
+  delete folder.folders[folderName];
+  saveFileStructure();
+  renderFiles();
+}
+
+function deleteFile(fileName) {
+  if (!confirm(`DELETE FILE "${fileName}"?\n\nThis action cannot be undone.`)) return;
+  const folder = getCurrentFolder();
+  folder.files = folder.files.filter(f => f.name !== fileName);
+  saveFileStructure();
+  renderFiles();
+}
+
+function uploadFile() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.multiple = true;
+  
+  input.onchange = (e) => {
+    const files = Array.from(e.target.files);
+    const folder = getCurrentFolder();
+    
+    files.forEach(file => {
+      const fileType = getFileType(file.name);
+      const reader = new FileReader();
+      
+      // For text files, read content
+      if (fileType === 'txt') {
+        reader.onload = (e) => {
+          folder.files.push({
+            name: file.name,
+            type: fileType,
+            size: formatFileSize(file.size),
+            date: new Date().toISOString(),
+            content: e.target.result,
+            localFile: URL.createObjectURL(file)
+          });
+          saveFileStructure();
+          renderFiles();
+        };
+        reader.readAsText(file);
+      } else {
+        // For other files, store blob URL
+        folder.files.push({
+          name: file.name,
+          type: fileType,
+          size: formatFileSize(file.size),
+          date: new Date().toISOString(),
+          localFile: URL.createObjectURL(file)
+        });
+        saveFileStructure();
+        renderFiles();
+      }
+    });
+    
+    alert(`${files.length} file(s) added to vault.`);
+  };
+  
+  input.click();
+}
+
+function getFileType(filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  const typeMap = {
+    'pdf': 'pdf', 'doc': 'doc', 'docx': 'docx', 'txt': 'txt',
+    'mp4': 'mp4', 'webm': 'webm', 'avi': 'video',
+    'mp3': 'mp3', 'wav': 'wav', 'ogg': 'audio',
+    'jpg': 'jpg', 'jpeg': 'jpg', 'png': 'png', 'gif': 'gif', 'webp': 'image'
+  };
+  return typeMap[ext] || 'unknown';
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function openFile(file) {
+  const modal = document.getElementById('mediaModal');
+  const title = document.getElementById('mediaTitle');
+  const body = document.getElementById('mediaBody');
+  
+  title.textContent = `📁 ${file.name}`;
+  body.innerHTML = '';
+  
+  // Video files
+  if (['mp4', 'webm', 'video'].includes(file.type)) {
+    const video = document.createElement('video');
+    video.id = 'videoPlayer';
+    video.controls = true;
+    video.autoplay = false;
+    video.style.width = '100%';
+    
+    if (file.localFile) {
+      video.src = file.localFile;
+      body.appendChild(video);
+    } else {
+      body.innerHTML = `<p style="color: #ffff00;">⚠ Video file not available locally.</p><p>Upload this file using the UPLOAD FILE button to view it.</p>`;
+    }
+  }
+  // Audio files
+  else if (['mp3', 'wav', 'audio'].includes(file.type)) {
+    const audio = document.createElement('audio');
+    audio.id = 'audioPlayer';
+    audio.controls = true;
+    audio.autoplay = false;
+    audio.style.width = '100%';
+    
+    if (file.localFile) {
+      audio.src = file.localFile;
+      body.appendChild(audio);
+    } else {
+      body.innerHTML = `<p style="color: #ffff00;">⚠ Audio file not available locally.</p><p>Upload this file using the UPLOAD FILE button to play it.</p>`;
+    }
+  }
+  // Image files
+  else if (['jpg', 'png', 'gif', 'image'].includes(file.type)) {
+    const img = document.createElement('img');
+    img.id = 'imageViewer';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    if (file.localFile) {
+      img.src = file.localFile;
+      body.appendChild(img);
+    } else {
+      body.innerHTML = `<p style="color: #ffff00;">⚠ Image file not available locally.</p><p>Upload this file using the UPLOAD FILE button to view it.</p>`;
+    }
+  }
+  // PDF files
+  else if (file.type === 'pdf') {
+    if (file.localFile) {
+      body.innerHTML = `
+        <div id="pdfViewer" style="width: 100%; height: 70vh;">
+          <iframe src="${file.localFile}" style="width: 100%; height: 100%; border: 1px solid rgba(0,255,0,0.3);"></iframe>
+        </div>
+      `;
+    } else {
+      body.innerHTML = `
+        <div id="pdfViewer">
+          <h3>📄 PDF DOCUMENT</h3>
+          <p>File: ${file.name}</p>
+          <p>Size: ${file.size}</p>
+          <br>
+          <p style="color: #ffff00;">⚠ PDF file not available locally.</p>
+          <p>To view PDF files:</p>
+          <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
+            <li>Upload the PDF file using the UPLOAD FILE button, OR</li>
+            <li>Place the PDF file in your GitHub repo at: <code style="background: rgba(0,255,0,0.1); padding: 0.2rem 0.5rem;">${CONFIG.VAULT_PATH}/${currentPath.join('/')}/</code></li>
+          </ul>
+        </div>
+      `;
+    }
+  }
+  // Word documents
+  else if (['doc', 'docx'].includes(file.type)) {
+    if (file.localFile) {
+      body.innerHTML = `
+        <div id="docViewer">
+          <h3>📝 WORD DOCUMENT</h3>
+          <p>File: ${file.name}</p>
+          <p>Size: ${file.size}</p>
+          <br>
+          <p style="color: #00ff00;">✓ File uploaded successfully!</p>
+          <p style="margin-top: 1rem;">To view Word documents in browser, you can:</p>
+          <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
+            <li>Convert to PDF before uploading</li>
+            <li>Use Google Docs or Office Online to view</li>
+            <li>Download and open in Microsoft Word</li>
+          </ul>
+          <br>
+          <a href="${file.localFile}" download="${file.name}" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; text-decoration: none; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">⬇ DOWNLOAD FILE</a>
+        </div>
+      `;
+    } else {
+      body.innerHTML = `
+        <div id="docViewer">
+          <h3>📝 WORD DOCUMENT</h3>
+          <p>File: ${file.name}</p>
+          <p>Size: ${file.size}</p>
+          <br>
+          <p style="color: #ffff00;">⚠ Document not available locally.</p>
+          <p>Upload this file using the UPLOAD FILE button to access it.</p>
+        </div>
+      `;
+    }
+  }
+  // Text files
+  else if (file.type === 'txt') {
+    const content = file.content || 'No content available. Upload this file to view its contents.';
+    body.innerHTML = `
+      <div id="docViewer">
+        <h3>📃 TEXT FILE</h3>
+        <p>File: ${file.name}</p>
+        <br>
+        <pre style="background: rgba(0,255,0,0.05); padding: 1.5rem; border: 1px solid rgba(0,255,0,0.3); overflow: auto; max-height: 60vh; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6;">${content}</pre>
+      </div>
+    `;
+  }
+  // Unknown file type
+  else {
+    body.innerHTML = `
+      <div id="docViewer">
+        <h3>📎 FILE</h3>
+        <p>File: ${file.name}</p>
+        <p>Type: ${file.type}</p>
+        <p>Size: ${file.size}</p>
+        <br>
+        <p style="color: #ffff00;">⚠ Preview not available for this file type.</p>
+        ${file.localFile ? `<br><a href="${file.localFile}" download="${file.name}" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: rgba(0,255,0,0.2); border: 1px solid #00ff00; color: #00ff00; text-decoration: none; font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em;">⬇ DOWNLOAD FILE</a>` : '<p>Upload this file to download it.</p>'}
+      </div>
+    `;
+  }
+  
+  modal.classList.add('show');
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.classList.remove('show');
+  const video = document.getElementById('videoPlayer');
+  const audio = document.getElementById('audioPlayer');
+  if (video) video.pause();
+  if (audio) audio.pause();
+}
+
+function refreshFiles() {
+  loadFileStructure();
+  renderFiles();
+}
+
+function loadAccessLog() {
+  const logContainer = document.getElementById('accessLog');
+  const accessLog = JSON.parse(localStorage.getItem('vault_access_log') || '[]');
+  
+  if (accessLog.length === 0) {
+    logContainer.innerHTML = '<div class="log-entry">No access logs available</div>';
+    return;
+  }
+  
+  logContainer.innerHTML = '';
+  accessLog.reverse().slice(0, 10).forEach(entry => {
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-entry ${entry.status === 'success' ? 'log-success' : 'log-failed'}`;
+    logEntry.innerHTML = `
+      <span>${new Date(entry.timestamp).toLocaleString()}</span>
+      <span>${entry.status.toUpperCase()}</span>
+    `;
+    logContainer.appendChild(logEntry);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (!checkSession()) return;
+  
+  loadFileStructure();
+  renderFiles();
+  loadAccessLog();
+  updateSessionTimer();
+  setInterval(updateSessionTimer, 1000);
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal('createFolderModal');
+      closeModal('mediaModal');
+    }
+  });
+  
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal(modal.id);
+      }
+    });
+  });
+});
+  </script>
 </body>
 </html>
