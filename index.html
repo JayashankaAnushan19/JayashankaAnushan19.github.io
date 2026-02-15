@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jayashanka Anushan | Robotics & Software Engineer</title>
+  <title>Jayashanka Anushan | Robotics Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #161616;
-      --bg-card: #1e1e1e;
-      --text-primary: #f5f5f5;
-      --text-secondary: #a3a3a3;
-      --text-muted: #737373;
-      --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --accent-glow: rgba(59, 130, 246, 0.15);
-      --border: #2a2a2a;
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #111111;
+      --text-primary: #ffffff;
+      --text-secondary: #b4b4b4;
+      --text-muted: #6b6b6b;
+      --accent: #00ffaa;
+      --accent-secondary: #00d4ff;
+      --accent-glow: rgba(0, 255, 170, 0.2);
+      --border: #1f1f1f;
+      --grid-color: rgba(0, 255, 170, 0.05);
     }
 
     * {
@@ -28,26 +29,55 @@
     }
 
     body {
-      font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      font-family: 'JetBrains Mono', monospace;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.7;
       overflow-x: hidden;
-      font-size: 16px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 400;
     }
 
-    /* Background gradient effect */
+    /* Animated grid background */
     body::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 100vh;
-      background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08), transparent 50%);
+      bottom: 0;
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 50px 50px;
+      background-position: center center;
       pointer-events: none;
       z-index: 0;
+      animation: gridMove 20s linear infinite;
+    }
+
+    /* Accent glow effect */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: glowPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
     }
 
     .container {
@@ -74,10 +104,15 @@
     }
 
     .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 900;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
       letter-spacing: -0.02em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .nav-links {
@@ -121,16 +156,17 @@
     }
 
     .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 900;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 800;
       line-height: 1.1;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.04em;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      text-transform: uppercase;
     }
 
     .hero-subtitle {
@@ -150,33 +186,55 @@
     .btn {
       padding: 0.875rem 2rem;
       background: transparent;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       color: var(--text-primary);
       text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-weight: 400;
+      border-radius: 0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .btn-primary {
       background: var(--accent);
       border-color: var(--accent);
-      color: white;
-      box-shadow: 0 4px 20px var(--accent-glow);
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
     .btn:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--accent-glow);
     }
 
     .btn-primary:hover {
-      background: var(--accent-light);
-      box-shadow: 0 8px 30px var(--accent-glow);
+      background: var(--accent-secondary);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 40px var(--accent-glow);
     }
 
     /* Section Styles */
@@ -193,18 +251,20 @@
     }
 
     .section-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
       color: var(--accent);
       font-weight: 700;
+      letter-spacing: 0.1em;
     }
 
     h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
       flex: 1;
+      text-transform: uppercase;
     }
 
     .section-divider {
@@ -218,21 +278,40 @@
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0;
       padding: 2rem;
       margin-bottom: 1.5rem;
       transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-glow), transparent);
+      transition: width 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      width: 100%;
     }
 
     .card:hover {
       border-color: var(--accent);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      transform: translateY(-4px);
+      box-shadow: 0 0 30px var(--accent-glow);
+      transform: translateX(8px);
     }
 
     .card h3 {
+      font-family: 'Syne', sans-serif;
       font-size: 1.35rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 0.5rem;
       color: var(--text-primary);
     }
@@ -275,22 +354,42 @@
     .skill-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
       padding: 1.5rem;
-      border-radius: 8px;
+      border-radius: 0;
       transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .skill-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .skill-item:hover::before {
+      width: 100%;
     }
 
     .skill-item:hover {
       border-color: var(--accent);
       background: var(--bg-secondary);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
     .skill-item strong {
-      color: var(--accent-light);
-      font-weight: 500;
+      color: var(--accent);
+      font-weight: 700;
       display: block;
       margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
     .skill-item span {
@@ -309,7 +408,7 @@
     .project-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 0;
       padding: 2rem;
       transition: all 0.4s ease;
       position: relative;
@@ -322,26 +421,44 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.4s ease;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top left, var(--accent-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
 
     .project-card:hover::before {
       transform: scaleX(1);
     }
 
+    .project-card:hover::after {
+      opacity: 1;
+    }
+
     .project-card:hover {
       border-color: var(--accent);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-      transform: translateY(-6px);
+      box-shadow: 0 0 40px var(--accent-glow);
+      transform: translateY(-8px);
     }
 
     .project-card h3 {
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
       margin-bottom: 1rem;
       color: var(--text-primary);
     }
@@ -349,27 +466,45 @@
     .project-card p {
       color: var(--text-secondary);
       margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.9rem;
+      line-height: 1.7;
     }
 
     .project-links {
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .project-link {
-      color: var(--accent-light);
+      color: var(--accent);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 500;
-      transition: color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .project-link:hover {
-      color: var(--accent);
-      text-decoration: underline;
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      transform: translateX(4px);
     }
+
+    .project-link::before {
+      content: '→';
+      font-size: 1rem;
+    }
+
+    .project-link.github::before { content: '⚡'; }
+    .project-link.linkedin::before { content: '💼'; }
+    .project-link.medium::before { content: '✍'; }
 
     /* About Section */
     .about-content {
@@ -480,20 +615,38 @@
     .contact-links {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.5rem;
       max-width: 600px;
-      font-size: 1.05rem;
+      font-size: 1rem;
+    }
+
+    .contact-links p {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-links strong {
+      min-width: 100px;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
     }
 
     .contact-links a {
-      color: var(--accent-light);
+      color: var(--text-primary);
       text-decoration: none;
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
     }
 
     .contact-links a:hover {
       color: var(--accent);
-      text-decoration: underline;
+      border-color: var(--accent);
+      transform: translateX(8px);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
   </style>
 </head>
@@ -517,11 +670,13 @@
     <header class="hero">
       <h1 class="hero-title">Bridging Software, Robotics, and Automation</h1>
       <p class="hero-subtitle">
-        IT professional and robotics graduate student with 5+ years of experience in software engineering, 
-        inventory management, and systems optimization. Currently pursuing MSc in Robotics at Middlesex University Dubai.
+        Robotics Engineer & Software Developer with 5+ years of experience in software engineering, 
+        automation systems, and process optimization. Specializing in ROS, embedded systems, and building 
+        intelligent solutions for real-world challenges.
       </p>
       <div class="hero-links">
         <a href="https://github.com/JayashankaAnushan19" target="_blank" class="btn btn-primary">GitHub</a>
+        <a href="https://www.linkedin.com/in/jayashanka-anushan" target="_blank" class="btn">LinkedIn</a>
         <a href="https://medium.com/@jayasankaanushan199" target="_blank" class="btn">Medium</a>
         <a href="https://sites.google.com/view/jayashanka-anushan/home" target="_blank" class="btn">Portfolio</a>
       </div>
@@ -540,9 +695,11 @@
         </div>
         <div class="about-content">
           <p>
-            I'm an IT professional with a background in Software Engineering, currently pursuing an MSc in Robotics at Middlesex University Dubai. 
-            I have over 5 years of experience in inventory management, IT systems, and process optimization. 
-            I'm passionate about robotics, automation, smart systems, and building real-world tech solutions that improve operational efficiency.
+            I'm a Robotics Engineer with a strong background in Software Engineering and hands-on experience in automation, 
+            embedded systems, and intelligent robotics. With over 5 years of professional experience spanning IT systems, 
+            inventory management, and process optimization, I specialize in bridging the gap between software and hardware 
+            to create efficient, real-world solutions. My expertise includes ROS, Arduino, Python, and full-stack development, 
+            with a passion for building smart systems that solve complex operational challenges.
           </p>
         </div>
       </section>
@@ -662,41 +819,41 @@
         <div class="projects-grid">
           <div class="project-card">
             <h3>Arduino Braille-to-Text</h3>
-            <p>Converts Braille input into readable text in real time using push buttons and Arduino.</p>
+            <p>Converts Braille input into readable text in real time using push buttons and Arduino microcontroller.</p>
             <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/arduino-braile-to-text" target="_blank" class="project-link">View Source →</a>
+              <a href="https://github.com/JayashankaAnushan19/arduino-braile-to-text" target="_blank" class="project-link github">GitHub</a>
             </div>
           </div>
 
           <div class="project-card">
             <h3>Robot Statics Control</h3>
-            <p>Visualizes robotic sensor data and provides control via WebSockets and ROS integration.</p>
+            <p>Real-time visualization of robotic sensor data with WebSocket-based control interface integrated with ROS.</p>
             <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/RoboStaticsControl" target="_blank" class="project-link">View Source →</a>
+              <a href="https://github.com/JayashankaAnushan19/RoboStaticsControl" target="_blank" class="project-link github">GitHub</a>
             </div>
           </div>
 
           <div class="project-card">
             <h3>ROS Arduino LED Control</h3>
-            <p>ROS ↔ Arduino communication demo to control hardware from Ubuntu VM.</p>
+            <p>Bidirectional ROS ↔ Arduino communication system demonstrating hardware control from Ubuntu VM.</p>
             <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/ros-arduino-led-control" target="_blank" class="project-link">View Source →</a>
+              <a href="https://github.com/JayashankaAnushan19/ros-arduino-led-control" target="_blank" class="project-link github">GitHub</a>
             </div>
           </div>
 
           <div class="project-card">
             <h3>Power BI Data Visualization</h3>
-            <p>Sales insights and KPI dashboards built from Kaggle datasets for Pizza Hut.</p>
+            <p>Interactive sales insights dashboard with KPI tracking built from Kaggle datasets for Pizza Hut analytics.</p>
             <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/PowerBI_DataVisualization_Pizza_hut" target="_blank" class="project-link">View Source →</a>
+              <a href="https://github.com/JayashankaAnushan19/PowerBI_DataVisualization_Pizza_hut" target="_blank" class="project-link github">GitHub</a>
             </div>
           </div>
 
           <div class="project-card">
             <h3>Maze Game (BFS Algorithm)</h3>
-            <p>HTML Canvas game using BFS algorithm for enemy pathfinding.</p>
+            <p>HTML5 Canvas game implementing Breadth-First Search algorithm for intelligent enemy pathfinding.</p>
             <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/Maze-Game-01" target="_blank" class="project-link">View Source →</a>
+              <a href="https://github.com/JayashankaAnushan19/Maze-Game-01" target="_blank" class="project-link github">GitHub</a>
             </div>
           </div>
         </div>
@@ -710,11 +867,15 @@
         </div>
         <div class="contact-links">
           <p>
-            <strong>GitHub:</strong> 
+            <strong>GitHub</strong> 
             <a href="https://github.com/JayashankaAnushan19" target="_blank">JayashankaAnushan19</a>
           </p>
           <p>
-            <strong>Medium:</strong> 
+            <strong>LinkedIn</strong> 
+            <a href="https://www.linkedin.com/in/jayashanka-anushan" target="_blank">jayashanka-anushan</a>
+          </p>
+          <p>
+            <strong>Medium</strong> 
             <a href="https://medium.com/@jayasankaanushan199" target="_blank">@jayasankaanushan199</a>
           </p>
         </div>
