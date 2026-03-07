@@ -1,893 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jayashanka Anushan | Robotics Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-primary: #000000;
-      --bg-secondary: #0a0a0a;
-      --bg-card: #111111;
-      --text-primary: #ffffff;
-      --text-secondary: #b4b4b4;
-      --text-muted: #6b6b6b;
-      --accent: #00ffaa;
-      --accent-secondary: #00d4ff;
-      --accent-glow: rgba(0, 255, 170, 0.2);
-      --border: #1f1f1f;
-      --grid-color: rgba(0, 255, 170, 0.05);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.7;
-      overflow-x: hidden;
-      font-size: 15px;
-      font-weight: 400;
-    }
-
-    /* Animated grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: 
-        linear-gradient(var(--grid-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-      background-size: 50px 50px;
-      background-position: center center;
-      pointer-events: none;
-      z-index: 0;
-      animation: gridMove 20s linear infinite;
-    }
-
-    /* Accent glow effect */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-      animation: glowPulse 8s ease-in-out infinite;
-    }
-
-    @keyframes gridMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(50px, 50px); }
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Navigation */
-    nav {
-      padding: 2rem 0;
-      border-bottom: 1px solid var(--border);
-      animation: fadeInDown 0.8s ease-out;
-    }
-
-    .nav-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 400;
-      transition: color 0.3s ease;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--accent);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 6rem 0 8rem;
-      animation: fadeInUp 1s ease-out 0.2s backwards;
-    }
-
-    .hero-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-transform: uppercase;
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      color: var(--text-secondary);
-      max-width: 700px;
-      margin-bottom: 3rem;
-      font-weight: 300;
-    }
-
-    .hero-links {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.875rem 2rem;
-      background: transparent;
-      border: 2px solid var(--border);
-      color: var(--text-primary);
-      text-decoration: none;
-      border-radius: 0;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      position: relative;
-      overflow: hidden;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--bg-primary);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-
-    .btn:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-secondary);
-      border-color: var(--accent-secondary);
-      box-shadow: 0 0 40px var(--accent-glow);
-    }
-
-    /* Section Styles */
-    section {
-      padding: 5rem 0;
-      animation: fadeInUp 1s ease-out 0.4s backwards;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .section-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: 0.1em;
-    }
-
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      flex: 1;
-      text-transform: uppercase;
-    }
-
-    .section-divider {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, var(--border), transparent);
-      align-self: center;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 0;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-glow), transparent);
-      transition: width 0.3s ease;
-      pointer-events: none;
-    }
-
-    .card:hover::before {
-      width: 100%;
-    }
-
-    .card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 30px var(--accent-glow);
-      transform: translateX(8px);
-    }
-
-    .card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-    }
-
-    .card-meta {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      font-weight: 400;
-    }
-
-    .card ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .card li {
-      padding-left: 1.5rem;
-      margin-bottom: 0.5rem;
-      position: relative;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
-
-    .card li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-    }
-
-    /* Skills Grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .skill-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
-      padding: 1.5rem;
-      border-radius: 0;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .skill-item::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--accent);
-      transition: width 0.3s ease;
-    }
-
-    .skill-item:hover::before {
-      width: 100%;
-    }
-
-    .skill-item:hover {
-      border-color: var(--accent);
-      background: var(--bg-secondary);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-
-    .skill-item strong {
-      color: var(--accent);
-      font-weight: 700;
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .skill-item span {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    /* Projects Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 0;
-      padding: 2rem;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .project-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top left, var(--accent-glow), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-    }
-
-    .project-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .project-card:hover::after {
-      opacity: 1;
-    }
-
-    .project-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 40px var(--accent-glow);
-      transform: translateY(-8px);
-    }
-
-    .project-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-    }
-
-    .project-card p {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .project-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .project-link:hover {
-      border-color: var(--accent);
-      background: var(--accent-glow);
-      transform: translateX(4px);
-    }
-
-    .project-link::before {
-      content: '→';
-      font-size: 1rem;
-    }
-
-    .project-link.github::before { content: '⚡'; }
-    .project-link.linkedin::before { content: '💼'; }
-    .project-link.medium::before { content: '✍'; }
-
-    /* About Section */
-    .about-content {
-      max-width: 800px;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-    }
-
-    /* Footer */
-    footer {
-      padding: 4rem 0 3rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1.5rem;
-      }
-
-      .nav-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        gap: 1.5rem;
-      }
-
-      .hero {
-        padding: 4rem 0 5rem;
-      }
-
-      section {
-        padding: 3rem 0;
-      }
-
-      .section-header {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .section-divider {
-        display: none;
-      }
-
-      .projects-grid,
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Extras Section */
-    .extras {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .extras a {
-      padding: 0.75rem 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .extras a:hover {
-      border-color: var(--accent);
-      background: var(--bg-secondary);
-      transform: translateX(4px);
-    }
-
-    /* Contact Section */
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      max-width: 600px;
-      font-size: 1rem;
-    }
-
-    .contact-links p {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .contact-links strong {
-      min-width: 100px;
-      color: var(--accent);
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-    }
-
-    .contact-links a {
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border);
-    }
-
-    .contact-links a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-      transform: translateX(8px);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jayashanka Anushan — Robotics Engineer & MSc Researcher. ROS2, Humanoid Robotics, HRI, Embedded Systems. Based in Dubai, UAE.">
+<meta name="keywords" content="robotics, ROS2, humanoid, HRI, automation, embedded, Dubai, engineer">
+<meta property="og:title" content="Jayashanka Anushan | Robotics Engineer">
+<meta property="og:description" content="Automation-focused Robotics Engineer building at the intersection of software, hardware, and infrastructure.">
+<title>Jayashanka Anushan | Robotics Engineer</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/voice.css">
 </head>
 <body>
-  
-  <nav>
-    <div class="container">
-      <div class="nav-content">
-        <div class="logo">Jayashanka Anushan</div>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+
+<div class="grid-bg"></div>
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<!-- ══════════════════════════════
+     NAVIGATION
+══════════════════════════════ -->
+<nav id="nav" role="navigation">
+  <span class="nav-logo">JAY<em>_</em></span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#connect">Connect</a></li>
+    <li><a href="#research">Research</a></li>
+  </ul>
+  <button class="nav-voice-btn" id="nav-voice-btn" aria-label="Open AI voice assistant">
+    <span class="voice-dot"></span>
+    ASK JAY-AI
+  </button>
+</nav>
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section id="hero" aria-label="Introduction">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">// MSc Robotics Researcher &amp; Engineer</div>
+      <h1 class="hero-name">Jayashanka<br>Anushan</h1>
+      <div class="hero-role">Robotics · Automation · HRI</div>
+      <p class="hero-desc">
+        Automation-focused engineer building at the intersection of software, hardware, and
+        infrastructure — ROS-based control systems, embedded prototypes, cloud robotics with AWS,
+        and real-world operations automation. Pursuing MSc in Robotics while leading automation
+        initiatives commercially in Dubai.
+      </p>
+      <div class="hero-pills">
+        <span class="pill pill-blue">ROS2 Humble</span>
+        <span class="pill pill-green">Humanoid Robotics</span>
+        <span class="pill pill-orange">Cloud Robotics</span>
+        <span class="pill pill-purple">Human-Robot Interaction</span>
+        <span class="pill pill-blue">Embedded Systems</span>
+        <span class="pill pill-green">MSc Researcher</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="https://github.com/JayashankaAnushan19" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+        <a href="https://linkedin.com/in/jayashanka-anushan" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn →</a>
+      </div>
+      <div class="hero-location">📍 <span>Dubai, UAE</span> &nbsp;·&nbsp; MSc Robotics (ongoing)</div>
+    </div>
+
+    <!-- ROBOT VISUAL -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="ring ring1"></div>
+      <div class="ring ring2"></div>
+      <div class="ring ring3"></div>
+      <div class="scan-line"></div>
+      <div class="data-float df1">ROS2 // ACTIVE</div>
+      <div class="data-float df2">HRI_MODULE ✓</div>
+      <div class="data-float df3">SENSOR_FUSION</div>
+      <div class="data-float df4">CLOUD_SYNC ●</div>
+      <div class="data-float df5">AWS_BRIDGE ↑</div>
+
+      <svg viewBox="0 0 340 430" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <defs>
+          <linearGradient id="bG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0c1829"/><stop offset="100%" stop-color="#0f2040"/></linearGradient>
+          <linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".8"/><stop offset="100%" stop-color="#00ff9d" stop-opacity=".4"/></linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="sglow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- Neck -->
+        <rect x="152" y="148" width="36" height="22" rx="3" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="158" y="152" width="5" height="14" rx="1" fill="none" stroke="#00d4ff" stroke-width=".5" opacity=".4"/>
+        <rect x="167" y="152" width="5" height="14" rx="1" fill="none" stroke="#00d4ff" stroke-width=".5" opacity=".4"/>
+        <rect x="176" y="152" width="5" height="14" rx="1" fill="none" stroke="#00d4ff" stroke-width=".5" opacity=".4"/>
+        <!-- Head -->
+        <rect x="116" y="64" width="108" height="88" rx="12" fill="url(#bG)" stroke="#1e4a7a" stroke-width="1.5"/>
+        <rect x="128" y="60" width="84" height="9" rx="4" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <!-- Antennae -->
+        <line x1="146" y1="60" x2="136" y2="36" stroke="#00d4ff" stroke-width="1.5" opacity=".7"/>
+        <circle cx="136" cy="34" r="3.5" fill="#00d4ff" filter="url(#glow)"><animate attributeName="opacity" values="1;.2;1" dur="1.6s" repeatCount="indefinite"/></circle>
+        <line x1="194" y1="60" x2="204" y2="36" stroke="#00ff9d" stroke-width="1.5" opacity=".7"/>
+        <circle cx="204" cy="34" r="3.5" fill="#00ff9d" filter="url(#glow)"><animate attributeName="opacity" values=".2;1;.2" dur="1.6s" repeatCount="indefinite"/></circle>
+        <!-- Face plate -->
+        <rect x="124" y="72" width="92" height="72" rx="8" fill="#030a14" stroke="#1a3a5c" stroke-width="1"/>
+        <!-- Eye L -->
+        <rect x="132" y="84" width="34" height="22" rx="5" fill="#020810" stroke="#00d4ff" stroke-width="1.5"/>
+        <circle cx="149" cy="95" r="7" fill="#00d4ff" opacity=".6" filter="url(#glow)"><animate attributeName="r" values="7;5.5;7" dur="2.8s" repeatCount="indefinite"/></circle>
+        <circle cx="149" cy="95" r="3" fill="white" opacity=".95"/>
+        <!-- Eye R -->
+        <rect x="174" y="84" width="34" height="22" rx="5" fill="#020810" stroke="#00d4ff" stroke-width="1.5"/>
+        <circle cx="191" cy="95" r="7" fill="#00d4ff" opacity=".6" filter="url(#glow)"><animate attributeName="r" values="5.5;7;5.5" dur="2.8s" repeatCount="indefinite"/></circle>
+        <circle cx="191" cy="95" r="3" fill="white" opacity=".95"/>
+        <!-- Mouth bars -->
+        <rect x="142" y="120" width="56" height="16" rx="3" fill="#020810" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="147" y="123" width="3" height="10" rx="1" fill="#00d4ff" opacity=".65"><animate attributeName="height" values="10;5;10" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="123;126;123" dur=".6s" repeatCount="indefinite"/></rect>
+        <rect x="153" y="124" width="3" height="8" rx="1" fill="#00d4ff" opacity=".5"><animate attributeName="height" values="5;10;5" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="124;122;124" dur=".5s" repeatCount="indefinite"/></rect>
+        <rect x="159" y="122" width="3" height="12" rx="1" fill="#00ff9d" opacity=".6"><animate attributeName="height" values="4;12;4" dur=".75s" repeatCount="indefinite"/><animate attributeName="y" values="124;122;124" dur=".75s" repeatCount="indefinite"/></rect>
+        <rect x="165" y="124" width="3" height="8" rx="1" fill="#00d4ff" opacity=".5"><animate attributeName="height" values="9;4;9" dur=".55s" repeatCount="indefinite"/><animate attributeName="y" values="122;125;122" dur=".55s" repeatCount="indefinite"/></rect>
+        <rect x="171" y="122" width="3" height="10" rx="1" fill="#00d4ff" opacity=".65"><animate attributeName="height" values="6;10;6" dur=".65s" repeatCount="indefinite"/><animate attributeName="y" values="124;122;124" dur=".65s" repeatCount="indefinite"/></rect>
+        <rect x="177" y="123" width="3" height="8" rx="1" fill="#00ff9d" opacity=".5"><animate attributeName="height" values="8;4;8" dur=".7s" repeatCount="indefinite"/><animate attributeName="y" values="123;125;123" dur=".7s" repeatCount="indefinite"/></rect>
+        <rect x="183" y="124" width="3" height="6" rx="1" fill="#00d4ff" opacity=".45"><animate attributeName="height" values="4;9;4" dur=".58s" repeatCount="indefinite"/><animate attributeName="y" values="124;122;124" dur=".58s" repeatCount="indefinite"/></rect>
+        <!-- Ear sensors -->
+        <rect x="108" y="84" width="10" height="32" rx="4" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <circle cx="113" cy="100" r="3.5" fill="#00ff9d" opacity=".7"><animate attributeName="opacity" values=".7;.2;.7" dur="2.2s" repeatCount="indefinite"/></circle>
+        <rect x="222" y="84" width="10" height="32" rx="4" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <circle cx="227" cy="100" r="3.5" fill="#00ff9d" opacity=".7"><animate attributeName="opacity" values=".2;.7;.2" dur="2.2s" repeatCount="indefinite"/></circle>
+        <!-- Torso -->
+        <rect x="98" y="170" width="144" height="124" rx="12" fill="url(#bG)" stroke="#1e4a7a" stroke-width="1.5"/>
+        <!-- Chest core arc-reactor -->
+        <circle cx="170" cy="214" r="28" fill="#030a14" stroke="#1a3a5c" stroke-width="1.5"/>
+        <circle cx="170" cy="214" r="22" fill="#030a14" stroke="#00d4ff" stroke-width="1" opacity=".4"/>
+        <circle cx="170" cy="214" r="9" fill="#00d4ff" opacity=".2" filter="url(#sglow)"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/><animate attributeName="r" values="9;12;9" dur="2s" repeatCount="indefinite"/></circle>
+        <circle cx="170" cy="214" r="4.5" fill="#00d4ff" filter="url(#sglow)"/>
+        <circle cx="170" cy="214" r="24" fill="none" stroke="url(#gG)" stroke-width=".6" stroke-dasharray="5 4" opacity=".6"><animateTransform attributeName="transform" type="rotate" from="0 170 214" to="360 170 214" dur="14s" repeatCount="indefinite"/></circle>
+        <!-- Left chest panel -->
+        <rect x="112" y="184" width="42" height="34" rx="3" fill="#030a14" stroke="#1a3a5c" stroke-width="1"/>
+        <line x1="116" y1="191" x2="150" y2="191" stroke="#00d4ff" stroke-width=".7" opacity=".45"/>
+        <line x1="116" y1="196" x2="145" y2="196" stroke="#00d4ff" stroke-width=".7" opacity=".3"/>
+        <line x1="116" y1="201" x2="148" y2="201" stroke="#00d4ff" stroke-width=".7" opacity=".35"/>
+        <line x1="116" y1="206" x2="142" y2="206" stroke="#00ff9d" stroke-width=".7" opacity=".35"/>
+        <line x1="116" y1="211" x2="146" y2="211" stroke="#00d4ff" stroke-width=".7" opacity=".25"/>
+        <!-- Right chest panel - status bars -->
+        <rect x="188" y="184" width="42" height="34" rx="3" fill="#030a14" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="192" y="189" width="7" height="5" rx="1" fill="#00d4ff" opacity=".6"/>
+        <rect x="201" y="189" width="7" height="5" rx="1" fill="#00ff9d" opacity=".5"/>
+        <rect x="210" y="189" width="7" height="5" rx="1" fill="#ff6b35" opacity=".45"/>
+        <rect x="192" y="198" width="34" height="3" rx="1" fill="#1a3a5c"/>
+        <rect x="192" y="198" width="22" height="3" rx="1" fill="#00d4ff" opacity=".65"><animate attributeName="width" values="22;30;22" dur="3.2s" repeatCount="indefinite"/></rect>
+        <rect x="192" y="204" width="34" height="3" rx="1" fill="#1a3a5c"/>
+        <rect x="192" y="204" width="16" height="3" rx="1" fill="#00ff9d" opacity=".6"><animate attributeName="width" values="16;24;16" dur="2.6s" repeatCount="indefinite"/></rect>
+        <rect x="192" y="210" width="34" height="3" rx="1" fill="#1a3a5c"/>
+        <rect x="192" y="210" width="28" height="3" rx="1" fill="#ff6b35" opacity=".45"><animate attributeName="width" values="28;20;28" dur="4s" repeatCount="indefinite"/></rect>
+        <!-- Belt -->
+        <rect x="98" y="278" width="144" height="20" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="156" y="280" width="28" height="16" rx="2" fill="#030a14" stroke="#00d4ff" stroke-width="1" opacity=".7"/>
+        <!-- Shoulders -->
+        <ellipse cx="88" cy="188" rx="18" ry="20" fill="#0c1829" stroke="#1e4a7a" stroke-width="1.5"/>
+        <circle cx="88" cy="188" r="5" fill="#00d4ff" opacity=".35" filter="url(#glow)"/>
+        <ellipse cx="252" cy="188" rx="18" ry="20" fill="#0c1829" stroke="#1e4a7a" stroke-width="1.5"/>
+        <circle cx="252" cy="188" r="5" fill="#00d4ff" opacity=".35" filter="url(#glow)"/>
+        <!-- Arms L -->
+        <rect x="68" y="200" width="24" height="62" rx="9" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <line x1="80" y1="210" x2="80" y2="254" stroke="#00d4ff" stroke-width=".8" opacity=".25"/>
+        <rect x="66" y="258" width="28" height="14" rx="4" fill="#0c1829" stroke="#1e4a7a" stroke-width="1"/>
+        <rect x="70" y="268" width="22" height="56" rx="8" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <rect x="74" y="278" width="14" height="3" rx="1" fill="#00d4ff" opacity=".4"/>
+        <rect x="74" y="285" width="10" height="3" rx="1" fill="#00ff9d" opacity=".35"/>
+        <rect x="74" y="292" width="12" height="3" rx="1" fill="#00d4ff" opacity=".3"/>
+        <rect x="70" y="320" width="22" height="20" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="72" y="326" width="4" height="12" rx="2" fill="#1a3a5c"/>
+        <rect x="78" y="324" width="4" height="14" rx="2" fill="#1a3a5c"/>
+        <rect x="84" y="324" width="4" height="14" rx="2" fill="#1a3a5c"/>
+        <!-- Arms R -->
+        <rect x="248" y="200" width="24" height="62" rx="9" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <line x1="260" y1="210" x2="260" y2="254" stroke="#00d4ff" stroke-width=".8" opacity=".25"/>
+        <rect x="246" y="258" width="28" height="14" rx="4" fill="#0c1829" stroke="#1e4a7a" stroke-width="1"/>
+        <rect x="248" y="268" width="22" height="56" rx="8" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <rect x="252" y="278" width="14" height="3" rx="1" fill="#00d4ff" opacity=".4"/>
+        <rect x="252" y="285" width="10" height="3" rx="1" fill="#00ff9d" opacity=".35"/>
+        <rect x="252" y="292" width="12" height="3" rx="1" fill="#00d4ff" opacity=".3"/>
+        <rect x="248" y="320" width="22" height="20" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <rect x="250" y="324" width="4" height="14" rx="2" fill="#1a3a5c"/>
+        <rect x="256" y="324" width="4" height="14" rx="2" fill="#1a3a5c"/>
+        <rect x="262" y="326" width="4" height="12" rx="2" fill="#00d4ff" opacity=".75" filter="url(#glow)"/>
+        <!-- Hips -->
+        <rect x="108" y="295" width="124" height="24" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <!-- Legs L -->
+        <rect x="114" y="316" width="44" height="56" rx="9" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <line x1="136" y1="326" x2="136" y2="364" stroke="#00d4ff" stroke-width=".8" opacity=".2"/>
+        <rect x="112" y="368" width="48" height="16" rx="5" fill="#0c1829" stroke="#1e4a7a" stroke-width="1"/>
+        <circle cx="136" cy="376" r="5" fill="#1a3a5c" stroke="#00d4ff" stroke-width=".8"/>
+        <rect x="116" y="380" width="40" height="48" rx="8" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <rect x="120" y="390" width="18" height="3" rx="1" fill="#00d4ff" opacity=".3"/>
+        <rect x="120" y="397" width="14" height="3" rx="1" fill="#00ff9d" opacity=".28"/>
+        <rect x="110" y="424" width="54" height="14" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <!-- Legs R -->
+        <rect x="182" y="316" width="44" height="56" rx="9" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <line x1="204" y1="326" x2="204" y2="364" stroke="#00d4ff" stroke-width=".8" opacity=".2"/>
+        <rect x="180" y="368" width="48" height="16" rx="5" fill="#0c1829" stroke="#1e4a7a" stroke-width="1"/>
+        <circle cx="204" cy="376" r="5" fill="#1a3a5c" stroke="#00d4ff" stroke-width=".8"/>
+        <rect x="184" y="380" width="40" height="48" rx="8" fill="url(#bG)" stroke="#1a3a5c" stroke-width="1.5"/>
+        <rect x="188" y="390" width="18" height="3" rx="1" fill="#00d4ff" opacity=".3"/>
+        <rect x="188" y="397" width="14" height="3" rx="1" fill="#00ff9d" opacity=".28"/>
+        <rect x="176" y="424" width="54" height="14" rx="5" fill="#0c1829" stroke="#1a3a5c" stroke-width="1"/>
+        <!-- Ground glow -->
+        <ellipse cx="170" cy="434" rx="100" ry="8" fill="#00d4ff" opacity=".05"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     STATS BAR
+══════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="3" data-suffix="+">0+</div>
+      <div class="stat-label">Years in Robotics</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num green" data-target="10" data-suffix="+">0+</div>
+      <div class="stat-label">GitHub Repos</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num orange" data-target="6" data-suffix="">0</div>
+      <div class="stat-label">Tech Domains</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num purple" data-target="1" data-suffix=" MSc">0 MSc</div>
+      <div class="stat-label">Ongoing Degree</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-4">
+      <div class="stat-num" data-target="1" data-suffix=" UAE">0 UAE</div>
+      <div class="stat-label">Based in Dubai</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════
+     ABOUT + TIMELINE
+══════════════════════════════ -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">00 — Background</div>
+    <h2 class="section-title">About <span>Me</span></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Jayashanka Anushan</strong>, a Robotics Engineer and MSc researcher
+          based in <strong>Dubai, UAE</strong>. I build at the intersection of software,
+          hardware, and infrastructure — from ROS-based control systems and embedded prototypes
+          to cloud-connected robots and smart operational automation.
+        </p>
+        <p>
+          My research focuses on <strong>humanoid robotics</strong> and
+          <strong>Human-Robot Interaction (HRI)</strong> — specifically building emotionally
+          intelligent systems that perceive human behaviour through multimodal sensing (audio,
+          vision, environmental signals) and respond naturally.
+        </p>
+        <p>
+          Beyond research, I deploy real-world automation: smart warehouses,
+          cloud-connected robots via <strong>AWS + ROSBridge</strong>, logistics automation,
+          and smart infrastructure installations. If it blends robots + ops + impact,
+          I'm in. 🤖⚡
+        </p>
+        <blockquote style="border-left:3px solid var(--accent2);padding-left:20px;margin-top:24px;font-style:italic;color:var(--text-muted);">
+          "Robots will not replace humans — they will extend human capability."
+        </blockquote>
+      </div>
+      <div class="timeline reveal reveal-delay-2">
+        <div class="tl-item">
+          <div class="tl-dot active">▸</div>
+          <div class="tl-content">
+            <div class="tl-year">2024 – Present</div>
+            <div class="tl-title">MSc Robotics</div>
+            <div class="tl-org">Middlesex University (ongoing)</div>
+            <div class="tl-desc">Humanoid robotics, HRI, emotionally intelligent assistive systems for elderly environments. Multimodal sensing research.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">⚙</div>
+          <div class="tl-content">
+            <div class="tl-year">2025 – Present</div>
+            <div class="tl-title">Founder &amp; CEO</div>
+            <div class="tl-org">RoboJain, Dubai</div>
+            <div class="tl-desc">Provides robotic solutions with automation, smart infrastructure, cloud robotics deployments, and operations digitisation.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">⚙</div>
+          <div class="tl-content">
+            <div class="tl-year">2023 – 2024</div>
+            <div class="tl-title">IT &amp; Invenrity Administration</div>
+            <div class="tl-org">QAPCO Warehouse, Qatar</div>
+            <div class="tl-desc">Leading petrochemical company and provides IT, and Administration initiatives, logistics automation and operations digitisation.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">🤖</div>
+          <div class="tl-content">
+            <div class="tl-year">2021 – 2023</div>
+            <div class="tl-title">Technical Officer</div>
+            <div class="tl-org">Wayamba University of Sri Lanka</div>
+            <div class="tl-desc">Inventiry handling IT insfrature development, electronic and electrical development, sensor integration, embedded systems with Arduino and ESP32.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">📡</div>
+          <div class="tl-content">
+            <div class="tl-year">2019 – 2021</div>
+            <div class="tl-title">Engineering Studies</div>
+            <div class="tl-org">BEng Software Engineering / London Metropolitan University</div>
+            <div class="tl-desc">Foundation in programming, systems, and fundamentals. First software projects in Python and C++.</div>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
+</section>
 
-  <div class="container">
-    <header class="hero">
-      <h1 class="hero-title">Bridging Software, Robotics, and Automation</h1>
-      <p class="hero-subtitle">
-        Robotics Engineer & Software Developer with 5+ years of experience in software engineering, 
-        automation systems, and process optimization. Specializing in ROS, embedded systems, and building 
-        intelligent solutions for real-world challenges.
-      </p>
-      <div class="hero-links">
-        <a href="https://github.com/JayashankaAnushan19" target="_blank" class="btn btn-primary">GitHub</a>
-        <a href="https://www.linkedin.com/in/jayashanka-anushan" target="_blank" class="btn">LinkedIn</a>
-        <a href="https://medium.com/@jayasankaanushan199" target="_blank" class="btn">Medium</a>
-        <a href="https://sites.google.com/view/jayashanka-anushan/home" target="_blank" class="btn">Portfolio</a>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════
+     SKILLS
+══════════════════════════════ -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">01 — Technical Stack</div>
+    <h2 class="section-title">Skills &amp; <span>Technologies</span></h2>
+    <div class="skills-grid">
+      <div class="skill-cat card card-accent-top reveal">
+        <div class="skill-cat-label">// Robotics Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ROS1 Noetic</span><span class="skill-tag">ROS2 Humble</span>
+          <span class="skill-tag">Nav2</span><span class="skill-tag">MoveIt2</span>
+          <span class="skill-tag">Gazebo</span><span class="skill-tag">RVIZ2</span>
+          <span class="skill-tag">URDF/XACRO</span>
+        </div>
       </div>
-      <div class="extras">
-        <a href="/games">🎮 Games</a>
-        <a href="/private">🔒 Private</a>
+      <div class="skill-cat card card-accent-top reveal reveal-delay-1">
+        <div class="skill-cat-label">// Cloud &amp; Connectivity</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS</span><span class="skill-tag">ROSBridge</span>
+          <span class="skill-tag">MQTT</span><span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">Docker</span><span class="skill-tag">WebSockets</span>
+        </div>
       </div>
-    </header>
-
-    <main>
-      <section id="about">
-        <div class="section-header">
-          <span class="section-number">01</span>
-          <h2>About Me</h2>
-          <div class="section-divider"></div>
+      <div class="skill-cat card card-accent-top reveal reveal-delay-2">
+        <div class="skill-cat-label">// Embedded &amp; Hardware</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Arduino</span><span class="skill-tag">ESP32</span>
+          <span class="skill-tag">Raspberry Pi</span><span class="skill-tag">STM32</span>
+          <span class="skill-tag">NVIDIA Jetson</span><span class="skill-tag">KiCad</span>
+          <!-- <span class="skill-tag">Dynamixel</span> -->
         </div>
-        <div class="about-content">
-          <p>
-            I'm a Robotics Engineer with a strong background in Software Engineering and hands-on experience in automation, 
-            embedded systems, and intelligent robotics. With over 5 years of professional experience spanning IT systems, 
-            inventory management, and process optimization, I specialize in bridging the gap between software and hardware 
-            to create efficient, real-world solutions. My expertise includes ROS, Arduino, Python, and full-stack development, 
-            with a passion for building smart systems that solve complex operational challenges.
-          </p>
+      </div>
+      <div class="skill-cat card card-accent-top reveal">
+        <div class="skill-cat-label">// AI &amp; Perception</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span><span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">TensorFlow</span><span class="skill-tag">YOLO</span>
+          <span class="skill-tag">MediaPipe</span><span class="skill-tag">Sensor Fusion</span>
+          <span class="skill-tag">SLAM</span>
         </div>
-      </section>
-
-      <section>
-        <div class="section-header">
-          <span class="section-number">02</span>
-          <h2>Skills & Tools</h2>
-          <div class="section-divider"></div>
+      </div>
+      <div class="skill-cat card card-accent-top reveal reveal-delay-1">
+        <div class="skill-cat-label">// Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">C++</span>
+          <span class="skill-tag">C</span><span class="skill-tag">Bash</span>
+          <span class="skill-tag">MATLAB</span><span class="skill-tag">JavaScript</span>
         </div>
-        <ul class="skills-grid">
-          <li class="skill-item">
-            <strong>Languages</strong>
-            <span>Python, C#, PHP, JavaScript</span>
-          </li>
-          <li class="skill-item">
-            <strong>Robotics</strong>
-            <span>ROS1, Gazebo, RViz, Arduino, Sensors</span>
-          </li>
-          <li class="skill-item">
-            <strong>Frameworks</strong>
-            <span>Laravel, React, Node.js, Bootstrap</span>
-          </li>
-          <li class="skill-item">
-            <strong>Databases</strong>
-            <span>MySQL, MSSQL, MongoDB</span>
-          </li>
-          <li class="skill-item">
-            <strong>Tools</strong>
-            <span>Git, SAP, Microsoft Excel, Word, PowerPoint, Outlook</span>
-          </li>
-          <li class="skill-item">
-            <strong>Operating Systems</strong>
-            <span>Ubuntu</span>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <div class="section-header">
-          <span class="section-number">03</span>
-          <h2>Education</h2>
-          <div class="section-divider"></div>
+      </div>
+      <div class="skill-cat card card-accent-top reveal reveal-delay-2">
+        <div class="skill-cat-label">// Ops &amp; Infrastructure</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Smart Warehousing</span><span class="skill-tag">Logistics Automation</span>
+          <span class="skill-tag">CCTV / PoE</span><span class="skill-tag">Networking</span>
+          <span class="skill-tag">Git</span><span class="skill-tag">Linux/Ubuntu</span>
         </div>
-        
-        <div class="card">
-          <h3>MSc Robotics</h3>
-          <p class="card-meta">Middlesex University Dubai • 2024 – 2026</p>
-        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="card">
-          <h3>BEng (Hons) Software Engineering</h3>
-          <p class="card-meta">London Metropolitan University • First Class Honours • 2020 – 2021</p>
-        </div>
+<div class="divider"></div>
 
-        <div class="card">
-          <h3>Diploma in Information Technology (Software Engineering)</h3>
-          <p class="card-meta">University of Moratuwa • 2020 – 2021</p>
-        </div>
-      </section>
+<!-- ══════════════════════════════
+     GITHUB PROJECTS
+══════════════════════════════ -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">02 — GitHub</div>
+    <h2 class="section-title">Public <span>Projects</span></h2>
+    <div id="repos-container" class="repos-grid">
+      <div class="loading-msg">// Fetching repositories from GitHub...</div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="https://github.com/JayashankaAnushan19" target="_blank" rel="noopener" class="btn btn-outline">
+        View All Repositories on GitHub →
+      </a>
+    </div>
+  </div>
+</section>
 
-      <section id="experience">
-        <div class="section-header">
-          <span class="section-number">04</span>
-          <h2>Experience</h2>
-          <div class="section-divider"></div>
-        </div>
+<div class="divider"></div>
 
-        <div class="card">
-          <h3>IT Support / Administration</h3>
-          <p class="card-meta">OPPEIN HOME • 2024 – Present</p>
-          <ul>
-            <li>Created documentation for IT, admin, and marketing processes</li>
-            <li>Installed and troubleshot software/hardware across departments</li>
-            <li>Managed supplier databases and procurement requests</li>
-            <li>Edited company website using WordPress</li>
-          </ul>
-        </div>
+<!-- ══════════════════════════════
+     YOUTUBE
+══════════════════════════════ -->
+<section id="videos">
+  <div class="section-wrap">
+    <div class="section-label">03 — Video Content</div>
+    <h2 class="section-title">YouTube <span>Channel</span></h2>
+    <div class="yt-header">
+      <a href="https://www.youtube.com/@jayashankaanushan1336" target="_blank" rel="noopener" class="yt-channel-link">
+        ▶ &nbsp;@jayashankaanushan1336
+      </a>
+      <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-dim);">// auto-loaded · updates live</span>
+    </div>
+    <div id="yt-container">
+      <p class="loading-msg">// Fetching latest videos...</p>
+    </div>
+  </div>
+</section>
 
-        <div class="card">
-          <h3>Inventory Administrator</h3>
-          <p class="card-meta">Alfred Talke Logistic Services Qatar LLC • 2023 – 2024</p>
-          <ul>
-            <li>Managed 100,000+ inventory records using SAP</li>
-            <li>Built reports and reconciliations with Microsoft Excel</li>
-            <li>Improved stock rotation and shelf labelling workflows</li>
-          </ul>
-        </div>
+<div class="divider"></div>
 
-        <div class="card">
-          <h3>Technical Officer</h3>
-          <p class="card-meta">Wayamba University of Sri Lanka • 2019 – 2023</p>
-          <ul>
-            <li>Maintained IT systems and engineering labs</li>
-            <li>Installed PLC, Proteus, and managed user accounts</li>
-            <li>Supported lab design using SolidWorks</li>
-          </ul>
-        </div>
+<!-- ══════════════════════════════
+     SOCIAL HUB
+══════════════════════════════ -->
+<section id="connect">
+  <div class="section-wrap">
+    <div class="section-label">04 — Social Hub</div>
+    <h2 class="section-title">Find Me <span>Everywhere</span></h2>
+    <div class="social-hub">
+      <a href="https://github.com/JayashankaAnushan19" target="_blank" rel="noopener" class="social-card gh reveal">
+        <div class="social-icon">🐙</div>
+        <div class="social-name">GitHub</div>
+        <div class="social-handle">JayashankaAnushan19</div>
+        <div class="social-desc">ROS2 projects, embedded experiments, robot navigation and open source contributions.</div>
+        <div class="social-arrow">→ github.com/JayashankaAnushan19</div>
+      </a>
+      <a href="https://www.youtube.com/@jayashankaanushan1336" target="_blank" rel="noopener" class="social-card yt reveal reveal-delay-1">
+        <div class="social-icon">▶️</div>
+        <div class="social-name">YouTube</div>
+        <div class="social-handle">@jayashankaanushan1336</div>
+        <div class="social-desc">Robot demos, ROS2 tutorials, build logs and project walkthroughs.</div>
+        <div class="social-arrow">→ youtube.com/@jayashankaanushan1336</div>
+      </a>
+      <a href="https://linkedin.com/in/jayashanka-anushan" target="_blank" rel="noopener" class="social-card li reveal reveal-delay-2">
+        <div class="social-icon">💼</div>
+        <div class="social-name">LinkedIn</div>
+        <div class="social-handle">jayashanka-anushan</div>
+        <div class="social-desc">Professional updates, research posts and robotics networking.</div>
+        <div class="social-arrow">→ linkedin.com/in/jayashanka-anushan</div>
+      </a>
+      <a href="https://medium.com/@jayasankaanushan199" target="_blank" rel="noopener" class="social-card med reveal">
+        <div class="social-icon">✍️</div>
+        <div class="social-name">Medium</div>
+        <div class="social-handle">@jayasankaanushan199</div>
+        <div class="social-desc">Technical articles, research write-ups and engineering deep dives.</div>
+        <div class="social-arrow">→ medium.com/@jayasankaanushan199</div>
+      </a>
+      <a href="https://stackoverflow.com/users/11253065/jayashanka-anushan" target="_blank" rel="noopener" class="social-card so reveal reveal-delay-1">
+        <div class="social-icon">⚡</div>
+        <div class="social-name">Stack Overflow</div>
+        <div class="social-handle">jayashanka-anushan</div>
+        <div class="social-desc">Q&amp;A across ROS, Python, embedded systems and robotics.</div>
+        <div class="social-arrow">→ stackoverflow.com/users/11253065</div>
+      </a>
+      <!-- <a href="https://www.instagram.com/jayashankaanushan" target="_blank" rel="noopener" class="social-card ig reveal reveal-delay-2">
+        <div class="social-icon">📸</div>
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">jayashankaanushan</div>
+        <div class="social-desc">Behind-the-scenes builds, lab life and engineering in progress.</div>
+        <div class="social-arrow">→ instagram.com/jayashankaanushan</div>
+      </a> -->
+    </div>
+  </div>
+</section>
 
-        <div class="card">
-          <h3>Associate Software Engineer (Intern)</h3>
-          <p class="card-meta">Arya Labs Pvt Ltd • 2020</p>
-          <ul>
-            <li>Tested and debugged AJAX, JS, and PHP systems</li>
-            <li>Helped optimize payment flows and module integrations</li>
-          </ul>
-        </div>
-      </section>
+<div class="divider"></div>
 
-      <section id="projects">
-        <div class="section-header">
-          <span class="section-number">05</span>
-          <h2>Featured Projects</h2>
-          <div class="section-divider"></div>
-        </div>
+<!-- ══════════════════════════════
+     RESEARCH
+══════════════════════════════ -->
+<section id="research">
+  <div class="section-wrap">
+    <div class="section-label">05 — Academic</div>
+    <h2 class="section-title">Research &amp; <span>Publications</span></h2>
+    <div class="research-note reveal">
+      <div class="research-quote">"</div>
+      <p>Currently researching humanoid robotic perception and assistive robotics — focusing on
+        emotionally intelligent systems that perceive human behaviour through multimodal sensing
+        (audio, vision, environmental signals) and respond naturally. Targeting assistive applications
+        for elderly environments. Publications upcoming — follow on LinkedIn or GitHub for updates.</p>
+    </div>
+    <div class="research-areas">
+      <div class="research-area reveal">
+        <div class="ra-icon">🤖</div>
+        <div class="ra-title">Humanoid Robotics</div>
+        <div class="ra-desc">Full-body humanoid systems, mechanical design, servo control, and physical human-environment interaction.</div>
+      </div>
+      <div class="research-area reveal reveal-delay-1">
+        <div class="ra-icon">🧠</div>
+        <div class="ra-title">Emotion Recognition</div>
+        <div class="ra-desc">Multimodal emotion detection from audio, facial expressions, and environmental context using deep learning.</div>
+      </div>
+      <div class="research-area reveal reveal-delay-2">
+        <div class="ra-icon">👁️</div>
+        <div class="ra-title">Robot Vision &amp; Fusion</div>
+        <div class="ra-desc">Real-time object detection, SLAM, depth sensing, and multi-sensor data fusion for situational awareness.</div>
+      </div>
+      <div class="research-area reveal">
+        <div class="ra-icon">🦾</div>
+        <div class="ra-title">Assistive Robotics</div>
+        <div class="ra-desc">Social and assistive robots for elderly care — presence detection, voice interaction, and safe co-habitation.</div>
+      </div>
+      <div class="research-area reveal reveal-delay-1">
+        <div class="ra-icon">🎧</div>
+        <div class="ra-title">Auditory Perception</div>
+        <div class="ra-desc">Robot hearing systems for voice localisation, sound classification, and natural speech-based command interfaces.</div>
+      </div>
+      <div class="research-area reveal reveal-delay-2">
+        <div class="ra-icon">☁️</div>
+        <div class="ra-title">Cloud Robotics</div>
+        <div class="ra-desc">AWS-connected robotic systems via ROSBridge — remote monitoring, fleet management, and distributed compute.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="projects-grid">
-          <div class="project-card">
-            <h3>Arduino Braille-to-Text</h3>
-            <p>Converts Braille input into readable text in real time using push buttons and Arduino microcontroller.</p>
-            <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/arduino-braile-to-text" target="_blank" class="project-link github">GitHub</a>
-            </div>
-          </div>
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer>
+  <strong>JAYASHANKA ANUSHAN</strong> &nbsp;·&nbsp; Robotics Engineer &nbsp;·&nbsp; Dubai, UAE &nbsp;·&nbsp; © 2026 &nbsp;·&nbsp;
+  Hosted free on <a href="https://pages.github.com" style="color:var(--accent2)">GitHub Pages</a>
+  &nbsp;·&nbsp; Ask JAY-AI anything 🤖
+</footer>
 
-          <div class="project-card">
-            <h3>Robot Statics Control</h3>
-            <p>Real-time visualization of robotic sensor data with WebSocket-based control interface integrated with ROS.</p>
-            <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/RoboStaticsControl" target="_blank" class="project-link github">GitHub</a>
-            </div>
-          </div>
+<!-- ══════════════════════════════
+     VOICE ASSISTANT
+══════════════════════════════ -->
+<button id="voice-fab" aria-label="Open AI assistant" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="22"/>
+    <line x1="8" y1="22" x2="16" y2="22"/>
+  </svg>
+</button>
 
-          <div class="project-card">
-            <h3>ROS Arduino LED Control</h3>
-            <p>Bidirectional ROS ↔ Arduino communication system demonstrating hardware control from Ubuntu VM.</p>
-            <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/ros-arduino-led-control" target="_blank" class="project-link github">GitHub</a>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <h3>Power BI Data Visualization</h3>
-            <p>Interactive sales insights dashboard with KPI tracking built from Kaggle datasets for Pizza Hut analytics.</p>
-            <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/PowerBI_DataVisualization_Pizza_hut" target="_blank" class="project-link github">GitHub</a>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <h3>Maze Game (BFS Algorithm)</h3>
-            <p>HTML5 Canvas game implementing Breadth-First Search algorithm for intelligent enemy pathfinding.</p>
-            <div class="project-links">
-              <a href="https://github.com/JayashankaAnushan19/Maze-Game-01" target="_blank" class="project-link github">GitHub</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="section-header">
-          <span class="section-number">06</span>
-          <h2>Contact</h2>
-          <div class="section-divider"></div>
-        </div>
-        <div class="contact-links">
-          <p>
-            <strong>GitHub</strong> 
-            <a href="https://github.com/JayashankaAnushan19" target="_blank">JayashankaAnushan19</a>
-          </p>
-          <p>
-            <strong>LinkedIn</strong> 
-            <a href="https://www.linkedin.com/in/jayashanka-anushan" target="_blank">jayashanka-anushan</a>
-          </p>
-          <p>
-            <strong>Medium</strong> 
-            <a href="https://medium.com/@jayasankaanushan199" target="_blank">@jayasankaanushan199</a>
-          </p>
-        </div>
-      </section>
-    </main>
+<div id="voice-panel" role="dialog" aria-label="JAY-AI Voice Assistant">
+  <div class="vp-header">
+    <div class="vp-avatar">
+      🤖
+      <div class="vp-avatar-pulse"></div>
+    </div>
+    <div class="vp-title-block">
+      <div class="vp-title">JAY-AI</div>
+      <div class="vp-status" id="vp-status">Ready</div>
+    </div>
+    <button class="vp-close" id="vp-close" aria-label="Close">✕</button>
   </div>
 
-  <footer>
-    <div class="container">
-      <p>© 2026 Jayashanka Anushan • All information accurate and verified</p>
-    </div>
-  </footer>
+  <div class="vp-wave" id="vp-wave">
+    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+  </div>
 
+  <div class="vp-log" id="vp-log"></div>
+
+  <div class="vp-chips">
+    <button class="vp-chip">What are his skills?</button>
+    <button class="vp-chip">Tell me about his research</button>
+    <button class="vp-chip">How to contact him?</button>
+    <button class="vp-chip">What projects has he built?</button>
+  </div>
+
+  <div class="vp-input-row">
+    <input type="text" class="vp-text-input" id="vp-text-input" placeholder="Ask anything about Jayashanka..." autocomplete="off">
+    <button class="vp-mic-btn" id="vp-mic" aria-label="Voice input">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+      </svg>
+    </button>
+    <button class="vp-send-btn" id="vp-send" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/app.js"></script>
+<script src="js/feed.js"></script>
+<script src="js/voice.js"></script>
 </body>
 </html>
