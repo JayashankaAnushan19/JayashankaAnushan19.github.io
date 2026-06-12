@@ -107,12 +107,60 @@ function initSmoothScroll() {
   });
 }
 
+// ── SCROLL PROGRESS BAR ───────────────────
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    if (total > 0) bar.style.width = (window.scrollY / total * 100) + '%';
+  }, { passive: true });
+}
+
+// ── BACK TO TOP ────────────────────────────
+function initBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+// ── HAMBURGER / MOBILE NAV ─────────────────
+function initHamburger() {
+  const hamburger = document.getElementById('nav-hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  const closeBtn  = document.getElementById('mobile-nav-close');
+  if (!hamburger || !mobileNav) return;
+
+  const open = () => {
+    mobileNav.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  hamburger.addEventListener('click', () => mobileNav.classList.contains('open') ? close() : open());
+  closeBtn?.addEventListener('click', close);
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+}
+
 // ── INIT ───────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initNav();
   initCounters();
   initSmoothScroll();
-  // Terminal runs only if present
+  initScrollProgress();
+  initBackToTop();
+  initHamburger();
   if (document.querySelector('.type-line')) initTerminal();
 });

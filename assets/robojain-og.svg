@@ -1,0 +1,84 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueBar" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5A8FCA"/>
+      <stop offset="50%" stop-color="#6FA3D9"/>
+      <stop offset="100%" stop-color="#5A8FCA" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="540" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#DDE4F0"/>
+      <stop offset="100%" stop-color="#5A8FCA"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="bgGlow" cx="80%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="rgba(90,143,202,0.09)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#080C14"/>
+  <rect width="1200" height="630" fill="url(#bgGlow)"/>
+
+  <!-- Subtle grid -->
+  <line x1="0" y1="63"  x2="1200" y2="63"  stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="126" x2="1200" y2="126" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="189" x2="1200" y2="189" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="252" x2="1200" y2="252" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="315" x2="1200" y2="315" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="378" x2="1200" y2="378" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="441" x2="1200" y2="441" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="504" x2="1200" y2="504" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="0" y1="567" x2="1200" y2="567" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="63"  y1="0" x2="63"  y2="630" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="252" y1="0" x2="252" y2="630" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="504" y1="0" x2="504" y2="630" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="756" y1="0" x2="756" y2="630" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+  <line x1="1008" y1="0" x2="1008" y2="630" stroke="#5A8FCA" stroke-width="0.4" stroke-opacity="0.06"/>
+
+  <!-- Top bar -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#blueBar)"/>
+
+  <!-- Left accent -->
+  <rect x="62" y="80" width="2" height="470" fill="#5A8FCA" opacity="0.45"/>
+
+  <!-- Decorative rings (right side) -->
+  <circle cx="1050" cy="315" r="220" fill="none" stroke="#5A8FCA" stroke-width="1" stroke-opacity="0.06"/>
+  <circle cx="1050" cy="315" r="160" fill="none" stroke="#5A8FCA" stroke-width="1" stroke-opacity="0.08"/>
+  <circle cx="1050" cy="315" r="95"  fill="none" stroke="#5A8FCA" stroke-width="1" stroke-opacity="0.11"/>
+  <circle cx="1050" cy="315" r="38"  fill="#5A8FCA" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="1050" cy="315" r="12"  fill="#5A8FCA" opacity="0.55" filter="url(#glow)"/>
+
+  <!-- Robot logo embedded (scaled ~1.4×) -->
+  <!-- Antenna stem -->
+  <line x1="172" y1="224" x2="163" y2="245" stroke="#5A8FCA" stroke-width="5" stroke-linecap="round"/>
+  <!-- Antenna tip -->
+  <circle cx="176" cy="218" r="8.5" fill="#5A8FCA"/>
+  <!-- Face -->
+  <rect x="86" y="243" width="124" height="101" rx="26" fill="#5A8FCA"/>
+  <!-- Left eye -->
+  <circle cx="118" cy="296" r="18" fill="#1C3252"/>
+  <!-- Right eye -->
+  <circle cx="162" cy="296" r="18" fill="#1C3252"/>
+
+  <!-- Eyebrow label -->
+  <text x="84" y="130" font-family="'Courier New',monospace" font-size="13" fill="#5A8FCA" letter-spacing="5" opacity="0.85">// ROBOTICS ENGINEERING STUDIO · DUBAI, UAE</text>
+
+  <!-- Company name -->
+  <text x="84" y="248" font-family="'Courier New',monospace" font-size="96" font-weight="900" fill="url(#nameGrad)" letter-spacing="-3">ROBOJAIN</text>
+
+  <!-- Divider -->
+  <rect x="84" y="272" width="540" height="1" fill="#1A2C42"/>
+
+  <!-- Tagline -->
+  <text x="84" y="316" font-family="'Courier New',monospace" font-size="22" fill="#7F93AE" letter-spacing="1">Where Code Meets Creation</text>
+
+  <!-- Sub-line -->
+  <text x="84" y="370" font-family="'Courier New',monospace" font-size="15" fill="#435872" letter-spacing="1">DIY → Medium-Scale Robotic Systems · Embedded · ROS2 · Automation</text>
+
+  <!-- URL -->
+  <text x="84" y="420" font-family="'Courier New',monospace" font-size="13" fill="#2a3a4e" letter-spacing="1">jayashankaanushan19.github.io/robojain.html</text>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="627" width="1200" height="3" fill="url(#blueBar)" opacity="0.35"/>
+</svg>

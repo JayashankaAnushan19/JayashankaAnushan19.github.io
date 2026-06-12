@@ -22,7 +22,7 @@ async function loadGitHub() {
     // But if running from file://, add a timeout so it fails fast
     const res = await fetch(
       `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=9&type=public`,
-      { signal: AbortSignal.timeout(8000) }
+      { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined }
     );
     const repos = await res.json();
 
@@ -39,7 +39,7 @@ async function loadGitHub() {
       const langDot = repo.language
         ? `<span class="repo-lang">
             <span class="lang-dot" style="background:${LANG_COLORS[repo.language] || '#6b8aaa'}"></span>
-            ${repo.language}
+            ${escHtml(repo.language)}
            </span>` : '';
       const updated = repo.updated_at
         ? new Date(repo.updated_at).toLocaleDateString('en-GB', { month:'short', year:'numeric' })
@@ -50,9 +50,9 @@ async function loadGitHub() {
             <svg viewBox="0 0 16 16" fill="currentColor">
               <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8z"/>
             </svg>
-            ${repo.name}
+            ${escHtml(repo.name)}
           </div>
-          <div class="repo-desc">${repo.description || 'No description provided.'}</div>
+          <div class="repo-desc">${escHtml(repo.description || 'No description provided.')}</div>
           <div class="repo-footer">
             ${langDot}
             <span class="repo-stars">★ ${repo.stargazers_count}</span>
@@ -129,7 +129,7 @@ async function loadYouTube() {
   async function fetchViaProxy(targetUrl) {
     for (const makeProxy of PROXIES) {
       try {
-        const res = await fetch(makeProxy(targetUrl), { signal: AbortSignal.timeout(5000) });
+        const res = await fetch(makeProxy(targetUrl), { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined });
         if (!res.ok) continue;
         const text = await res.text();
         // allorigins wraps in JSON {contents:...}, others return raw

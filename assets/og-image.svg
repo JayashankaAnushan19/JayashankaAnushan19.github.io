@@ -1,0 +1,71 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="topBar" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="50%" stop-color="#00ff9d"/>
+      <stop offset="100%" stop-color="#ff6b35"/>
+    </linearGradient>
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e8f0f8"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#020a14"/>
+
+  <!-- Subtle grid -->
+  <line x1="0" y1="60" x2="1200" y2="60" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="120" x2="1200" y2="120" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="180" x2="1200" y2="180" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="240" x2="1200" y2="240" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="300" x2="1200" y2="300" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="360" x2="1200" y2="360" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="480" x2="1200" y2="480" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="0" y1="540" x2="1200" y2="540" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="60" y1="0" x2="60" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="180" y1="0" x2="180" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="300" y1="0" x2="300" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="420" y1="0" x2="420" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="540" y1="0" x2="540" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="660" y1="0" x2="660" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="780" y1="0" x2="780" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="900" y1="0" x2="900" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="1020" y1="0" x2="1020" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+  <line x1="1140" y1="0" x2="1140" y2="630" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.04"/>
+
+  <!-- Top gradient bar -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#topBar)"/>
+
+  <!-- Left accent line -->
+  <rect x="60" y="80" width="2" height="470" fill="#00d4ff" opacity="0.5"/>
+
+  <!-- Decorative rings (right side) -->
+  <circle cx="1060" cy="315" r="210" fill="none" stroke="#00d4ff" stroke-width="1" stroke-opacity="0.07"/>
+  <circle cx="1060" cy="315" r="155" fill="none" stroke="#00ff9d" stroke-width="1" stroke-opacity="0.06"/>
+  <circle cx="1060" cy="315" r="90"  fill="none" stroke="#00d4ff" stroke-width="1" stroke-opacity="0.1"/>
+  <circle cx="1060" cy="315" r="22"  fill="#00d4ff" opacity="0.12" filter="url(#glow)"/>
+  <circle cx="1060" cy="315" r="8"   fill="#00d4ff" opacity="0.7"  filter="url(#glow)"/>
+
+  <!-- Eyebrow label -->
+  <text x="82" y="126" font-family="'Courier New',monospace" font-size="13" fill="#00ff9d" letter-spacing="4" opacity="0.9">// ROBOTICS ENGINEER &amp; MSc RESEARCHER</text>
+
+  <!-- Name -->
+  <text x="82" y="268" font-family="'Courier New',monospace" font-size="86" font-weight="900" fill="url(#nameGrad)" letter-spacing="-2">JAYASHANKA</text>
+  <text x="82" y="366" font-family="'Courier New',monospace" font-size="86" font-weight="900" fill="#00d4ff" letter-spacing="-2" filter="url(#glow)">ANUSHAN</text>
+
+  <!-- Divider line -->
+  <rect x="82" y="392" width="560" height="1" fill="#1a3a5c"/>
+
+  <!-- Tech stack tags -->
+  <text x="82" y="432" font-family="'Courier New',monospace" font-size="16" fill="#6b8aaa" letter-spacing="1">ROS2  ·  Humanoid Robotics  ·  HRI  ·  Cloud Robotics  ·  Embedded</text>
+
+  <!-- Location + URL -->
+  <text x="82" y="482" font-family="'Courier New',monospace" font-size="14" fill="#3a5a7a" letter-spacing="1">Dubai, UAE  ·  MSc Robotics</text>
+  <text x="82" y="516" font-family="'Courier New',monospace" font-size="13" fill="#254d75" letter-spacing="1">jayashankaanushan19.github.io</text>
+
+  <!-- Bottom gradient bar -->
+  <rect x="0" y="627" width="1200" height="3" fill="url(#topBar)" opacity="0.4"/>
+</svg>

@@ -1,0 +1,606 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posts & Updates — RoboJain</title>
+<meta name="description" content="Latest posts and updates from RoboJain across LinkedIn, Instagram, and TikTok — robotics builds, behind-the-scenes, and engineering updates from Dubai.">
+
+<link rel="icon" type="image/svg+xml" href="assets/robojain-logo.svg">
+<link rel="apple-touch-icon" href="assets/robojain-logo.svg">
+<link rel="canonical" href="https://jayashankaanushan19.github.io/robojain-posts.html">
+
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080C14">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jayashankaanushan19.github.io/robojain-posts.html">
+<meta property="og:title" content="Posts & Updates — RoboJain">
+<meta property="og:description" content="Latest posts and updates from RoboJain across LinkedIn, Instagram, and TikTok.">
+<meta property="og:site_name" content="RoboJain">
+<meta property="og:image" content="https://jayashankaanushan19.github.io/assets/robojain-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="RoboJain Posts & Updates">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Posts & Updates — RoboJain">
+<meta name="twitter:description" content="Latest posts and updates from RoboJain across LinkedIn, Instagram, and TikTok.">
+<meta name="twitter:image" content="https://jayashankaanushan19.github.io/assets/robojain-og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Posts & Updates — RoboJain",
+  "url": "https://jayashankaanushan19.github.io/robojain-posts.html",
+  "description": "Latest posts and updates from RoboJain across LinkedIn, Instagram, and TikTok.",
+  "isPartOf": { "@type": "WebSite", "name": "RoboJain", "url": "https://jayashankaanushan19.github.io/robojain.html" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:          #080C14;
+    --bg-alt:      #0A1019;
+    --panel:       #0E1622;
+    --panel-2:     #121D2E;
+    --border:      #1A2C42;
+    --border-soft: #142236;
+    --ink:         #DDE4F0;
+    --ink-dim:     #7F93AE;
+    --ink-faint:   #435872;
+    --blue:        #5A8FCA;
+    --blue-dim:    #2B5A8E;
+    --blue-glow:   rgba(90,143,202,0.12);
+    --ig:          #E4405F;
+    --ig-glow:     rgba(228,64,95,0.10);
+    --tt:          #69C9D0;
+    --tt-glow:     rgba(105,201,208,0.10);
+    --li:          #0A66C2;
+    --li-glow:     rgba(10,102,194,0.10);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--blue); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  ::selection{ background:var(--blue-glow); color:var(--ink); }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media(max-width:720px){ .wrap{ padding:0 20px; } }
+
+  /* ── NAV ── */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(8,12,20,0.82); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px;
+    display:flex; align-items:center; gap:10px; color:var(--ink);
+    text-decoration:none;
+  }
+  .logo:hover{ text-decoration:none; }
+  .logo-img{ width:30px; height:30px; object-fit:contain; flex-shrink:0; }
+  .navlinks{
+    display:flex; gap:28px;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em;
+    align-items:center;
+  }
+  .navlinks a{ color:var(--ink-dim); transition:color 0.15s; }
+  .navlinks a:hover{ color:var(--ink); text-decoration:none; }
+  .navlinks a.active{ color:var(--blue); }
+  .navlinks .num{ color:var(--blue-dim); margin-right:5px; }
+  .nav-cta{
+    border:1px solid var(--border); padding:8px 16px; border-radius:2px;
+    color:var(--ink) !important; transition:border-color 0.2s,color 0.2s;
+  }
+  .nav-cta:hover{ border-color:var(--blue); color:var(--blue) !important; text-decoration:none; }
+  @media(max-width:800px){ .navlinks a:not(.nav-cta){ display:none; } .navlinks{ gap:14px; } }
+
+  /* ── PAGE HEADER ── */
+  .page-header{
+    padding: calc(68px + 80px) 0 64px;
+    border-bottom:1px solid var(--border-soft);
+    position:relative; overflow:hidden;
+  }
+  .page-header::before{
+    content:''; position:absolute; top:-10%; right:-10%;
+    width:500px; height:500px;
+    background:radial-gradient(circle,var(--blue-glow) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .module-label{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em;
+    color:var(--blue); text-transform:uppercase; margin-bottom:20px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .module-label::after{ content:''; flex:1; height:1px; background:var(--border); }
+  .page-header h1{ font-size:clamp(32px,5vw,56px); margin-bottom:14px; }
+  .page-header p{ font-size:16px; color:var(--ink-dim); max-width:520px; margin-bottom:40px; }
+
+  /* ── FILTER TABS ── */
+  .filter-row{
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .filter-tab{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:9px 18px;
+    border:1px solid var(--border); border-radius:3px;
+    background:transparent; color:var(--ink-dim);
+    cursor:pointer; display:flex; align-items:center; gap:7px;
+    transition:all 0.2s;
+  }
+  .filter-tab svg{ width:13px; height:13px; flex-shrink:0; }
+  .filter-tab:hover{ border-color:var(--blue); color:var(--ink); }
+  .filter-tab.active[data-filter="all"]   { border-color:var(--blue); color:var(--blue); background:var(--blue-glow); }
+  .filter-tab.active[data-filter="instagram"]{ border-color:var(--ig);   color:var(--ig);   background:var(--ig-glow); }
+  .filter-tab.active[data-filter="tiktok"]   { border-color:var(--tt);   color:var(--tt);   background:var(--tt-glow); }
+  .filter-tab.active[data-filter="linkedin"] { border-color:var(--li);   color:var(--li);   background:var(--li-glow); }
+  .tab-count{
+    font-size:10px; padding:2px 6px; border-radius:10px;
+    background:var(--panel-2); color:var(--ink-faint);
+  }
+  .filter-tab.active .tab-count{ background:rgba(255,255,255,0.1); color:inherit; }
+
+  /* ── POSTS SECTION ── */
+  .posts-section{ padding:64px 0 100px; }
+
+  .posts-columns{
+    columns:3; column-gap:20px;
+  }
+  @media(max-width:960px){ .posts-columns{ columns:2; } }
+  @media(max-width:560px){ .posts-columns{ columns:1; } }
+
+  .post-wrap{
+    break-inside:avoid; margin-bottom:20px;
+    display:block;
+  }
+  .post-wrap[style*="display: none"]{ display:none !important; }
+
+  /* ── POST CARD BASE ── */
+  .post-card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden;
+    transition:border-color 0.25s, box-shadow 0.25s;
+  }
+  .post-card:hover{ border-color:var(--blue); box-shadow:0 0 20px var(--blue-glow); }
+
+  /* platform top stripe */
+  .post-card::before{
+    content:''; display:block; height:2px; width:100%;
+  }
+  .post-card.ig::before { background:linear-gradient(90deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+  .post-card.tt::before { background:linear-gradient(90deg,var(--tt),#ffffff); }
+  .post-card.li::before { background:var(--li); }
+
+  /* ── PLATFORM BADGE ── */
+  .post-badge{
+    display:flex; align-items:center; gap:7px;
+    padding:12px 16px;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    border-bottom:1px solid var(--border-soft);
+    color:var(--ink-faint);
+  }
+  .post-badge svg{ width:14px; height:14px; flex-shrink:0; }
+  .post-badge.ig{ color:var(--ig); }
+  .post-badge.tt{ color:var(--tt); }
+  .post-badge.li{ color:var(--li); }
+  .post-badge .badge-date{ margin-left:auto; font-size:10px; color:var(--ink-faint); }
+
+  /* ── EMBED WRAPPER ── */
+  .embed-wrap{
+    padding:0;
+    /* Let official embeds fill naturally */
+  }
+  /* Instagram & TikTok iframes fill the card */
+  .embed-wrap iframe{ display:block; }
+  /* Override Instagram embed white border */
+  .embed-wrap .instagram-media{
+    margin:0 !important;
+    min-width:100% !important;
+    max-width:100% !important;
+    border:none !important;
+    border-radius:0 !important;
+  }
+
+  /* ── LINKEDIN CARD ── */
+  .li-body{
+    padding:20px 22px 22px;
+    display:flex; flex-direction:column; gap:12px;
+    text-decoration:none; color:inherit; display:block;
+  }
+  .li-body:hover{ text-decoration:none; }
+  .li-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15px; font-weight:600; color:var(--ink); line-height:1.4;
+  }
+  .li-excerpt{
+    font-size:13px; color:var(--ink-dim); line-height:1.7;
+    display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .li-footer{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:6px;
+  }
+  .li-read{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--li); letter-spacing:0.05em;
+  }
+  .post-card.li:hover .li-read{ text-decoration:underline; }
+
+  /* ── EMPTY STATE ── */
+  #empty-state{
+    display:none; grid-column:1/-1;
+    text-align:center; padding:80px 24px;
+  }
+  #empty-state .es-icon{ font-size:40px; margin-bottom:20px; opacity:0.35; }
+  #empty-state h3{
+    font-family:'Space Grotesk',sans-serif; font-size:20px;
+    color:var(--ink-dim); margin-bottom:10px;
+  }
+  #empty-state p{ font-size:14px; color:var(--ink-faint); }
+
+  /* Follow CTAs shown when page has no posts at all */
+  .follow-row{
+    display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px;
+  }
+  .follow-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:11px 20px;
+    border:1px solid var(--border); border-radius:3px;
+    color:var(--ink-dim); transition:all 0.2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .follow-btn svg{ width:13px; height:13px; }
+  .follow-btn.ig:hover{ border-color:var(--ig); color:var(--ig); background:var(--ig-glow); }
+  .follow-btn.tt:hover{ border-color:var(--tt); color:var(--tt); background:var(--tt-glow); }
+  .follow-btn.li:hover{ border-color:var(--li); color:var(--li); background:var(--li-glow); }
+
+  /* ── HOW-TO BANNER (shown when POSTS is empty) ── */
+  .howto-banner{
+    background:var(--panel); border:1px solid var(--border);
+    border-left:3px solid var(--blue); border-radius:6px;
+    padding:22px 26px; margin-bottom:40px; display:none;
+  }
+  .howto-banner h3{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;
+  }
+  .howto-banner p{ font-size:13px; color:var(--ink-dim); line-height:1.8; }
+  .howto-banner code{
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+    background:var(--panel-2); padding:2px 7px; border-radius:3px; color:var(--blue);
+  }
+
+  /* ── FOOTER ── */
+  footer{ padding:40px 0; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+  footer .foot-links{
+    margin-top:12px; display:flex; gap:20px; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+  }
+  footer .foot-links a{ color:var(--ink-faint); }
+  footer .foot-links a:hover{ color:var(--blue); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="wrap">
+    <a class="logo" href="robojain.html">
+      <img src="assets/robojain-logo.svg" alt="RoboJain" class="logo-img">RoboJain
+    </a>
+    <div class="navlinks">
+      <a href="robojain.html#overview"><span class="num">01</span>Overview</a>
+      <a href="robojain.html#capabilities"><span class="num">02</span>Capabilities</a>
+      <a href="robojain.html#status"><span class="num">03</span>Build log</a>
+      <a href="robojain.html#approach"><span class="num">04</span>Approach</a>
+      <a href="robojain-posts.html" class="active"><span class="num">05</span>Posts</a>
+      <a class="nav-cta" href="robojain.html#contact">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="module-label">Social Feed</div>
+    <h1>Posts &amp; Updates</h1>
+    <p>Latest from LinkedIn, Instagram, and TikTok — builds, demos, and updates straight from the feed.</p>
+    <div class="filter-row" id="filter-row">
+      <button class="filter-tab active" data-filter="all">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>
+        All <span class="tab-count" id="count-all">0</span>
+      </button>
+      <button class="filter-tab" data-filter="instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        Instagram <span class="tab-count" id="count-instagram">0</span>
+      </button>
+      <button class="filter-tab" data-filter="tiktok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z"/></svg>
+        TikTok <span class="tab-count" id="count-tiktok">0</span>
+      </button>
+      <button class="filter-tab" data-filter="linkedin">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56z"/></svg>
+        LinkedIn <span class="tab-count" id="count-linkedin">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── POSTS ── -->
+<section class="posts-section">
+  <div class="wrap">
+
+    <!-- How-to banner — visible only when POSTS array is empty -->
+    <div class="howto-banner" id="howto-banner">
+      <h3>// How to add posts</h3>
+      <p>
+        Open <code>robojain-posts.html</code> and find the <code>POSTS</code> array near the bottom of the file.<br>
+        <strong>Instagram</strong> — paste the full post URL (e.g. <code>https://www.instagram.com/p/SHORTCODE/</code>).<br>
+        <strong>TikTok</strong> — paste the full video URL and copy the numeric video ID from it.<br>
+        <strong>LinkedIn</strong> — paste the post URL plus a short title and the first line of the post.<br>
+        Save the file, commit, and push — that's it.
+      </p>
+    </div>
+
+    <div class="posts-columns" id="posts-grid"></div>
+
+    <!-- Empty state per-filter -->
+    <div id="empty-state">
+      <div class="es-icon">📭</div>
+      <h3>No posts here yet</h3>
+      <p>Follow RoboJain on the platforms below to stay updated.</p>
+      <div class="follow-row">
+        <a class="follow-btn ig" href="https://www.instagram.com/robojainrobotics/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          @robojainrobotics
+        </a>
+        <a class="follow-btn tt" href="https://www.tiktok.com/@robojain" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z"/></svg>
+          @robojain
+        </a>
+        <a class="follow-btn li" href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56z"/></svg>
+          RoboJain
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <img src="assets/robojain-logo.svg" alt="RoboJain" style="width:24px;height:24px;opacity:0.35;">
+    </div>
+    <p>ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
+    <div class="foot-links">
+      <a href="robojain.html">Home</a>
+      <a href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/robojainrobotics/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@robojain" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════
+     POSTS CONFIG — edit this to add new posts
+     ════════════════════════════════════════════
+
+  INSTAGRAM
+    1. Go to instagram.com/robojainrobotics
+    2. Open any post — URL looks like: instagram.com/p/SHORTCODE/
+    3. Add: { platform:'instagram', url:'https://www.instagram.com/p/SHORTCODE/', date:'2026-06' }
+
+  TIKTOK
+    1. Go to tiktok.com/@robojain
+    2. Open any video — URL looks like: tiktok.com/@robojain/video/1234567890
+    3. Add: { platform:'tiktok', url:'https://www.tiktok.com/@robojain/video/1234567890', videoId:'1234567890', date:'2026-06' }
+
+  LINKEDIN
+    1. Open the post on LinkedIn — copy the full post URL (include the activity-XXXXX part)
+    2. Add: { platform:'linkedin', url:'https://www.linkedin.com/posts/robojain_...-activity-XXXXXXXX-XXXX', date:'2026-06' }
+    That's it — the post embeds automatically via LinkedIn's official embed API.
+
+════════════════════════════════════════════ -->
+<script>
+const POSTS = [
+  // ── Add your posts below ──────────────────────────────────────────────
+
+  // Instagram example (replace SHORTCODE with real value):
+  { platform:'instagram', url:'https://www.instagram.com/p/DOgSdAUD9Op/', date:'2025-09' },
+
+  // TikTok example (replace VIDEO_ID with real value):
+  { platform:'tiktok', url:'https://www.tiktok.com/@robojain/video/7581070875944946945', videoId:'7581070875944946945', date:'2025-12' },
+
+  // LinkedIn posts:
+  { platform:'linkedin', url:'https://www.linkedin.com/posts/robojain_robotics-robojain-innovation-activity-7403383765726560257-pAgr', date:'2025-12' },
+  { platform:'linkedin', url:'https://www.linkedin.com/feed/update/urn:li:activity:7463801270898872320', date:'2026' },
+  { platform:'linkedin', url:'https://www.linkedin.com/feed/update/urn:li:activity:7466457588449161216', date:'2026' },
+  { platform:'linkedin', url:'https://www.linkedin.com/feed/update/urn:li:activity:7471259284870385664', date:'2026' },
+
+  // ─────────────────────────────────────────────────────────────────────
+];
+
+// ── SVG icons ────────────────────────────────────────────────────────────
+const ICONS = {
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>`,
+  tiktok:    `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z"/></svg>`,
+  linkedin:  `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56z"/></svg>`,
+};
+
+const PLATFORM_LABELS = { instagram:'Instagram', tiktok:'TikTok', linkedin:'LinkedIn' };
+
+// ── Render helpers ────────────────────────────────────────────────────────
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderInstagram(post) {
+  return `
+    <div class="post-card ig">
+      <div class="post-badge ig">${ICONS.instagram} Instagram <span class="badge-date">${esc(post.date||'')}</span></div>
+      <div class="embed-wrap">
+        <blockquote class="instagram-media"
+          data-instgrm-permalink="${esc(post.url)}"
+          data-instgrm-version="14"
+          style="margin:0!important;min-width:100%!important;max-width:100%!important;border:none!important;">
+        </blockquote>
+      </div>
+    </div>`;
+}
+
+function renderTikTok(post) {
+  return `
+    <div class="post-card tt">
+      <div class="post-badge tt">${ICONS.tiktok} TikTok <span class="badge-date">${esc(post.date||'')}</span></div>
+      <div class="embed-wrap">
+        <blockquote class="tiktok-embed"
+          cite="${esc(post.url)}"
+          data-video-id="${esc(post.videoId||'')}"
+          style="max-width:100%;min-width:100%;">
+          <section></section>
+        </blockquote>
+      </div>
+    </div>`;
+}
+
+function renderLinkedIn(post) {
+  // Handle all LinkedIn URL formats:
+  //   /posts/...activity-ID-SUFFIX   (share URL)
+  //   /feed/update/urn:li:activity:ID  (direct update URL)
+  const clean = post.url.split('?')[0];
+  let embedUrl = null;
+
+  if (clean.includes('/feed/update/urn:li:activity:')) {
+    embedUrl = clean.replace('linkedin.com/feed/update/', 'linkedin.com/embed/feed/update/');
+  } else {
+    const m = clean.match(/activity[:\-](\d{10,})/);
+    if (m) embedUrl = `https://www.linkedin.com/embed/feed/update/urn:li:activity:${m[1]}`;
+  }
+
+  if (embedUrl) {
+    return `
+      <div class="post-card li">
+        <div class="post-badge li">${ICONS.linkedin} LinkedIn <span class="badge-date">${esc(post.date||'')}</span></div>
+        <div class="embed-wrap">
+          <iframe
+            src="${embedUrl}"
+            width="100%" height="570"
+            frameborder="0"
+            allowfullscreen=""
+            title="LinkedIn post"
+            loading="lazy"
+            style="display:block;border:none;">
+          </iframe>
+        </div>
+      </div>`;
+  }
+
+  // Fallback card if URL doesn't contain an activity ID
+  return `
+    <a class="post-card li" href="${esc(post.url)}" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+      <div class="post-badge li">${ICONS.linkedin} LinkedIn <span class="badge-date">${esc(post.date||'')}</span></div>
+      <div class="li-body">
+        <div class="li-title">${esc(post.title||'LinkedIn Post')}</div>
+        <div class="li-excerpt">${esc(post.excerpt||'')}</div>
+        <div class="li-footer"><span class="li-read">Read on LinkedIn →</span></div>
+      </div>
+    </a>`;
+}
+
+// ── Count & render ────────────────────────────────────────────────────────
+function renderPosts() {
+  const grid  = document.getElementById('posts-grid');
+  const empty = document.getElementById('empty-state');
+  const howto = document.getElementById('howto-banner');
+
+  const counts = { all:0, instagram:0, tiktok:0, linkedin:0 };
+
+  if (!POSTS.length) {
+    howto.style.display = 'block';
+    empty.style.display = 'block';
+    updateCounts(counts);
+    return;
+  }
+
+  grid.innerHTML = POSTS.map(post => {
+    counts.all++;
+    counts[post.platform] = (counts[post.platform]||0) + 1;
+
+    let inner = '';
+    if (post.platform === 'instagram') inner = renderInstagram(post);
+    else if (post.platform === 'tiktok')    inner = renderTikTok(post);
+    else if (post.platform === 'linkedin')  inner = renderLinkedIn(post);
+
+    return `<div class="post-wrap" data-platform="${esc(post.platform)}">${inner}</div>`;
+  }).join('');
+
+  updateCounts(counts);
+  checkEmpty('all');
+
+  // Trigger Instagram embed processing if script already loaded
+  if (window.instgrm) window.instgrm.Embeds.process();
+}
+
+function updateCounts(counts) {
+  ['all','instagram','tiktok','linkedin'].forEach(p => {
+    const el = document.getElementById('count-' + p);
+    if (el) el.textContent = counts[p] || 0;
+  });
+}
+
+function checkEmpty(filter) {
+  const empty = document.getElementById('empty-state');
+  if (!POSTS.length) { empty.style.display = 'block'; return; }
+  const visible = [...document.querySelectorAll('.post-wrap')]
+    .filter(el => el.style.display !== 'none');
+  empty.style.display = visible.length ? 'none' : 'block';
+}
+
+// ── Filter ────────────────────────────────────────────────────────────────
+function setFilter(platform) {
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === platform);
+  });
+  document.querySelectorAll('.post-wrap').forEach(wrap => {
+    const show = platform === 'all' || wrap.dataset.platform === platform;
+    wrap.style.display = show ? '' : 'none';
+  });
+  checkEmpty(platform);
+}
+
+document.querySelectorAll('.filter-tab').forEach(btn => {
+  btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', renderPosts);
+</script>
+
+<!-- Official embed scripts — load after page content -->
+<script async src="https://www.instagram.com/embed.js"></script>
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+</body>
+</html>

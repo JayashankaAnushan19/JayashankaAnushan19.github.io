@@ -29,7 +29,11 @@
   font-family: 'Orbitron', monospace;
   font-size: clamp(38px, 6vw, 76px);
   font-weight: 900; line-height: 1.0;
-  color: var(--text); margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--text) 20%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
   opacity: 0; animation: fadeUp .7s ease .3s forwards;
 }
 .hero-role {
@@ -40,6 +44,25 @@
   text-shadow: 0 0 30px rgba(0,212,255,0.4);
   margin-bottom: 28px;
   opacity: 0; animation: fadeUp .7s ease .45s forwards;
+}
+
+.hero-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--accent2);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 18px;
+  padding: 6px 14px;
+  border: 1px solid rgba(0,255,157,0.25);
+  border-radius: 20px;
+  background: rgba(0,255,157,0.04);
+  opacity: 0; animation: fadeUp .7s ease .25s forwards;
+}
+.hero-status .status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent2);
+  flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 .hero-desc {
@@ -351,6 +374,7 @@
 .social-card.med:hover { border-color:#aaa;   box-shadow:0 0 25px rgba(200,200,200,0.1); }
 .social-card.so:hover  { border-color:#f48024;box-shadow:0 0 25px rgba(244,128,36,0.2); }
 .social-card.ig:hover  { border-color:#e1306c;box-shadow:0 0 25px rgba(225,48,108,0.2); }
+.social-card.em:hover  { border-color:var(--accent);box-shadow:var(--glow); }
 .social-icon { font-size:26px; }
 .social-name { font-family:'Orbitron',monospace;font-size:11px;color:var(--text);font-weight:700; }
 .social-handle { font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted); }
