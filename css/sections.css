@@ -33,6 +33,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
   margin-bottom: 6px;
   opacity: 0; animation: fadeUp .7s ease .3s forwards;
 }
