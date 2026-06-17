@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Contact Jayashanka Anushan — CARA Project researcher and MSc Robotics candidate.">
+<title>Contact — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Contact
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Get in Touch</div>
+    <h1 class="page-title">Contact</h1>
+    <p class="page-subtitle">Questions, feedback, or collaboration ideas about the CARA project — reach out directly.</p>
+  </div>
+
+  <div class="contact-card">
+    <h3 style="margin-top:0; margin-bottom:1.5rem; font-family:var(--font); font-size:1rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; font-size:.7rem;">Researcher</h3>
+
+    <div class="contact-item">
+      <span class="contact-icon">✉</span>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">
+          <a href="mailto:jayasankaanushan199@gmail.com">jayasankaanushan199@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">🎓</span>
+      <div>
+        <div class="contact-label">Programme</div>
+        <div class="contact-value">MSc Robotics — Middlesex University Dubai</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">📚</span>
+      <div>
+        <div class="contact-label">Module</div>
+        <div class="contact-value">PDE4445 — Dissertation (2025–2026)</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">🪪</span>
+      <div>
+        <div class="contact-label">Student ID</div>
+        <div class="contact-value">M01037028</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">👨‍🏫</span>
+      <div>
+        <div class="contact-label">Supervisor</div>
+        <div class="contact-value">Professor Judhi Prasetyo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <h3 style="margin-top:0; margin-bottom:.75rem; font-family:var(--font);">Send a Message</h3>
+    <p style="color:var(--muted); font-size:.92rem; margin-bottom:.25rem; line-height:1.65;">
+      Message goes straight to the inbox — no email app opens.
+    </p>
+    <!--
+      SETUP (one-time):
+      1. Go to https://web3forms.com
+      2. Enter jayasankaanushan199@gmail.com  →  Get Access Key
+      3. Check inbox, copy the key, paste it in access_key below
+         (same key can be reused in all forms on this site)
+    -->
+    <form class="feedback-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Project — Contact Form">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name">
+        <input type="email" name="email" placeholder="Your email">
+      </div>
+      <textarea name="message" rows="4" placeholder="Your message…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send Message →</button>
+    </form>
+    <div class="form-success" id="contact-ok" style="display:none;">
+      <p>Message sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('contact-form');
+    var s = document.getElementById('contact-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <div class="contact-card">
+    <h3 style="margin-top:0; margin-bottom:.75rem; font-family:var(--font);">About the Project</h3>
+    <p style="color:var(--muted); font-size:.92rem; line-height:1.65; margin-bottom:.75rem;">
+      CARA (Companion Assistive Robot for the Aged) is an MSc Robotics thesis project focused on building a low-cost, GSM-based assistive robot for elderly care in developing countries — specifically Sri Lanka.
+    </p>
+    <p style="color:var(--muted); font-size:.92rem; line-height:1.65; margin-bottom:0;">
+      The project runs from May–July 2026. This documentary site tracks every stage of the build.
+    </p>
+    <div style="margin-top:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap;">
+      <a href="about.html" class="btn btn-outline">Project Background →</a>
+      <a href="blog/" class="btn btn-outline">Development Blog →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog/">Blog</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

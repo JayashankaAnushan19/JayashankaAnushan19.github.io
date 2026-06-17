@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 01 — Project kick-off, literature review, requirements definition, and research gap identification.">
+<title>Week 01 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../about.html">About</a>
+    <a href="../objectives.html">Objectives</a>
+    <a href="../features.html">Features</a>
+    <a href="../hardware.html">Hardware</a>
+    <a href="../architecture.html">Architecture</a>
+    <a href="../research.html">Research</a>
+    <a href="../docs.html">Docs</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="./" class="active">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 01
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">12 May 2026</span>
+      <span class="tag tag-blue">Week 01</span>
+      <span class="tag tag-blue">Planning</span>
+      <span class="tag tag-amber">Research</span>
+    </div>
+
+    <h1>Project Kick-Off — Requirements, Literature, and the Research Gap</h1>
+
+    <p class="page-subtitle">First week of the CARA thesis project. Reviewed 53 sources, defined five research objectives, and confirmed the core gap: no affordable, Wi-Fi-independent, passive eldercare robot currently exists for developing countries.</p>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Starting Point</h2>
+    <p>Week 1 began with the proposal form already submitted to Professor Judhi Prasetyo and a broad question in mind: can a single low-cost robot meaningfully address the safety and companionship needs of an elderly person living alone in a developing-country context — specifically Sri Lanka?</p>
+
+    <p>The first task was to establish whether this was a genuine gap or whether existing technology already solved it. That meant a structured literature review.</p>
+
+    <h2>The Literature Review</h2>
+    <p>I reviewed 53 sources across five thematic areas:</p>
+
+    <ul>
+      <li><strong>Ageing demographics</strong> — Sri Lanka's demographic transition, old-age dependency ratio trends, implications of working-age migration</li>
+      <li><strong>Assistive robotics</strong> — existing platforms (PARO, Pepper, Care-O-Bot 4, ElliQ, Stevie II) and their limitations</li>
+      <li><strong>Fall detection methods</strong> — wearable accelerometers, vision-based pose estimation, floor pressure sensors</li>
+      <li><strong>GSM and IoT alerting</strong> — SMS-based health monitoring systems operating without internet</li>
+      <li><strong>Human-Robot Interaction with elderly</strong> — acceptance factors, zero-interaction design, non-verbal cues</li>
+    </ul>
+
+    <div class="post-callout">
+      <p><strong>Key finding:</strong> Every existing assistive robot either requires Wi-Fi, costs over $5,000, or needs active engagement from the elderly user. None of them are designed for developing-world connectivity constraints. This is the research gap CARA addresses.</p>
+    </div>
+
+    <h2>Defining the Five Objectives</h2>
+    <p>Based on the literature, five research objectives were drafted and agreed with the supervisor:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Objective</th><th>What it means for the design</th></tr></thead>
+        <tbody>
+          <tr><td>OBJ1 — Low-cost mobile platform</td><td>Total BOM under $500 · autonomous navigation · person following</td></tr>
+          <tr><td>OBJ2 — AI fall detection</td><td>MediaPipe Pose on Jetson Nano · ≥80% accuracy · &lt;2 false positives/hr</td></tr>
+          <tr><td>OBJ3 — GSM alerting</td><td>SIM800L SMS within 30s of fall · no Wi-Fi required</td></tr>
+          <tr><td>OBJ4 — Medication management</td><td>DS3231 RTC · RFID confirm · 15-min missed-dose SMS</td></tr>
+          <tr><td>OBJ5 — Structured evaluation</td><td>15 features tested against defined FR pass/fail criteria</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Key Design Decisions Made This Week</h2>
+    <p>Several foundational decisions emerged from reviewing the literature and constraints:</p>
+
+    <p><strong>GSM over Wi-Fi for all safety-critical communication.</strong> This is not a fall-back — it is a deliberate first choice. Wi-Fi is intentionally excluded from safety-critical paths. If it was included, the system would fail in exactly the environments it is designed for.</p>
+
+    <p><strong>Zero-interaction design as a non-functional requirement.</strong> The literature on HRI with elderly users is consistent: acceptance is highest when the robot does not require the user to learn new behaviour. CARA should monitor and alert without requiring any action from the elderly person.</p>
+
+    <p><strong>MediaPipe over wearable accelerometers.</strong> Wearables require daily compliance — a problem with elderly users who may forget to wear or charge the device. Vision-based detection requires nothing from the user beyond being in the room.</p>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The initial scope was too broad. Early drafts of the objectives included 22 features across four tiers. After discussion with the supervisor, this was reduced to 15 features across three priority tiers — enough to produce meaningful results within the 12-week timeline without overextending the implementation phase.</p>
+
+    <div class="post-callout green">
+      <p><strong>Lesson:</strong> Define evaluation criteria before finalising the feature list. It is much easier to scope out features early than to cut them from an implementation that is already underway.</p>
+    </div>
+
+    <h2>Week 01 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Literature review — 53 sources reviewed and summarised</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Research gap identified and documented</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Five research objectives defined</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Five research questions formulated</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Feature list reduced to 15 items across 3 priority tiers</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Proposal form submitted to supervisor</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Initial component list drafted (BOM v0.1)</td><td class="yes">✓ Complete</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Next Week</h2>
+    <p>Week 2 focuses on system architecture — translating the research objectives into a concrete dual-controller design (Jetson Nano + Arduino Mega), defining the ROS node structure, and finalising the 5-state machine logic before any implementation begins.</p>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 01 — Project Kick-Off">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <span style="color:var(--light);">← Previous (none — this is the first post)</span>
+    <a href="./">All Posts</a>
+    <a href="week-02.html" style="color:var(--primary);">Next: Week 02 — System Architecture →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

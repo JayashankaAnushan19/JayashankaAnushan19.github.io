@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Technical Documentation — System requirements, hardware specs, communication design, and safety architecture.">
+<title>CARA — Technical Documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#020a14;--bg2:#0c1829;--bg3:#0f2040;--border:#1a3a5c;--border2:#1e4a7a;--cyan:#00d4ff;--green:#00ff9d;--orange:#ff6b35;--purple:#a855f7;--text:#e2e8f0;--muted:#64748b;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(2,10,20,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:1.1rem;color:var(--cyan);text-decoration:none;letter-spacing:2px}
+.nav-logo em{color:var(--green);font-style:normal}
+.breadcrumb{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.breadcrumb a{color:var(--cyan);text-decoration:none}
+.breadcrumb span{margin:0 .5rem;opacity:.4}
+.nav-back{background:rgba(0,212,255,.08);border:1px solid var(--border2);color:var(--cyan);padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.8rem;font-family:var(--mono);transition:all .2s}
+.nav-back:hover{background:rgba(0,212,255,.16)}
+
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:7rem 2rem 4rem}
+.page-hero{margin-bottom:3rem}
+.eyebrow{font-family:var(--mono);font-size:.75rem;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem;opacity:.8}
+.page-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-1.5px;margin-bottom:1rem}
+.page-title .accent{color:var(--cyan)}
+.page-intro{color:var(--muted);font-size:1rem;max-width:680px;line-height:1.7}
+
+h2{font-size:1.4rem;font-weight:700;margin:3rem 0 1rem;color:var(--text)}
+h2 .accent{color:var(--cyan)}
+h3{font-size:1rem;font-weight:600;margin:1.75rem 0 .75rem;color:var(--cyan);font-family:var(--mono);letter-spacing:.5px}
+p{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+p strong{color:var(--text)}
+.divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0;opacity:.4}
+
+/* Table */
+.table-wrap{overflow-x:auto;margin:1.25rem 0}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead th{background:var(--bg2);border:1px solid var(--border);padding:.65rem 1rem;text-align:left;font-family:var(--mono);font-size:.72rem;letter-spacing:.5px;color:var(--cyan)}
+tbody td{border:1px solid var(--border);padding:.65rem 1rem;color:var(--muted);vertical-align:top;line-height:1.5}
+tbody tr:hover td{background:rgba(0,212,255,.025)}
+tbody td:first-child{color:var(--text);font-family:var(--mono);font-size:.8rem;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--mono);font-size:.65rem;padding:.15rem .5rem;border-radius:4px;vertical-align:middle}
+.tag-critical{background:rgba(255,107,53,.12);color:var(--orange);border:1px solid rgba(255,107,53,.3)}
+.tag-high{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.tag-medium{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
+.tag-low{background:rgba(100,116,139,.1);color:var(--muted);border:1px solid rgba(100,116,139,.25)}
+
+/* Code block */
+.code-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.5rem;font-family:var(--mono);font-size:.82rem;overflow-x:auto;margin:1.25rem 0;line-height:1.8}
+.code-block .comment{color:var(--muted);opacity:.7}
+.code-block .key{color:var(--cyan)}
+.code-block .val{color:var(--green)}
+.code-block .arr{color:var(--orange)}
+
+/* Protocol cards */
+.proto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.25rem 0}
+.proto-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.proto-card h4{font-size:.9rem;font-weight:600;margin-bottom:.4rem}
+.proto-card p{font-size:.8rem;margin:0;line-height:1.6}
+.proto-icon{font-size:1.5rem;margin-bottom:.6rem}
+
+/* Safety layers */
+.safety-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:1.25rem 0}
+.safety-card{border-radius:10px;padding:1.25rem;border:1px solid}
+.safety-card.physical{background:rgba(255,107,53,.04);border-color:rgba(255,107,53,.25)}
+.safety-card.functional{background:rgba(0,212,255,.04);border-color:rgba(0,212,255,.2)}
+.safety-card.electrical{background:rgba(0,255,157,.04);border-color:rgba(0,255,157,.2)}
+.safety-card h4{font-size:.9rem;font-weight:600;margin-bottom:.5rem}
+.safety-card.physical h4{color:var(--orange)}
+.safety-card.functional h4{color:var(--cyan)}
+.safety-card.electrical h4{color:var(--green)}
+.safety-card p{font-size:.8rem;line-height:1.6;margin:0}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;max-width:1000px;margin:0 auto}
+footer p{color:var(--muted);font-size:.82rem}
+footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../../" class="nav-logo">JAY<em>_</em></a>
+  <div class="breadcrumb"><a href="../../">Portfolio</a><span>›</span><a href="../">CARA</a><span>›</span>Docs</div>
+  <a href="../" class="nav-back">← CARA Home</a>
+</nav>
+
+<main>
+  <div class="page-hero">
+    <div class="eyebrow">// Chapter 3 — System Design &amp; Technical Specification</div>
+    <h1 class="page-title">Technical <span class="accent">Documentation</span></h1>
+    <p class="page-intro">Full system design specification — functional and non-functional requirements, hardware component tables, communication protocols, and safety architecture for CARA v1.0.</p>
+  </div>
+
+  <hr class="divider">
+
+  <section id="requirements">
+    <h2>3.1 — <span class="accent">Design Requirements</span></h2>
+
+    <h3>Functional Requirements</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Req. ID</th><th>Requirement</th><th>Source</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>FR1</td><td>Detect fall posture using computer vision with minimum 80% accuracy across 20 standardized trials</td><td>Objective 2</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>FR2</td><td>Deliver SMS alerts to registered family members within 30 seconds of fall confirmation, without Wi-Fi</td><td>Objective 3</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>FR3</td><td>Avoid obstacles during navigation, stopping at minimum 20cm from any obstacle</td><td>Objective 1</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>FR4</td><td>Trigger medication reminders at 4 programmed daily times with RFID confirmation</td><td>Objective 4</td><td><span class="tag tag-high">High</span></td></tr>
+          <tr><td>FR5</td><td>Send SMS alerts to family if medication is not confirmed within 15 minutes of reminder</td><td>Objective 4</td><td><span class="tag tag-high">High</span></td></tr>
+          <tr><td>FR6</td><td>Allow family members to view live camera feed via phone browser</td><td>User need</td><td><span class="tag tag-medium">Medium</span></td></tr>
+          <tr><td>FR7</td><td>Allow family members to drive CARA remotely via phone browser</td><td>User need</td><td><span class="tag tag-medium">Medium</span></td></tr>
+          <tr><td>FR8</td><td>Display warm greeting messages on LCD when person is detected</td><td>User need</td><td><span class="tag tag-medium">Medium</span></td></tr>
+          <tr><td>FR9</td><td>Provide LED visual feedback indicating current system state</td><td>User need</td><td><span class="tag tag-low">Low</span></td></tr>
+          <tr><td>FR10</td><td>Log key events (fall detection, navigation, medication reminders) for offline analysis and evaluation</td><td>Objective 5</td><td><span class="tag tag-low">Low</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Non-Functional Requirements</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Req. ID</th><th>Requirement</th><th>Metric</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>NFR1</td><td>Total component cost shall not exceed $500 USD</td><td>Component receipts</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>NFR2</td><td>Core safety features shall operate without Wi-Fi using GSM only</td><td>Test without Wi-Fi</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>NFR3</td><td>Elderly users shall not be required to interact with CARA for core functions</td><td>Zero-interaction test</td><td><span class="tag tag-critical">Critical</span></td></tr>
+          <tr><td>NFR4</td><td>System shall operate on battery for minimum 90 minutes under full load</td><td>Battery life test</td><td><span class="tag tag-high">High</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="arch">
+    <h2>3.2 — <span class="accent">System Architecture</span> Overview</h2>
+    <div class="code-block">
+<span class="comment">// CARA System Architecture Flow</span>
+
+<span class="arr">Camera 720p</span> → <span class="key">Jetson Nano</span> → <span class="key">MediaPipe Fall Detection</span> → <span class="val">ROS Topic /fall_detected</span>
+                  ↓
+          <span class="key">Serial Bridge Node</span>
+          <span class="comment">// UART 9600 baud · USB Serial</span>
+                  ↓
+      <span class="arr">Arduino Mega 2560</span> · 5-State Machine
+                  ↓
+<span class="val">Motors</span> | <span class="val">SIM800L GSM</span> | <span class="val">RFID</span> | <span class="val">LCD I2C</span> | <span class="val">PIR ×2</span> | <span class="val">HC-SR04 ×12</span>
+    </div>
+
+    <h3>ROS Node Map (Jetson Nano)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Node</th><th>Trigger</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>fall_detection</td><td>Camera frame received</td><td>MediaPipe pose at 12–15fps · hip/shoulder threshold check for 2s · publishes /fall_detected · outputs nose X for pan_tilt</td></tr>
+          <tr><td>serial_bridge</td><td>/fall_detected topic</td><td>Sends command stream to Arduino via USB serial: FALL_DETECTED · STEER_LEFT/RIGHT · MOVE_FORWARD · STOP · TARGET_LOST · PAN_LEFT/RIGHT</td></tr>
+          <tr><td>camera_stream</td><td>HTTP request from browser</td><td>Flask MJPEG server on port 5000 · /video_feed endpoint · daemon thread · streams /dev/video0</td></tr>
+          <tr><td>person_lock</td><td>Camera frame received</td><td>OpenCV HSV filter detects orange band (Layer 2) · RFID UID target identity (Layer 1) · publishes /target_visible</td></tr>
+          <tr><td>pan_tilt</td><td>Nose X + PIR direction</td><td>Calculates pan servo angle vs 320px frame center · sends PAN_LEFT/RIGHT via serial · Pin 9 pan · Pin 10 tilt</td></tr>
+          <tr><td>remote_control</td><td>HTTP POST from phone</td><td>Receives movement commands · forwards to Arduino · obstacle override always active</td></tr>
+          <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Medication reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · RFID confirm · 15min no-confirm → sendSMS() · 12:00pm daily check-in</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="hardware">
+    <h2>3.4 — <span class="accent">Hardware</span> Specifications</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Model</th><th>Specification</th><th>Purpose</th><th>Cost (USD)</th></tr></thead>
+        <tbody>
+          <tr><td>AI Processor</td><td>NVIDIA Jetson Nano 4GB</td><td>4-core ARM, 128 CUDA cores, Ubuntu 18.04</td><td>MediaPipe fall detection, camera streaming, ROS</td><td>$99–150</td></tr>
+          <tr><td>Microcontroller</td><td>Arduino Mega 2560</td><td>ATmega2560, 54 digital I/O, 16 analog, 256KB flash, 16MHz</td><td>Peripheral control, sensor polling, GSM, state machine</td><td>$10–25</td></tr>
+          <tr><td>Camera</td><td>USB Webcam 720p</td><td>720p 30fps, USB 2.0, UVC compatible</td><td>MediaPipe pose input, family feed, fall detection</td><td>$15–30</td></tr>
+          <tr><td>GSM Module</td><td>SIM800L</td><td>Quad-band GSM, AT commands, 3.7–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free</td><td>$5–12</td></tr>
+          <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 7 &amp; Pin 12</td><td>Person presence detection, pan-tilt head direction trigger</td><td>$1–3 each</td></tr>
+          <tr><td>Ultrasonic ×12</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 22/23, 24/25, 26/27, 28/29, 30/31, 32/33 (upper) · 11/12 (lower)</td><td>360° obstacle detection and person distance tracking</td><td>$2–5 each</td></tr>
+          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS Pin 10</td><td>Medication confirmation, target identity Layer 1 lock</td><td>$2–5</td></tr>
+          <tr><td>RTC Module</td><td>DS3231</td><td>I2C addr 0x68, ±2ppm, battery backup</td><td>Medication timing without network sync</td><td>$2–5</td></tr>
+          <tr><td>LCD Display</td><td>16×2 with I2C</td><td>16 char × 2 lines, I2C addr 0x27</td><td>State messages and greeting display</td><td>$2–5</td></tr>
+          <tr><td>Servos ×2</td><td>SG90 9g Micro</td><td>180° rotation, 1.8kg/cm torque · Pin 9 pan, Pin 10 tilt</td><td>Pan-tilt camera head, default tilt 75°</td><td>$2–4 each</td></tr>
+          <tr><td>Motor Driver</td><td>FC120 Dual H-Bridge</td><td>1.2A per channel, PWM · Pins 2–5</td><td>DC motor direction and speed control</td><td>$3–8</td></tr>
+          <tr><td>DC Motors ×2</td><td>6V Gear Motor 150RPM</td><td>6V, 150RPM, 65mm wheel compatible</td><td>Robot mobility at 0.3m/s</td><td>$5–10 each</td></tr>
+          <tr><td>LiPo Battery</td><td>3S 11.1V 3000mAh</td><td>30C discharge, T-connector · primary power source</td><td>90+ minute full-load runtime</td><td>$15–30</td></tr>
+          <tr><td>Buck Converters ×2</td><td>LM2596 Step-Down</td><td>Conv 1 → 5V (Arduino) · Conv 2 → 4.0V (SIM800L regulated)</td><td>SIM800L requires dedicated regulated 4.0V rail</td><td>$1–3 each</td></tr>
+          <tr><td>Temp/Humidity</td><td>DHT22</td><td>Single-wire, Pin 6 · −40°C to +80°C</td><td>Room temperature monitoring, heatstroke SMS alert</td><td>$3–6</td></tr>
+          <tr><td>Cliff Sensors ×3</td><td>TCRT5000</td><td>IR reflection, Pins A0–A2</td><td>Floor edge / stair detection, prevent robot falling</td><td>$1–2 each</td></tr>
+          <tr><td>RGB LEDs ×3</td><td>Common anode</td><td>Pins A1–A3, PWM + GPIO</td><td>State visual feedback: green (idle), amber (active), red (alert), blue (low battery)</td><td>&lt;$1 each</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="comms">
+    <h2>3.7 — <span class="accent">Communication</span> Design</h2>
+    <p>CARA integrates three distinct communication protocols, each chosen to satisfy specific functional and data requirements of its subsystems.</p>
+
+    <div class="proto-grid">
+      <div class="proto-card">
+        <div class="proto-icon">🔌</div>
+        <h4>UART Serial — Jetson Nano ↔ Arduino</h4>
+        <p>9600 baud via USB Serial. One-way signaling: Jetson decides, Arduino executes. Arduino reads with <code>Serial.readStringUntil('\n')</code>. Commands: FALL_DETECTED, STEER_LEFT, STEER_RIGHT, MOVE_FORWARD, SLOW_DOWN, STOP, TARGET_LOST, PAN_LEFT, PAN_RIGHT.</p>
+      </div>
+      <div class="proto-card">
+        <div class="proto-icon">📡</div>
+        <h4>I2C Bus — LCD + RTC</h4>
+        <p>Shared two-wire bus (SDA/SCL on Arduino A4/A5). LCD at addr 0x27, DS3231 RTC at addr 0x68. Reduces GPIO usage — both peripherals on two wires. Scalable for additional I2C devices.</p>
+      </div>
+      <div class="proto-card">
+        <div class="proto-icon">📱</div>
+        <h4>GSM AT Commands — SIM800L</h4>
+        <p>SoftwareSerial on Arduino pins 2 &amp; 3. Hayes AT command set: <strong>AT+CMGF=1</strong> (SMS text mode), <strong>AT+CMGS</strong> (send message). 1000µF capacitor stabilises transmission current spikes. 4.0V regulated supply via LM2596 buck converter.</p>
+      </div>
+    </div>
+
+    <p>Wi-Fi is <strong>intentionally excluded from all safety-critical communication paths</strong> as a deliberate design decision — ensuring independence from local network availability rather than reflecting a system constraint.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="safety">
+    <h2>3.8 — <span class="accent">Safety</span> Design</h2>
+    <p>Safety is a primary system constraint in CARA, not an auxiliary feature. The design is informed by <strong>ISO 13482:2014</strong> (personal care robots), implemented across three layers:</p>
+
+    <div class="safety-grid">
+      <div class="safety-card physical">
+        <h4>Physical Collision Safety</h4>
+        <p>HC-SR04 ultrasonic sensors provide continuous real-time distance monitoring. Emergency stop at 20cm threshold — <strong>non-overridable even during remote drive</strong>. Threshold selected based on maximum 0.3m/s operating speed and motor response latency.</p>
+      </div>
+      <div class="safety-card functional">
+        <h4>Functional Safety — Fall Detection</h4>
+        <p><strong>2-second confirmation window</strong> required before a fall event is officially registered — prevents single-frame misclassification triggering alerts. 30-second cooldown enforced after each alert to prevent SMS flooding. Target: &lt;2 false positives per hour under continuous operation.</p>
+      </div>
+      <div class="safety-card electrical">
+        <h4>Electrical &amp; Power Safety</h4>
+        <p>SIM800L powered via dedicated 4.0V buck converter (cannot use Arduino 5V rail — high current during TX bursts). <strong>1000µF capacitor</strong> across SIM800L terminals stabilises transient spikes. LiPo includes integrated protection circuit preventing over-discharge. High-current and low-power circuits use separate power rails.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:1rem">CARA v1.0 has not undergone formal ISO 13482 certification — it is a research prototype. Any real-world deployment in eldercare environments would require additional validation, extended user trials, and clinical safety assessments.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <h2><span class="accent">Appendices</span> (Thesis)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Appendix</th><th>Content</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Appendix A</td><td>Circuit Wiring Diagram</td><td>In progress</td></tr>
+          <tr><td>Appendix B</td><td>Arduino Firmware Listing (5-state machine)</td><td>In progress</td></tr>
+          <tr><td>Appendix C</td><td>Python Fall Detection Code (MediaPipe ROS node)</td><td>In progress</td></tr>
+          <tr><td>Appendix D</td><td>Ethics Approval</td><td>Submitted</td></tr>
+          <tr><td>Appendix E</td><td>Raw Test Results (all 15 features)</td><td>In progress</td></tr>
+          <tr><td>Appendix F</td><td>AI Usage Statement</td><td>Complete</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>CARA Technical Docs · <a href="../">← CARA Home</a> · <a href="../../">Portfolio</a></p>
+</footer>
+</body>
+</html>

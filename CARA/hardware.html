@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Hardware — Full bill of materials with specifications and cost breakdown for the CARA robot prototype.">
+<title>Hardware — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html" class="active">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap-wide">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Hardware
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Bill of Materials</div>
+    <h1 class="page-title">Hardware Components</h1>
+    <p class="page-subtitle">All components are selected for availability, cost-efficiency, and compatibility with ROS Noetic on Jetson Nano. Total target cost is under $500 USD.</p>
+  </div>
+
+  <!-- OVERVIEW CARDS -->
+  <div class="grid-4" style="margin-bottom:2rem;">
+    <div class="card" style="text-align:center;">
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">&lt;$500</div>
+      <div style="font-size:.8rem; color:var(--muted);">Total cost target</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">17</div>
+      <div style="font-size:.8rem; color:var(--muted);">Component types</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">2</div>
+      <div style="font-size:.8rem; color:var(--muted);">Main controllers</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">90+min</div>
+      <div style="font-size:.8rem; color:var(--muted);">Battery runtime</div>
+    </div>
+  </div>
+
+  <!-- PROCESSING -->
+  <h2 style="margin-top:0">Processing &amp; Control</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Model</th><th>Key Specification</th><th>Role in CARA</th><th>Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI Processor</td>
+          <td>NVIDIA Jetson Nano 4GB</td>
+          <td>4-core ARM Cortex-A57 · 128 Maxwell CUDA cores · Ubuntu 18.04 · ROS Noetic</td>
+          <td>MediaPipe fall detection, camera streaming, Flask web server, all ROS nodes, person tracking</td>
+          <td>$99–150</td>
+        </tr>
+        <tr>
+          <td>Microcontroller</td>
+          <td>Arduino Mega 2560</td>
+          <td>ATmega2560 · 54 digital I/O · 16 analog · 256KB flash · 16 MHz clock</td>
+          <td>5-state machine controller for all peripherals: motors, sensors, GSM, RFID, LCD, buzzers, LEDs</td>
+          <td>$10–25</td>
+        </tr>
+        <tr>
+          <td>Camera</td>
+          <td>USB Webcam 720p</td>
+          <td>720p @ 30fps · USB 2.0 · UVC compatible · /dev/video0</td>
+          <td>MediaPipe pose input, family live feed, HSV person tracking</td>
+          <td>$15–30</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SENSING -->
+  <h2>Sensing</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Model</th><th>Specification</th><th>Role in CARA</th><th>Pins / Address</th><th>Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PIR Sensor ×2</td>
+          <td>HC-SR501</td>
+          <td>3–7 m range · adjustable sensitivity and delay · 5V</td>
+          <td>Person presence detection; pan-tilt head direction trigger</td>
+          <td>Pins 7 &amp; 12</td>
+          <td>$1–3 ea.</td>
+        </tr>
+        <tr>
+          <td>Ultrasonic ×12</td>
+          <td>HC-SR04</td>
+          <td>2–400 cm range · 15° beam angle · 5V · Trig/Echo pairs</td>
+          <td>360° obstacle detection. 6 upper sensors: pairs 22/23, 24/25, 26/27, 28/29, 30/31, 32/33. Lower: 11/12</td>
+          <td>Pairs as above</td>
+          <td>$2–5 ea.</td>
+        </tr>
+        <tr>
+          <td>Temp/Humidity</td>
+          <td>DHT22</td>
+          <td>Temp −40°C to +80°C · Humidity 0–100% RH · single-wire</td>
+          <td>Room temperature monitoring for heatstroke SMS alert</td>
+          <td>Pin 6</td>
+          <td>$3–6</td>
+        </tr>
+        <tr>
+          <td>Cliff Sensors ×3</td>
+          <td>TCRT5000</td>
+          <td>IR reflective sensor · analog output · threshold-adjustable</td>
+          <td>Floor-edge / staircase detection. Emergency stop if 2+ sensors lose floor reflection</td>
+          <td>A0, A1, A2</td>
+          <td>$1–2 ea.</td>
+        </tr>
+        <tr>
+          <td>RFID Reader</td>
+          <td>MFRC522</td>
+          <td>13.56 MHz · SPI interface · 3–5 cm read range</td>
+          <td>Medication confirmation; target identity Layer 1 lock (registered user UID)</td>
+          <td>SPI · SS Pin 10</td>
+          <td>$2–5</td>
+        </tr>
+        <tr>
+          <td>RTC Module</td>
+          <td>DS3231</td>
+          <td>I2C addr 0x68 · ±2 ppm accuracy · CR2032 battery backup</td>
+          <td>Medication reminder timing without network sync. Maintains correct time through power cycles</td>
+          <td>I2C 0x68</td>
+          <td>$2–5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ACTUATION -->
+  <h2>Actuation &amp; Output</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Model</th><th>Specification</th><th>Role</th><th>Pins</th><th>Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Motor Driver</td>
+          <td>FC120 Dual H-Bridge</td>
+          <td>1.2A per channel · PWM · up to 12V · 4 control inputs</td>
+          <td>DC motor direction and speed control</td>
+          <td>2, 3, 4, 5</td>
+          <td>$3–8</td>
+        </tr>
+        <tr>
+          <td>DC Motors ×2</td>
+          <td>6V Gear Motor 150 RPM</td>
+          <td>6V nominal · 150 RPM · 65mm wheel compatible</td>
+          <td>Robot mobility at 0.3 m/s operating speed</td>
+          <td>Via FC120</td>
+          <td>$5–10 ea.</td>
+        </tr>
+        <tr>
+          <td>Pan Servo</td>
+          <td>SG90 9g Micro</td>
+          <td>180° rotation · 1.8 kg/cm · 5V · PWM 50Hz</td>
+          <td>Camera head pan (left/right) driven by nose X from MediaPipe</td>
+          <td>Pin 9</td>
+          <td>$2–4</td>
+        </tr>
+        <tr>
+          <td>Tilt Servo</td>
+          <td>SG90 9g Micro</td>
+          <td>180° rotation · default angle 75°</td>
+          <td>Camera head tilt — default angle keeps camera at standing-person chest level</td>
+          <td>Pin 10</td>
+          <td>$2–4</td>
+        </tr>
+        <tr>
+          <td>LCD Display</td>
+          <td>16×2 LCD + I2C backpack</td>
+          <td>16 characters × 2 lines · I2C addr 0x27 · 5V</td>
+          <td>State messages, greetings, medication reminders, low battery warning</td>
+          <td>I2C 0x27</td>
+          <td>$2–5</td>
+        </tr>
+        <tr>
+          <td>RGB LEDs ×3</td>
+          <td>Common anode RGB LED</td>
+          <td>5V, PWM dimming. State colours: green=idle, amber=active, red=alert, blue=low battery</td>
+          <td>Visual system state feedback</td>
+          <td>A3, A4, A5</td>
+          <td>&lt;$1 ea.</td>
+        </tr>
+        <tr>
+          <td>Buzzer</td>
+          <td>Passive piezo</td>
+          <td>3–5V · tone() compatible</td>
+          <td>Medication reminder chime, alert beep</td>
+          <td>Pin 8</td>
+          <td>&lt;$1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMMUNICATION -->
+  <h2>Communication</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Model</th><th>Specification</th><th>Role</th><th>Pins</th><th>Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GSM Module</td>
+          <td>SIM800L</td>
+          <td>Quad-band GSM 850/900/1800/1900 MHz · AT commands · 3.7–4.2V supply · 2A peak TX current</td>
+          <td>SMS emergency alerts and check-ins with zero Wi-Fi requirement. SoftwareSerial on Arduino.</td>
+          <td>Pins 2 &amp; 3 (SoftwareSerial)</td>
+          <td>$5–12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box accent">
+    <h4>Critical: SIM800L Power Design</h4>
+    <p>The SIM800L draws up to 2A during SMS transmission — far beyond what the Arduino 5V pin can supply. It requires a <strong>dedicated 4.0V regulated supply</strong> from a separate LM2596 buck converter (not the Arduino rail), with a <strong>1000µF electrolytic capacitor</strong> across its power terminals to absorb current spikes. Without this, the module resets during transmission.</p>
+  </div>
+
+  <!-- POWER -->
+  <h2>Power System</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Model</th><th>Specification</th><th>Role</th><th>Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Main Battery</td>
+          <td>3S LiPo 11.1V 3000mAh</td>
+          <td>11.1V nominal · 30C discharge · T-connector · integrated protection PCB</td>
+          <td>Primary power source for all subsystems. 90+ minute runtime under full load</td>
+          <td>$15–30</td>
+        </tr>
+        <tr>
+          <td>Buck Converter 1</td>
+          <td>LM2596 Step-Down</td>
+          <td>Input 4.5–40V · Output adjustable · 3A max</td>
+          <td>Converts 11.1V → 5V regulated for Arduino Mega 2560</td>
+          <td>$1–3</td>
+        </tr>
+        <tr>
+          <td>Buck Converter 2</td>
+          <td>LM2596 Step-Down</td>
+          <td>Same module, tuned to 4.0V output</td>
+          <td>Dedicated 4.0V supply for SIM800L — separate rail prevents brown-out during TX bursts</td>
+          <td>$1–3</td>
+        </tr>
+        <tr>
+          <td>Stabilisation Cap</td>
+          <td>1000µF 16V Electrolytic</td>
+          <td>1000µF · 16V rating · placed across SIM800L power terminals</td>
+          <td>Absorbs SIM800L transmission current transients</td>
+          <td>&lt;$1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Power Topology</h2>
+  <div class="code-block">
+<span class="c">// Power distribution diagram</span>
+
+<span class="k">3S LiPo 11.1V</span>
+    │
+    ├── <span class="v">Buck Conv 1 → 5V</span> ─── Arduino Mega 2560
+    │                              ├── PIR sensors × 2
+    │                              ├── HC-SR04 × 12
+    │                              ├── DHT22, TCRT5000 × 3
+    │                              ├── RFID, RTC, LCD, LEDs, Buzzer
+    │                              └── Servos × 2
+    │
+    ├── <span class="v">Buck Conv 2 → 4.0V</span> ── SIM800L GSM (+ 1000µF cap)
+    │
+    ├── <span class="s">FC120 Motor Driver</span> ─── DC Motors × 2 (direct 11.1V)
+    │
+    └── <span class="n">Jetson Nano 5V barrel</span> (separate regulated 5V supply or USB-C PD)
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="architecture.html" class="btn btn-primary">System Architecture →</a>
+    <a href="features.html" class="btn" style="background:var(--surface-2); color:var(--text);">← Features</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="docs.html">Docs</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

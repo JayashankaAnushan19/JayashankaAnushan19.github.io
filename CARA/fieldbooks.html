@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Field Books — Lab notes, site observations, and research documents viewed inline.">
+<title>Field Books — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<div class="page-wrap" style="padding-bottom:2rem;">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Field Books
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Research Documents</div>
+    <h1 class="page-title">Field Books</h1>
+    <p class="page-subtitle">Lab notes, site observation records, and research documents — viewed directly inside this page from Google Drive.</p>
+  </div>
+
+  <!-- HOW TO ADD BOOKS -->
+  <!-- <div class="info-box amber" id="add-guide" style="margin-bottom:1.5rem;">
+    <h4>How to add a field book</h4>
+    <p>
+      1. Open the file in Google Drive &rarr; share it as "Anyone with the link can view".<br>
+      2. Copy the share link. The file ID is the long string between <code>/d/</code> and <code>/view</code>.<br>
+      3. Open <code>CARA/fieldbooks.html</code> &rarr; find the <code>FIELD_BOOKS</code> array &rarr; add an entry.<br>
+      4. Delete or hide this box once you have added your books (set <code>showGuide = false</code> below).
+    </p>
+  </div> -->
+
+</div>
+
+<!-- ══ VIEWER LAYOUT ══════════════════════════════════════════ -->
+<div style="max-width:1160px; margin:0 auto; padding:0 1.75rem 4rem;">
+
+  <div class="fieldbooks-layout" id="fb-layout">
+
+    <!-- LEFT SIDEBAR — file list -->
+    <div class="fb-sidebar" id="fb-sidebar">
+      <div class="fb-sidebar-hdr">Documents</div>
+      <div id="fb-list">
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL — PDF viewer -->
+    <div class="fb-viewer" id="fb-viewer">
+      <div class="fb-viewer-bar" id="fb-bar" style="display:none;">
+        <span class="fb-viewer-title" id="fb-current-title">—</span>
+        <a class="fb-viewer-link" id="fb-open-link" href="#" target="_blank">Open in Drive ↗</a>
+      </div>
+      <div class="fb-empty" id="fb-empty">
+        <div class="fb-empty-icon">📄</div>
+        <p>Select a document from the list to view it here.</p>
+      </div>
+      <iframe id="fb-iframe" src="" style="display:none;" title="Field book viewer" allow="autoplay"></iframe>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="research.html">Research</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+/* ──────────────────────────────────────────────────────────────
+   FIELD BOOKS CONFIGURATION
+
+   Add your PDFs here. Get the FILE_ID from the Google Drive
+   share link:  drive.google.com/file/d/FILE_ID/view
+
+   Set showGuide = false once you've added your files.
+   ────────────────────────────────────────────────────────────── */
+const showGuide = true;   // set to false to hide the how-to box
+
+const FIELD_BOOKS = [
+  // ── ADD YOUR FIELD BOOKS HERE ──────────────────────────────
+  // Copy a Google Drive share link and extract the file ID
+  // from the part between /d/ and /view
+  //
+  // Example:
+  // { title: 'Week 01 — Lab Notes',      date: '12 May 2026', id: '1AbCdEfGhIjKlMnOpQrStUvWxYz', desc: 'Initial research and requirements notes' },
+  // { title: 'Site Visit — Dubai Home',  date: '18 May 2026', id: '2BcDeFgHiJkLmNoPqRsTuVwXyZa', desc: 'Elderly care home observation notes' },
+  // ── END OF BOOKS ───────────────────────────────────────────
+
+  // Google Drive folder (shown when no individual books are added yet):
+  // Folder: https://drive.google.com/drive/folders/1Sc15MpIJjRyy5IecGsGZPGc9FJ1jonxR
+];
+
+const FOLDER_ID  = '1Sc15MpIJjRyy5IecGsGZPGc9FJ1jonxR';
+const FOLDER_URL = 'https://drive.google.com/drive/folders/' + FOLDER_ID + '?usp=sharing';
+
+/* ── Hide guide if not needed ─────────────────────────────── */
+if (!showGuide) {
+  const g = document.getElementById('add-guide');
+  if (g) g.style.display = 'none';
+}
+
+/* ── Render sidebar & viewer ──────────────────────────────── */
+const list    = document.getElementById('fb-list');
+const iframe  = document.getElementById('fb-iframe');
+const empty   = document.getElementById('fb-empty');
+const bar     = document.getElementById('fb-bar');
+const titleEl = document.getElementById('fb-current-title');
+const linkEl  = document.getElementById('fb-open-link');
+
+function openBook(book, el) {
+  // Update active state
+  document.querySelectorAll('.fb-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  // Update viewer bar
+  titleEl.textContent = book.title;
+  linkEl.href = 'https://drive.google.com/file/d/' + book.id + '/view';
+  bar.style.display = 'flex';
+
+  // Load PDF embed
+  iframe.src = 'https://drive.google.com/file/d/' + book.id + '/preview';
+  empty.style.display = 'none';
+  iframe.style.display = 'block';
+}
+
+if (FIELD_BOOKS.length === 0) {
+  /* No individual files yet — embed the Drive folder view */
+  list.innerHTML = `
+    <div style="padding:1rem; font-size:.82rem; color:var(--muted); line-height:1.6;">
+      <p style="margin-bottom:.75rem;">No individual field books added yet.</p>
+      <p>Add file IDs to the <code>FIELD_BOOKS</code> array in this page's source to list them here.</p>
+    </div>
+    <a href="${FOLDER_URL}" target="_blank" class="fb-item" style="color:var(--primary)!important; font-size:.83rem;">
+      <div class="fb-item-title">Open Drive Folder ↗</div>
+      <div class="fb-item-meta">View all files in Google Drive</div>
+    </a>
+  `;
+  /* Show folder embed in viewer */
+  empty.innerHTML = `
+    <div class="fb-empty-icon">📁</div>
+    <p>Showing the CARA research Drive folder. Click any PDF to open it.</p>
+  `;
+  bar.style.display = 'flex';
+  titleEl.textContent = 'CARA Research Folder';
+  linkEl.href = FOLDER_URL;
+  linkEl.textContent = 'Open in Drive ↗';
+  iframe.src = 'https://drive.google.com/embeddedfolderview?id=' + FOLDER_ID;
+  empty.style.display = 'none';
+  iframe.style.display = 'block';
+
+} else {
+  /* Render individual file cards */
+  FIELD_BOOKS.forEach((book, i) => {
+    const item = document.createElement('div');
+    item.className = 'fb-item' + (i === 0 ? ' active' : '');
+    item.innerHTML = `
+      <div class="fb-item-title">${book.title}</div>
+      <div class="fb-item-meta">${book.date}${book.desc ? ' · ' + book.desc : ''}</div>
+    `;
+    item.addEventListener('click', () => openBook(book, item));
+    list.appendChild(item);
+  });
+
+  /* Open first book by default */
+  openBook(FIELD_BOOKS[0], list.querySelector('.fb-item'));
+
+  /* Add folder link at bottom */
+  const folderLink = document.createElement('a');
+  folderLink.className = 'fb-item';
+  folderLink.href = FOLDER_URL;
+  folderLink.target = '_blank';
+  folderLink.style.color = 'var(--primary)';
+  folderLink.innerHTML = `<div class="fb-item-title">Browse All in Drive ↗</div>`;
+  list.appendChild(folderLink);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Features — All 15 integrated features across critical, high, and medium priority tiers.">
+<title>Features — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html" class="active">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Features
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">System Capabilities</div>
+    <h1 class="page-title">15 Integrated Features</h1>
+    <p class="page-subtitle">CARA integrates 15 capabilities across three priority tiers. Critical features are evaluated first and are non-negotiable for the thesis; high and medium priority features are implemented where hardware and time allow.</p>
+  </div>
+
+  <!-- PRIORITY LEGEND -->
+  <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-bottom:2rem; align-items:center;">
+    <span style="font-size:.82rem; color:var(--muted);">Priority tiers:</span>
+    <span class="tag tag-crit">Critical — core safety</span>
+    <span class="tag tag-high">High — strongly required</span>
+    <span class="tag tag-med">Medium — desired if time allows</span>
+  </div>
+
+  <!-- CRITICAL -->
+  <h2 style="margin-top:0">Critical Priority</h2>
+  <p>These features are the core purpose of CARA. Without them, the fundamental research objectives cannot be met. They are implemented and tested first.</p>
+
+  <div class="grid-2" style="margin-top:1.25rem;">
+
+    <div class="feat-card">
+      <div class="feat-icon">🤸</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>AI Fall Detection</h4>
+      <p>MediaPipe Pose Estimation running on NVIDIA Jetson Nano at 12–15 fps. Monitors 33 body landmarks; triggers on hip-below-threshold + shoulder-low posture sustained for 2 seconds to eliminate false positives from bending or sitting.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">📱</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>GSM Fall Alert SMS</h4>
+      <p>Confirmed fall event triggers SIM800L GSM module to send SMS to registered family members within 30 seconds. Uses AT command set over SoftwareSerial — no internet required. Includes 30-second cooldown to prevent SMS flooding.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🚗</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>Obstacle Avoidance Navigation</h4>
+      <p>12 × HC-SR04 ultrasonic sensors provide 360° coverage. Emergency stop at 20 cm threshold — non-overridable even during remote drive commands. The fundamental safety invariant of the platform.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">👤</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>Person Following</h4>
+      <p>Two-layer identity lock: RFID UID confirmation at session start (Layer 1) + continuous HSV orange-band wristband tracking via OpenCV (Layer 2). Publishes TARGET_LOST and returns to IDLE if band absent for 10 seconds.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">💊</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>Medication Reminders</h4>
+      <p>DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily. User confirms by tapping RFID tag to reader. No button presses required — the RFID is embedded in the medication box lid.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">⚠️</div>
+      <span class="tag tag-crit" style="margin-bottom:.5rem; display:inline-block;">Critical</span>
+      <h4>Missed-Dose SMS Alert</h4>
+      <p>If medication RFID confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members.</p>
+    </div>
+
+  </div>
+
+  <!-- HIGH -->
+  <h2>High Priority</h2>
+  <p>These features significantly extend CARA's usefulness and are planned for full implementation alongside the critical tier.</p>
+
+  <div class="grid-2" style="margin-top:1.25rem;">
+
+    <div class="feat-card">
+      <div class="feat-icon">📷</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Live Camera Feed (Phone Browser)</h4>
+      <p>Flask MJPEG streaming server runs on Jetson Nano port 5000. Family members access <code>cara.local:5000/video_feed</code> from any phone browser on the local network — no app required.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🕹️</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Remote Drive (Phone Browser)</h4>
+      <p>HTTP POST endpoint receives directional commands from a phone web interface. Motor commands are forwarded to Arduino via serial — but obstacle avoidance always takes precedence, regardless of remote command.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🌡️</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Temperature Monitoring &amp; Alert</h4>
+      <p>DHT22 sensor monitors room temperature. If ambient temperature exceeds 38°C for more than 5 minutes, CARA triggers a heatstroke-risk SMS alert and activates the LCD warning message.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🔋</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Battery Management</h4>
+      <p>Voltage divider monitors LiPo cell voltage. Below 10.5V (≈25% capacity), LED shifts to blue and LCD displays low battery warning. Below 9.6V (≈5%), non-critical motors are suspended and a battery SMS alert is sent.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">📅</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Daily Check-In SMS</h4>
+      <p>At 12:00 noon each day, the health_management ROS node sends a status SMS confirming that CARA is online and the user was seen in the past 4 hours. Families receive silence-is-an-alert assurance.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🎙️</div>
+      <span class="tag tag-high" style="margin-bottom:.5rem; display:inline-block;">High</span>
+      <h4>Greeting &amp; LCD Messages</h4>
+      <p>When person presence is detected via PIR sensor, CARA displays a warm greeting on the 16×2 I2C LCD and activates a short audible chime. Messages rotate between time-appropriate greetings based on RTC hour.</p>
+    </div>
+
+  </div>
+
+  <!-- MEDIUM -->
+  <h2>Medium Priority</h2>
+  <p>These features enhance the interaction quality and data collection capabilities. They will be implemented if the core tiers are stable within the 12-week timeline.</p>
+
+  <div class="grid-2" style="margin-top:1.25rem;">
+
+    <div class="feat-card">
+      <div class="feat-icon">💡</div>
+      <span class="tag tag-med" style="margin-bottom:.5rem; display:inline-block;">Medium</span>
+      <h4>LED State Feedback</h4>
+      <p>Three RGB LEDs provide continuous visual status: green (IDLE), slow-amber pulse (ACTIVE following), blue pulse (MONITORING), solid red (ALERT), rapid amber (low battery). Colour coding is intuitive without needing documentation.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">🔻</div>
+      <span class="tag tag-med" style="margin-bottom:.5rem; display:inline-block;">Medium</span>
+      <h4>Cliff / Stair Detection</h4>
+      <p>Three TCRT5000 infrared sensors mounted facing downward detect floor edge loss (staircase or dropped surface). Emergency stop is triggered if two or more sensors simultaneously lose floor reflection.</p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">📸</div>
+      <span class="tag tag-med" style="margin-bottom:.5rem; display:inline-block;">Medium</span>
+      <h4>Pan-Tilt Camera Head</h4>
+      <p>Two SG90 servo motors provide pan (left-right, Pin 9) and tilt (up-down, Pin 10, default 75°) control. Pan angle is derived from nose X position in the MediaPipe frame — CARA keeps the user centred in the camera view.</p>
+    </div>
+
+  </div>
+
+  <div class="info-box" style="margin-top:2rem;">
+    <h4>Feature Implementation Status</h4>
+    <p>Features are being implemented sequentially from Critical → High → Medium throughout Weeks 3–8 of the project. Current implementation status is logged in the <a href="blog/">Development Blog</a>.</p>
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="hardware.html" class="btn btn-primary">Hardware Specs →</a>
+    <a href="architecture.html" class="btn" style="background:var(--surface-2); color:var(--text);">System Architecture →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="docs.html">Docs</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Development Blog — Weekly build logs, implementation notes, and lessons learned.">
+<title>Blog — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="posts.js"></script>
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>Blog
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Build Log</div>
+    <h1 class="page-title">Development Blog</h1>
+    <p class="page-subtitle">Weekly updates from the build — implementation notes, challenges encountered, decisions made, and results observed.</p>
+  </div>
+
+  <div id="post-listing">
+    <noscript><p style="color:var(--muted)">Please enable JavaScript to view posts.</p></noscript>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../docs.html">Docs</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+<script>
+(function() {
+  var listing = document.getElementById('post-listing');
+  if (typeof POSTS === 'undefined' || !POSTS.length) {
+    listing.innerHTML = '<p style="color:var(--muted);padding:2rem 0">No posts yet.</p>';
+    return;
+  }
+
+  var tagColors = {
+    green:'tag-green', teal:'tag-teal', blue:'tag-blue', orange:'tag-orange',
+    amber:'tag-amber', purple:'tag-purple', high:'tag-high', low:'tag-low'
+  };
+
+  listing.style.cssText = 'display:flex;flex-direction:column;gap:1.1rem';
+  listing.innerHTML = POSTS.map(function(p) {
+    var tags = (p.tags || []).map(function(t) {
+      return '<span class="tag ' + (tagColors[t[1]] || 'tag-blue') + '">' + t[0] + '</span>';
+    }).join('');
+    return '<a href="' + p.file + '" class="post-card">' +
+      '<div class="post-card-meta"><span class="post-card-week">' + p.week + '</span> &nbsp;·&nbsp; ' + p.date + '</div>' +
+      '<div class="post-card-title">' + p.title + '</div>' +
+      '<p class="post-card-excerpt">' + p.excerpt + '</p>' +
+      '<div class="post-card-tags">' + tags + '</div>' +
+      '</a>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

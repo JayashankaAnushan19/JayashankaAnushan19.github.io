@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Research — Literature review, research gap, and comparison with existing assistive robots for elderly care.">
+<title>CARA — Research &amp; Literature Review</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#020a14;--bg2:#0c1829;--bg3:#0f2040;--border:#1a3a5c;--border2:#1e4a7a;--cyan:#00d4ff;--green:#00ff9d;--orange:#ff6b35;--purple:#a855f7;--text:#e2e8f0;--muted:#64748b;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(2,10,20,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-weight:700;font-size:1.1rem;color:var(--cyan);text-decoration:none;letter-spacing:2px}
+.nav-logo em{color:var(--green);font-style:normal}
+.breadcrumb{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.breadcrumb a{color:var(--cyan);text-decoration:none}
+.breadcrumb span{margin:0 .5rem;opacity:.4}
+.nav-back{background:rgba(0,212,255,.08);border:1px solid var(--border2);color:var(--cyan);padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.8rem;font-family:var(--mono);transition:all .2s}
+.nav-back:hover{background:rgba(0,212,255,.16)}
+
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:7rem 2rem 4rem}
+.page-hero{margin-bottom:4rem}
+.eyebrow{font-family:var(--mono);font-size:.75rem;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem;opacity:.8}
+.page-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-1.5px;margin-bottom:1rem}
+.page-title .accent{color:var(--cyan)}
+.page-intro{color:var(--muted);font-size:1rem;max-width:680px;line-height:1.7}
+
+h2{font-size:1.5rem;font-weight:700;margin:3rem 0 1.25rem;color:var(--text)}
+h2 .accent{color:var(--cyan)}
+h3{font-size:1.1rem;font-weight:600;margin:2rem 0 .75rem;color:var(--text)}
+p{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+p strong{color:var(--text)}
+.divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0;opacity:.4}
+
+/* Comparison table */
+.table-wrap{overflow-x:auto;margin:1.5rem 0}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:var(--bg2);border:1px solid var(--border);padding:.75rem 1rem;text-align:left;font-family:var(--mono);font-size:.75rem;letter-spacing:.5px;color:var(--cyan)}
+tbody td{border:1px solid var(--border);padding:.7rem 1rem;color:var(--muted);vertical-align:top}
+tbody tr:hover td{background:rgba(0,212,255,.03)}
+tbody td:first-child{color:var(--text);font-weight:500}
+.yes{color:var(--green)}
+.no{color:var(--orange)}
+.cara-col{background:rgba(0,212,255,.04)!important;color:var(--cyan)!important;font-weight:600}
+
+/* Gap cards */
+.gap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
+.gap-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.gap-card h4{font-size:.95rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+.gap-card p{font-size:.82rem;color:var(--muted);margin:0;line-height:1.6}
+.gap-label{font-family:var(--mono);font-size:.65rem;padding:.2rem .6rem;border-radius:4px;margin-bottom:.75rem;display:inline-block}
+.gap-label.cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
+.gap-label.green{background:rgba(0,255,157,.1);color:var(--green);border:1px solid rgba(0,255,157,.25)}
+.gap-label.orange{background:rgba(255,107,53,.1);color:var(--orange);border:1px solid rgba(255,107,53,.25)}
+
+/* Refs */
+.refs{font-family:var(--mono);font-size:.75rem;color:var(--muted);line-height:1.9}
+.refs p{margin-bottom:.3rem}
+.refs span{color:var(--cyan)}
+
+/* Chapter nav */
+.chap-nav{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0}
+.chap-link{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.5rem 1rem;text-decoration:none;color:var(--muted);font-size:.82rem;transition:all .2s}
+.chap-link:hover,.chap-link.active{border-color:var(--cyan);color:var(--cyan)}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;max-width:1000px;margin:0 auto}
+footer p{color:var(--muted);font-size:.82rem}
+footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../../" class="nav-logo">JAY<em>_</em></a>
+  <div class="breadcrumb"><a href="../../">Portfolio</a><span>›</span><a href="../">CARA</a><span>›</span>Research</div>
+  <a href="../" class="nav-back">← CARA Home</a>
+</nav>
+
+<main>
+  <div class="page-hero">
+    <div class="eyebrow">// Chapter 2 — Literature Review &amp; Research Gap</div>
+    <h1 class="page-title">Research &amp; <span class="accent">Background</span></h1>
+    <p class="page-intro">A review of the current landscape in elderly care, assistive robotics, fall detection, GSM-based health alerting, and HRI — culminating in a clear identification of the research gap that CARA addresses.</p>
+  </div>
+
+  <div class="chap-nav">
+    <a href="#ageing" class="chap-link active">Ageing Crisis</a>
+    <a href="#robots" class="chap-link">Assistive Robots</a>
+    <a href="#fall" class="chap-link">Fall Detection</a>
+    <a href="#navigation" class="chap-link">Navigation</a>
+    <a href="#gsm" class="chap-link">GSM &amp; IoT</a>
+    <a href="#hri" class="chap-link">HRI</a>
+    <a href="#gap" class="chap-link">Research Gap</a>
+  </div>
+
+  <hr class="divider">
+
+  <section id="ageing">
+    <h2>2.1 — <span class="accent">Ageing</span> and the Elderly Care Crisis</h2>
+    <p>Sri Lanka is experiencing one of the most rapid demographic transitions in South Asia. The proportion of people aged 60 and above increased from <strong>12.4% in 2012</strong> and is projected to reach nearly <strong>one quarter of the population by 2041</strong>.</p>
+    <p>According to recent census estimates, the elderly population increased from 12% in 2012 to approximately <strong>18% in 2024</strong> and is expected to reach 25% by 2040. The rising old-age dependency ratio means a smaller working population must support a growing elderly population, posing significant economic and social challenges.</p>
+    <p>This demographic shift is compounded by <strong>large-scale economic migration</strong> of working-age adults abroad, leaving elderly parents living alone in family homes without consistent daily supervision or immediate care access.</p>
+    <p>Older adults living alone face higher risks of <strong>falls, medication non-adherence, delayed medical response in emergencies, and social isolation</strong> — risks further exacerbated by unreliable internet connectivity, limited access to formal care services, and low digital literacy in rural and semi-urban settings.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="robots">
+    <h2>2.2 — <span class="accent">Assistive Robot</span> Landscape</h2>
+    <p><strong>PARO</strong>, a robotic therapeutic seal, improves emotional well-being among elderly patients with dementia, but its $5,000+ cost and supervised operation limit deployment. <strong>Pepper</strong> supports elderly users through conversation and reminders but requires Wi-Fi, limiting use in connectivity-constrained settings. <strong>Care-O-Bot 4</strong> enables autonomous navigation and task assistance but costs over $100,000 and remains a research prototype. <strong>ElliQ</strong> offers AI companion features at $250/month but requires continuous internet and is English-only.</p>
+
+    <h3>Robot Comparison Table</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Robot</th><th>Developer</th><th>Cost (USD)</th><th>Key Features</th><th>Key Limitation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PARO</td><td>AIST, Japan</td><td>$5,000+</td><td>Companion seal, emotion response</td><td>No fall detection, no navigation, no alerting</td></tr>
+          <tr><td>PEPPER</td><td>SoftBank</td><td>$15,000+</td><td>Social interaction, voice</td><td>Wi-Fi required, designed for public spaces</td></tr>
+          <tr><td>Care-O-Bot 4</td><td>Fraunhofer</td><td>$100,000+</td><td>Manipulation, navigation</td><td>Research prototype, not commercially available</td></tr>
+          <tr><td>ElliQ</td><td>Intuition Robotics</td><td>$250/month</td><td>AI companion, voice, screen</td><td>Wi-Fi required, English only, subscription model</td></tr>
+          <tr><td>Stevie II</td><td>Trinity College Dublin</td><td>N/A</td><td>Social robot, care home</td><td>Institutional setting, not home deployment</td></tr>
+          <tr><td class="cara-col">CARA</td><td class="cara-col">MDX Dubai</td><td class="cara-col">&lt;$500</td><td class="cara-col">15 features, fall detect, GSM, nav</td><td class="cara-col">Research prototype, lab evaluation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="fall">
+    <h2>2.3 — <span class="accent">Fall Detection</span> Methods</h2>
+    <p><strong>Wearable accelerometers</strong> provide accurate fall detection (95%+ sensitivity) but depend on continuous user compliance — a critical issue for cognitively impaired elderly users.</p>
+    <p><strong>Vision-based systems</strong> using pose estimation achieve detection rates around 92% but raise privacy concerns and struggle with occlusions in real home environments. Systems using MediaPipe Pose Estimation have demonstrated ~95.8% accuracy extracting 33 key points from standard video streams without additional sensors.</p>
+    <p><strong>Floor sensor networks</strong> can detect falls unobtrusively without wearables but require installation infrastructure and have limited spatial coverage.</p>
+    <p>CARA uses <strong>MediaPipe Pose on NVIDIA Jetson Nano</strong> — checking LEFT_HIP y &gt;0.77, RIGHT_HIP y &gt;0.77, and LEFT_SHOULDER y &gt;0.55 simultaneously for 2 seconds before confirming a fall, minimising false positives while achieving high detection rates.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="navigation">
+    <h2>2.4 — Robot <span class="accent">Navigation</span> and Indoor Mobility</h2>
+    <p>SLAM-based navigation systems using ROS (GMapping, RTAB-Map) achieve reliable indoor localization and path planning. Comparative evaluations reveal differences in mapping quality underscoring the importance of algorithm selection for low-cost deployments.</p>
+    <p>Hybrid frameworks such as RL-DWA integrate reinforcement learning with local planners to navigate toward and follow users in cluttered indoor environments. CARA implements a simpler but effective approach: <strong>12 ultrasonic sensors providing 360° coverage</strong>, combined with PIR-triggered person following using HSV color band tracking.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="gsm">
+    <h2>2.5 — <span class="accent">GSM</span> and IoT-Based Health Alerting</h2>
+    <p>IoT-based health monitoring systems combining vital sign sensing, fall detection, and <strong>GSM alerting deliver real-time SMS notifications without Wi-Fi</strong> — suitable for environments with limited internet access. GSM SMS can deliver reliable alerts even in rural areas where internet infrastructure is unavailable or unstable.</p>
+    <p>CARA's SIM800L GSM module uses Hayes AT command set (AT+CMGF=1 for text mode, AT+CMGS for transmission) and requires a dedicated regulated 4.0V supply separate from the Arduino 5V rail to handle transmission current bursts (stabilised by a 1000µF capacitor).</p>
+    <p>This approach enables CARA to function in Sri Lanka's rural connectivity landscape — where GSM cellular coverage is broadly available even where broadband internet is not.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="hri">
+    <h2>2.6 — <span class="accent">Human-Robot Interaction</span> with Elderly Users</h2>
+    <p>Research shows that <strong>perceived usefulness, ease of use, safety, reliability, and emotional connection</strong> strongly influence elderly acceptance of robotic assistants. Elderly users prefer robots requiring minimal interaction for core functions, supporting CARA's zero-interaction design philosophy.</p>
+    <p>Non-verbal communication cues — gestures, visual feedback (LED colours), and contextual LCD messages — significantly improve trust and engagement without demanding technological literacy.</p>
+    <p>CARA is designed so that <strong>elderly users never need to interact with the robot</strong> for any safety-critical function. All monitoring, fall detection, and alerting happens passively and autonomously.</p>
+  </section>
+
+  <hr class="divider">
+
+  <section id="gap">
+    <h2>2.9 — <span class="accent">Research Gap</span> and CARA's Positioning</h2>
+    <p>Analysis of existing assistive technologies reveals a critical gap: solutions either address individual aspects of eldercare or are too expensive and connectivity-dependent for deployment in developing countries. No single platform combines affordability, GSM independence, AI fall detection, and passive zero-interaction design.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>PARO</th><th>PEPPER</th><th>ElliQ</th><th>Wearables</th><th>Smart Home</th><th class="cara-col">CARA</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cost</td><td>$5,000+</td><td>$15,000+</td><td>$250/mo</td><td>$100–500</td><td>$200–1,000</td><td class="cara-col">&lt;$500 one-time</td></tr>
+          <tr><td>Wi-Fi Required</td><td class="no">Yes</td><td class="no">Yes</td><td class="no">Yes</td><td class="yes">No</td><td class="no">Yes</td><td class="cara-col yes">No — GSM only</td></tr>
+          <tr><td>Fall Detection</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td><td class="cara-col yes">Yes — MediaPipe AI</td></tr>
+          <tr><td>Developing World Design</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td>Partial</td><td class="no">No</td><td class="cara-col yes">Yes — explicit target</td></tr>
+          <tr><td>User Interaction Required</td><td>Minimal</td><td>Yes</td><td>Yes</td><td>Yes (button)</td><td>Yes</td><td class="cara-col yes">Zero — fully passive</td></tr>
+          <tr><td>Companion Features</td><td>Basic</td><td>Advanced</td><td>Advanced</td><td>None</td><td>None</td><td class="cara-col">15 features</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key Research Gap Areas</h3>
+    <div class="gap-grid">
+      <div class="gap-card">
+        <div class="gap-label cyan">Affordability</div>
+        <h4>Cost Barrier</h4>
+        <p>Existing solutions cost $5,000–$100,000+. CARA targets under $500 total component cost — accessible for families in developing countries.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-label green">Connectivity</div>
+        <h4>Wi-Fi Independence</h4>
+        <p>All existing social robots require stable internet. CARA operates entirely on GSM cellular — available in rural Sri Lanka where broadband is not.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-label orange">Interaction</div>
+        <h4>Zero-Interaction Design</h4>
+        <p>Most systems require elderly users to press buttons, speak, or actively engage. CARA monitors and alerts with zero required elderly interaction.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-label cyan">Integration</div>
+        <h4>Feature Integration</h4>
+        <p>Existing solutions address one or two eldercare needs. CARA integrates 15 features in a single platform: navigation, fall detection, medication, HRI.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-label green">Context</div>
+        <h4>Developing World Focus</h4>
+        <p>No existing platform explicitly targets developing-world deployment constraints. CARA's design is driven by Sri Lanka's specific infrastructure realities.</p>
+      </div>
+      <div class="gap-card">
+        <div class="gap-label orange">Safety</div>
+        <h4>AI Fall Detection + GSM</h4>
+        <p>Combining computer vision fall detection (MediaPipe) with GSM alerting (no internet) is a novel integration not found in any existing low-cost platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <h2>Key <span class="accent">References</span></h2>
+    <div class="refs">
+      <p><span>[17]</span> T. Shibata and K. Wada, "Robot therapy: A new approach for mental healthcare of the elderly — A case study with PARO," <em>International Journal of Social Robotics</em>, vol. 57, p. 378–386, 2011.</p>
+      <p><span>[23]</span> A. K. Bourke, J. V. O'Brien and G. M. Lyons, "Evaluation of a threshold-based tri-axial accelerometer fall detection algorithm," <em>Gait &amp; Posture</em>, vol. 26, no. 2, p. 194–199, 2007.</p>
+      <p><span>[26]</span> S. Saraswat and G. Malathi, "Pose Estimation based Fall Detection system using MediaPipe," 2024.</p>
+      <p><span>[33]</span> M. Arun, K. Dinesh, M. Sarumathan and R. Santhoshi, "IoT-Based Patient Health and Fall Monitoring System with GSM Alerts," <em>IJRASET</em>, 2025.</p>
+      <p><span>[38]</span> D. Sirizi et al., "Evaluating Human-Robot Interactions to Support Healthy Aging-in-Place," <em>Journal of Applied Gerontology</em>, vol. 44, no. 2, p. 266–277, 2025.</p>
+      <p><span>[Full bibliography available in thesis document — 53 references total]</span></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>CARA Research · <a href="../">← CARA Home</a> · <a href="../../">Portfolio</a></p>
+</footer>
+</body>
+</html>

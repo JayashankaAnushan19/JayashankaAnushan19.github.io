@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Project Timeline — 12-week Gantt chart with automatic current week highlighting.">
+<title>Timeline — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html" class="active">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap-wide">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Timeline
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Project Schedule</div>
+    <h1 class="page-title">Project Timeline</h1>
+    <p class="page-subtitle">12-week implementation schedule from requirements to evaluation. The highlighted column is the current project week, calculated automatically.</p>
+  </div>
+
+  <!-- Current week badge — filled by JS -->
+  <div class="wk-badge" id="wk-badge">
+    <span class="wk-dot"></span>
+    <span id="wk-status">Loading...</span>
+  </div>
+
+  <!-- GANTT CHART -->
+  <div class="gantt-wrap">
+    <table class="gantt-table" id="gantt">
+      <thead>
+        <tr class="gantt-hdr">
+          <th class="task-col">Task</th>
+          <!-- week headers injected by JS -->
+        </tr>
+      </thead>
+      <tbody id="gantt-body">
+        <!-- rows injected by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:1rem; font-size:.8rem; color:var(--muted);">
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--primary);border-radius:3px; display:inline-block;"></span> Planning</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--accent);border-radius:3px; display:inline-block;"></span> Hardware</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--green);border-radius:3px; display:inline-block;"></span> Software</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--teal);border-radius:3px; display:inline-block;"></span> AI/Vision</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--amber);border-radius:3px; display:inline-block;"></span> Testing</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:var(--muted);border-radius:3px; display:inline-block;"></span> Thesis</span>
+    <span style="display:flex; align-items:center; gap:.4rem;"><span style="width:14px;height:14px;background:rgba(26,79,122,.15);border:2px solid var(--primary);border-radius:3px; display:inline-block;"></span> Current week</span>
+  </div>
+
+  <hr>
+
+  <!-- MILESTONES -->
+  <h2>Key Milestones</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Milestone</th><th>Target Date</th><th>Deliverable</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>M1 — Requirements Complete</td><td>Week 2 end</td><td>Signed-off requirements document, literature review draft</td></tr>
+        <tr><td>M2 — Hardware Ready</td><td>Week 4 end</td><td>All components procured, power system validated, chassis assembled</td></tr>
+        <tr><td>M3 — Core Features Implemented</td><td>Week 8 end</td><td>Fall detection, GSM alerting, navigation, medication all operational</td></tr>
+        <tr><td>M4 — Testing Complete</td><td>Week 11 end</td><td>All 15 features tested against FR criteria, results logged</td></tr>
+        <tr><td>M5 — Thesis Submission</td><td>July 2026</td><td>Full thesis document submitted to Middlesex University Dubai</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="docs.html">Docs</a>
+    <a href="blog/">Blog</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+(function () {
+  // ── Project configuration ──────────────────────────────────────────────────
+  // Project start: Monday 12 May 2026, Week 1
+  const PROJECT_START = new Date('2026-05-12T00:00:00');
+  const TOTAL_WEEKS   = 12;
+
+  // Task definitions: [category, name, sub-label, startWeek, endWeek]
+  // category colours: planning | hardware | software | ai | testing | thesis
+  const TASKS = [
+    ['planning', 'Literature Review & Requirements Analysis',  'Chapter 1–2 · Proposal form',           1, 2],
+    ['planning', 'System Architecture Design',                 'Hardware + software block diagram',       2, 3],
+    ['hardware', 'Component Procurement & Chassis Assembly',   'BOM ordering · chassis build',            3, 4],
+    ['hardware', 'Power System & Wiring',                      'LiPo · buck converters · SIM800L power', 3, 4],
+    ['software', 'ROS Noetic Setup on Jetson Nano',            'Ubuntu 18.04 · roscore · camera driver', 3, 5],
+    ['software', 'Arduino 5-State Machine',                    'IDLE/ACTIVE/MONITORING/ALERT/RESET',      4, 5],
+    ['ai',       'MediaPipe Fall Detection Node',              'Hip/shoulder threshold · 2s confirm',     4, 6],
+    ['software', 'Person Following (HSV + RFID)',              'Orange band tracking · UID lock',         5, 7],
+    ['hardware', 'GSM SIM800L Integration',                    'AT commands · 4V power · 1000µF cap',    5, 6],
+    ['software', 'Medication Management System',               'DS3231 RTC · RFID confirm · SMS alert',  6, 7],
+    ['software', 'Remote Control Web Interface',               'Flask HTTP · phone browser drive',       7, 8],
+    ['software', 'Navigation & Obstacle Avoidance Tuning',     '12× HC-SR04 · 20cm threshold',           7, 8],
+    ['testing',  'Individual Feature Testing',                 'FR1–FR10 isolated trials',                9, 9],
+    ['testing',  'Integration & System Testing',               'Full pipeline end-to-end',                9, 10],
+    ['testing',  'Performance Evaluation & Data Collection',   'Quantitative results for Ch.5',          10, 11],
+    ['thesis',   'Thesis Writing & Documentation',             'Chapters 4–6 · appendices',               8, 12],
+    ['thesis',   'Final Review & Submission',                  'Proofread · format · submit',            12, 12],
+  ];
+
+  // ── Calculate current week ─────────────────────────────────────────────────
+  const today    = new Date();
+  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+  const rawWeek  = Math.floor((today - PROJECT_START) / msPerWeek) + 1;
+  const currentWeek = Math.max(1, Math.min(TOTAL_WEEKS, rawWeek));
+  const isInProgress = rawWeek >= 1 && rawWeek <= TOTAL_WEEKS;
+
+  // ── Category bar class map ─────────────────────────────────────────────────
+  const BAR = {
+    planning: 'bar',
+    hardware: 'bar-accent',
+    software: 'bar-green',
+    ai:       'bar-teal',
+    testing:  'bar-amber',
+    thesis:   '', // muted — use inline style
+  };
+  const THESIS_STYLE = 'background:var(--muted);opacity:.6;';
+
+  // ── Build week header row ──────────────────────────────────────────────────
+  const hdrRow = document.querySelector('.gantt-hdr');
+  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+    const th = document.createElement('th');
+    const wkStart = new Date(PROJECT_START.getTime() + (w - 1) * msPerWeek);
+    const monthDay = wkStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    th.innerHTML = `W${w}<br><span style="font-weight:400;opacity:.7;">${monthDay}</span>`;
+    if (w === currentWeek) th.classList.add('wk-now');
+    hdrRow.appendChild(th);
+  }
+
+  // ── Build task rows ────────────────────────────────────────────────────────
+  const tbody = document.getElementById('gantt-body');
+
+  TASKS.forEach(([cat, name, sub, start, end]) => {
+    const tr = document.createElement('tr');
+    const tdName = document.createElement('td');
+    tdName.className = 'g-task';
+    tdName.innerHTML = `${name}<br><span class="g-sub">${sub}</span>`;
+    tr.appendChild(tdName);
+
+    for (let w = 1; w <= TOTAL_WEEKS; w++) {
+      const td = document.createElement('td');
+      td.className = 'wk-cell';
+      if (w === currentWeek) td.classList.add('wk-now');
+      if (w >= start && w <= end) {
+        if (cat === 'thesis') {
+          td.classList.add('bar');
+          td.style.cssText = THESIS_STYLE;
+        } else {
+          td.classList.add(BAR[cat] || 'bar');
+        }
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+
+  // ── Current week badge ─────────────────────────────────────────────────────
+  const badge = document.getElementById('wk-status');
+  if (!isInProgress) {
+    if (rawWeek < 1) {
+      badge.innerHTML = 'Project has not yet started.';
+    } else {
+      badge.innerHTML = 'Project complete — all 12 weeks elapsed. Thesis submitted July 2026.';
+    }
+  } else {
+    const wkStart = new Date(PROJECT_START.getTime() + (currentWeek - 1) * msPerWeek);
+    const wkEnd   = new Date(wkStart.getTime() + 6 * 24 * 60 * 60 * 1000);
+    const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    badge.innerHTML = `Currently in <strong>Week ${currentWeek} of ${TOTAL_WEEKS}</strong> &nbsp;·&nbsp; ${fmt(wkStart)} – ${fmt(wkEnd)}`;
+  }
+
+})();
+</script>
+</body>
+</html>

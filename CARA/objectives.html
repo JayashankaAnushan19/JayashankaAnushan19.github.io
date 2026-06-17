@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Research Objectives and Research Questions — 5 objectives guiding the design, implementation, and evaluation of the CARA robot.">
+<title>Objectives — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html" class="active">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Objectives
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Research Framework</div>
+    <h1 class="page-title">Objectives &amp; Research Questions</h1>
+    <p class="page-subtitle">Five interconnected research objectives define what CARA must achieve. Each objective is paired with a corresponding research question that the evaluation will answer.</p>
+  </div>
+
+  <h2 style="margin-top:0">Research Objectives</h2>
+  <p>These five objectives were defined at the outset of the project to give the design and evaluation a clear direction. They form the basis of the functional requirements, the feature set, and the testing protocol.</p>
+
+  <div style="display:flex; flex-direction:column; gap:.9rem; margin-top:1.5rem;">
+
+    <div class="obj-card">
+      <div class="obj-num">01</div>
+      <div class="obj-body">
+        <h4>Design and build a low-cost mobile robot platform</h4>
+        <p>Design and build a mobile robot platform with autonomous navigation, obstacle avoidance, and person-following capabilities — targeting a total component cost under $500 USD to ensure accessibility for families in developing countries.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num">02</div>
+      <div class="obj-body">
+        <h4>Implement AI-based fall detection</h4>
+        <p>Implement a computer vision fall detection system using MediaPipe Pose Estimation on NVIDIA Jetson Nano, achieving at least 80% detection accuracy across 20 standardised trials while minimising false positives to under 2 per hour of continuous operation.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num">03</div>
+      <div class="obj-body">
+        <h4>Develop a GSM-based emergency alerting system</h4>
+        <p>Develop a GSM-based emergency alerting system using SIM800L that delivers SMS notifications to registered family members within 30 seconds of a confirmed fall event — operating without any Wi-Fi or internet connectivity.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num">04</div>
+      <div class="obj-body">
+        <h4>Create an automated medication management system</h4>
+        <p>Create an automated medication reminder and confirmation system using DS3231 RTC and MFRC522 RFID, capable of triggering scheduled reminders at four daily intervals and sending missed-dose alerts via GSM within 15 minutes of a non-confirmed dose.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num">05</div>
+      <div class="obj-body">
+        <h4>Evaluate performance against defined metrics</h4>
+        <p>Evaluate CARA's performance against all 15 defined functional requirements through structured lab trials, measuring fall detection accuracy, SMS delivery time, navigation success rate, medication reminder precision, and overall system reliability.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h2>Research Questions</h2>
+  <p>The following research questions frame the inquiry. They are designed to be answerable through structured experimentation at the end of the project, providing the evaluative basis for the thesis conclusion.</p>
+
+  <div style="display:flex; flex-direction:column; gap:.9rem; margin-top:1.5rem;">
+
+    <div class="obj-card">
+      <div class="obj-num" style="color:var(--accent);">RQ1</div>
+      <div class="obj-body">
+        <h4>How effectively can a sub-$500 robot platform navigate and follow a user in a typical home environment?</h4>
+        <p>Measured by: percentage of navigation trials completed without collision; percentage of person-following sessions where the target remains within camera frame for more than 80% of session duration.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num" style="color:var(--accent);">RQ2</div>
+      <div class="obj-body">
+        <h4>Can MediaPipe Pose Estimation on a Jetson Nano reliably detect falls in standardised trials?</h4>
+        <p>Measured by: true positive rate (sensitivity) and false positive rate across 20 standardised fall simulation trials in varied room positions and lighting conditions.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num" style="color:var(--accent);">RQ3</div>
+      <div class="obj-body">
+        <h4>Can GSM-based SMS alerting consistently deliver notifications within 30 seconds without internet access?</h4>
+        <p>Measured by: average and maximum SMS delivery time across 15 triggered alert tests, conducted without Wi-Fi connectivity, in a lab environment with GSM coverage.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num" style="color:var(--accent);">RQ4</div>
+      <div class="obj-body">
+        <h4>How reliably can the medication management system trigger scheduled reminders and detect confirmation?</h4>
+        <p>Measured by: percentage of scheduled reminders triggered at the correct time (±1 minute); RFID confirmation detection rate across 20 trials; SMS alert delivery rate for missed doses.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-num" style="color:var(--accent);">RQ5</div>
+      <div class="obj-body">
+        <h4>Can CARA achieve 80% or greater pass rates across all 15 defined functional requirements in structured evaluation?</h4>
+        <p>This is the overarching question synthesising all five objectives. The final evaluation chapter will report pass/fail results for each feature and an overall system effectiveness score.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h2>Objectives–Features Mapping</h2>
+  <p>Each research objective directly drives a subset of CARA's 15 features. The table below shows how objectives map to the feature set.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Objective</th><th>Related Features</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>OBJ1 — Navigation &amp; Platform</td><td>Obstacle avoidance, person following, remote drive, battery management, cliff detection</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>OBJ2 — Fall Detection</td><td>MediaPipe fall detection, pan-tilt camera head, visual LED state feedback</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>OBJ3 — GSM Alerting</td><td>Fall SMS alert, missed-dose SMS alert, daily check-in SMS, heat alert SMS</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>OBJ4 — Medication</td><td>Timed medication reminders, RFID confirmation, missed-dose alerting</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr><td>OBJ5 — Evaluation</td><td>Event logging, camera live feed, data export for analysis</td><td><span class="tag tag-med">Medium</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="features.html" class="btn btn-primary">View all 15 features →</a>
+    <a href="docs.html" class="btn" style="background:var(--surface-2); color:var(--text);">Functional Requirements →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

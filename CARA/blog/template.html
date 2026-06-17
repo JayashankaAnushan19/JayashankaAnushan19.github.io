@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- EDIT: Update title and description -->
+<meta name="description" content="CARA Blog — [Post title here]">
+<title>[Post Title] — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<!-- Include Chart.js only if you need charts in this post. Delete otherwise. -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../about.html">About</a>
+    <a href="../objectives.html">Objectives</a>
+    <a href="../features.html">Features</a>
+    <a href="../hardware.html">Hardware</a>
+    <a href="../architecture.html">Architecture</a>
+    <a href="../research.html">Research</a>
+    <a href="../docs.html">Docs</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="./" class="active">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    <!-- EDIT: week number or post slug -->
+    Week XX
+  </div>
+
+  <!-- ============================================================
+       POST HEADER — edit title, date, week, and tags
+       ============================================================ -->
+  <div class="post-header">
+
+    <div class="post-meta">
+      <span class="post-date"><!-- EDIT: date e.g. --> 16 Jun 2026</span>
+      <span class="tag tag-blue"><!-- EDIT: Week XX --></span>
+      <!-- Add more tags as needed: -->
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-teal">AI / Vision</span>
+      <!-- tag-orange = Hardware, tag-amber = Testing, tag-blue = Planning/ROS, tag-green = Software, tag-teal = AI -->
+    </div>
+
+    <h1><!-- EDIT: Post Title --></h1>
+
+    <p class="page-subtitle"><!-- EDIT: 1-2 sentence summary of this post --></p>
+
+  </div>
+
+  <!-- ============================================================
+       POST BODY — mix and match the components below
+       ============================================================ -->
+  <div class="post-body">
+
+    <!-- ── SECTION HEADING ───────────────────────────────────── -->
+    <h2>Section Heading</h2>
+
+    <!-- ── TEXT PARAGRAPH ────────────────────────────────────── -->
+    <p>
+      Write your content here. Use <strong>bold for key terms</strong> and <em>italic for emphasis</em>.
+      Inline code looks like this: <code>AT+CMGF=1</code>. Reference thesis sections inline e.g.
+      (Chapter 3, Section 3.7).
+    </p>
+
+    <!-- ── CALLOUT / INFO BOX ─────────────────────────────────
+         Change class to: post-callout, post-callout.green, post-callout.amber, post-callout.accent
+         ──────────────────────────────────────────────────────── -->
+    <div class="post-callout">
+      <p><strong>Key insight:</strong> Write a highlighted observation, important result, or lesson learned here.</p>
+    </div>
+
+    <!-- ── IMAGE ──────────────────────────────────────────────
+         1. Drop image into CARA/assets/images/
+         2. Replace the src below
+         ──────────────────────────────────────────────────────── -->
+    <figure class="post-image">
+      <img src="../assets/images/your-image.jpg" alt="Describe the image for accessibility">
+      <figcaption>Figure X — Caption describing what the image shows and its relevance.</figcaption>
+    </figure>
+
+    <!-- ── VIDEO (local file) ─────────────────────────────────
+         1. Drop video into CARA/assets/videos/
+         ──────────────────────────────────────────────────────── -->
+    <div class="post-video">
+      <video controls preload="none" poster="../assets/images/video-thumb.jpg">
+        <source src="../assets/videos/your-video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+    </div>
+
+    <!-- ── VIDEO (YouTube embed) ──────────────────────────────
+         Replace VIDEO_ID with the YouTube video ID
+         ──────────────────────────────────────────────────────── -->
+    <!--
+    <div class="post-video">
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+    -->
+
+    <!-- ── CODE BLOCK ─────────────────────────────────────────
+         Syntax classes: .k = keyword/blue, .v = value/green, .s = string/orange, .n = number/amber, .c = comment/gray
+         ──────────────────────────────────────────────────────── -->
+    <div class="code-block">
+<span class="c">// Example: SIM800L SMS AT command sequence (Arduino)</span>
+gsmSerial.<span class="k">println</span>(<span class="s">"AT+CMGF=1"</span>);         <span class="c">// Set text mode</span>
+delay(<span class="n">100</span>);
+gsmSerial.<span class="k">print</span>(<span class="s">"AT+CMGS=\"+971xxxxxxxx\"\r"</span>);
+delay(<span class="n">100</span>);
+gsmSerial.<span class="k">print</span>(<span class="s">"FALL DETECTED — Help has been called."</span>);
+delay(<span class="n">100</span>);
+gsmSerial.<span class="k">write</span>(<span class="n">0x1A</span>);                <span class="c">// Ctrl+Z to send</span>
+    </div>
+
+    <!-- ── TABLE (results or comparison) ─────────────────────── -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Parameter</th><th>Target</th><th>Measured</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Metric 1</td><td>≥ value</td><td>X</td><td class="yes">Pass</td></tr>
+          <tr><td>Metric 2</td><td>≤ value</td><td>Y</td><td class="no">Fail</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── CHART (Chart.js) ───────────────────────────────────
+         Requires Chart.js in <head>. Delete the <script> above if not using charts.
+         ──────────────────────────────────────────────────────── -->
+    <div class="post-chart">
+      <h4>Chart Title</h4>
+      <canvas id="myChart" height="200"></canvas>
+    </div>
+    <script>
+      // Edit labels and data to match your results
+      const ctx = document.getElementById('myChart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'bar',  // bar | line | doughnut | radar
+          data: {
+            labels: ['Trial 1', 'Trial 2', 'Trial 3', 'Trial 4', 'Trial 5'],
+            datasets: [{
+              label: 'Your Metric (unit)',
+              data: [23, 18, 25, 20, 22],
+              backgroundColor: 'rgba(0,212,255,0.12)',
+              borderColor: 'rgba(0,212,255,0.85)',
+              borderWidth: 2,
+              borderRadius: 4,
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { font: { family: 'Inter', size: 12 }, color: '#c8d4e0' } }
+            },
+            scales: {
+              y: { beginAtZero: true, grid: { color: '#1a3a5c' }, ticks: { color: '#64748b' } },
+              x: { grid: { color: '#1a3a5c' }, ticks: { color: '#64748b' } }
+            }
+          }
+        });
+      }
+    </script>
+
+    <!-- ── ANOTHER SECTION ───────────────────────────────────── -->
+    <h2>What's Next</h2>
+    <p>Summarise what was accomplished this week and what the next steps are.</p>
+
+    <ul>
+      <li>Item one — specific next action</li>
+      <li>Item two — specific next action</li>
+    </ul>
+
+  </div><!-- /post-body -->
+
+  <!--
+    FEEDBACK FORM SETUP (one-time):
+    1. Go to https://web3forms.com
+    2. Enter jayasankaanushan199@gmail.com → Get Access Key
+    3. Check inbox, copy the key, paste it in access_key below
+    When duplicating this template: update the subject value with the actual post title.
+  -->
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: [EDIT — Replace with post title]">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <!-- ── POST NAVIGATION ──────────────────────────────────────── -->
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-XX-prev.html" style="color:var(--primary);">← Previous: Week XX</a>
+    <a href="./">All Posts</a>
+    <a href="week-XX-next.html" style="color:var(--primary);">Next: Week XX →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

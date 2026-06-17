@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Literature Review — Ageing demographics, assistive robots, fall detection methods, GSM alerting, and research gap analysis.">
+<title>Research — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html" class="active">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Research
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Chapter 2 — Literature Review</div>
+    <h1 class="page-title">Research &amp; Literature Review</h1>
+    <p class="page-subtitle">A structured review of the existing body of work in elderly care robotics, fall detection, GSM alerting, indoor navigation, and human-robot interaction — leading to the research gap CARA addresses.</p>
+  </div>
+
+  <!-- AGEING -->
+  <h2 style="margin-top:0">2.1 — The Ageing Crisis</h2>
+  <p>Sri Lanka is undergoing one of the most rapid demographic transitions in South Asia. The proportion of people aged 60 and above increased from 12.4% in 2012, is approximately 18% in 2024, and is projected to reach 25% by 2041. This shift is driven by declining birth rates, increasing life expectancy, and the large-scale emigration of working-age adults seeking employment abroad.</p>
+  <p>The rising old-age dependency ratio means a smaller working population must support a proportionally larger elderly population. For families where one or more adult children live abroad, the consequence is an elderly parent living alone — often in a semi-urban or rural setting — without consistent daily supervision or immediate access to medical care.</p>
+  <p>This population faces elevated risks of falls (the leading cause of injury-related death in adults over 65), medication non-adherence, social isolation, and delayed emergency response. The combination creates a clear demand for technology-assisted care that operates within the infrastructure constraints of Sri Lanka's non-urban settings.</p>
+
+  <!-- EXISTING ROBOTS -->
+  <h2>2.2 — Existing Assistive Robots</h2>
+  <p>Several robotic systems have been developed for elderly care, but none meet the combined affordability, connectivity independence, and passive design requirements of the Sri Lankan context.</p>
+
+  <p><strong>PARO (AIST, Japan)</strong> is a robotic therapeutic seal that improves emotional well-being in elderly patients with dementia. Its AI animal-like behaviour provides comfort and reduces agitation, but at $5,000+ per unit, it provides no fall detection, navigation, or safety alerting.</p>
+
+  <p><strong>Pepper (SoftBank Robotics)</strong> supports elderly users through conversation, reminders, and social interaction. It requires continuous Wi-Fi, is not designed for home deployment, and costs over $15,000.</p>
+
+  <p><strong>Care-O-Bot 4 (Fraunhofer IPA)</strong> is an advanced research platform capable of manipulation, navigation, and task assistance. At over $100,000, it remains inaccessible for any consumer deployment and is not commercially available.</p>
+
+  <p><strong>ElliQ (Intuition Robotics)</strong> offers AI companion features, voice interaction, and proactive suggestions at $250/month subscription. It requires continuous internet, operates in English only, and is designed for North American residential settings.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Robot</th><th>Developer</th><th>Cost</th><th>Wi-Fi Req.</th><th>Fall Detection</th><th>Developing World</th><th>Passive Use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>PARO</td><td>AIST, Japan</td><td>$5,000+</td><td class="no">Yes</td><td class="no">No</td><td class="no">No</td><td>Minimal</td></tr>
+        <tr><td>Pepper</td><td>SoftBank</td><td>$15,000+</td><td class="no">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+        <tr><td>Care-O-Bot 4</td><td>Fraunhofer IPA</td><td>$100,000+</td><td class="no">Yes</td><td class="no">No</td><td class="no">No</td><td>Partial</td></tr>
+        <tr><td>ElliQ</td><td>Intuition Robotics</td><td>$250/month</td><td class="no">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+        <tr><td>Stevie II</td><td>Trinity College Dublin</td><td>N/A</td><td class="no">Yes</td><td class="no">No</td><td class="no">No</td><td>Partial</td></tr>
+        <tr class="cara-row"><td>CARA (this work)</td><td>MDX Dubai</td><td>&lt;$500</td><td class="yes">No — GSM only</td><td class="yes">Yes — MediaPipe</td><td class="yes">Yes — explicit</td><td class="yes">Zero required</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FALL DETECTION -->
+  <h2>2.3 — Fall Detection Methods</h2>
+  <p><strong>Wearable accelerometers</strong> achieve 95%+ sensitivity for fall detection but depend on continuous user compliance — a significant problem for cognitively impaired or forgetful elderly users who may remove or forget the device.</p>
+
+  <p><strong>Vision-based pose estimation</strong> achieves detection rates around 92–96% in controlled settings, does not require the user to wear anything, but raises privacy concerns and struggles with occlusion (user behind furniture, in low-light areas).</p>
+
+  <p><strong>Floor-pressure sensor networks</strong> detect falls unobtrusively but require invasive installation, have limited spatial coverage, and are impractical for rental or shared housing.</p>
+
+  <p>CARA adopts a <strong>vision-based MediaPipe Pose Estimation</strong> approach as the best balance of accuracy, cost, and unobtrusiveness. MediaPipe extracts 33 body landmarks from standard video input. Fall is determined by three simultaneous conditions: both hip y-coordinates exceeding 0.77 (hips near floor level) AND left shoulder y-coordinate exceeding 0.55 (person not simply bending). A 2-second confirmation window eliminates single-frame false positives.</p>
+
+  <blockquote>"Systems using MediaPipe Pose Estimation have demonstrated approximately 95.8% accuracy in fall detection from standard RGB video streams, without depth cameras or wearable sensors." — Saraswat &amp; Malathi, 2024</blockquote>
+
+  <!-- NAVIGATION -->
+  <h2>2.4 — Indoor Navigation</h2>
+  <p>SLAM-based navigation (GMapping, RTAB-Map) paired with ROS provides reliable indoor localization and path planning, but requires LIDAR or depth cameras that add significant cost. CARA uses a simpler sensor-based approach: 12 ultrasonic sensors providing 360° coverage are sufficient for reactive obstacle avoidance in a home environment at 0.3 m/s operating speed.</p>
+  <p>Person following in domestic environments typically uses one of three approaches: colour tracking, depth-sensor following, or acoustic source localisation. CARA combines PIR-triggered direction sensing with HSV orange-band tracking — a low-cost solution that avoids depth cameras entirely.</p>
+
+  <!-- GSM -->
+  <h2>2.5 — GSM-Based Health Alerting</h2>
+  <p>IoT health monitoring research consistently demonstrates that <strong>GSM SMS provides reliable alert delivery in areas with GSM coverage but limited or no internet</strong>. In Sri Lanka's rural and semi-urban areas, GSM coverage (2G/3G cellular) is broadly available, while fibre broadband penetration remains low outside major cities.</p>
+  <p>The SIM800L module (quad-band GSM) and Hayes AT command protocol have been widely validated in embedded health monitoring literature. Key implementation challenges are power management (2A TX bursts) and AT command timing — both addressed in CARA's design through a dedicated 4.0V supply with 1000µF stabilisation.</p>
+
+  <!-- HRI -->
+  <h2>2.6 — Human-Robot Interaction with Elderly Users</h2>
+  <p>Research on HRI acceptance among elderly populations identifies five key factors: perceived usefulness, ease of use, safety, reliability, and emotional connection (Sirizi et al., 2025). Critically, elderly users show stronger acceptance of robots that function autonomously without requiring technological literacy from the user.</p>
+  <p>Non-verbal feedback cues — LED state colours, LCD messages, and contextual sounds — improve perceived safety and trust without demanding that the user understand how the system works. CARA's design is explicitly informed by this: all safety-critical functions (fall detection, medication alerting) require zero user action or interaction.</p>
+
+  <!-- GAP -->
+  <h2>2.7 — Research Gap</h2>
+  <p>Analysis of the existing literature reveals a consistent and critical gap: no existing assistive robot platform combines the four dimensions needed for developing-world deployment:</p>
+
+  <div class="grid-2" style="margin-top:1.25rem;">
+    <div class="card">
+      <h4>1. Cost Accessibility</h4>
+      <p style="font-size:.85rem; margin:0;">Existing platforms cost $5,000–$100,000+. CARA targets under $500 — an order of magnitude reduction that makes it accessible to middle-income families in Sri Lanka and similar contexts.</p>
+    </div>
+    <div class="card">
+      <h4>2. Connectivity Independence</h4>
+      <p style="font-size:.85rem; margin:0;">All existing social robots require continuous internet. CARA's safety functions depend entirely on GSM cellular — available in rural Sri Lanka where broadband is not.</p>
+    </div>
+    <div class="card">
+      <h4>3. Passive / Zero-Interaction Design</h4>
+      <p style="font-size:.85rem; margin:0;">Most systems require users to engage actively — speaking, pressing buttons, or wearing devices. CARA monitors passively and alerts automatically, without any required elderly action.</p>
+    </div>
+    <div class="card">
+      <h4>4. Integrated Feature Set</h4>
+      <p style="font-size:.85rem; margin:0;">Wearables detect falls but don't navigate. Robots navigate but don't detect falls. Smart home sensors don't provide companionship. CARA integrates 15 features in a single platform.</p>
+    </div>
+  </div>
+
+  <div class="info-box green" style="margin-top:2rem;">
+    <h4>Thesis Contribution</h4>
+    <p>CARA represents the first known attempt to integrate computer vision fall detection, GSM-only emergency alerting, autonomous navigation, medication management, and social companion features in a single platform designed explicitly for developing-world deployment under $500.</p>
+  </div>
+
+  <h2>Key References</h2>
+  <ul style="font-size:.875rem; line-height:1.9;">
+    <li>Shibata &amp; Wada (2011). Robot therapy: A new approach for mental healthcare — PARO. <em>Int. Journal of Social Robotics</em>, 57, 378–386.</li>
+    <li>Bourke, O'Brien &amp; Lyons (2007). Threshold-based accelerometer fall detection. <em>Gait &amp; Posture</em>, 26(2), 194–199.</li>
+    <li>Saraswat &amp; Malathi (2024). Pose estimation based fall detection using MediaPipe.</li>
+    <li>Arun et al. (2025). IoT-based patient health and fall monitoring with GSM alerts. <em>IJRASET</em>.</li>
+    <li>Sirizi et al. (2025). Evaluating HRI to support healthy aging-in-place. <em>Journal of Applied Gerontology</em>, 44(2), 266–277.</li>
+    <li><em>Full bibliography: 53 references cited in thesis document.</em></li>
+  </ul>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="docs.html" class="btn btn-primary">Technical Documentation →</a>
+    <a href="objectives.html" class="btn" style="background:var(--surface-2); color:var(--text);">← Objectives</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

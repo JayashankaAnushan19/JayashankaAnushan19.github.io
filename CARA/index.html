@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA — Companion Assistive Robot for the Aged. A low-cost GSM-based assistive robot for elderly care in developing countries. MSc Robotics, Middlesex University Dubai 2026.">
+<title>CARA — Companion Assistive Robot for the Aged</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Nav is injected by main.js -->
+<nav class="site-nav"></nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     OPENING
+     ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div style="max-width:820px; margin:0 auto;">
+    <div class="hero-label">CARA · Robotics Thesis Project · 2026</div>
+    <h1 style="margin-bottom:.5rem; line-height:1.1;">CARA</h1>
+    <p style="font-size:clamp(1rem,2.5vw,1.45rem); color:rgba(255,255,255,.85); font-family:var(--font-h); font-style:italic; font-weight:400; max-width:600px; margin-bottom:2rem; line-height:1.5;">
+      Companion Assistive Robot for the Aged — a documentary on building a low-cost robot for elderly care in Sri Lanka.
+    </p>
+    <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+      <a href="about.html" class="btn btn-white">Start Reading</a>
+      <a href="timeline.html" class="btn btn-outline">View Timeline</a>
+      <a href="blog/" class="btn btn-outline">Development Blog</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PROJECT IMAGE
+     Upload your robot photo as: assets/images/cara-robot.jpg
+     ══════════════════════════════════════════════════════════ -->
+<section class="project-img-section" id="hero-img-section">
+  <img src="assets/images/cara-robot.png"
+       alt="CARA — Companion Assistive Robot for the Aged"
+       id="hero-img"
+       onerror="document.getElementById('hero-img-section').classList.add('no-img'); this.remove();">
+  <div class="img-caption" id="img-caption">
+    CARA v1.0 — Prototype in development · 2026
+  </div>
+</section>
+
+<script>
+// Hide caption if image fails to load
+document.getElementById('hero-img').addEventListener('error', function() {
+  var c = document.getElementById('img-caption');
+  if (c) c.remove();
+});
+</script>
+<!-- If no image yet: replace the no-img placeholder text below and upload cara-robot.jpg -->
+<style>
+.project-img-section.no-img::after {
+  content: "📷  Upload your CARA photo as  CARA/assets/images/cara-robot.jpg  to display it here";
+  display: block; text-align: center; padding: 3.5rem 2rem;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--light); letter-spacing: .3px;
+}
+</style>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1 — THE CHALLENGE
+     ══════════════════════════════════════════════════════════ -->
+<section style="border-bottom: 1px solid var(--border);">
+  <div class="doc-section">
+    <span class="doc-chapter">Chapter 1 — The Challenge</span>
+    <h2>A Generation Left Alone</h2>
+    <p>Sri Lanka's elderly population is growing faster than the care infrastructure built to support it. By 2041, one in four Sri Lankans will be over 60 — yet thousands of working-age adults have migrated abroad in search of better incomes, leaving elderly parents living alone in family homes across the island.</p>
+    <p>For these individuals, the risks are real and daily: a fall with no one nearby to call for help, a medication dose missed without anyone to notice, days passing without a family member knowing if everything is alright. In rural areas, professional care services are scarce, and internet connectivity is often unreliable or absent entirely.</p>
+    <blockquote class="pull-quote">
+      "The combination of rapid ageing, working-age migration, and limited connectivity creates a care gap that technology — designed specifically for this context — could meaningfully narrow."
+      <cite>— Research motivation, Thesis Chapter 1</cite>
+    </blockquote>
+    <p>Existing assistive robots address some of these challenges, but not in ways accessible to families in developing countries. They cost between $5,000 and $100,000, require continuous Wi-Fi, and were designed for high-income, well-connected environments. None of them were built with Sri Lanka's realities in mind.</p>
+    <a href="research.html" style="font-size:.88rem; color:var(--primary);">Read the full literature review →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2 — THE APPROACH
+     ══════════════════════════════════════════════════════════ -->
+<section style="background:var(--surface); border-bottom:1px solid var(--border);">
+  <div class="doc-section">
+    <span class="doc-chapter">Chapter 2 — The Approach</span>
+    <h2>Three Principles, One Robot</h2>
+    <p>CARA is not designed to be the most advanced robot — it is designed to be the most <em>useful</em> robot for a specific context. Every decision in the design flows from three constraints that were set at the outset and never compromised.</p>
+
+    <div class="principle-list">
+      <div class="principle">
+        <div class="principle-n">01</div>
+        <div>
+          <h4>Under $500, Total</h4>
+          <p>The complete bill of materials — every sensor, motor, processor, and cable — must cost under $500 USD. This is not a stretch goal; it is the boundary that determines whether the system is accessible to middle-income families in Sri Lanka or only to research institutions. Every hardware decision is evaluated against this constraint first.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="principle-n">02</div>
+        <div>
+          <h4>Zero Wi-Fi Dependency for Safety</h4>
+          <p>All safety-critical functions — fall detection alerts, medication reminders, daily check-ins — operate entirely over GSM cellular. Wi-Fi is deliberately excluded from every safety path, not as a fallback but as the primary design choice. GSM coverage is broadly available across Sri Lanka's rural and semi-urban areas even where broadband is not.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="principle-n">03</div>
+        <div>
+          <h4>Zero Required Interaction from the Elderly User</h4>
+          <p>CARA must monitor, detect, and alert without ever requiring the elderly user to press a button, speak a command, or understand how the system works. If the robot only works when the user actively engages with it, it fails the moment the user is cognitively impaired, frightened, or simply unconscious after a fall.</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="about.html" style="font-size:.88rem; color:var(--primary);">Read the full project background →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3 — THE ROBOT
+     ══════════════════════════════════════════════════════════ -->
+<section style="border-bottom:1px solid var(--border);">
+  <div class="doc-section wide">
+    <span class="doc-chapter">Chapter 3 — The Robot</span>
+    <h2>What CARA Can Do</h2>
+    <p>CARA integrates 15 capabilities across a dual-controller platform: an NVIDIA Jetson Nano handles AI and computer vision while an Arduino Mega 2560 manages all real-time peripherals. Here are the four things CARA does that matter most.</p>
+
+    <div class="cap-grid" style="margin-top:1.5rem;">
+      <div class="cap-item">
+        <div class="cap-icon">🤸</div>
+        <div class="cap-body">
+          <h4>Detects Falls Automatically</h4>
+          <p>MediaPipe Pose Estimation runs at 12–15 fps on the Jetson Nano's GPU. When hip and shoulder positions match a fall pattern for two continuous seconds, CARA triggers an alert — with no wearable device required from the user.</p>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-icon">📱</div>
+        <div class="cap-body">
+          <h4>Sends SMS Without Internet</h4>
+          <p>A SIM800L GSM module sends text message alerts to registered family members within 30 seconds of a confirmed fall, a missed medication, or a daily check-in failure — all over the cellular network, with no Wi-Fi required.</p>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-icon">🚗</div>
+        <div class="cap-body">
+          <h4>Moves Around the Home</h4>
+          <p>12 ultrasonic sensors provide 360° obstacle awareness. CARA follows its registered user through rooms using a combination of PIR motion detection and computer vision colour tracking, stopping safely at 20 cm from any object.</p>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-icon">💊</div>
+        <div class="cap-body">
+          <h4>Manages Medication Timing</h4>
+          <p>A real-time clock triggers audible reminders at four set times daily. The user confirms by tapping an RFID tag — embedded in the medication box lid — to the robot. If no confirmation arrives in 15 minutes, a GSM alert is sent automatically.</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="features.html" style="font-size:.88rem; color:var(--primary); margin-top:.75rem; display:inline-block;">See all 15 features →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     STATS
+     ══════════════════════════════════════════════════════════ -->
+<section style="background:var(--surface); border-bottom:1px solid var(--border); padding:3rem 1.75rem;">
+  <div style="max-width:900px; margin:0 auto;">
+    <div class="stats-row">
+      <div class="stat-big">
+        <span class="num">&lt;$500</span>
+        <span class="lbl">Total hardware cost — accessible for developing-country families</span>
+      </div>
+      <div class="stat-big">
+        <span class="num">15</span>
+        <span class="lbl">Integrated features across critical, high, and medium priority tiers</span>
+      </div>
+      <div class="stat-big">
+        <span class="num">80%+</span>
+        <span class="lbl">Fall detection accuracy target across 20 standardised trials</span>
+      </div>
+      <div class="stat-big">
+        <span class="num">&lt;30s</span>
+        <span class="lbl">SMS alert delivery target after confirmed fall event</span>
+      </div>
+      <div class="stat-big">
+        <span class="num">0</span>
+        <span class="lbl">Wi-Fi connections required for any safety-critical function</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     EXPLORE
+     ══════════════════════════════════════════════════════════ -->
+<section style="border-bottom:1px solid var(--border);">
+  <div class="doc-section">
+    <span class="doc-chapter">Explore the Project</span>
+    <h2>Go Deeper</h2>
+    <p>This documentary site covers every aspect of the CARA project — from the initial research question to the hardware components and weekly build notes.</p>
+
+    <div class="explore-links">
+      <a href="about.html" class="explore-link">
+        <span class="el-icon">📖</span><span class="el-label">Project Background</span><span class="el-arrow">›</span>
+      </a>
+      <a href="objectives.html" class="explore-link">
+        <span class="el-icon">🎯</span><span class="el-label">Research Objectives</span><span class="el-arrow">›</span>
+      </a>
+      <a href="research.html" class="explore-link">
+        <span class="el-icon">🔬</span><span class="el-label">Literature Review</span><span class="el-arrow">›</span>
+      </a>
+      <a href="fieldbooks.html" class="explore-link">
+        <span class="el-icon">📓</span><span class="el-label">Field Books</span><span class="el-arrow">›</span>
+      </a>
+      <a href="features.html" class="explore-link">
+        <span class="el-icon">⚙️</span><span class="el-label">Features</span><span class="el-arrow">›</span>
+      </a>
+      <a href="hardware.html" class="explore-link">
+        <span class="el-icon">🔩</span><span class="el-label">Hardware</span><span class="el-arrow">›</span>
+      </a>
+      <a href="architecture.html" class="explore-link">
+        <span class="el-icon">🏗️</span><span class="el-label">Architecture</span><span class="el-arrow">›</span>
+      </a>
+      <a href="docs.html" class="explore-link">
+        <span class="el-icon">📋</span><span class="el-label">Technical Docs</span><span class="el-arrow">›</span>
+      </a>
+      <a href="timeline.html" class="explore-link">
+        <span class="el-icon">📅</span><span class="el-label">Gantt Timeline</span><span class="el-arrow">›</span>
+      </a>
+      <a href="gallery.html" class="explore-link">
+        <span class="el-icon">🖼️</span><span class="el-label">Gallery</span><span class="el-arrow">›</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     LATEST FROM THE BLOG
+     ══════════════════════════════════════════════════════════ -->
+<section>
+  <div class="doc-section">
+    <span class="doc-chapter">From the Build Log</span>
+    <h2>Latest Update</h2>
+    <p>The development blog tracks weekly progress as CARA moves from design to a working prototype.</p>
+
+    <a href="blog/week-05.html" class="latest-post">
+      <div style="flex:1; min-width:0;">
+        <div class="lp-label">Week 05 · 09 Jun 2026</div>
+        <div class="lp-title">Person Following — Tuning the Two-Layer Identity System</div>
+        <p class="lp-excerpt">Implementing HSV orange-band tracking for Layer 2 of the person-lock system. Challenges with indoor lighting variation and the tuning approach that achieved reliable tracking across different room conditions.</p>
+      </div>
+      <div style="flex-shrink:0; color:var(--primary); font-size:1.25rem; padding-top:.25rem;">→</div>
+    </a>
+
+    <div style="margin-top:1rem;">
+      <a href="blog/" style="font-size:.88rem; color:var(--primary);">All posts →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="fieldbooks.html">Field Books</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="blog/">Blog</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

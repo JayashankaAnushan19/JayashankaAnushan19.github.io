@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Technical Documentation — Functional requirements, non-functional requirements, safety design, and system specifications.">
+<title>Documentation — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html" class="active">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Docs
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Chapter 3 — System Design</div>
+    <h1 class="page-title">Technical Documentation</h1>
+    <p class="page-subtitle">Formal system specification: functional and non-functional requirements, communication design, safety architecture, and appendix listing for the CARA v1.0 thesis document.</p>
+  </div>
+
+  <!-- FR -->
+  <h2 style="margin-top:0">Functional Requirements</h2>
+  <p>Functional requirements define what the system must do. Each requirement is traceable to a specific research objective and is evaluated through structured testing in Chapter 5 of the thesis.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Requirement</th><th>Measurement Criterion</th><th>Source</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>FR1</td><td>Detect fall posture using computer vision</td><td>≥80% accuracy across 20 standardised fall trials; &lt;2 false positives per hour continuous</td><td>OBJ2</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR2</td><td>Deliver SMS alert within 30s of confirmed fall, without Wi-Fi</td><td>SMS delivery timestamp vs fall trigger timestamp · 15 trials</td><td>OBJ3</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR3</td><td>Avoid obstacles during navigation, stop at ≥20 cm</td><td>% collision-free trials across 20 navigation runs · measured at 20cm trigger</td><td>OBJ1</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR4</td><td>Follow registered user with two-layer identity system</td><td>% sessions where target remains in frame for ≥80% of session duration</td><td>OBJ1</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR5</td><td>Trigger medication reminders at 4 daily times</td><td>100% reminder trigger at scheduled times (±1 minute tolerance)</td><td>OBJ4</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR6</td><td>Send SMS if medication not confirmed within 15 minutes</td><td>100% SMS trigger rate when RFID not presented within 15-min window</td><td>OBJ4</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>FR7</td><td>Stream live camera feed via phone browser</td><td>Accessible on local network without app installation · latency &lt;500ms</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr><td>FR8</td><td>Accept remote drive commands from phone browser</td><td>Command response time &lt;200ms · obstacle avoidance always overrides</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr><td>FR9</td><td>Monitor room temperature and send heatstroke alert at 38°C</td><td>Alert triggered within 5 minutes of sustained 38°C ambient condition</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr><td>FR10</td><td>Log all key events with timestamps for evaluation analysis</td><td>Event log persists across reboots · each event includes timestamp from RTC</td><td>OBJ5</td><td><span class="tag tag-med">Medium</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NFR -->
+  <h2>Non-Functional Requirements</h2>
+  <p>Non-functional requirements constrain how the system operates, regardless of specific features. They represent the design philosophy of CARA as a developing-world platform.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Requirement</th><th>Verification Method</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>NFR1</td><td>Total component cost shall not exceed $500 USD</td><td>Sum of component receipts/quotes · verified before purchase</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>NFR2</td><td>All safety-critical features shall operate without Wi-Fi or internet</td><td>Full function test with Wi-Fi router powered off</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>NFR3</td><td>Elderly users shall not be required to interact with CARA for any safety function</td><td>Walkthrough test: all FR1–FR6 triggered without elderly user action</td><td><span class="tag tag-crit">Critical</span></td></tr>
+        <tr><td>NFR4</td><td>System shall operate on battery for ≥90 minutes under full load</td><td>Continuous operation test from full charge to auto-shutdown</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr><td>NFR5</td><td>Fall detection shall not impose latency &gt;100ms between detection and alert trigger</td><td>Timestamp comparison: last frame confirming fall vs serial command transmission</td><td><span class="tag tag-high">High</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SAFETY -->
+  <h2>Safety Design</h2>
+  <p>Safety in CARA is implemented across three layers, informed by <strong>ISO 13482:2014</strong> (safety requirements for personal care robots), which defines risk classes and mitigation approaches for robots that physically co-exist with humans.</p>
+
+  <div class="grid-2" style="margin-top:1rem;">
+    <div class="card">
+      <h4>Physical Collision Safety</h4>
+      <p style="font-size:.85rem;">12 × HC-SR04 sensors provide continuous 360° coverage with 50ms polling. Emergency stop at 20cm threshold. This threshold was calculated based on maximum operating speed (0.3 m/s) and motor deceleration response time (~80ms) to guarantee stopping before contact.</p>
+      <p style="font-size:.85rem; margin:0;"><strong>Non-overridable:</strong> Obstacle avoidance takes precedence over all commands, including remote drive and ALERT state. No software path bypasses this check.</p>
+    </div>
+    <div class="card">
+      <h4>Functional Safety — Fall Detection</h4>
+      <p style="font-size:.85rem;">Two-stage confirmation prevents false-positive SMS flooding: (1) 2-second hold period — all three posture conditions must persist continuously before fall is confirmed; (2) 30-second cooldown after each triggered alert — prevents repeated SMS from transient posture re-entry.</p>
+      <p style="font-size:.85rem; margin:0;">Target false positive rate: &lt;2 per hour of continuous monitoring in typical home environment.</p>
+    </div>
+    <div class="card">
+      <h4>Electrical Safety</h4>
+      <p style="font-size:.85rem;">SIM800L powered on a dedicated 4.0V rail, isolated from Arduino 5V bus. 1000µF capacitor absorbs TX burst transients. LiPo battery has integrated protection circuit preventing overdischarge (&lt;3.0V/cell) and short-circuit protection.</p>
+    </div>
+    <div class="card">
+      <h4>Staircase / Edge Safety</h4>
+      <p style="font-size:.85rem;">Three TCRT5000 downward-facing IR sensors detect loss of floor surface. Emergency stop triggered if 2+ sensors simultaneously show no floor reflection. Prevents the robot from driving off a step edge or into a staircase during autonomous navigation.</p>
+    </div>
+  </div>
+
+  <div class="info-box amber" style="margin-top:1.5rem;">
+    <h4>Research Prototype Notice</h4>
+    <p>CARA v1.0 is a research prototype evaluated in a university lab environment. Real-world eldercare deployment would require full ISO 13482 certification, extended trials with elderly participants, and clinical safety review. The safety design described here is appropriate for the defined research scope.</p>
+  </div>
+
+  <!-- APPENDICES -->
+  <h2>Thesis Appendices</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Appendix</th><th>Content</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Appendix A</td><td>Full Circuit Wiring Diagram — all Arduino pin assignments, power rails, and bus connections</td><td>In progress</td></tr>
+        <tr><td>Appendix B</td><td>Arduino Firmware Listing — complete 5-state machine code with all peripheral drivers</td><td>In progress</td></tr>
+        <tr><td>Appendix C</td><td>Python Fall Detection Node — full MediaPipe ROS node source code</td><td>In progress</td></tr>
+        <tr><td>Appendix D</td><td>Ethics Approval Documentation</td><td>Submitted</td></tr>
+        <tr><td>Appendix E</td><td>Raw Test Results — all trial data for all 15 features</td><td>Pending (Week 9+)</td></tr>
+        <tr><td>Appendix F</td><td>AI Usage Statement — disclosure of generative AI tools used in thesis preparation</td><td>Complete</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="timeline.html" class="btn btn-primary">Project Timeline →</a>
+    <a href="architecture.html" class="btn" style="background:var(--surface-2); color:var(--text);">← Architecture</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="blog/">Blog</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA System Architecture — ROS node graph, 5-state machine, communication protocols.">
+<title>Architecture — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html" class="active">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Architecture
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Software Design</div>
+    <h1 class="page-title">System Architecture</h1>
+    <p class="page-subtitle">CARA's software is split between two controllers: the Jetson Nano handles AI and ROS, while the Arduino Mega manages all real-time peripherals through a 5-state machine.</p>
+  </div>
+
+  <h2 style="margin-top:0">Dual-Controller Design</h2>
+  <p>The architecture separates intelligence from execution. The <strong>NVIDIA Jetson Nano</strong> runs ROS Noetic on Ubuntu 18.04, handling all computationally intensive tasks — computer vision, camera streaming, person tracking, and web interfaces. It communicates decisions to the <strong>Arduino Mega 2560</strong> via UART serial at 9600 baud. The Arduino executes those decisions through its 5-state machine, directly controlling motors, sensors, GSM, RFID, LCD, buzzers, and LEDs.</p>
+
+  <p>This split was a deliberate design decision: the Arduino's real-time loop runs non-blocking polling cycles at ~50ms, which would be impossible to guarantee in ROS's executor model. Conversely, MediaPipe Pose Estimation and Flask streaming require the GPU and Linux stack available only on Jetson.</p>
+
+  <div class="code-block">
+<span class="c">// CARA System Communication Flow</span>
+
+<span class="k">USB Webcam</span> ─── /dev/video0 ──→ <span class="k">Jetson Nano</span> (ROS Noetic · Ubuntu 18.04)
+                                        │
+            ┌───────────────────────────┴─────────────────────────────┐
+            │                    ROS Node Space                        │
+            │  fall_detection  ← camera frames                        │
+            │  person_lock     ← camera frames                        │
+            │  pan_tilt        ← nose_x, PIR direction                │
+            │  health_mgmt     ← DS3231 time (polled via serial)      │
+            │  camera_stream   ← camera frames → HTTP :5000           │
+            │  remote_control  ← HTTP POST from phone browser         │
+            │  serial_bridge   ← aggregated command publisher         │
+            └─────────────────────┬───────────────────────────────────┘
+                                  │
+                         UART 9600 baud (USB Serial)
+                         Commands: FALL_DETECTED · STEER_LEFT/RIGHT
+                                   MOVE_FORWARD · SLOW_DOWN · STOP
+                                   TARGET_LOST · PAN_LEFT/RIGHT
+                                  │
+                          <span class="v">Arduino Mega 2560</span> (5-state machine)
+                                  │
+            ┌─────────┬───────────┴──────────┬───────────┬────────────┐
+           <span class="s">Motors</span>   <span class="s">SIM800L</span>         <span class="s">HC-SR04×12</span>   <span class="s">RFID+RTC</span>   <span class="s">LCD+LED+Buzz</span>
+  </div>
+
+  <h2>ROS Nodes (Jetson Nano)</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Node</th><th>Trigger</th><th>Function</th><th>Outputs</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>fall_detection</td>
+          <td>Camera frame</td>
+          <td>MediaPipe Pose at 12–15 fps. Checks: LEFT_HIP y &gt;0.77, RIGHT_HIP y &gt;0.77, LEFT_SHOULDER y &gt;0.55. All three must persist for 2 seconds before fall is confirmed.</td>
+          <td>Publishes /fall_detected · Outputs nose_x for pan_tilt</td>
+        </tr>
+        <tr>
+          <td>serial_bridge</td>
+          <td>ROS topics</td>
+          <td>Aggregates commands from all nodes into a single UART serial stream to Arduino. Implements command priority: FALL_DETECTED overrides all movement commands.</td>
+          <td>USB Serial commands to Arduino</td>
+        </tr>
+        <tr>
+          <td>camera_stream</td>
+          <td>HTTP request</td>
+          <td>Flask MJPEG server on port 5000. Endpoint /video_feed. Runs in daemon thread. Streams /dev/video0 at 720p. Accessible from any phone browser on local network.</td>
+          <td>HTTP MJPEG stream</td>
+        </tr>
+        <tr>
+          <td>person_lock</td>
+          <td>Camera frame</td>
+          <td>Layer 1: RFID UID registered at session start. Layer 2: OpenCV HSV filter tracks orange wristband (user wears it). Publishes TARGET_LOST if band absent for 10s.</td>
+          <td>/target_visible topic</td>
+        </tr>
+        <tr>
+          <td>pan_tilt</td>
+          <td>nose_x + PIR</td>
+          <td>Calculates pan servo angle vs 320px frame centre. If nose_x &lt; 140 → PAN_LEFT; if nose_x &gt; 180 → PAN_RIGHT. PIR direction overrides if no visual target.</td>
+          <td>PAN_LEFT/RIGHT via serial</td>
+        </tr>
+        <tr>
+          <td>remote_control</td>
+          <td>HTTP POST</td>
+          <td>Receives movement commands from phone web interface. Forwards MOVE_FORWARD / STEER_LEFT / STEER_RIGHT / STOP to Arduino. Obstacle avoidance always overrides.</td>
+          <td>Movement commands via serial</td>
+        </tr>
+        <tr>
+          <td>health_management</td>
+          <td>DS3231 time match</td>
+          <td>Polls RTC time via serial. Medication reminders at 08:00, 13:00, 18:00, 22:00. 15-min RFID confirm window. Missed → sendSMS(). Daily check-in at 12:00. Heatstroke at 38°C.</td>
+          <td>Medication trigger · SMS alerts</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>5-State Machine (Arduino)</h2>
+  <p>The Arduino executes a single non-blocking loop that services all peripherals at ~50ms intervals. The system state governs which actions are taken each cycle.</p>
+
+  <div class="grid-3" style="margin-top:1.25rem;">
+    <div class="state-card s-idle">
+      <div class="state-icon">💤</div>
+      <div class="state-name">Idle</div>
+      <div class="state-desc">No target detected. Motors stopped. Ultrasonic sensors polling every 50ms. PIR sensors monitoring. LCD shows standby message. Green LED.</div>
+    </div>
+    <div class="state-card s-active">
+      <div class="state-icon">🚶</div>
+      <div class="state-name">Active</div>
+      <div class="state-desc">PIR triggered, RFID confirmed. Robot moves toward target. Person_lock tracking begins. Obstacle avoidance enforced. Amber LED pulsing.</div>
+    </div>
+    <div class="state-card s-monitoring">
+      <div class="state-icon">👁️</div>
+      <div class="state-name">Monitoring</div>
+      <div class="state-desc">Target in frame, MediaPipe fall detection active. Robot stationary or slow-follow. Fall detection threshold check running every frame. Blue LED.</div>
+    </div>
+    <div class="state-card s-alert">
+      <div class="state-icon">🚨</div>
+      <div class="state-name">Alert</div>
+      <div class="state-desc">Fall confirmed. Motors stopped. SIM800L sends SMS. LCD shows "FALL DETECTED — HELP CALLED". Buzzer beeps. Red LED solid. 30s cooldown enforced.</div>
+    </div>
+    <div class="state-card s-reset">
+      <div class="state-icon">🔄</div>
+      <div class="state-name">Reset</div>
+      <div class="state-desc">Alert cooldown complete. System checks for continued fall posture. If cleared, returns to IDLE. If posture persists, holds ALERT. Amber LED rapid pulse.</div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:1.75rem;">
+    <h4>Safety Invariant</h4>
+    <p>Obstacle avoidance (20 cm threshold) and cliff detection overrides are enforced in every state, including ALERT and remote_control. No command — from any source — can cause the robot to move into an obstacle.</p>
+  </div>
+
+  <h2>Communication Protocols</h2>
+  <div class="grid-2" style="margin-top:1rem;">
+    <div class="card">
+      <h4>UART Serial (Jetson ↔ Arduino)</h4>
+      <p style="font-size:.85rem;">9600 baud via USB Serial port. One-way command protocol: Jetson decides, Arduino executes. Arduino reads with <code>Serial.readStringUntil('\n')</code>. Commands are plain ASCII strings terminated with newline.</p>
+      <p style="font-size:.85rem; margin:0;">Command set: <code>FALL_DETECTED</code> · <code>STEER_LEFT</code> · <code>STEER_RIGHT</code> · <code>MOVE_FORWARD</code> · <code>SLOW_DOWN</code> · <code>STOP</code> · <code>TARGET_LOST</code> · <code>PAN_LEFT</code> · <code>PAN_RIGHT</code></p>
+    </div>
+    <div class="card">
+      <h4>I2C Bus (LCD + RTC)</h4>
+      <p style="font-size:.85rem;">Shared two-wire bus (SDA on Arduino A4, SCL on A5). LCD at address 0x27, DS3231 RTC at 0x68. Both share the same two wires, reducing GPIO usage. Scalable — additional I2C devices can join the bus without new pins.</p>
+    </div>
+    <div class="card">
+      <h4>SPI (RFID)</h4>
+      <p style="font-size:.85rem;">MFRC522 communicates via hardware SPI (MISO/MOSI/SCK on Arduino pins 50/51/52). Slave Select on pin 10. Polling loop in MONITORING and ACTIVE states checks for UID match every 500ms.</p>
+    </div>
+    <div class="card">
+      <h4>GSM AT Commands (SIM800L)</h4>
+      <p style="font-size:.85rem;">SoftwareSerial on Arduino pins 2 &amp; 3. SMS sequence: <code>AT+CMGF=1</code> (text mode) → <code>AT+CMGS="+[number]"</code> → message body → <code>0x1A</code> (Ctrl+Z, send). 4.0V regulated supply, 1000µF cap.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="docs.html" class="btn btn-primary">Technical Docs →</a>
+    <a href="hardware.html" class="btn" style="background:var(--surface-2); color:var(--text);">← Hardware</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

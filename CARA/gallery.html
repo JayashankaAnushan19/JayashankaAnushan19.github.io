@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Gallery — System diagrams, circuit schematics, and build photos.">
+<title>Gallery — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.gallery-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; transition: box-shadow .2s, border-color .2s; }
+.gallery-card:hover { box-shadow: var(--sh-md); border-color: var(--border-2); }
+.gallery-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.gallery-placeholder { width: 100%; height: 200px; background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; }
+.gallery-placeholder .ph-icon { font-size: 2.5rem; opacity: .3; }
+.gallery-placeholder .ph-label { font-size: .72rem; font-family: var(--font-mono); color: var(--light); letter-spacing: 1px; text-align: center; }
+.gallery-info { padding: 1rem; }
+.gallery-info h4 { font-size: .9rem; margin-bottom: .25rem; }
+.gallery-info p  { font-size: .78rem; color: var(--muted); margin-bottom: .4rem; }
+.gallery-info .fig-ref { font-family: var(--font-mono); font-size: .65rem; color: var(--light); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap-wide">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>Gallery
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Visual Documentation</div>
+    <h1 class="page-title">Gallery</h1>
+    <p class="page-subtitle">System diagrams, circuit schematics, build photos, and evaluation result charts — updated as the project progresses.</p>
+  </div>
+
+  <h2 style="margin-top:0">System Diagrams</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-card">
+      <!-- <div class="gallery-placeholder">
+        <div class="ph-icon">🏗️</div>
+        <div class="ph-label">SYSTEM ARCHITECTURE<br>BLOCK DIAGRAM</div>
+      </div> -->
+      <img src="assets/images/System Architecture Block Diagram.drawio.png" alt="System Architecture Block Diagram">
+      <div class="gallery-info">
+        <h4>System Architecture Block Diagram</h4>
+        <p>Hardware block diagram — Jetson Nano, Arduino Mega, all sensors, actuators, power rails, and bus connections.</p>
+        <span class="fig-ref">Figure 3-1 · Thesis Chapter 3</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <!-- <div class="gallery-placeholder">
+        <div class="ph-icon">🔄</div>
+        <div class="ph-label">ROS NODE GRAPH</div>
+      </div> -->
+      <img src="assets/images/Software Architecture with ROS nodes and Arduino state machine.drawio.png" alt="ROS Node Graph"> 
+      <div class="gallery-info">
+        <h4>ROS Node Graph</h4>
+        <p>Complete ROS Noetic process space on Jetson Nano — 7 nodes, topics, publishers and subscribers.</p>
+        <span class="fig-ref">Figure 3-2 · Thesis Chapter 3</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">↔️</div>
+        <div class="ph-label">5-STATE MACHINE<br>FLOW DIAGRAM</div>
+      </div>
+      <!-- Replace with: <img src="assets/images/state-machine.png" alt="5-State Machine Diagram"> -->
+      <div class="gallery-info">
+        <h4>5-State Machine Diagram</h4>
+        <p>IDLE → ACTIVE → MONITORING → ALERT → RESET state transition diagram with trigger conditions.</p>
+        <span class="fig-ref">Figure 3-3 · Thesis Chapter 3</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">⚡</div>
+        <div class="ph-label">CIRCUIT WIRING<br>DIAGRAM</div>
+      </div>
+      <!-- Replace with: <img src="assets/images/circuit-diagram.png" alt="Circuit Wiring Diagram"> -->
+      <div class="gallery-info">
+        <h4>Circuit Wiring Diagram</h4>
+        <p>Full Arduino Mega 2560 pin assignment diagram — all 12 ultrasonic sensors, PIR, RFID, I2C bus, servos, motor driver, and GSM module.</p>
+        <span class="fig-ref">Appendix A · Thesis</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🔋</div>
+        <div class="ph-label">POWER TOPOLOGY<br>DIAGRAM</div>
+      </div>
+      <!-- Replace with: <img src="assets/images/power-topology.png" alt="Power Topology"> -->
+      <div class="gallery-info">
+        <h4>Power System Topology</h4>
+        <p>3S LiPo → dual buck converters (5V Arduino rail, 4.0V SIM800L rail) → motor driver direct 11.1V.</p>
+        <span class="fig-ref">Figure 3-6 · Thesis Chapter 3</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Build Photos</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🤖</div>
+        <div class="ph-label">CARA ROBOT<br>FULL BUILD PHOTO</div>
+      </div>
+      <div class="gallery-info">
+        <h4>CARA v1.0 — Full Assembly</h4>
+        <p>Complete robot with chassis, pan-tilt camera head, ultrasonic sensor ring, and all mounted electronics.</p>
+        <span class="fig-ref">Build photo · coming soon</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🔌</div>
+        <div class="ph-label">ELECTRONICS<br>CLOSE-UP</div>
+      </div>
+      <div class="gallery-info">
+        <h4>Electronics Bay</h4>
+        <p>Arduino Mega, Jetson Nano, buck converters, SIM800L, and RFID mounted inside the chassis compartment.</p>
+        <span class="fig-ref">Build photo · coming soon</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">📷</div>
+        <div class="ph-label">PAN-TILT<br>CAMERA HEAD</div>
+      </div>
+      <div class="gallery-info">
+        <h4>Pan-Tilt Camera Assembly</h4>
+        <p>Dual SG90 servo pan-tilt mount with USB webcam. Pan driven by MediaPipe nose X; default tilt 75°.</p>
+        <span class="fig-ref">Build photo · coming soon</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Test Results &amp; Evaluation</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">📊</div>
+        <div class="ph-label">FALL DETECTION<br>ACCURACY CHART</div>
+      </div>
+      <div class="gallery-info">
+        <h4>Fall Detection Accuracy</h4>
+        <p>True positive / false positive rates across 20 standardised trials. Target: ≥80% accuracy.</p>
+        <span class="fig-ref">Chapter 5 · Available Week 9+</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">📈</div>
+        <div class="ph-label">SMS DELIVERY<br>TIME CHART</div>
+      </div>
+      <div class="gallery-info">
+        <h4>GSM SMS Delivery Times</h4>
+        <p>Distribution of alert delivery timestamps across 15 triggered test events. Target: &lt;30s.</p>
+        <span class="fig-ref">Chapter 5 · Available Week 9+</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">📉</div>
+        <div class="ph-label">FEATURE EVALUATION<br>SUMMARY CHART</div>
+      </div>
+      <div class="gallery-info">
+        <h4>Overall Feature Evaluation Results</h4>
+        <p>Pass/fail summary across all 15 features with measured vs target performance metrics.</p>
+        <span class="fig-ref">Chapter 5 · Available Week 11+</span>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="blog/">Blog</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="About CARA — Project background, motivation, context, and key details about the MSc Robotics thesis.">
+<title>About — CARA Project</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">CARA <span>Project</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+  </div>
+  <button class="nav-toggle">☰</button>
+  <a href="../" class="nav-portfolio">↗ portfolio</a>
+</nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">CARA</a><span class="sep">›</span>About
+  </div>
+
+  <div class="page-header">
+    <div class="page-label">Project Background</div>
+    <h1 class="page-title">About CARA</h1>
+    <p class="page-subtitle">The motivation, context, and design philosophy behind a low-cost companion robot for elderly care in developing countries.</p>
+  </div>
+
+  <h2 style="margin-top:0">The Problem</h2>
+  <p>Sri Lanka is undergoing one of the most rapid demographic transitions in South Asia. The proportion of people aged 60 and above stood at 12.4% in 2012 and is projected to reach 25% by 2041 — a shift that places enormous pressure on families and formal care systems alike. Compounding this, large-scale economic migration of working-age adults overseas has left a generation of elderly parents living alone in family homes, often in semi-urban or rural areas where internet connectivity is unreliable and professional care services are scarce.</p>
+
+  <p>The risks for these individuals are significant: undetected falls, missed medications, delayed emergency responses, and chronic social isolation. Technology-assisted eldercare has emerged globally as one response to this challenge, yet the most capable assistive robots on the market today — PARO, Pepper, Care-O-Bot, ElliQ — cost between $5,000 and $100,000, require continuous Wi-Fi, and were designed for high-income, connected environments. None of them address the specific constraints of rural and semi-urban Sri Lanka.</p>
+
+  <div class="info-box">
+    <h4>The Core Research Question</h4>
+    <p>Can a single robotic platform costing under $500, operating without Wi-Fi, and requiring <em>zero interaction</em> from the elderly user effectively address the primary safety and companionship needs of a person living alone?</p>
+  </div>
+
+  <h2>What CARA Does</h2>
+  <p>CARA is a mobile companion robot designed to operate autonomously in a home environment. It moves through rooms using obstacle-avoidance navigation, follows its registered user, monitors them continuously using a camera and AI pose estimation, and reacts to safety events without requiring any action from the elderly person.</p>
+
+  <p>When a fall is detected, CARA triggers a GSM SMS alert to registered family members within 30 seconds — over the same cellular network used by basic mobile phones, available even in areas with no broadband internet. When medication time comes, CARA announces it with an audible reminder and LCD message, waits for the user to confirm with an RFID tag, and automatically alerts family if the medication is not confirmed within 15 minutes.</p>
+
+  <p>None of these core safety functions require the elderly user to press a button, speak a command, or understand any technology.</p>
+
+  <h2>Design Philosophy</h2>
+
+  <div class="grid-2" style="margin-top:1rem;">
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <h4>Affordability First</h4>
+      <p style="font-size:.85rem; margin:0;">Total component cost under $500. Every hardware decision is weighed against cost impact. The platform must be accessible to middle-income families in developing countries, not just research institutions.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h4>Zero Wi-Fi Dependency</h4>
+      <p style="font-size:.85rem; margin:0;">All critical safety functions — fall detection alerting, medication reminders — operate entirely via GSM cellular. Wi-Fi is never a dependency for any safety-critical feature.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🙈</div>
+      <h4>Zero Required Interaction</h4>
+      <p style="font-size:.85rem; margin:0;">The elderly user should never need to interact with CARA for the robot to fulfil its safety functions. Monitoring, detection, and alerting happen passively and autonomously.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌏</div>
+      <h4>Developing-World Context</h4>
+      <p style="font-size:.85rem; margin:0;">CARA is explicitly designed for deployment in Sri Lanka's residential settings — power-stable environments with GSM coverage but potentially no broadband. Every technical decision is grounded in this context.</p>
+    </div>
+  </div>
+
+  <h2>Project Details</h2>
+  <div class="table-wrap">
+    <table>
+      <tbody>
+        <tr><td>Full Title</td><td>A Low-Cost GSM-Based Companion Assistive Robot for Elderly Care and Human-Robot Interaction in Developing Countries</td></tr>
+        <tr><td>Short Name</td><td>CARA — Companion Assistive Robot for the Aged</td></tr>
+        <tr><td>Institution</td><td>Middlesex University Dubai</td></tr>
+        <tr><td>Programme</td><td>MSc Robotics</td></tr>
+        <tr><td>Module</td><td>PDE4445 — Dissertation (2025–2026)</td></tr>
+        <tr><td>Student</td><td>Jayashanka Anushan</td></tr>
+        <tr><td>Supervisor</td><td>Professor Judhi Prasetyo</td></tr>
+        <tr><td>Prototype Version</td><td>CARA v1.0 (research prototype)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Scope and Limitations</h2>
+  <p>CARA v1.0 is a research prototype evaluated in a controlled laboratory environment at Middlesex University Dubai. It is not a clinical or commercial product. The evaluation will measure performance across 15 defined features against specific quantitative targets, but real-world deployment in residential eldercare settings would require additional safety validation, extended user trials with actual elderly participants, and clinical review against ISO 13482:2014 (personal care robots safety standard).</p>
+
+  <p>The prototype uses a USB webcam in a fixed-mount camera rather than depth cameras, operates at walking speed (0.3 m/s), and is designed for a single-floor indoor environment. These are deliberate constraints that keep the platform affordable and within research scope.</p>
+
+  <div class="info-box green" style="margin-top:2rem;">
+    <h4>How to navigate this site</h4>
+    <p>Each page covers one aspect of the project in depth. Use the navigation bar to move between pages. The <a href="blog/">Development Blog</a> contains weekly build logs as the physical robot is constructed and tested. The <a href="timeline.html">Timeline</a> shows where the project currently stands against the 12-week plan.</p>
+  </div>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="objectives.html" class="btn btn-primary">Research Objectives →</a>
+    <a href="research.html" class="btn" style="background:var(--surface-2); color:var(--text);">Literature Review →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
