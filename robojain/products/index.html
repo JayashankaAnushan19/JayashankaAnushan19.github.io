@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>!function(){var t=localStorage.getItem('rj-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light')}();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — RoboJain</title>
+<meta name="description" content="RoboJain products — RJ-Life software solutions and RJ-Robot hardware developments. Built for real-world impact.">
+<link rel="icon" type="image/svg+xml" href="../assets/robojain-logo.svg">
+<link rel="apple-touch-icon" href="../assets/robojain-logo.svg">
+<link rel="canonical" href="https://jayashankaanushan19.github.io/robojain/products/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080C14">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jayashankaanushan19.github.io/robojain/products/">
+<meta property="og:title" content="Products — RoboJain">
+<meta property="og:description" content="RJ-Life software solutions and RJ-Robot hardware developments from RoboJain, Dubai UAE.">
+<meta property="og:site_name" content="RoboJain">
+<meta property="og:image" content="https://jayashankaanushan19.github.io/robojain/assets/robojain-og.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:          #080C14;
+    --bg-alt:      #0A1019;
+    --panel:       #0E1622;
+    --panel-2:     #121D2E;
+    --border:      #1A2C42;
+    --border-soft: #142236;
+    --ink:         #DDE4F0;
+    --ink-dim:     #7F93AE;
+    --ink-faint:   #435872;
+    --blue:        #5A8FCA;
+    --blue-dim:    #2B5A8E;
+    --blue-glow:   rgba(90,143,202,0.12);
+    --teal:        #3DAA88;
+    --teal-dim:    #1D6652;
+    --teal-glow:   rgba(61,170,136,0.12);
+    --green:       #3DAA70;
+    --amber:       #C47D2A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.6; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--blue); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  ::selection{ background:var(--blue-glow); color:var(--ink); }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media(max-width:720px){ .wrap{ padding:0 20px; } }
+
+  /* NAV */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(8,12,20,0.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:10px; color:var(--ink); text-decoration:none; }
+  .logo:hover{ text-decoration:none; }
+  .logo-img{ width:30px; height:30px; object-fit:contain; flex-shrink:0; }
+  .navlinks{ display:flex; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.04em; align-items:center; }
+  .navlinks a{ color:var(--ink-dim); transition:color 0.15s; }
+  .navlinks a:hover{ color:var(--ink); text-decoration:none; }
+  .navlinks a.active{ color:var(--blue); }
+  .navlinks .num{ color:var(--blue-dim); margin-right:5px; }
+  .nav-cta{ border:1px solid var(--border); padding:8px 16px; border-radius:2px; color:var(--ink) !important; transition:border-color 0.2s,color 0.2s; }
+  .nav-cta:hover{ border-color:var(--blue); color:var(--blue) !important; text-decoration:none; }
+  .hamburger{ display:none; background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; cursor:pointer; color:#7F93AE; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:0; flex-shrink:0; transition:color 0.15s,border-color 0.15s; }
+  .hamburger:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  .hamburger span{ display:block; width:14px; height:1.5px; background:currentColor; border-radius:1px; transition:transform 0.2s,opacity 0.2s; }
+  .hamburger.is-open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2){ opacity:0; }
+  .hamburger.is-open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+  .mob-panel{ display:none; position:fixed; top:68px; left:0; right:0; z-index:99; background:rgba(8,12,20,0.97); backdrop-filter:blur(12px); border-bottom:1px solid #142236; padding:8px 24px 24px; }
+  .mob-panel.is-open{ display:block; }
+  .mob-link{ display:flex; align-items:center; gap:8px; padding:13px 0; border-bottom:1px solid #142236; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.04em; text-decoration:none; transition:color 0.15s; }
+  .mob-link:last-child{ border-bottom:none; }
+  .mob-link:hover,.mob-link.active{ color:#DDE4F0; text-decoration:none; }
+  .mob-link .num{ color:#2B5A8E; margin-right:2px; }
+  .mob-link.mob-sub{ padding-left:20px; font-size:12px; }
+  .mob-link.mob-cta{ justify-content:center; border:1px solid #1A2C42; border-radius:2px; margin-top:12px; padding:13px 20px; color:#DDE4F0 !important; border-bottom:1px solid #1A2C42; }
+  .mob-link.mob-cta:hover{ border-color:#5A8FCA; }
+  .mob-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; }
+  .mob-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .mob-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  [data-theme="light"] .mob-panel{ background:rgba(240,244,250,0.97); border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .mob-link{ border-bottom-color:#D8E4F2; color:#3E5470; }
+  [data-theme="light"] .mob-link:hover,[data-theme="light"] .mob-link.active{ color:#0D1829; }
+  [data-theme="light"] .mob-link.mob-cta{ border-color:#CBD8EC; color:#0D1829 !important; }
+  [data-theme="light"] .mob-link.mob-cta:hover{ border-color:#2B65B0; }
+  [data-theme="light"] .hamburger{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .hamburger:hover{ color:#0D1829; border-color:#2B65B0; }
+  @media(max-width:800px){ .navlinks a,.navlinks .nav-dropdown{ display:none; } .navlinks{ gap:10px; } .hamburger{ display:flex; } }
+
+  /* DROPDOWN */
+  .nav-dropdown{ position:relative; display:flex; align-items:center; }
+  .nav-dropdown::after{ content:''; position:absolute; top:100%; left:0; right:0; height:18px; }
+  .nav-dd-trigger{ display:flex; align-items:center; gap:5px; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.04em; transition:color 0.15s; white-space:nowrap; text-decoration:none; }
+  .nav-dd-trigger:hover{ color:#DDE4F0; text-decoration:none; }
+  .nav-dd-trigger.active{ color:#5A8FCA; }
+  .chevron-icon{ width:9px; height:6px; flex-shrink:0; transition:transform 0.2s ease; }
+  .nav-dropdown:hover .chevron-icon{ transform:rotate(180deg); }
+  .nav-dd-menu{ position:absolute; top:calc(100% + 14px); left:50%; background:#0E1622; border:1px solid #1A2C42; border-radius:6px; overflow:hidden; min-width:230px; opacity:0; pointer-events:none; transform:translateX(-50%) translateY(-6px); transition:opacity 0.2s ease,transform 0.2s ease; z-index:200; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
+  .nav-dropdown:hover .nav-dd-menu{ opacity:1; pointer-events:all; transform:translateX(-50%) translateY(0); }
+  .nav-dd-item{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid #142236; text-decoration:none; transition:background 0.15s; }
+  .nav-dd-item:last-child{ border-bottom:none; }
+  .nav-dd-item:hover{ background:#121D2E; text-decoration:none; }
+  .dd-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .dd-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .dd-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  .dd-lbl{ font-size:12.5px; color:#7F93AE; }
+  .nav-dd-item:hover .dd-lbl{ color:#DDE4F0; }
+
+  /* THEME TOGGLE */
+  .theme-toggle{ background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#7F93AE; transition:color 0.15s,border-color 0.15s; flex-shrink:0; padding:0; margin-left:4px; }
+  .theme-toggle:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  [data-theme="light"] .theme-toggle{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .theme-toggle:hover{ color:#0D1829; border-color:#2B65B0; }
+  .icon-moon{ display:none; }
+  .icon-sun{ display:block; }
+  [data-theme="light"] .icon-moon{ display:block; }
+  [data-theme="light"] .icon-sun{ display:none; }
+
+  /* LIGHT THEME */
+  [data-theme="light"]{
+    --bg:#F0F4FA; --bg-alt:#E8EDF5; --panel:#FFFFFF; --panel-2:#F5F8FF;
+    --border:#CBD8EC; --border-soft:#D8E4F2;
+    --ink:#0D1829; --ink-dim:#3E5470; --ink-faint:#7A95B8;
+    --blue:#2B65B0; --blue-dim:#8AADD8; --blue-glow:rgba(43,101,176,0.10);
+    --teal:#1A7A5E; --teal-dim:#70B8A0; --teal-glow:rgba(26,122,94,0.10);
+    --green:#1A7A50; --amber:#9A6020;
+  }
+  [data-theme="light"] nav{ background:rgba(240,244,250,0.92); }
+  [data-theme="light"] .nav-dd-menu{ background:#FFFFFF; border-color:#CBD8EC; box-shadow:0 8px 24px rgba(80,100,140,0.15); }
+  [data-theme="light"] .nav-dd-item{ border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .nav-dd-item:hover{ background:#EEF3FC; }
+  [data-theme="light"] .dd-lbl{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-item:hover .dd-lbl{ color:#0D1829; }
+  [data-theme="light"] .nav-dd-trigger{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-trigger:hover,
+  [data-theme="light"] .nav-dd-trigger.active{ color:#2B65B0; }
+
+  /* PAGE HEADER */
+  .page-header{
+    padding: calc(68px + 96px) 0 72px;
+    border-bottom:1px solid var(--border-soft);
+    position:relative; overflow:hidden;
+  }
+  .page-header::before{
+    content:''; position:absolute; top:-10%; right:-8%;
+    width:600px; height:600px;
+    background:radial-gradient(circle,var(--blue-glow) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .module-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; color:var(--blue); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+  .module-label::after{ content:''; flex:1; height:1px; background:var(--border); }
+  .page-header h1{ font-size:clamp(36px,5.5vw,60px); margin-bottom:16px; }
+  .page-header p{ font-size:17px; color:var(--ink-dim); max-width:560px; }
+
+  /* CATEGORY SECTION */
+  .cat-section{ padding:80px 0; border-bottom:1px solid var(--border-soft); }
+  .cat-section:last-of-type{ border-bottom:none; }
+
+  .cat-header{ display:flex; align-items:flex-end; justify-content:space-between; gap:32px; margin-bottom:48px; flex-wrap:wrap; }
+  .cat-identity{ display:flex; align-items:center; gap:16px; }
+  .cat-badge{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em;
+    text-transform:uppercase; padding:6px 14px; border-radius:3px; font-weight:500;
+  }
+  .cat-badge.software{ background:var(--blue-glow); border:1px solid var(--blue-dim); color:var(--blue); }
+  .cat-badge.hardware{ background:var(--teal-glow); border:1px solid var(--teal-dim); color:var(--teal); }
+  .cat-title{ font-size:clamp(22px,3vw,30px); }
+  .cat-desc{ font-size:14px; color:var(--ink-dim); max-width:340px; text-align:right; }
+  @media(max-width:720px){ .cat-desc{ text-align:left; } }
+
+  /* PRODUCT GRID */
+  .product-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+  @media(max-width:760px){ .product-grid{ grid-template-columns:1fr; } }
+
+  /* PRODUCT CARD */
+  .product-card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden;
+    display:flex; flex-direction:column;
+    transition:border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    text-decoration:none; color:inherit;
+  }
+  .product-card:hover{ border-color:var(--blue); box-shadow:0 0 28px var(--blue-glow); transform:translateY(-2px); text-decoration:none; }
+  .product-card.hardware:hover{ border-color:var(--teal); box-shadow:0 0 28px var(--teal-glow); }
+
+  .card-stripe{ height:2px; width:100%; background:var(--blue); flex-shrink:0; }
+  .product-card.hardware .card-stripe{ background:var(--teal); }
+
+  .card-body{ padding:28px; flex:1; display:flex; flex-direction:column; gap:18px; }
+
+  .card-meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .cat-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; padding:4px 10px; border-radius:2px;
+  }
+  .cat-pill.software{ background:var(--blue-glow); color:var(--blue); border:1px solid var(--blue-dim); }
+  .cat-pill.hardware{ background:var(--teal-glow); color:var(--teal); border:1px solid var(--teal-dim); }
+
+  .status-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em;
+    text-transform:uppercase; padding:4px 10px; border-radius:2px; display:flex; align-items:center; gap:5px;
+  }
+  .status-pill.available{ background:rgba(61,170,112,0.1); color:var(--green); border:1px solid rgba(61,170,112,0.25); }
+  .status-pill.dev{ background:rgba(196,125,42,0.1); color:var(--amber); border:1px solid rgba(196,125,42,0.25); }
+  .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
+
+  .card-name{ font-size:22px; margin-bottom:4px; }
+  .card-tagline{ font-size:14px; color:var(--ink-dim); line-height:1.55; }
+
+  .card-features{ list-style:none; display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .card-features li{ font-size:13px; color:var(--ink-dim); display:flex; align-items:flex-start; gap:8px; }
+  .card-features li::before{ content:'—'; color:var(--blue); flex-shrink:0; font-family:'IBM Plex Mono',monospace; }
+  .product-card.hardware .card-features li::before{ color:var(--teal); }
+
+  .card-cta{
+    margin-top:auto; padding-top:20px; border-top:1px solid var(--border-soft);
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em;
+    color:var(--blue);
+  }
+  .product-card.hardware .card-cta{ color:var(--teal); }
+  .card-cta .arrow{ font-size:16px; transition:transform 0.2s; }
+  .product-card:hover .card-cta .arrow{ transform:translateX(4px); }
+
+  /* FOOTER */
+  footer{ padding:40px 0; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.1em; }
+  .foot-links{ margin-top:12px; display:flex; gap:20px; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .foot-links a{ color:var(--ink-faint); }
+  .foot-links a:hover{ color:var(--blue); }
+
+  /* REVEAL */
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../">
+      <img src="../assets/robojain-logo.svg" alt="RoboJain" class="logo-img">RoboJain
+    </a>
+    <div class="navlinks">
+      <a href="../#overview"><span class="num">01</span>Overview</a>
+      <a href="../#capabilities"><span class="num">02</span>Capabilities</a>
+      <a href="../#status"><span class="num">03</span>Log</a>
+      <a href="../#approach"><span class="num">04</span>Approach</a>
+      <div class="nav-dropdown">
+        <a href="./" class="nav-dd-trigger active"><span class="num">05</span>Products <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4 4-4"/></svg></a>
+        <div class="nav-dd-menu">
+          <a href="./#rj-life" class="nav-dd-item"><span class="dd-cat sw">RJ-Life</span></a>
+          <a href="./#rj-robot" class="nav-dd-item"><span class="dd-cat hw">RJ-Robot</span></a>
+        </div>
+      </div>
+      <a href="../posts.html"><span class="num">06</span>Posts</a>
+      <a class="nav-cta" href="../#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light / dark">
+        <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="menuToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mob-panel" id="mobPanel">
+    <a href="../#overview" class="mob-link"><span class="num">01</span>Overview</a>
+    <a href="../#capabilities" class="mob-link"><span class="num">02</span>Capabilities</a>
+    <a href="../#status" class="mob-link"><span class="num">03</span>Log</a>
+    <a href="../#approach" class="mob-link"><span class="num">04</span>Approach</a>
+    <a href="./" class="mob-link active"><span class="num">05</span>Products</a>
+    <a href="./#rj-life" class="mob-link mob-sub"><span class="mob-cat sw">RJ-Life</span></a>
+    <a href="./#rj-robot" class="mob-link mob-sub"><span class="mob-cat hw">RJ-Robot</span></a>
+    <a href="../posts.html" class="mob-link"><span class="num">06</span>Posts</a>
+    <a href="../#contact" class="mob-link mob-cta">Contact</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="module-label">RoboJain · Product Line</div>
+    <h1>Products</h1>
+    <p>Two distinct lines — software built for operational efficiency and hardware built for real-world impact. Each product is engineered to solve a specific problem, not just to demonstrate capability.</p>
+  </div>
+</header>
+
+<!-- RJ-LIFE SOFTWARE -->
+<section class="cat-section" id="rj-life">
+  <div class="wrap">
+    <div class="cat-header reveal">
+      <div class="cat-identity">
+        <span class="cat-badge software">RJ-Life</span>
+        <h2 class="cat-title">RoboJain Drive The Life</h2>
+      </div>
+      <p class="cat-desc">Purpose-built platforms designed for operational efficiency, data visibility, and real-world deployment.</p>
+    </div>
+    <div class="product-grid">
+
+      <a class="product-card reveal" href="loanmaster.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="cat-pill software">RJ-Life · Software</span>
+            <span class="status-pill available"><span class="status-dot"></span>Available</span>
+          </div>
+          <div>
+            <h3 class="card-name">LoanMaster</h3>
+            <p class="card-tagline">Complete microfinance management platform — built for lending institutions that need full control over their financial operations.</p>
+          </div>
+          <ul class="card-features">
+            <li>End-to-end loan origination and disbursement</li>
+            <li>Borrower profile management with KYC tracking</li>
+            <li>Automated repayment scheduling and interest engine</li>
+            <li>Multi-branch operations and role-based staff access</li>
+          </ul>
+          <div class="card-cta">View product <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="product-card reveal" href="robotsc.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="cat-pill software">RJ-Life · Software</span>
+            <span class="status-pill available"><span class="status-dot"></span>Available</span>
+          </div>
+          <div>
+            <h3 class="card-name">RobotSC</h3>
+            <p class="card-tagline">Real-time robotics monitoring and control dashboard — WebSocket-powered data visualisation and command interface for robotic systems.</p>
+          </div>
+          <ul class="card-features">
+            <li>Live sensor data visualisation via WebSocket</li>
+            <li>8 input + 8 output configurable control topics</li>
+            <li>Docker-containerised, ready for deployment</li>
+            <li>Built-in user management and authentication</li>
+          </ul>
+          <div class="card-cta">View product <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- RJ-ROBOT HARDWARE -->
+<section class="cat-section" id="rj-robot">
+  <div class="wrap">
+    <div class="cat-header reveal">
+      <div class="cat-identity">
+        <span class="cat-badge hardware">RJ-Robot</span>
+        <h2 class="cat-title">RoboJain Lead the Robotics</h2>
+      </div>
+      <p class="cat-desc">Physical systems engineered to solve real problems — for people who need hardware that works in the field, not just the lab.</p>
+    </div>
+    <div class="product-grid">
+
+      <a class="product-card hardware reveal" href="blindtalk.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="cat-pill hardware">RJ-Robot · Hardware</span>
+            <span class="status-pill available"><span class="status-dot"></span>Available</span>
+          </div>
+          <div>
+            <h3 class="card-name">BlindTalk</h3>
+            <p class="card-tagline">Braille-based communication device for the visually impaired — real-time text-to-Braille conversion in a compact, portable form factor.</p>
+          </div>
+          <ul class="card-features">
+            <li>Real-time text-to-Braille conversion hardware</li>
+            <li>Compact, portable and low-power design</li>
+            <li>Standard Braille encoding support</li>
+            <li>Simple, tool-free tactile operation</li>
+          </ul>
+          <div class="card-cta">View product <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="product-card hardware reveal" href="cara.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="cat-pill hardware">RJ-Robot · Hardware</span>
+            <span class="status-pill dev"><span class="status-dot"></span>In Development</span>
+          </div>
+          <div>
+            <h3 class="card-name">CARA</h3>
+            <p class="card-tagline">Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.</p>
+          </div>
+          <ul class="card-features">
+            <li>Automatic fall detection via computer vision</li>
+            <li>GSM-based SMS alerts — zero Wi-Fi dependency</li>
+            <li>Medication management with RFID confirmation</li>
+            <li>360° obstacle-aware autonomous navigation</li>
+          </ul>
+          <div class="card-cta">View project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <img src="../assets/robojain-logo.svg" alt="RoboJain" style="width:24px;height:24px;opacity:0.35;" loading="lazy">
+    </div>
+    <p>ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
+    <div class="foot-links">
+      <a href="../">Home</a>
+      <a href="./">Products</a>
+      <a href="../posts.html">Posts</a>
+      <a href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('themeToggle');
+  if(btn)btn.addEventListener('click',function(){
+    var h=document.documentElement,isLight=h.getAttribute('data-theme')==='light';
+    isLight?h.removeAttribute('data-theme'):h.setAttribute('data-theme','light');
+    localStorage.setItem('rj-theme',isLight?'dark':'light');
+  });
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('menuToggle');
+  var panel=document.getElementById('mobPanel');
+  if(!btn||!panel)return;
+  btn.addEventListener('click',function(){
+    var open=panel.classList.toggle('is-open');
+    btn.classList.toggle('is-open',open);
+    btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  document.addEventListener('click',function(e){
+    if(!panel.contains(e.target)&&!btn.contains(e.target)){
+      panel.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-label','Open menu');
+    }
+  });
+})();
+</script>
+</body>
+</html>

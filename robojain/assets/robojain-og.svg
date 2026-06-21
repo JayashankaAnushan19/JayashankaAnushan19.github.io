@@ -77,7 +77,7 @@
   <text x="84" y="370" font-family="'Courier New',monospace" font-size="15" fill="#435872" letter-spacing="1">DIY → Medium-Scale Robotic Systems · Embedded · ROS2 · Automation</text>
 
   <!-- URL -->
-  <text x="84" y="420" font-family="'Courier New',monospace" font-size="13" fill="#2a3a4e" letter-spacing="1">jayashankaanushan19.github.io/robojain.html</text>
+  <text x="84" y="420" font-family="'Courier New',monospace" font-size="13" fill="#2a3a4e" letter-spacing="1">jayashankaanushan19.github.io/robojain/</text>
 
   <!-- Bottom bar -->
   <rect x="0" y="627" width="1200" height="3" fill="url(#blueBar)" opacity="0.35"/>

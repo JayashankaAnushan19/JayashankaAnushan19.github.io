@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>!function(){var t=localStorage.getItem('rj-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light')}();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARA — RJ-Robot · RoboJain</title>
+<meta name="description" content="CARA by RoboJain — Companion Assistive Robot for the Aged. Autonomous elderly monitoring and care robot built for low-infrastructure environments. Currently in development.">
+<link rel="icon" type="image/svg+xml" href="../assets/robojain-logo.svg">
+<link rel="canonical" href="https://jayashankaanushan19.github.io/robojain/products/cara.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080C14">
+<meta property="og:type" content="product">
+<meta property="og:url" content="https://jayashankaanushan19.github.io/robojain/products/cara.html">
+<meta property="og:title" content="CARA — Companion Assistive Robot for the Aged · RoboJain">
+<meta property="og:description" content="Autonomous elderly monitoring and care robot — fall detection, GSM alerts, medication management and autonomous navigation. Under development by RoboJain.">
+<meta property="og:site_name" content="RoboJain">
+<meta property="og:image" content="https://jayashankaanushan19.github.io/robojain/assets/robojain-og.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080C14; --bg-alt:#0A1019; --panel:#0E1622; --panel-2:#121D2E;
+    --border:#1A2C42; --border-soft:#142236;
+    --ink:#DDE4F0; --ink-dim:#7F93AE; --ink-faint:#435872;
+    --teal:#3DAA88; --teal-dim:#1D6652; --teal-glow:rgba(61,170,136,0.12);
+    --blue:#5A8FCA; --blue-dim:#2B5A8E; --blue-glow:rgba(90,143,202,0.12);
+    --green:#3DAA70; --amber:#C47D2A; --amber-glow:rgba(196,125,42,0.12);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.6; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--teal); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media(max-width:720px){ .wrap{ padding:0 20px; } }
+
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(8,12,20,0.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:10px; color:var(--ink); text-decoration:none; }
+  .logo:hover{ text-decoration:none; }
+  .logo-img{ width:30px; height:30px; object-fit:contain; flex-shrink:0; }
+  .navlinks{ display:flex; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.04em; align-items:center; }
+  .navlinks a{ color:var(--ink-dim); transition:color 0.15s; }
+  .navlinks a:hover{ color:var(--ink); text-decoration:none; }
+  .navlinks a.active{ color:var(--blue); }
+  .navlinks .num{ color:var(--blue-dim); margin-right:5px; }
+  .nav-cta{ border:1px solid var(--border); padding:8px 16px; border-radius:2px; color:var(--ink) !important; transition:border-color 0.2s,color 0.2s; }
+  .nav-cta:hover{ border-color:var(--blue); color:var(--blue) !important; text-decoration:none; }
+  .hamburger{ display:none; background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; cursor:pointer; color:#7F93AE; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:0; flex-shrink:0; transition:color 0.15s,border-color 0.15s; }
+  .hamburger:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  .hamburger span{ display:block; width:14px; height:1.5px; background:currentColor; border-radius:1px; transition:transform 0.2s,opacity 0.2s; }
+  .hamburger.is-open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2){ opacity:0; }
+  .hamburger.is-open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+  .mob-panel{ display:none; position:fixed; top:68px; left:0; right:0; z-index:99; background:rgba(8,12,20,0.97); backdrop-filter:blur(12px); border-bottom:1px solid #142236; padding:8px 24px 24px; }
+  .mob-panel.is-open{ display:block; }
+  .mob-link{ display:flex; align-items:center; gap:8px; padding:13px 0; border-bottom:1px solid #142236; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.04em; text-decoration:none; transition:color 0.15s; }
+  .mob-link:last-child{ border-bottom:none; }
+  .mob-link:hover,.mob-link.active{ color:#DDE4F0; text-decoration:none; }
+  .mob-link .num{ color:#2B5A8E; margin-right:2px; }
+  .mob-link.mob-sub{ padding-left:20px; font-size:12px; }
+  .mob-link.mob-cta{ justify-content:center; border:1px solid #1A2C42; border-radius:2px; margin-top:12px; padding:13px 20px; color:#DDE4F0 !important; border-bottom:1px solid #1A2C42; }
+  .mob-link.mob-cta:hover{ border-color:#5A8FCA; }
+  .mob-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; }
+  .mob-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .mob-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  [data-theme="light"] .mob-panel{ background:rgba(240,244,250,0.97); border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .mob-link{ border-bottom-color:#D8E4F2; color:#3E5470; }
+  [data-theme="light"] .mob-link:hover,[data-theme="light"] .mob-link.active{ color:#0D1829; }
+  [data-theme="light"] .mob-link.mob-cta{ border-color:#CBD8EC; color:#0D1829 !important; }
+  [data-theme="light"] .mob-link.mob-cta:hover{ border-color:#2B65B0; }
+  [data-theme="light"] .hamburger{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .hamburger:hover{ color:#0D1829; border-color:#2B65B0; }
+  @media(max-width:800px){ .navlinks a,.navlinks .nav-dropdown{ display:none; } .navlinks{ gap:10px; } .hamburger{ display:flex; } }
+
+  /* DROPDOWN */
+  .nav-dropdown{ position:relative; display:flex; align-items:center; }
+  .nav-dropdown::after{ content:''; position:absolute; top:100%; left:0; right:0; height:18px; }
+  .nav-dd-trigger{ display:flex; align-items:center; gap:5px; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.04em; transition:color 0.15s; white-space:nowrap; text-decoration:none; }
+  .nav-dd-trigger:hover{ color:#DDE4F0; text-decoration:none; }
+  .nav-dd-trigger.active{ color:#5A8FCA; }
+  .chevron-icon{ width:9px; height:6px; flex-shrink:0; transition:transform 0.2s ease; }
+  .nav-dropdown:hover .chevron-icon{ transform:rotate(180deg); }
+  .nav-dd-menu{ position:absolute; top:calc(100% + 14px); left:50%; background:#0E1622; border:1px solid #1A2C42; border-radius:6px; overflow:hidden; min-width:230px; opacity:0; pointer-events:none; transform:translateX(-50%) translateY(-6px); transition:opacity 0.2s ease,transform 0.2s ease; z-index:200; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
+  .nav-dropdown:hover .nav-dd-menu{ opacity:1; pointer-events:all; transform:translateX(-50%) translateY(0); }
+  .nav-dd-item{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid #142236; text-decoration:none; transition:background 0.15s; }
+  .nav-dd-item:last-child{ border-bottom:none; }
+  .nav-dd-item:hover{ background:#121D2E; text-decoration:none; }
+  .dd-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .dd-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .dd-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  .dd-lbl{ font-size:12.5px; color:#7F93AE; }
+  .nav-dd-item:hover .dd-lbl{ color:#DDE4F0; }
+
+  /* THEME TOGGLE */
+  .theme-toggle{ background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#7F93AE; transition:color 0.15s,border-color 0.15s; flex-shrink:0; padding:0; margin-left:4px; }
+  .theme-toggle:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  [data-theme="light"] .theme-toggle{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .theme-toggle:hover{ color:#0D1829; border-color:#2B65B0; }
+  .icon-moon{ display:none; }
+  .icon-sun{ display:block; }
+  [data-theme="light"] .icon-moon{ display:block; }
+  [data-theme="light"] .icon-sun{ display:none; }
+
+  /* LIGHT THEME */
+  [data-theme="light"]{
+    --bg:#F0F4FA; --bg-alt:#E8EDF5; --panel:#FFFFFF; --panel-2:#F5F8FF;
+    --border:#CBD8EC; --border-soft:#D8E4F2;
+    --ink:#0D1829; --ink-dim:#3E5470; --ink-faint:#7A95B8;
+    --blue:#2B65B0; --blue-dim:#8AADD8; --blue-glow:rgba(43,101,176,0.10);
+    --teal:#1A7A5E; --teal-dim:#70B8A0; --teal-glow:rgba(26,122,94,0.10);
+    --green:#1A7A50; --amber:#9A6020;
+  }
+  [data-theme="light"] nav{ background:rgba(240,244,250,0.92); }
+  [data-theme="light"] .nav-dd-menu{ background:#FFFFFF; border-color:#CBD8EC; box-shadow:0 8px 24px rgba(80,100,140,0.15); }
+  [data-theme="light"] .nav-dd-item{ border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .nav-dd-item:hover{ background:#EEF3FC; }
+  [data-theme="light"] .dd-lbl{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-item:hover .dd-lbl{ color:#0D1829; }
+  [data-theme="light"] .nav-dd-trigger{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-trigger:hover,
+  [data-theme="light"] .nav-dd-trigger.active{ color:#2B65B0; }
+
+  .breadcrumb{ padding:calc(68px + 32px) 0 0; }
+  .breadcrumb .wrap{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.06em; }
+  .breadcrumb a{ color:var(--ink-faint); }
+  .breadcrumb a:hover{ color:var(--teal); text-decoration:none; }
+  .breadcrumb .sep{ opacity:0.4; }
+
+  .product-hero{ padding:40px 0 80px; border-bottom:1px solid var(--border-soft); position:relative; overflow:hidden; }
+  .product-hero::before{ content:''; position:absolute; top:-20%; right:-10%; width:700px; height:700px; background:radial-gradient(circle,var(--amber-glow) 0%,transparent 70%); pointer-events:none; }
+  .hero-inner{ position:relative; z-index:1; }
+  .hero-meta{ display:flex; align-items:center; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
+  .cat-pill{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; padding:5px 12px; border-radius:2px; background:var(--teal-glow); color:var(--teal); border:1px solid var(--teal-dim); }
+  .status-pill.dev{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; padding:5px 12px; border-radius:2px; display:flex; align-items:center; gap:6px; background:var(--amber-glow); color:var(--amber); border:1px solid rgba(196,125,42,0.3); }
+  .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; animation:blink 1.8s ease-in-out infinite; }
+  @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .product-hero h1{ font-size:clamp(42px,7vw,80px); line-height:1.03; margin-bottom:20px; }
+  .product-hero h1 span{ color:var(--amber); }
+  .hero-tagline{ font-size:clamp(15px,2vw,19px); color:var(--ink-dim); max-width:580px; margin-bottom:16px; line-height:1.6; }
+  .dev-notice{ background:var(--amber-glow); border:1px solid rgba(196,125,42,0.25); border-radius:6px; padding:14px 20px; margin-bottom:32px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--amber); letter-spacing:0.04em; display:flex; align-items:center; gap:10px; max-width:560px; }
+  .hero-ctas{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; padding:14px 24px; border-radius:2px; border:1px solid var(--border); transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary{ background:var(--teal); color:#DDE4F0; border-color:var(--teal); }
+  .btn-primary:hover{ background:#4DC4A0; text-decoration:none; }
+  .btn-amber{ background:transparent; color:var(--amber); border-color:rgba(196,125,42,0.4); }
+  .btn-amber:hover{ background:var(--amber-glow); text-decoration:none; }
+  .btn-ghost{ color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); text-decoration:none; }
+
+  .section{ padding:72px 0; border-bottom:1px solid var(--border-soft); }
+  .module-label{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.18em; color:var(--teal); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+  .module-label::after{ content:''; flex:1; height:1px; background:var(--border); }
+
+  .overview-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:64px; align-items:start; }
+  @media(max-width:880px){ .overview-grid{ grid-template-columns:1fr; } }
+  .overview-text p{ font-size:16px; color:var(--ink-dim); margin-bottom:18px; }
+  .overview-text p strong{ color:var(--ink); font-weight:500; }
+  .spec-box{ background:var(--panel); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .spec-row{ display:flex; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--border-soft); font-size:13.5px; }
+  .spec-row:last-child{ border-bottom:none; }
+  .spec-k{ font-family:'IBM Plex Mono',monospace; color:var(--ink-faint); letter-spacing:0.06em; text-transform:uppercase; font-size:11px; }
+  .spec-v{ color:var(--ink); font-weight:500; text-align:right; }
+
+  /* THREE PRINCIPLES */
+  .principles{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-top:48px; }
+  @media(max-width:760px){ .principles{ grid-template-columns:1fr; } }
+  .principle{ background:var(--panel); padding:30px 26px; }
+  .p-num{ font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:600; color:var(--amber); opacity:0.4; margin-bottom:14px; }
+  .principle h4{ font-size:16px; margin-bottom:8px; }
+  .principle p{ font-size:13px; color:var(--ink-dim); line-height:1.6; }
+
+  .feature-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  @media(max-width:640px){ .feature-grid{ grid-template-columns:1fr; } }
+  .feature-card{ background:var(--panel); padding:30px 26px; transition:background 0.2s; }
+  .feature-card:hover{ background:var(--panel-2); }
+  .f-icon{ font-size:22px; margin-bottom:14px; }
+  .feature-card h4{ font-size:16px; margin-bottom:8px; }
+  .feature-card p{ font-size:13px; color:var(--ink-dim); line-height:1.6; }
+
+  /* STAT ROW */
+  .stat-row{ display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  @media(max-width:760px){ .stat-row{ grid-template-columns:repeat(2,1fr); } }
+  .stat-cell{ background:var(--panel); padding:24px 20px; text-align:center; }
+  .stat-num{ font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:700; color:var(--teal); margin-bottom:6px; }
+  .stat-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); letter-spacing:0.08em; line-height:1.5; }
+
+  /* CARA SITE LINK */
+  .cara-link-box{ background:var(--panel); border:1px solid var(--teal-dim); border-radius:8px; padding:32px 36px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .cara-link-box h3{ font-size:20px; margin-bottom:8px; }
+  .cara-link-box p{ font-size:14px; color:var(--ink-dim); max-width:480px; }
+  .cara-link-box .btn-teal{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; padding:14px 24px; border-radius:2px; border:1px solid var(--teal-dim); color:var(--teal); transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; }
+  .cara-link-box .btn-teal:hover{ background:var(--teal-glow); border-color:var(--teal); text-decoration:none; }
+
+  .cta-section{ padding:80px 0; text-align:center; }
+  .cta-section h2{ font-size:clamp(28px,4vw,42px); margin-bottom:16px; }
+  .cta-section p{ font-size:16px; color:var(--ink-dim); max-width:480px; margin:0 auto 32px; }
+  .cta-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  footer{ padding:40px 0; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.1em; }
+  .foot-links{ margin-top:12px; display:flex; gap:20px; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .foot-links a{ color:var(--ink-faint); }
+  .foot-links a:hover{ color:var(--teal); }
+
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../">
+      <img src="../assets/robojain-logo.svg" alt="RoboJain" class="logo-img">RoboJain
+    </a>
+    <div class="navlinks">
+      <a href="../#overview"><span class="num">01</span>Overview</a>
+      <a href="../#capabilities"><span class="num">02</span>Capabilities</a>
+      <a href="../#status"><span class="num">03</span>Log</a>
+      <a href="../#approach"><span class="num">04</span>Approach</a>
+      <div class="nav-dropdown">
+        <a href="./" class="nav-dd-trigger active"><span class="num">05</span>Products <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4 4-4"/></svg></a>
+        <div class="nav-dd-menu">
+          <a href="./#rj-life" class="nav-dd-item"><span class="dd-cat sw">RJ-Life</span></a>
+          <a href="./#rj-robot" class="nav-dd-item"><span class="dd-cat hw">RJ-Robot</span></a>
+        </div>
+      </div>
+      <a href="../posts.html"><span class="num">06</span>Posts</a>
+      <a class="nav-cta" href="../#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light / dark">
+        <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="menuToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mob-panel" id="mobPanel">
+    <a href="../#overview" class="mob-link"><span class="num">01</span>Overview</a>
+    <a href="../#capabilities" class="mob-link"><span class="num">02</span>Capabilities</a>
+    <a href="../#status" class="mob-link"><span class="num">03</span>Log</a>
+    <a href="../#approach" class="mob-link"><span class="num">04</span>Approach</a>
+    <a href="./" class="mob-link active"><span class="num">05</span>Products</a>
+    <a href="./#rj-life" class="mob-link mob-sub active"><span class="mob-cat sw">RJ-Life</span></a>
+    <a href="./#rj-robot" class="mob-link mob-sub"><span class="mob-cat hw">RJ-Robot</span></a>
+    <a href="../posts.html" class="mob-link"><span class="num">06</span>Posts</a>
+    <a href="../#contact" class="mob-link mob-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="wrap">
+    <a href="../">RoboJain</a>
+    <span class="sep">/</span>
+    <a href="./">Products</a>
+    <span class="sep">/</span>
+    <span>CARA</span>
+  </div>
+</div>
+
+<section class="product-hero">
+  <div class="wrap hero-inner">
+    <div class="hero-meta">
+      <span class="cat-pill">RJ-Robot · Hardware</span>
+      <span class="status-pill dev"><span class="status-dot"></span>In Development</span>
+    </div>
+    <h1>C<span>ARA</span></h1>
+    <p class="hero-tagline">Companion Assistive Robot for the Aged — an autonomous, low-cost robot designed to monitor elderly individuals living alone and alert family members over GSM when intervention is needed.</p>
+    <div class="dev-notice">
+      ⚠ &nbsp;CARA is currently under active development. Hardware validation and field testing are in progress.
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-amber" href="../cara-waitlist.html">Register interest</a>
+      <a class="btn btn-ghost" href="./">← All Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="wrap">
+    <div class="module-label reveal">The Problem</div>
+    <div class="overview-grid">
+      <div class="overview-text reveal">
+        <p>Sri Lanka's elderly population is growing faster than the care infrastructure built to support it. By 2041, <strong>one in four Sri Lankans will be over 60</strong> — yet thousands of working-age adults have migrated abroad, leaving elderly parents living alone in family homes across the island.</p>
+        <p>For these individuals, the risks are daily and real: a fall with no one nearby to help, a medication dose missed without anyone noticing, or days passing without a family member knowing if everything is alright. In rural areas, professional care services are scarce and internet connectivity is often unreliable or entirely absent.</p>
+        <p>Existing assistive robots cost between <strong>$5,000 and $100,000</strong>, require continuous Wi-Fi, and were designed for high-income, well-connected environments. None were built with developing-country realities in mind.</p>
+      </div>
+      <div class="spec-box reveal">
+        <div class="spec-row"><span class="spec-k">Product</span><span class="spec-v">CARA</span></div>
+        <div class="spec-row"><span class="spec-k">Full name</span><span class="spec-v">Companion Assistive Robot for the Aged</span></div>
+        <div class="spec-row"><span class="spec-k">Category</span><span class="spec-v">RJ-Robot · Hardware</span></div>
+        <div class="spec-row"><span class="spec-k">Intelligence</span><span class="spec-v">Embedded AI + microcontroller</span></div>
+        <div class="spec-row"><span class="spec-k">Connectivity</span><span class="spec-v">GSM Cellular — zero Wi-Fi</span></div>
+        <div class="spec-row"><span class="spec-k">Target cost</span><span class="spec-v">&lt; $500 USD total</span></div>
+        <div class="spec-row"><span class="spec-k">Target market</span><span class="spec-v">Sri Lanka / South Asia</span></div>
+        <div class="spec-row"><span class="spec-k">Status</span><span class="spec-v" style="color:var(--amber)">In Development · 2026</span></div>
+        <div class="spec-row"><span class="spec-k">Full project</span><span class="spec-v"><a href="../../CARA/" target="_blank" rel="noopener">CARA Project Site ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- THREE DESIGN PRINCIPLES -->
+    <div class="principles reveal">
+      <div class="principle">
+        <div class="p-num">01</div>
+        <h4>Under $500, Total</h4>
+        <p>Every sensor, motor, processor, and cable must cost under $500 USD — the boundary that determines whether the system is accessible to middle-income families in Sri Lanka or only to research institutions.</p>
+      </div>
+      <div class="principle">
+        <div class="p-num">02</div>
+        <h4>Zero Wi-Fi for Safety</h4>
+        <p>All safety-critical functions operate entirely over GSM cellular. Wi-Fi is excluded from every safety path by design — GSM coverage exists broadly across Sri Lanka's rural areas where broadband does not.</p>
+      </div>
+      <div class="principle">
+        <div class="p-num">03</div>
+        <h4>Zero Required Interaction</h4>
+        <p>CARA monitors, detects, and alerts without ever requiring the elderly user to press a button or speak a command. If a robot only works when the user actively engages, it fails the moment the user cannot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY STATS -->
+<section class="section">
+  <div class="wrap">
+    <div class="module-label reveal">Design Targets</div>
+    <div class="stat-row reveal">
+      <div class="stat-cell">
+        <div class="stat-num">&lt;$500</div>
+        <div class="stat-label">Total hardware cost</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">15</div>
+        <div class="stat-label">Integrated features</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">80%+</div>
+        <div class="stat-label">Fall detection accuracy target</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">&lt;30s</div>
+        <div class="stat-label">SMS alert delivery target</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Wi-Fi connections required</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE CAPABILITIES -->
+<section class="section">
+  <div class="wrap">
+    <div class="module-label reveal">Core Capabilities</div>
+    <h2 style="font-size:clamp(26px,3.5vw,36px);margin-bottom:40px;" class="reveal">What CARA does — and why it matters.</h2>
+    <div class="feature-grid reveal">
+      <div class="feature-card">
+        <div class="f-icon">🤸</div>
+        <h4>Automatic Fall Detection</h4>
+        <p>AI-powered vision continuously analyses posture and movement. When a fall is detected, an alert is triggered immediately — no wearable device, no button to press, and no action required from the user.</p>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon">📱</div>
+        <h4>SMS Alerts — No Internet Required</h4>
+        <p>Text message alerts reach registered family members within 30 seconds of a confirmed fall, a missed medication, or a failed daily check-in — all over the cellular network, with zero Wi-Fi dependency.</p>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon">🚗</div>
+        <h4>Autonomous Home Navigation</h4>
+        <p>Full 360° obstacle awareness lets CARA follow its user through rooms safely and independently. The robot adapts to home layouts without pre-mapping and stops safely before any obstacle.</p>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon">💊</div>
+        <h4>Medication Management</h4>
+        <p>Audible reminders at set times each day prompt the user to take their medication. A simple confirmation gesture acknowledges the dose — and if no confirmation is received, the family is automatically alerted.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="wrap">
+    <div class="module-label reveal">Stay Updated</div>
+    <h2 class="reveal">CARA is on its way.</h2>
+    <p class="reveal">Register your interest to be notified when CARA moves to field testing and becomes available. Or reach out to discuss research collaboration or partnership opportunities.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="../cara-waitlist.html">Register interest</a>
+      <a class="btn btn-ghost" href="./">View all products</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <img src="../assets/robojain-logo.svg" alt="RoboJain" style="width:24px;height:24px;opacity:0.35;" loading="lazy">
+    </div>
+    <p>ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
+    <div class="foot-links">
+      <a href="../">Home</a>
+      <a href="./">Products</a>
+      <a href="../posts.html">Posts</a>
+      <a href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('themeToggle');
+  if(btn)btn.addEventListener('click',function(){
+    var h=document.documentElement,isLight=h.getAttribute('data-theme')==='light';
+    isLight?h.removeAttribute('data-theme'):h.setAttribute('data-theme','light');
+    localStorage.setItem('rj-theme',isLight?'dark':'light');
+  });
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('menuToggle');
+  var panel=document.getElementById('mobPanel');
+  if(!btn||!panel)return;
+  btn.addEventListener('click',function(){
+    var open=panel.classList.toggle('is-open');
+    btn.classList.toggle('is-open',open);
+    btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  document.addEventListener('click',function(e){
+    if(!panel.contains(e.target)&&!btn.contains(e.target)){
+      panel.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-label','Open menu');
+    }
+  });
+})();
+</script>
+</body>
+</html>

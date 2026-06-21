@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>!function(){var t=localStorage.getItem('rj-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light')}();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RoboJain — Where Code Meets Creation</title>
 <meta name="description" content="RoboJain — robotics engineering studio in Dubai, UAE. DIY-to-medium-scale robotic systems, embedded engineering, and automation built for real-world conditions.">
@@ -14,7 +15,7 @@
 <link rel="apple-touch-icon" href="assets/robojain-logo.svg">
 
 <!-- Canonical -->
-<link rel="canonical" href="https://jayashankaanushan19.github.io/robojain.html">
+<link rel="canonical" href="https://jayashankaanushan19.github.io/robojain/">
 
 <!-- Extended meta -->
 <meta name="author" content="Jayashanka Anushan">
@@ -25,12 +26,12 @@
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://jayashankaanushan19.github.io/robojain.html">
+<meta property="og:url" content="https://jayashankaanushan19.github.io/robojain/">
 <meta property="og:title" content="RoboJain — Where Code Meets Creation">
 <meta property="og:description" content="Robotics engineering studio in Dubai, UAE. DIY-to-medium-scale robotic systems, embedded engineering, and automation built for real-world conditions.">
 <meta property="og:site_name" content="RoboJain">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://jayashankaanushan19.github.io/assets/robojain-og.png">
+<meta property="og:image" content="https://jayashankaanushan19.github.io/robojain/assets/robojain-og.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="RoboJain — Robotics Engineering Studio, Dubai UAE">
@@ -39,7 +40,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="RoboJain — Where Code Meets Creation">
 <meta name="twitter:description" content="Robotics engineering studio in Dubai, UAE. DIY-to-medium-scale robotic systems, embedded engineering, and automation built for real-world conditions.">
-<meta name="twitter:image" content="https://jayashankaanushan19.github.io/assets/robojain-og.png">
+<meta name="twitter:image" content="https://jayashankaanushan19.github.io/robojain/assets/robojain-og.svg">
 <meta name="twitter:image:alt" content="RoboJain — Robotics Engineering Studio">
 
 <!-- Structured Data -->
@@ -48,8 +49,8 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "RoboJain",
-  "url": "https://jayashankaanushan19.github.io/robojain.html",
-  "logo": "https://jayashankaanushan19.github.io/assets/robojain-logo.svg",
+  "url": "https://jayashankaanushan19.github.io/robojain/",
+  "logo": "https://jayashankaanushan19.github.io/robojain/assets/robojain-logo.svg",
   "description": "Robotics engineering studio in Dubai, UAE — DIY-to-medium-scale robotic systems, embedded engineering, and automation built for real-world conditions.",
   "foundingDate": "2025",
   "founder": {
@@ -198,9 +199,9 @@
   }
   .navlinks{
     display:flex;
-    gap: 32px;
+    gap: 20px;
     font-family:'IBM Plex Mono', monospace;
-    font-size: 12.5px;
+    font-size: 11.5px;
     letter-spacing: 0.04em;
     align-items:center;
   }
@@ -216,10 +217,81 @@
   }
   .nav-cta:hover{ border-color: var(--copper); color: var(--copper) !important; text-decoration:none; }
 
-  @media (max-width: 760px){
-    .navlinks a:not(.nav-cta){display:none;}
-    .navlinks{ gap: 16px; }
+  .hamburger{ display:none; background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; cursor:pointer; color:#7F93AE; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:0; flex-shrink:0; transition:color 0.15s,border-color 0.15s; }
+  .hamburger:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  .hamburger span{ display:block; width:14px; height:1.5px; background:currentColor; border-radius:1px; transition:transform 0.2s,opacity 0.2s; }
+  .hamburger.is-open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2){ opacity:0; }
+  .hamburger.is-open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+  .mob-panel{ display:none; position:fixed; top:68px; left:0; right:0; z-index:99; background:rgba(8,12,20,0.97); backdrop-filter:blur(12px); border-bottom:1px solid #142236; padding:8px 24px 24px; }
+  .mob-panel.is-open{ display:block; }
+  .mob-link{ display:flex; align-items:center; gap:8px; padding:13px 0; border-bottom:1px solid #142236; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.04em; text-decoration:none; transition:color 0.15s; }
+  .mob-link:last-child{ border-bottom:none; }
+  .mob-link:hover,.mob-link.active{ color:#DDE4F0; text-decoration:none; }
+  .mob-link .num{ color:#2B5A8E; margin-right:2px; }
+  .mob-link.mob-sub{ padding-left:20px; font-size:12px; }
+  .mob-link.mob-cta{ justify-content:center; border:1px solid #1A2C42; border-radius:2px; margin-top:12px; padding:13px 20px; color:#DDE4F0 !important; border-bottom:1px solid #1A2C42; }
+  .mob-link.mob-cta:hover{ border-color:#5A8FCA; }
+  .mob-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; }
+  .mob-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .mob-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  [data-theme="light"] .mob-panel{ background:rgba(240,244,250,0.97); border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .mob-link{ border-bottom-color:#D8E4F2; color:#3E5470; }
+  [data-theme="light"] .mob-link:hover,[data-theme="light"] .mob-link.active{ color:#0D1829; }
+  [data-theme="light"] .mob-link.mob-cta{ border-color:#CBD8EC; color:#0D1829 !important; }
+  [data-theme="light"] .mob-link.mob-cta:hover{ border-color:#2B65B0; }
+  [data-theme="light"] .hamburger{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .hamburger:hover{ color:#0D1829; border-color:#2B65B0; }
+  @media(max-width:800px){ .navlinks a,.navlinks .nav-dropdown{ display:none; } .navlinks{ gap:10px; } .hamburger{ display:flex; } }
+
+  /* DROPDOWN */
+  .nav-dropdown{ position:relative; display:flex; align-items:center; }
+  .nav-dropdown::after{ content:''; position:absolute; top:100%; left:0; right:0; height:18px; }
+  .nav-dd-trigger{ display:flex; align-items:center; gap:5px; color:#7F93AE; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.04em; transition:color 0.15s; white-space:nowrap; text-decoration:none; }
+  .nav-dd-trigger:hover{ color:#DDE4F0; text-decoration:none; }
+  .nav-dd-trigger.active{ color:#5A8FCA; }
+  .chevron-icon{ width:9px; height:6px; flex-shrink:0; transition:transform 0.2s ease; }
+  .nav-dropdown:hover .chevron-icon{ transform:rotate(180deg); }
+  .nav-dd-menu{ position:absolute; top:calc(100% + 14px); left:50%; background:#0E1622; border:1px solid #1A2C42; border-radius:6px; overflow:hidden; min-width:230px; opacity:0; pointer-events:none; transform:translateX(-50%) translateY(-6px); transition:opacity 0.2s ease,transform 0.2s ease; z-index:200; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
+  .nav-dropdown:hover .nav-dd-menu{ opacity:1; pointer-events:all; transform:translateX(-50%) translateY(0); }
+  .nav-dd-item{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid #142236; text-decoration:none; transition:background 0.15s; }
+  .nav-dd-item:last-child{ border-bottom:none; }
+  .nav-dd-item:hover{ background:#121D2E; text-decoration:none; }
+  .dd-cat{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .dd-cat.sw{ background:rgba(90,143,202,0.12); color:#5A8FCA; border:1px solid #2B5A8E; }
+  .dd-cat.hw{ background:rgba(61,170,136,0.12); color:#3DAA88; border:1px solid #1D6652; }
+  .dd-lbl{ font-size:12.5px; color:#7F93AE; }
+  .nav-dd-item:hover .dd-lbl{ color:#DDE4F0; }
+
+  /* THEME TOGGLE */
+  .theme-toggle{ background:none; border:1px solid rgba(127,147,174,0.3); border-radius:4px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#7F93AE; transition:color 0.15s,border-color 0.15s; flex-shrink:0; padding:0; margin-left:4px; }
+  .theme-toggle:hover{ color:#DDE4F0; border-color:#5A8FCA; }
+  [data-theme="light"] .theme-toggle{ color:#3E5470; border-color:rgba(62,84,112,0.3); }
+  [data-theme="light"] .theme-toggle:hover{ color:#0D1829; border-color:#2B65B0; }
+  .icon-moon{ display:none; }
+  .icon-sun{ display:block; }
+  [data-theme="light"] .icon-moon{ display:block; }
+  [data-theme="light"] .icon-sun{ display:none; }
+
+  /* LIGHT THEME */
+  [data-theme="light"]{
+    --bg:#F0F4FA; --bg-alt:#E8EDF5; --panel:#FFFFFF; --panel-2:#F5F8FF;
+    --border:#CBD8EC; --border-soft:#D8E4F2;
+    --ink:#0D1829; --ink-dim:#3E5470; --ink-faint:#7A95B8;
+    --blue:#2B65B0; --blue-dim:#8AADD8; --blue-glow:rgba(43,101,176,0.10);
+    --copper:#2B65B0; --copper-dim:#8AADD8; --copper-glow:rgba(43,101,176,0.10);
+    --teal:#1A7A5E; --teal-dim:#70B8A0; --teal-glow:rgba(26,122,94,0.10);
+    --green:#1A7A50; --amber:#9A6020;
   }
+  [data-theme="light"] nav{ background:rgba(240,244,250,0.92); }
+  [data-theme="light"] .nav-dd-menu{ background:#FFFFFF; border-color:#CBD8EC; box-shadow:0 8px 24px rgba(80,100,140,0.15); }
+  [data-theme="light"] .nav-dd-item{ border-bottom-color:#D8E4F2; }
+  [data-theme="light"] .nav-dd-item:hover{ background:#EEF3FC; }
+  [data-theme="light"] .dd-lbl{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-item:hover .dd-lbl{ color:#0D1829; }
+  [data-theme="light"] .nav-dd-trigger{ color:#3E5470; }
+  [data-theme="light"] .nav-dd-trigger:hover,
+  [data-theme="light"] .nav-dd-trigger.active{ color:#2B65B0; }
 
   .hero{
     min-height: 100vh;
@@ -506,6 +578,18 @@
   }
   footer .foot-links a{ color: var(--ink-faint); }
   footer .foot-links a:hover{ color: var(--copper); }
+
+  /* CONTACT FORM */
+  .rj-form{ display:flex; flex-direction:column; gap:12px; margin-top:28px; }
+  .rj-form .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:640px){ .rj-form .form-row{ grid-template-columns:1fr; } }
+  .rj-form input,.rj-form textarea{ background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:11px 14px; color:var(--ink); font-family:'IBM Plex Sans',sans-serif; font-size:14px; width:100%; outline:none; transition:border-color 0.2s; }
+  .rj-form input:focus,.rj-form textarea:focus{ border-color:var(--copper,#5A8FCA); }
+  .rj-form input::placeholder,.rj-form textarea::placeholder{ color:var(--ink-faint); }
+  .rj-form textarea{ resize:vertical; min-height:100px; }
+  .rj-form-ok{ display:none; margin-top:4px; padding:14px 16px; background:rgba(61,170,112,0.10); border:1px solid rgba(61,170,112,0.25); border-radius:4px; color:#3DAA70; font-size:14px; font-family:'IBM Plex Mono',monospace; }
+  [data-theme="light"] .rj-form input,[data-theme="light"] .rj-form textarea{ background:#FFFFFF; border-color:#CBD8EC; }
+  [data-theme="light"] .rj-form input:focus,[data-theme="light"] .rj-form textarea:focus{ border-color:#2B65B0; }
 </style>
 </head>
 <body>
@@ -516,11 +600,34 @@
     <div class="navlinks">
       <a href="#overview"><span class="num">01</span>Overview</a>
       <a href="#capabilities"><span class="num">02</span>Capabilities</a>
-      <a href="#status"><span class="num">03</span>Build log</a>
+      <a href="#status"><span class="num">03</span>Log</a>
       <a href="#approach"><span class="num">04</span>Approach</a>
-      <a href="robojain-posts.html"><span class="num">05</span>Posts</a>
-      <a class="nav-cta" href="#contact">Get in touch</a>
+      <div class="nav-dropdown">
+        <a href="products/" class="nav-dd-trigger"><span class="num">05</span>Products <svg class="chevron-icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4 4-4"/></svg></a>
+        <div class="nav-dd-menu">
+          <a href="products/#rj-life" class="nav-dd-item"><span class="dd-cat sw">RJ-Life</span></a>
+          <a href="products/#rj-robot" class="nav-dd-item"><span class="dd-cat hw">RJ-Robot</span></a>
+        </div>
+      </div>
+      <a href="posts.html"><span class="num">06</span>Posts</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light / dark">
+        <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="menuToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
+  </div>
+  <div class="mob-panel" id="mobPanel">
+    <a href="#overview" class="mob-link"><span class="num">01</span>Overview</a>
+    <a href="#capabilities" class="mob-link"><span class="num">02</span>Capabilities</a>
+    <a href="#status" class="mob-link"><span class="num">03</span>Log</a>
+    <a href="#approach" class="mob-link"><span class="num">04</span>Approach</a>
+    <a href="products/" class="mob-link"><span class="num">05</span>Products</a>
+    <a href="products/#rj-life" class="mob-link mob-sub"><span class="mob-cat sw">RJ-Life</span></a>
+    <a href="products/#rj-robot" class="mob-link mob-sub"><span class="mob-cat hw">RJ-Robot</span></a>
+    <a href="posts.html" class="mob-link"><span class="num">06</span>Posts</a>
+    <a href="#contact" class="mob-link mob-cta">Contact</a>
   </div>
 </nav>
 
@@ -653,7 +760,7 @@
 
 <section id="status">
   <div class="wrap">
-    <div class="module-label reveal">Build log</div>
+    <div class="module-label reveal">Log</div>
     <div class="status-grid">
       <div class="reveal">
         <h2 style="font-size:32px; margin-bottom:20px;">Heads-down, building.</h2>
@@ -734,9 +841,18 @@
       <div class="reveal">
         <h2>Let's build something.</h2>
         <p>Whether it's a small DIY project, a custom automation tool, or a medium-scale robotic system — bring us the problem and we'll work through feasibility, timeline, and cost together.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:robojain.robotics@gmail.com">Send an email</a>
-        </div>
+        <form class="rj-form" id="rj-contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="52c49118-108b-4d1d-86ad-22bf632ca910">
+          <input type="hidden" name="subject"    value="RoboJain — Contact Form">
+          <input type="hidden" name="redirect"   value="false">
+          <div class="form-row">
+            <input type="text"  name="name"  placeholder="Your name">
+            <input type="email" name="email" placeholder="Your email" required>
+          </div>
+          <textarea name="message" rows="4" placeholder="Your message…" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message →</button>
+        </form>
+        <div class="rj-form-ok" id="rj-contact-ok">Message sent — thank you!</div>
       </div>
       <div class="contact-card reveal">
         <a class="contact-row" href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">
@@ -763,7 +879,7 @@
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
-      <img src="assets/robojain-logo.svg" alt="RoboJain" style="width:26px;height:26px;opacity:0.4;">
+      <img src="assets/robojain-logo.svg" alt="RoboJain" style="width:26px;height:26px;opacity:0.4;" loading="lazy">
     </div>
     <p>ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
     <div class="foot-links">
@@ -787,5 +903,53 @@
   reveals.forEach(el => io.observe(el));
 </script>
 
+<script>
+(function(){
+  var btn=document.getElementById('themeToggle');
+  if(btn)btn.addEventListener('click',function(){
+    var h=document.documentElement,isLight=h.getAttribute('data-theme')==='light';
+    isLight?h.removeAttribute('data-theme'):h.setAttribute('data-theme','light');
+    localStorage.setItem('rj-theme',isLight?'dark':'light');
+  });
+})();
+</script>
+<script>
+(function(){
+  var f=document.getElementById('rj-contact-form');
+  var s=document.getElementById('rj-contact-ok');
+  if(!f)return;
+  f.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var btn=f.querySelector('button[type="submit"]');
+    var orig=btn.textContent;
+    btn.textContent='Sending…';btn.disabled=true;
+    try{
+      var res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}});
+      var data=await res.json();
+      if(data.success){f.style.display='none';s.style.display='block';}
+      else{btn.textContent=orig;btn.disabled=false;}
+    }catch(err){btn.textContent=orig;btn.disabled=false;}
+  });
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('menuToggle');
+  var panel=document.getElementById('mobPanel');
+  if(!btn||!panel)return;
+  btn.addEventListener('click',function(){
+    var open=panel.classList.toggle('is-open');
+    btn.classList.toggle('is-open',open);
+    btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+  });
+  document.addEventListener('click',function(e){
+    if(!panel.contains(e.target)&&!btn.contains(e.target)){
+      panel.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-label','Open menu');
+    }
+  });
+})();
+</script>
 </body>
 </html>
