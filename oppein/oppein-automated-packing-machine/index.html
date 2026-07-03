@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automated Packing Machine — Coming Soon | OPPEIN</title>
+<meta name="description" content="OPPEIN Automated Packing Machine project — documentation coming soon.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:          #0B0A08;
+    --panel:       #161310;
+    --border:      #2E2620;
+    --border-soft: #221C17;
+    --ink:         #F0EAE2;
+    --ink-dim:     #A99C8C;
+    --ink-faint:   #6B6055;
+    --amber:       #D98A3D;
+    --amber-dim:   #7A4E20;
+    --amber-glow:  rgba(217,138,61,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif;
+    min-height:100vh; display:flex; flex-direction:column;
+    overflow-x:hidden;
+  }
+  h1{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--amber); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  nav{ padding:24px 32px; border-bottom:1px solid var(--border-soft); }
+  .back-link{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.06em;
+    color:var(--ink-dim); display:inline-flex; align-items:center; gap:8px;
+  }
+  .back-link:hover{ color:var(--amber); text-decoration:none; }
+
+  main{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:60px 24px; position:relative; overflow:hidden;
+  }
+  main::before{
+    content:''; position:absolute; top:50%; left:50%;
+    width:640px; height:640px; transform:translate(-50%,-50%);
+    background:radial-gradient(circle,var(--amber-glow) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .content{ position:relative; z-index:1; text-align:center; max-width:600px; }
+
+  .mark{
+    width:104px; height:104px; border-radius:24px;
+    background:var(--panel); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 32px; padding:16px;
+  }
+  .mark img{ max-width:100%; max-height:100%; object-fit:contain; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--amber);
+    display:inline-flex; align-items:center; gap:8px; margin-bottom:24px;
+  }
+  .eyebrow .led{
+    width:6px; height:6px; border-radius:50%; background:var(--amber);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+
+  h1{ font-size:clamp(30px,5vw,46px); line-height:1.15; margin-bottom:18px; }
+  h1 span{ color:var(--amber); }
+
+  p.lead{ font-size:16px; color:var(--ink-dim); margin-bottom:36px; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:14px 26px;
+    border:1px solid var(--border); border-radius:2px;
+    color:var(--ink); transition:border-color 0.2s, color 0.2s;
+  }
+  .btn:hover{ border-color:var(--amber); color:var(--amber); text-decoration:none; }
+
+  footer{ padding:28px; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); letter-spacing:0.1em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="back-link" href="../">&larr; OPPEIN Project Hub</a>
+</nav>
+
+<main>
+  <div class="content">
+    <div class="mark">
+      <img src="../assets/oppein-logo.webp" alt="OPPEIN">
+    </div>
+    <div class="eyebrow"><span class="led"></span>Under development</div>
+    <h1>Automated Packing<br>Machine — <span>coming soon</span>.</h1>
+    <p class="lead">This project is in progress. Documentation, specs, and build details will be published here once ready.</p>
+    <a class="btn" href="../">&larr; Back to Project Hub</a>
+  </div>
+</main>
+
+<footer>
+  <p>OPPEIN — PROJECT HUB</p>
+</footer>
+
+</body>
+</html>

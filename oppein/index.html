@@ -121,6 +121,7 @@
     background:rgba(90,158,111,0.1); color:var(--green); border:1px solid rgba(90,158,111,0.25);
   }
   .status-pill.planning{ background:var(--amber-glow); color:var(--amber); border:1px solid var(--amber-dim); }
+  .status-pill.soon{ background:rgba(169,156,140,0.1); color:var(--ink-dim); border:1px solid var(--border); }
   .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
   .card-name{ font-size:20px; }
   .card-desc{ font-size:13.5px; color:var(--ink-dim); }
@@ -163,7 +164,7 @@
 <header class="hero">
   <div class="wrap hero-inner">
     <div class="hero-text">
-      <div class="eyebrow"><span class="led"></span>Oppein · <span id="projectCount">2</span> projects indexed</div>
+      <div class="eyebrow"><span class="led"></span>Oppein · <span id="projectCount">3</span> projects indexed</div>
       <h1>All Oppein work,<br>in <span>one place</span>.</h1>
       <p class="lead">A running index of Oppein-related builds and documentation. Each project below lives in its own folder — pick one to open it.</p>
     </div>
@@ -202,6 +203,18 @@
           <div>
             <h3 class="card-name">Dubai CCTV Network</h3>
             <p class="card-desc">Showroom network &amp; CCTV upgrade spec — Oppein Dubai showroom.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="oppein-automated-packing-machine/index.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill soon"><span class="status-dot"></span>Coming Soon</span>
+          <div>
+            <h3 class="card-name">Automated Packing Machine</h3>
+            <p class="card-desc">Automated packing machine build — details in progress.</p>
           </div>
           <div class="card-cta">Open project <span class="arrow">→</span></div>
         </div>
