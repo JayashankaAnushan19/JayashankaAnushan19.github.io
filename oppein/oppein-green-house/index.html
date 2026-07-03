@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indoor Greenhouse — Sajja, Sharjah UAE</title>
+<style>
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f0f7f4;color:#1a2e28;line-height:1.5}
+
+/* ── HEADER ── */
+.site-header{background:linear-gradient(135deg,#063d30 0%,#085041 60%,#0e7a5c 100%);color:#fff;padding:40px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.site-header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239FE1CB' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.site-header h1{font-size:clamp(1.5rem,4vw,2.4rem);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.site-header p{opacity:.85;font-size:.95rem;max-width:600px;margin:0 auto}
+.header-stats{display:flex;justify-content:center;gap:32px;margin-top:24px;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-val{font-size:1.5rem;font-weight:700;color:#9FE1CB}
+.hstat-lbl{font-size:.75rem;opacity:.7;letter-spacing:.06em;text-transform:uppercase}
+
+/* ── NAV ── */
+.nav-bar{background:#fff;border-bottom:1px solid #d0e8df;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{padding:14px 18px;font-size:.85rem;font-weight:500;border:none;background:none;color:#4a6b60;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.02em}
+.nav-btn:hover{color:#085041;background:#f0f7f4}
+.nav-btn.active{color:#085041;border-bottom-color:#1D9E75;font-weight:600}
+
+/* ── MAIN CONTENT ── */
+.content{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+.tab{display:none}.tab.active{display:block}
+.section-title{font-size:1.2rem;font-weight:600;color:#063d30;margin:28px 0 14px;padding-bottom:10px;border-bottom:2px solid #d0e8df}
+.section-title:first-child{margin-top:0}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.03em}
+.badge-green{background:#E1F5EE;color:#085041}
+.badge-amber{background:#FAEEDA;color:#633806}
+.badge-red{background:#FCEBEB;color:#791F1F}
+.badge-blue{background:#E6F1FB;color:#0C447C}
+.badge-gray{background:#f0f0ee;color:#555}
+
+/* ── CARDS (generic) ── */
+.card{background:#fff;border:1px solid #d8ede7;border-radius:12px;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card-title{font-size:.75rem;font-weight:600;color:#4a6b60;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.card-value{font-size:1.6rem;font-weight:700;color:#063d30}
+.card-sub{font-size:.8rem;color:#6b8a80;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:640px){.grid3{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+.row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid #eef4f1;gap:16px}
+.row:last-child{border-bottom:none}
+.row-label{font-size:.88rem;color:#4a6b60;flex:1}
+.row-value{font-size:.88rem;font-weight:600;color:#063d30;text-align:right}
+.info-box{background:#E1F5EE;border-left:4px solid #1D9E75;border-radius:8px;padding:12px 16px;margin-bottom:16px}
+.info-box .ib-title{font-size:.85rem;font-weight:600;color:#085041;margin-bottom:4px}
+.info-box .ib-body{font-size:.82rem;color:#0F6E56;line-height:1.55}
+.warn-box{background:#FAEEDA;border-left:4px solid #EF9F27;border-radius:8px;padding:12px 16px;margin-bottom:16px}
+.warn-box .wb-title{font-size:.85rem;font-weight:600;color:#633806;margin-bottom:4px}
+.warn-box .wb-body{font-size:.82rem;color:#854F0B;line-height:1.55}
+
+/* ── GALLERY TAB ── */
+.gallery-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-btn{padding:6px 16px;border-radius:20px;border:1px solid #c0dcd5;background:#fff;color:#4a6b60;font-size:.8rem;cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:#085041;color:#9FE1CB;border-color:#085041}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.g-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #d8ede7;cursor:pointer;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.g-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:#1D9E75}
+.g-img-wrap{height:180px;overflow:hidden;background:#f5fbf8;display:flex;align-items:center;justify-content:center}
+.g-img-wrap img{width:100%;height:100%;object-fit:cover}
+.g-info{padding:12px 14px}
+.g-name{font-size:.85rem;font-weight:600;color:#063d30;margin-bottom:6px;line-height:1.3}
+.g-meta{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.g-badge{font-size:.7rem;padding:2px 8px;border-radius:20px;font-weight:500}
+.g-badge-light{background:#f0f7f4;color:#4a6b60;border:1px solid #c0dcd5}
+.g-price{font-size:.8rem;font-weight:600;color:#0F6E56}
+.g-count{font-size:.82rem;color:#4a6b60;margin-bottom:16px}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-img{width:100%;height:260px;object-fit:cover;border-radius:16px 16px 0 0}
+.modal-body{padding:20px 24px 24px}
+.modal-name{font-size:1.2rem;font-weight:700;color:#063d30;margin-bottom:8px}
+.modal-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.modal-rows .dc-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eef4f1;font-size:.88rem}
+.modal-rows .dc-row:last-child{border:none}
+.modal-rows .dc-row span{color:#4a6b60}
+.modal-rows .dc-row strong{color:#063d30}
+.modal-tip{background:#f0f7f4;border-radius:8px;padding:10px 14px;margin-top:12px;font-size:.82rem;color:#0F6E56;line-height:1.5}
+.modal-close{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(255,255,255,.9);border:none;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.modal-nav{display:flex;gap:8px;margin-top:16px}
+.modal-nav button{flex:1;padding:10px;border-radius:8px;border:1px solid #d8ede7;background:#f5fbf8;color:#085041;font-weight:600;cursor:pointer;font-size:.85rem}
+.modal-nav button:hover{background:#085041;color:#9FE1CB}
+
+/* ── PLANTS DETAIL TAB ── */
+.plant-group{margin-bottom:28px}
+.group-header{border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
+.group-title{font-size:.9rem;font-weight:700}
+.group-tip{font-size:.8rem;opacity:.85}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.detail-card{background:#fff;border:1px solid #d8ede7;border-radius:12px;overflow:hidden;display:flex;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.dc-img{width:100px;min-width:100px;overflow:hidden;background:#f5fbf8;display:flex;align-items:center;justify-content:center}
+.dc-img img{width:100%;height:100%;object-fit:cover}
+.dc-body{padding:12px 14px;flex:1;min-width:0}
+.dc-name{font-size:.88rem;font-weight:600;color:#063d30;margin-bottom:6px;line-height:1.3}
+.dc-badges{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.dc-rows{margin-bottom:6px}
+.dc-row{display:flex;justify-content:space-between;font-size:.78rem;padding:3px 0;border-bottom:1px solid #f0f7f4}
+.dc-row:last-child{border:none}
+.dc-row span{color:#6b8a80}
+.dc-row strong{color:#063d30}
+.dc-tip{font-size:.75rem;color:#0F6E56;background:#f0f7f4;border-radius:6px;padding:6px 10px;line-height:1.4}
+
+/* ── MIX GUIDE TAB ── */
+.mix-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.mix-legend-item{display:flex;align-items:center;gap:6px;font-size:.82rem;color:#4a6b60}
+.mix-legend-dot{width:12px;height:12px;border-radius:50%}
+.mix-row{border-radius:10px;padding:12px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:4px 12px;align-items:start}
+.mix-plants{font-size:.88rem;color:#063d30;grid-column:1}
+.mix-status{font-size:.8rem;font-weight:600;grid-column:2;grid-row:1 / 3;align-self:center;white-space:nowrap}
+.mix-note{font-size:.78rem;color:#4a6b60;grid-column:1;line-height:1.4}
+.mix-green{background:#E1F5EE;border:1px solid #9FE1CB}
+.mix-amber{background:#FAEEDA;border:1px solid #EF9F27}
+.mix-red{background:#FCEBEB;border:1px solid #F5A5A5}
+.mix-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.mg-card{border-radius:12px;padding:16px;border:1px solid}
+.mg-card h3{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.mg-card p{font-size:.8rem;margin-bottom:10px;opacity:.85}
+.mg-tags{display:flex;flex-wrap:wrap;gap:6px}
+.mg-tag{font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:500}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:28px;margin-bottom:24px}
+.timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#1D9E75,#9FE1CB)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-dot{position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid #1D9E75;background:#fff}
+.tl-dot.done{background:#1D9E75}
+.tl-month{font-size:.72rem;font-weight:700;color:#0F6E56;margin-bottom:3px;letter-spacing:.06em;text-transform:uppercase}
+.tl-title{font-size:.95rem;font-weight:600;color:#063d30;margin-bottom:4px}
+.tl-desc{font-size:.82rem;color:#4a6b60;line-height:1.55}
+
+/* ── COMPETITOR ── */
+.comp-card{background:#fff;border:1px solid #d8ede7;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.comp-name{font-size:.9rem;font-weight:600;color:#063d30}
+.comp-desc{font-size:.78rem;color:#4a6b60;margin-top:2px}
+
+/* ── BUDGET BARS ── */
+.bbar-wrap{margin-bottom:10px}
+.bbar-labels{display:flex;justify-content:space-between;margin-bottom:4px}
+.bbar-label{font-size:.8rem;color:#4a6b60}
+.bbar-amt{font-size:.8rem;font-weight:600;color:#063d30}
+.bbar-bg{height:8px;border-radius:4px;background:#e8f0ec}
+.bbar-fill{height:8px;border-radius:4px}
+
+/* ── RISK ── */
+.risk-item{margin-bottom:6px}
+.risk-header{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eef4f1;gap:12px}
+.risk-label{font-size:.88rem;color:#063d30;flex:1}
+.risk-mitigate{font-size:.78rem;color:#4a6b60;padding:6px 0 12px;line-height:1.5}
+.risk-item:last-child .risk-header{border-bottom:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .detail-card{flex-direction:column}
+  .dc-img{width:100%;height:140px;min-width:0}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .header-stats{gap:20px}
+}
+
+/* ── DESIGN RENDERS ── */
+.design-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:16px}
+.design-card{background:#fff;border:1px solid #d8ede7;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.design-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.13);border-color:#1D9E75}
+.design-img-wrap{position:relative;height:180px;overflow:hidden;background:#e8e4d8}
+.design-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.design-card:hover .design-img-wrap img{transform:scale(1.04)}
+.design-overlay{position:absolute;inset:0;background:rgba(8,80,65,.0);display:flex;align-items:center;justify-content:center;transition:background .25s}
+.design-card:hover .design-overlay{background:rgba(8,80,65,.35)}
+.design-overlay span{color:#fff;font-size:1rem;font-weight:600;opacity:0;transition:opacity .25s}
+.design-card:hover .design-overlay span{opacity:1}
+.design-info{padding:12px 14px}
+.design-num{font-size:.7rem;font-weight:600;color:#4a6b60;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.design-title{font-size:.9rem;font-weight:600;color:#063d30;margin-bottom:4px}
+.design-caption{font-size:.76rem;color:#4a6b60;line-height:1.45}
+.dmodal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:2000;align-items:center;justify-content:center;padding:12px}
+.dmodal-overlay.open{display:flex}
+.dmodal{background:#0d1f1a;border-radius:14px;max-width:860px;width:100%;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);position:relative}
+.dmodal-img-wrap{background:#1a2e25;display:flex;align-items:center;justify-content:center;max-height:60vh;overflow:hidden}
+.dmodal-img-wrap img{max-width:100%;max-height:60vh;object-fit:contain}
+.dmodal-footer{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #1e3d30}
+.dmodal-label{font-size:.7rem;color:#9FE1CB;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.dmodal-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px}
+.dmodal-caption{font-size:.78rem;color:#6baa90;line-height:1.4}
+.dmodal-nav{display:flex;gap:6px;flex-shrink:0}
+.dmodal-nav button{background:#1e3d30;border:1px solid #2e5c48;color:#9FE1CB;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap}
+.dmodal-nav button:hover{background:#085041}
+.dmodal-close{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.5);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dmodal-counter{font-size:.75rem;color:#6baa90;white-space:nowrap;align-self:center}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <h1>🌿 Indoor Greenhouse Business Plan</h1>
+  <p>Sajja Industrial Area, Sharjah, UAE — Premium locally-grown decorative plants</p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-val">37</div><div class="hstat-lbl">Plant Varieties</div></div>
+    <div class="hstat"><div class="hstat-val">14.4 m²</div><div class="hstat-lbl">Greenhouse Space</div></div>
+    <div class="hstat"><div class="hstat-val">AED 50K</div><div class="hstat-lbl">Phase 1 Budget</div></div>
+    <div class="hstat"><div class="hstat-val">6.3%</div><div class="hstat-lbl">Market CAGR</div></div>
+  </div>
+</div>
+
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showTab('gallery',this)">📸 Gallery</button>
+    <button class="nav-btn" onclick="showTab('plants',this)">🌱 Plants</button>
+    <button class="nav-btn" onclick="showTab('mixing',this)">🔀 Mix Guide</button>
+    <button class="nav-btn" onclick="showTab('market',this)">📊 Market</button>
+    <button class="nav-btn" onclick="showTab('technical',this)">🏗 Technical</button>
+    
+    <button class="nav-btn" onclick="showTab('roadmap',this)">🗺 Roadmap</button>
+    <button class="nav-btn" onclick="showTab('risks',this)">⚠️ Risks</button>
+  </div>
+</nav>
+
+<div class="content">
+
+<!-- ══ GALLERY TAB ══ -->
+<div id="tab-gallery" class="tab active">
+  <div class="section-title">Plant Photo Gallery — All 37 Varieties</div>
+  <p class="g-count">Click any plant to see full details. Filter by watering group below.</p>
+  <div class="gallery-filters">
+    <button class="filter-btn active" onclick="filterGallery('all',this)">All (37)</button>
+    <button class="filter-btn" onclick="filterGallery('low-water',this)">💧 Drought-Tolerant</button>
+    <button class="filter-btn" onclick="filterGallery('medium-water',this)">💧💧 Moderate Water</button>
+    <button class="filter-btn" onclick="filterGallery('high-water',this)">💧💧💧 Moisture-Loving</button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+
+      <div class="g-card" onclick="openModal(0)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-dab5149627.png" alt="Pothos / Devil's Ivy" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Pothos / Devil's Ivy</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect</span>
+          </div>
+          <div class="g-price">AED 25–90</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(1)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-fa27fae525.png" alt="Snake Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Snake Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 35–120</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(2)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-b5e72695df.png" alt="ZZ Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">ZZ Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Low</span>
+          </div>
+          <div class="g-price">AED 40–150</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(3)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-f8f6320dce.png" alt="Peace Lily" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Peace Lily</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Indirect</span>
+          </div>
+          <div class="g-price">AED 50–180</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(4)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-044c29b4f9.png" alt="Aloe Vera" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Aloe Vera</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 25–80</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(5)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-d4c6b6e28e.png" alt="Spider Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Spider Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect</span>
+          </div>
+          <div class="g-price">AED 30–100</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(6)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-eae92e7c0d.png" alt="Monstera" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Monstera</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 120–500</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(7)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-371e31c3a5.png" alt="Rubber Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Rubber Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Medium Indirect</span>
+          </div>
+          <div class="g-price">AED 80–300</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(8)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-b76f15d958.png" alt="Azalea" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Azalea</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 40–120</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(9)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-c490d531ee.png" alt="English Ivy" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">English Ivy</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Indirect</span>
+          </div>
+          <div class="g-price">AED 25–80</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(10)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-e26a4fe776.png" alt="Dracaena fragrans" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Dracaena fragrans</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 10–14 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 50–200</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(11)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-bc039fe640.png" alt="African Milk Tree" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">African Milk Tree</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 60–150</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(12)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-a72bab1446.png" alt="Jade Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Jade Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 30–100</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(13)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-beef2ba0ab.png" alt="Azalea (Orange)" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Azalea (Orange)</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 40–120</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(14)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-0459d28ecc.png" alt="Calathea" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Calathea</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#E05C5C20;color:#E05C5C;border:1px solid #E05C5C40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Medium Indirect</span>
+          </div>
+          <div class="g-price">AED 60–220</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(15)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-42c93278c1.png" alt="Mixed Succulents" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Mixed Succulents</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 40–200</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(16)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-528460bc76.png" alt="Rubber Plant Mixed Display" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Rubber Plant Mixed Display</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Medium Indirect</span>
+          </div>
+          <div class="g-price">AED 100–350</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(17)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-1f843a8d9c.png" alt="Areca Palm" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Areca Palm</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 80–400</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(18)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-559e28b583.png" alt="Hoya / Wax Plant" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Hoya / Wax Plant</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 40–150</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(19)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-056d2fe67a.png" alt="ZZ Plant & Dracaena" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">ZZ Plant & Dracaena</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 80–250</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(20)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-1d57d903fc.png" alt="Dieffenbachia" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Dieffenbachia</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 40–150</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(21)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-5eb9793a90.png" alt="Yucca Cane" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Yucca Cane</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright</span>
+          </div>
+          <div class="g-price">AED 80–300</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(22)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-1be0a39cee.png" alt="Dracaena Compacta" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Dracaena Compacta</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 10–14 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 60–200</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(23)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-ee165055b1.png" alt="Weeping Fig (Small)" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Weeping Fig (Small)</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 50–180</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(24)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-b6fed6f221.png" alt="Weeping Fig (Large)" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Weeping Fig (Large)</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 200–800</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(25)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-1ab70048ee.png" alt="Ctenanthe" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Ctenanthe</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#E05C5C20;color:#E05C5C;border:1px solid #E05C5C40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Medium Indirect</span>
+          </div>
+          <div class="g-price">AED 60–220</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(26)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-bc26059507.png" alt="Dracaena Lemon Lime" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Dracaena Lemon Lime</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 10–14 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 60–200</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(27)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-0265a2d321.png" alt="Tropical Mixed Planter" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Tropical Mixed Planter</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 200–600</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(28)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-f5c4ad0f63.png" alt="Statement Mixed Planter" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Statement Mixed Planter</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect</span>
+          </div>
+          <div class="g-price">AED 200–600</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(29)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-a18f0a2aa7.png" alt="Boston Fern" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Boston Fern</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#E05C5C20;color:#E05C5C;border:1px solid #E05C5C40">💧 3–5 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect</span>
+          </div>
+          <div class="g-price">AED 40–120</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(30)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-0ddaf4e8d1.png" alt="Variegated Weeping Fig" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Variegated Weeping Fig</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 200–700</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(31)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-edcef2be07.png" alt="Money Plant (Pothos)" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Money Plant (Pothos)</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 7–10 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect</span>
+          </div>
+          <div class="g-price">AED 20–80</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(32)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-f5a636b4f2.png" alt="Dracaena Compacta (Gift)" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Dracaena Compacta (Gift)</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#5DCAA520;color:#5DCAA5;border:1px solid #5DCAA540">💧 10–14 days</span>
+            <span class="g-badge g-badge-light">☀️ Low–Medium</span>
+          </div>
+          <div class="g-price">AED 60–200</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(33)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-50d44734d1.png" alt="Tradescantia Zebrina" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Tradescantia Zebrina</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect–Bright</span>
+          </div>
+          <div class="g-price">AED 20–60</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(34)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-b53cd5b3d6.png" alt="Tradescantia Purple" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Tradescantia Purple</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#9FE1CB20;color:#9FE1CB;border:1px solid #9FE1CB40">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Indirect–Bright</span>
+          </div>
+          <div class="g-price">AED 20–60</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(35)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-e3ca4c0a80.png" alt="Mixed Succulent Tray" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Mixed Succulent Tray</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#1D9E7520;color:#1D9E75;border:1px solid #1D9E7540">💧 14–21 days</span>
+            <span class="g-badge g-badge-light">☀️ Bright Indirect</span>
+          </div>
+          <div class="g-price">AED 60–250</div>
+        </div>
+      </div>
+      <div class="g-card" onclick="openModal(36)">
+        <div class="g-img-wrap">
+          <img src="assets/img/plan-2814d4c40b.png" alt="Asparagus Fern" loading="lazy">
+        </div>
+        <div class="g-info">
+          <div class="g-name">Asparagus Fern</div>
+          <div class="g-meta">
+            <span class="g-badge" style="background:#EF9F2720;color:#EF9F27;border:1px solid #EF9F2740">💧 5–7 days</span>
+            <span class="g-badge g-badge-light">☀️ Medium Indirect</span>
+          </div>
+          <div class="g-price">AED 35–100</div>
+        </div>
+      </div>
+  </div>
+  <div class="section-title" style="margin-top:32px">Greenhouse 3D Design Renders</div>
+  <div class="info-box">
+    <div class="ib-title">SolidWorks renders — 6 views of the planned structure</div>
+    <div class="ib-body">Interior layout, roof plan, front facade, side elevation, and section details. Click any image to enlarge.</div>
+  </div>
+  <div class="design-grid" id="galleryDesignGrid"></div>
+
+</div>
+
+<!-- ══ PLANTS DETAIL TAB ══ -->
+<div id="tab-plants" class="tab">
+  <div class="section-title">Detailed Plant Data — All 37 Varieties</div>
+  <div class="info-box">
+    <div class="ib-title">Greenhouse: 6m × 2.4m × 2.4m indoor, no direct sunlight, Sajja Industrial</div>
+    <div class="ib-body">All plants below have been identified from your existing catalogue and grouped by watering needs. Plants within the same group share compatible care routines and can often be displayed together.</div>
+  </div>
+
+    <div class="plant-group">
+      <div class="group-header" style="background:#E1F5EE;border-left:4px solid #1D9E75">
+        <span class="group-title" style="color:#1D9E75">Drought-Tolerant Plants</span>
+        <span class="group-tip">Water every 14–21 days. Very forgiving. Ideal for busy offices.</span>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-fa27fae525.png" alt="Snake Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Snake Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 35–120</strong></div>
+            </div>
+            <div class="dc-tip">💡 Allow soil to dry completely. Overwatering is the #1 killer.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-b5e72695df.png" alt="ZZ Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">ZZ Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–32°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–150</strong></div>
+            </div>
+            <div class="dc-tip">💡 Waxy leaves store water. Can survive 3–4 weeks without water.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-044c29b4f9.png" alt="Aloe Vera" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Aloe Vera</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Succulent / Cactus</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–35°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 25–80</strong></div>
+            </div>
+            <div class="dc-tip">💡 Deep water then let dry fully. Never let roots sit in water.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-bc039fe640.png" alt="African Milk Tree" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">African Milk Tree</div>
+            <div class="dc-badges">
+              <span class="badge badge-gray">Niche</span>
+              <span class="badge badge-gray">Succulent / Cactus</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–32°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–150</strong></div>
+            </div>
+            <div class="dc-tip">💡 Handle with gloves — milky sap is toxic and skin-irritating.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-a72bab1446.png" alt="Jade Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Jade Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Succulent / Cactus</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 30–100</strong></div>
+            </div>
+            <div class="dc-tip">💡 One of the most forgiving succulents. Do not mist the leaves.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-42c93278c1.png" alt="Mixed Succulents" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Mixed Succulents</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Succulent / Cactus</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–32°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–200</strong></div>
+            </div>
+            <div class="dc-tip">💡 Ideal for arrangement pots. Water rarely and only at soil level.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-559e28b583.png" alt="Hoya / Wax Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Hoya / Wax Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–29°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–150</strong></div>
+            </div>
+            <div class="dc-tip">💡 Blooms star-shaped waxy flowers when slightly root-bound.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-056d2fe67a.png" alt="ZZ Plant & Dracaena" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">ZZ Plant & Dracaena</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Statement Plant</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 80–250</strong></div>
+            </div>
+            <div class="dc-tip">💡 Perfect office display — both tolerate neglect beautifully.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-5eb9793a90.png" alt="Yucca Cane" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Yucca Cane</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–32°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 80–300</strong></div>
+            </div>
+            <div class="dc-tip">💡 Thrives in UAE conditions — tolerates heat and dry air very well.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-e3ca4c0a80.png" alt="Mixed Succulent Tray" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Mixed Succulent Tray</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Succulent / Cactus</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>14–21 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–32°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–250</strong></div>
+            </div>
+            <div class="dc-tip">💡 Ideal gift product. Jade + Echeveria + Haworthia + Sedum.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="plant-group">
+      <div class="group-header" style="background:#FAEEDA;border-left:4px solid #EF9F27">
+        <span class="group-title" style="color:#EF9F27">Moderate Water Plants</span>
+        <span class="group-tip">Water every 7–10 days when top soil is dry. Most versatile group.</span>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-dab5149627.png" alt="Pothos / Devil's Ivy" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Pothos / Devil's Ivy</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 25–90</strong></div>
+            </div>
+            <div class="dc-tip">💡 Let soil dry halfway before watering. Yellowing = overwatered.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-d4c6b6e28e.png" alt="Spider Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Spider Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 30–100</strong></div>
+            </div>
+            <div class="dc-tip">💡 Produces runners (spiderettes) — easy propagation for more pots.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-eae92e7c0d.png" alt="Monstera" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Monstera</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Statement Plant</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 120–500</strong></div>
+            </div>
+            <div class="dc-tip">💡 Water when top 3–5 cm of soil is dry. Loves humidity.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-371e31c3a5.png" alt="Rubber Plant" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Rubber Plant</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Statement Plant</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Medium Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 80–300</strong></div>
+            </div>
+            <div class="dc-tip">💡 Wipe leaves monthly with damp cloth to improve light absorption.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-e26a4fe776.png" alt="Dracaena fragrans" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Dracaena fragrans</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>10–14 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 50–200</strong></div>
+            </div>
+            <div class="dc-tip">💡 Sensitive to fluoride — use filtered or RO water.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-528460bc76.png" alt="Rubber Plant Mixed Display" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Rubber Plant Mixed Display</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Statement Plant</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Medium Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 100–350</strong></div>
+            </div>
+            <div class="dc-tip">💡 Combine Rubber Plant with Dracaena for a striking multi-level display.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-1f843a8d9c.png" alt="Areca Palm" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Areca Palm</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Palm</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 80–400</strong></div>
+            </div>
+            <div class="dc-tip">💡 Excellent air purifier. Sensitive to direct midday sun in UAE.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-1d57d903fc.png" alt="Dieffenbachia" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Dieffenbachia</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–150</strong></div>
+            </div>
+            <div class="dc-tip">💡 Toxic if ingested — keep away from pets and children.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-1be0a39cee.png" alt="Dracaena Compacta" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Dracaena Compacta</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>10–14 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–200</strong></div>
+            </div>
+            <div class="dc-tip">💡 Slow grower. Perfect for long-term office and hotel placements.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-ee165055b1.png" alt="Weeping Fig (Small)" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Weeping Fig (Small)</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Ficus Family</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 50–180</strong></div>
+            </div>
+            <div class="dc-tip">💡 Very sensitive to being moved — keep in same spot once placed.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-b6fed6f221.png" alt="Weeping Fig (Large)" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Weeping Fig (Large)</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Ficus Family</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 200–800</strong></div>
+            </div>
+            <div class="dc-tip">💡 Dramatic statement piece. Loses leaves if moved or overwatered.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-bc26059507.png" alt="Dracaena Lemon Lime" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Dracaena Lemon Lime</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>10–14 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–200</strong></div>
+            </div>
+            <div class="dc-tip">💡 Bright striped leaves add colour without needing extra light.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-0265a2d321.png" alt="Tropical Mixed Planter" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Tropical Mixed Planter</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Mixed Arrangement</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 200–600</strong></div>
+            </div>
+            <div class="dc-tip">💡 Areca Palm + Spider Plant + English Ivy + Philodendron.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-f5c4ad0f63.png" alt="Statement Mixed Planter" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Statement Mixed Planter</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Mixed Arrangement</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 200–600</strong></div>
+            </div>
+            <div class="dc-tip">💡 Ficus bonsai + Echeveria + English Ivy + Snake Plant + Aglaonema.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-0ddaf4e8d1.png" alt="Variegated Weeping Fig" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Variegated Weeping Fig</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Ficus Family</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 200–700</strong></div>
+            </div>
+            <div class="dc-tip">💡 Cream-edged leaves glow beautifully under LED grow lights.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-edcef2be07.png" alt="Money Plant (Pothos)" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Money Plant (Pothos)</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>7–10 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–30°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 20–80</strong></div>
+            </div>
+            <div class="dc-tip">💡 Same family as Pothos — equally tough and fast-growing.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-f5a636b4f2.png" alt="Dracaena Compacta (Gift)" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Dracaena Compacta (Gift)</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Structural / Upright</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>10–14 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Medium</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–200</strong></div>
+            </div>
+            <div class="dc-tip">💡 Popular premium gift plant — compact, long-lasting, low maintenance.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-50d44734d1.png" alt="Tradescantia Zebrina" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Tradescantia Zebrina</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect–Bright</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 20–60</strong></div>
+            </div>
+            <div class="dc-tip">💡 Purple-silver striped leaves. Great trailing accent in arrangements.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-b53cd5b3d6.png" alt="Tradescantia Purple" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Tradescantia Purple</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect–Bright</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–28°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 20–60</strong></div>
+            </div>
+            <div class="dc-tip">💡 Intense purple foliage. Pinch tips to keep bushy and full.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-2814d4c40b.png" alt="Asparagus Fern" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Asparagus Fern</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Fern</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Medium Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–24°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 35–100</strong></div>
+            </div>
+            <div class="dc-tip">💡 Feathery texture contrasts beautifully with bold-leaf plants.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="plant-group">
+      <div class="group-header" style="background:#E6F1FB;border-left:4px solid #4C9ED9">
+        <span class="group-title" style="color:#4C9ED9">Moisture-Loving Plants</span>
+        <span class="group-tip">Water every 3–7 days. Keep soil moist. High humidity required.</span>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-f8f6320dce.png" alt="Peace Lily" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Peace Lily</div>
+            <div class="dc-badges">
+              <span class="badge badge-green">High Demand</span>
+              <span class="badge badge-gray">Flowering</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 50–180</strong></div>
+            </div>
+            <div class="dc-tip">💡 Will visibly droop when thirsty — a reliable watering cue.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-b76f15d958.png" alt="Azalea" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Azalea</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Flowering</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–21°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–120</strong></div>
+            </div>
+            <div class="dc-tip">💡 Keep moist but not waterlogged. Cooler temps extend bloom time.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-c490d531ee.png" alt="English Ivy" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">English Ivy</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Trailing / Hanging</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Low–Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>10–21°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 25–80</strong></div>
+            </div>
+            <div class="dc-tip">💡 Prefers cooler conditions. Mist leaves regularly in UAE heat.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-beef2ba0ab.png" alt="Azalea (Orange)" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Azalea (Orange)</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Flowering</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Bright Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–21°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–120</strong></div>
+            </div>
+            <div class="dc-tip">💡 Deadhead spent blooms to encourage repeat flowering.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-0459d28ecc.png" alt="Calathea" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Calathea</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">High Humidity</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Medium Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–220</strong></div>
+            </div>
+            <div class="dc-tip">💡 Use distilled or RO water — tap water causes brown leaf tips.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-1ab70048ee.png" alt="Ctenanthe" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Ctenanthe</div>
+            <div class="dc-badges">
+              <span class="badge badge-amber">Growing</span>
+              <span class="badge badge-gray">High Humidity</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>5–7 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Medium Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>18–27°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 60–220</strong></div>
+            </div>
+            <div class="dc-tip">💡 Sister genus to Calathea. Equally stunning, slightly hardier.</div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-img"><img src="assets/img/plan-a18f0a2aa7.png" alt="Boston Fern" loading="lazy"></div>
+          <div class="dc-body">
+            <div class="dc-name">Boston Fern</div>
+            <div class="dc-badges">
+              <span class="badge badge-blue">Moderate</span>
+              <span class="badge badge-gray">Fern</span>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span>💧 Water</span><strong>3–5 days</strong></div>
+              <div class="dc-row"><span>☀️ Light</span><strong>Indirect</strong></div>
+              <div class="dc-row"><span>🌡 Temp</span><strong>15–24°C</strong></div>
+              <div class="dc-row"><span>💰 Price</span><strong>AED 40–120</strong></div>
+            </div>
+            <div class="dc-tip">💡 High humidity essential. Mist daily or use a pebble water tray.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ══ MIX GUIDE TAB ══ -->
+<div id="tab-mixing" class="tab">
+  <div class="section-title">Plant Mixing & Compatibility Guide</div>
+  <div class="info-box">
+    <div class="ib-title">Golden rule: only mix plants with matching water schedules</div>
+    <div class="ib-body">The plant that drowns first will ruin the pot and your reputation. Group by watering needs first, then consider light. Start with single-species pots for months 1–3. Introduce combinations only after you understand each plant's behaviour in your specific greenhouse environment.</div>
+  </div>
+
+  <div class="section-title">Compatible Groups — Safe to Mix</div>
+  <div class="mix-groups">
+    <div class="mg-card" style="background:#E1F5EE;border-color:#9FE1CB">
+      <h3 style="color:#085041">💧 Drought-Tolerant Group</h3>
+      <p style="color:#0F6E56">Water every 14–21 days. Very forgiving. Ideal for busy offices and hotel lobbies.</p>
+      <div class="mg-tags">
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Snake Plant</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">ZZ Plant</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Aloe Vera</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Jade Plant</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">African Milk Tree</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Hoya</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Mixed Succulents</span>
+        <span class="mg-tag" style="background:#C8EDE2;color:#085041">Yucca</span>
+      </div>
+    </div>
+    <div class="mg-card" style="background:#FAEEDA;border-color:#EF9F27">
+      <h3 style="color:#633806">💧💧 Moderate Water Group</h3>
+      <p style="color:#854F0B">Water every 7–10 days. Most versatile. Works for offices, villas, hotels.</p>
+      <div class="mg-tags">
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Pothos</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Spider Plant</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Monstera</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Rubber Plant</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Dracaena</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Areca Palm</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Dieffenbachia</span>
+        <span class="mg-tag" style="background:#F4DDB8;color:#633806">Tradescantia</span>
+      </div>
+    </div>
+    <div class="mg-card" style="background:#E6F1FB;border-color:#4C9ED9">
+      <h3 style="color:#0C447C">💧💧💧 Moisture-Loving Group</h3>
+      <p style="color:#0C447C">Water every 3–7 days. Need high humidity. Keep together on a humidity shelf.</p>
+      <div class="mg-tags">
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">Peace Lily</span>
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">Calathea</span>
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">Boston Fern</span>
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">English Ivy</span>
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">Ctenanthe</span>
+        <span class="mg-tag" style="background:#C8DCF0;color:#0C447C">Azalea</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Specific Pot Combinations — Do & Don't</div>
+  <div class="mix-legend">
+    <div class="mix-legend-item"><div class="mix-legend-dot" style="background:#1D9E75"></div> Compatible — safe to pot together</div>
+    <div class="mix-legend-item"><div class="mix-legend-dot" style="background:#EF9F27"></div> Possible — monitor carefully</div>
+    <div class="mix-legend-item"><div class="mix-legend-dot" style="background:#E05C5C"></div> Avoid — conflicting needs</div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Snake Plant</strong> + <strong>ZZ Plant</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Both drought-tolerant, same soil, same watering schedule. Excellent office duo.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Snake Plant</strong> + <strong>Aloe Vera</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Both prefer dry soil. Low water, bright indirect light. Safe combination.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Pothos</strong> + <strong>Spider Plant</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Similar indirect light and humidity needs. Both trail nicely together.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Dracaena</strong> + <strong>Dieffenbachia</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Moderate water, similar humidity. Both tolerate low office light.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Calathea</strong> + <strong>Peace Lily</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Both love humidity and filtered water. High moisture — great pairing.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>Areca Palm</strong> + <strong>Pothos</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Palm provides height, Pothos trails below. Same watering frequency.</div>
+      </div>
+      <div class="mix-row mix-green">
+        <div class="mix-plants"><strong>English Ivy</strong> + <strong>Boston Fern</strong></div>
+        <div class="mix-status">✅ Compatible</div>
+        <div class="mix-note">Both moisture-lovers. High-humidity shelf pairing.</div>
+      </div>
+      <div class="mix-row mix-amber">
+        <div class="mix-plants"><strong>Monstera</strong> + <strong>Rubber Plant</strong></div>
+        <div class="mix-status">⚠️ With Care</div>
+        <div class="mix-note">Similar but Monstera needs slightly more water — monitor carefully.</div>
+      </div>
+      <div class="mix-row mix-red">
+        <div class="mix-plants"><strong>ZZ Plant</strong> + <strong>Calathea</strong></div>
+        <div class="mix-status">❌ Avoid</div>
+        <div class="mix-note">Avoid — ZZ needs dry soil, Calathea needs constant moisture. Conflict.</div>
+      </div>
+      <div class="mix-row mix-red">
+        <div class="mix-plants"><strong>Succulent Mix</strong> + <strong>Peace Lily</strong></div>
+        <div class="mix-status">❌ Avoid</div>
+        <div class="mix-note">Avoid — succulents = dry, Peace Lily = moist. One will always suffer.</div>
+      </div>
+      <div class="mix-row mix-red">
+        <div class="mix-plants"><strong>Aloe Vera</strong> + <strong>Boston Fern</strong></div>
+        <div class="mix-status">❌ Avoid</div>
+        <div class="mix-note">Avoid — Aloe is drought-tolerant, Fern needs constant moisture.</div>
+      </div>
+      <div class="mix-row mix-red">
+        <div class="mix-plants"><strong>Jade Plant</strong> + <strong>Monstera</strong></div>
+        <div class="mix-status">❌ Avoid</div>
+        <div class="mix-note">Avoid — very different water and humidity requirements.</div>
+      </div>
+  </div>
+
+  <div class="section-title">Watering Schedule — Quick Reference</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Every 3–5 days</span><span class="row-value">Boston Fern</span></div>
+    <div class="row"><span class="row-label">Every 5–7 days</span><span class="row-value">Peace Lily · Calathea · Ctenanthe · Azalea · English Ivy · Weeping Fig · Tradescantia · Asparagus Fern</span></div>
+    <div class="row"><span class="row-label">Every 7–10 days</span><span class="row-value">Pothos · Spider Plant · Monstera · Rubber Plant · Areca Palm · Dieffenbachia · Money Plant</span></div>
+    <div class="row"><span class="row-label">Every 10–14 days</span><span class="row-value">Dracaena (all varieties)</span></div>
+    <div class="row"><span class="row-label">Every 14–21 days</span><span class="row-value">Snake Plant · ZZ Plant · Aloe Vera · Jade Plant · African Milk Tree · Hoya · Yucca · All Succulents</span></div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wb-title">⚠️ UAE-specific watering reminder</div>
+    <div class="wb-body">In the Sajja Industrial warehouse environment, your AC will keep the greenhouse at 22–26°C but will also dry the air. Monitor soil moisture with your finger — the top 2–3 cm should be completely dry before watering drought-tolerant plants. In summer months (June–September), the AC runs harder and soil may dry slightly faster. Adjust watering frequency by ±2 days based on observation, not a fixed calendar.</div>
+  </div>
+</div>
+
+<!-- ══ MARKET TAB ══ -->
+<div id="tab-market" class="tab">
+  <div class="section-title">Market Opportunity — UAE</div>
+  <div class="grid3">
+    <div class="card"><div class="card-title">ME&amp;A Market Size</div><div class="card-value">$0.9B</div><div class="card-sub">2024 — growing to $1.5B by 2033</div></div>
+    <div class="card"><div class="card-title">Regional CAGR</div><div class="card-value">6.3%</div><div class="card-sub">2026–2033 forecast</div></div>
+    <div class="card"><div class="card-title">UAE Interior Design</div><div class="card-value">+20%</div><div class="card-sub">Villa price rise in 2024 alone</div></div>
+  </div>
+  <div class="info-box">
+    <div class="ib-title">Why now in UAE is the right time</div>
+    <div class="ib-body">Biophilic design is entering mainstream UAE interior briefs. Luxury real estate boom, Golden Visa inflows, and multinational office expansions all drive demand for premium interior greenery. Organic, locally-grown plants with story and provenance are an untapped niche — most competitors import or sell commodity plants.</div>
+  </div>
+  <div class="section-title">Who Buys Decorative Plants in UAE</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Corporate offices (B2B) — reception, meeting rooms, corridors</span><span class="badge badge-green">Highest Value</span></div>
+    <div class="row"><span class="row-label">Luxury villas &amp; apartments — interior designers</span><span class="badge badge-green">High Margin</span></div>
+    <div class="row"><span class="row-label">Hotels &amp; hospitality — lobby, restaurant staging</span><span class="badge badge-blue">Large Volume</span></div>
+    <div class="row"><span class="row-label">Retail gifting — unique organic pot as premium gift</span><span class="badge badge-amber">Growing Fast</span></div>
+    <div class="row"><span class="row-label">Individual homeowners via Instagram / online</span><span class="badge badge-amber">Medium Value</span></div>
+  </div>
+  <div class="section-title">Competitor Landscape — Sharjah &amp; Dubai</div>
+  <div class="comp-card"><div><div class="comp-name">Kingdom of Trees &amp; Flowers — Al Jubail, Sharjah</div><div class="comp-desc">Large range, affordable pricing. Not organic, not curated.</div></div><span class="badge badge-amber">Medium Threat</span></div>
+  <div class="comp-card"><div><div class="comp-name">Acacia Garden Centre — Dubai (6,000 sqm)</div><div class="comp-desc">UAE's largest nursery. Premium but not indoor-greenhouse origin.</div></div><span class="badge badge-red">High Threat</span></div>
+  <div class="comp-card"><div><div class="comp-name">Green Hands UAE — online premium pots</div><div class="comp-desc">Sells premium pots AED 199–850. Plants are separate.</div></div><span class="badge badge-amber">Medium Threat</span></div>
+  <div class="comp-card"><div><div class="comp-name">Well Potted Plants LLC</div><div class="comp-desc">Targets offices and hotels. Delivery-focused. 25,000+ clients claimed.</div></div><span class="badge badge-red">Direct Competitor</span></div>
+  <div class="info-box" style="margin-top:16px">
+    <div class="ib-title">Your gap in the market</div>
+    <div class="ib-body">No competitor offers "100% locally greenhouse-grown + chemical-free + premium pot" as a single product. Your story — grown inside a controlled environment in Sharjah — is a genuine differentiator. Sell the origin, not just the plant.</div>
+  </div>
+</div>
+
+<!-- ══ TECHNICAL TAB ══ -->
+<div id="tab-technical" class="tab">
+  <div class="section-title">Your Greenhouse Dimensions</div>
+  <div class="grid3">
+    <div class="card"><div class="card-title">Footprint</div><div class="card-value">6m × 2.4m</div><div class="card-sub">= 14.4 sqm floor area</div></div>
+    <div class="card"><div class="card-title">Height</div><div class="card-value">2.4m</div><div class="card-sub">Sufficient for 2-tier shelving</div></div>
+    <div class="card"><div class="card-title">Usable Space</div><div class="card-value">~28 sqm</div><div class="card-sub">With 2-tier shelving on both sides</div></div>
+  </div>
+  <div class="section-title">Structure — What to Build</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Frame material</span><span class="row-value">Aluminum profile — corrosion-resistant, lightweight</span></div>
+    <div class="row"><span class="row-label">Walls &amp; ceiling</span><span class="row-value">Twin-wall polycarbonate 6mm — insulates, diffuses light</span></div>
+    <div class="row"><span class="row-label">Floor</span><span class="row-value">Waterproof membrane + anti-slip tiles + floor drain</span></div>
+    <div class="row"><span class="row-label">Door</span><span class="row-value">Sliding aluminum door — minimize heat loss on entry</span></div>
+    <div class="row"><span class="row-label">Shelving</span><span class="row-value">Stainless or PVC-coated wire racks — 2 levels each side</span></div>
+  </div>
+  <div class="section-title">Environmental Systems — Critical for UAE</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Cooling / AC</span><span class="row-value">1.5 ton split AC minimum — Sajja summer = 45°C outside</span></div>
+    <div class="row"><span class="row-label">Humidity control</span><span class="row-value">Portable dehumidifier 20–30L/day capacity</span></div>
+    <div class="row"><span class="row-label">Ventilation</span><span class="row-value">2× inline fans for air circulation — prevent mold</span></div>
+    <div class="row"><span class="row-label">Grow lights</span><span class="row-value">Full-spectrum LED bars — 4× 50W strips minimum</span></div>
+    <div class="row"><span class="row-label">Timers</span><span class="row-value">Smart timer for lights — 12–14h cycle</span></div>
+  </div>
+  <div class="warn-box">
+    <div class="wb-title">Most critical issue — moisture vs. warehouse</div>
+    <div class="wb-body">Your greenhouse will be humid inside (60–70%). The Sajja warehouse outside is hot and dry. The polycarbonate skin must create a complete seal or condensation will drip on your warehouse floor, creating mold risk and structural damage. Seal every joint with silicone. This is the #1 failure point for indoor greenhouses in UAE.</div>
+  </div>
+  <div class="section-title">Irrigation — Simple Organic Approach</div>
+  <div class="card">
+    <div class="row"><span class="row-label">Water source</span><span class="row-value">Tap water + RO filter (remove chlorine for organic)</span></div>
+    <div class="row"><span class="row-label">Method</span><span class="row-value">Manual drip or semi-auto drip per shelf zone</span></div>
+    <div class="row"><span class="row-label">Drainage</span><span class="row-value">Saucers under pots + central drain channel on floor</span></div>
+    <div class="row"><span class="row-label">Phase 2 (month 6+)</span><span class="row-value">Automated irrigation timer + moisture sensors</span></div>
+  </div>
+
+  <div class="section-title" style="margin-top:32px">3D Design Renders — Greenhouse Layout</div>
+  <div class="info-box">
+    <div class="ib-title">SolidWorks design renders — Sajja Industrial, Sharjah</div>
+    <div class="ib-body">These renders show the planned greenhouse structure: aluminum-framed shelving on both side walls, split AC unit on the left end wall, twin ventilation domes on the roof, and wooden panel exterior cladding. Click any image to enlarge and navigate with arrow keys.</div>
+  </div>
+  <div class="design-grid">
+    <div class="design-card" onclick="openDesign(0)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-ffa1cdc631.png" alt="Interior Overview" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 1 / 6</div>
+        <div class="design-title">Interior Overview</div>
+        <div class="design-caption">Full interior perspective — multi-tier shelving along both side walls, AC unit mounted on left, ventilation domes on ceiling.</div>
+      </div>
+    </div>
+    <div class="design-card" onclick="openDesign(1)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-ae39cf64b0.png" alt="Interior Detail" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 2 / 6</div>
+        <div class="design-title">Interior Detail</div>
+        <div class="design-caption">AC/filtration panel on left wall, shelf grid with plant slots, 2 ceiling ventilation domes visible.</div>
+      </div>
+    </div>
+    <div class="design-card" onclick="openDesign(2)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-1253df3a06.png" alt="Roof Plan — Top View" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 3 / 6</div>
+        <div class="design-title">Roof Plan — Top View</div>
+        <div class="design-caption">Overhead view of ceiling structure — 2 ventilation domes, wooden slatted roof frame, AC duct entry point.</div>
+      </div>
+    </div>
+    <div class="design-card" onclick="openDesign(3)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-c64d66df99.png" alt="Front Facade" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 4 / 6</div>
+        <div class="design-title">Front Facade</div>
+        <div class="design-caption">Exterior front elevation — wooden panel cladding, ventilation domes above, shelf grid visible behind facade.</div>
+      </div>
+    </div>
+    <div class="design-card" onclick="openDesign(4)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-02edcce43e.png" alt="Side Elevation — Full Length" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 5 / 6</div>
+        <div class="design-title">Side Elevation — Full Length</div>
+        <div class="design-caption">Full exterior side view — panel wall system, dual ventilation domes, AC unit at left end, door entry.</div>
+      </div>
+    </div>
+    <div class="design-card" onclick="openDesign(5)">
+      <div class="design-img-wrap">
+        <img src="assets/img/plan-180040d955.png" alt="End Section — Entry Detail" loading="lazy">
+        <div class="design-overlay"><span>&#128269; View</span></div>
+      </div>
+      <div class="design-info">
+        <div class="design-num">View 6 / 6</div>
+        <div class="design-title">End Section — Entry Detail</div>
+        <div class="design-caption">Corner cut-away — AC unit lower-left, ventilation dome on roof, vertical panel walls, shelving through entry.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ROADMAP TAB ══ -->
+<div id="tab-roadmap" class="tab">
+  <div class="section-title">Zero to Market — 18-Month Plan</div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-month">Month 1–2</div><div class="tl-title">Build &amp; Plant</div><div class="tl-desc">Construct greenhouse frame, install AC + lights + drainage. Source 100–150 starter plants (Snake Plant, ZZ, Pothos, Spider Plant). Set up organic soil beds. Do not sell yet.</div></div>
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-month">Month 2–3</div><div class="tl-title">Environment Calibration</div><div class="tl-desc">Run the greenhouse for 4–6 weeks with no product pressure. Dial in temperature (22–26°C), humidity (55–65%), light cycles. Observe plant health. Fix problems before you have customers.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 3</div><div class="tl-title">Brand &amp; Content Launch</div><div class="tl-desc">Name your brand. Build Instagram. Start documenting the greenhouse — behind-the-scenes, plant care tips, organic process. Post daily. Build 500+ followers before selling.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 4</div><div class="tl-title">First Sales — Soft Launch</div><div class="tl-desc">Pot your first batch (20–30 pots). Sell through Instagram DM and WhatsApp. Offer free delivery to 5 offices in Sharjah in exchange for photos and reviews. Create your first B2B pitch deck.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 5–6</div><div class="tl-title">B2B Push — Offices &amp; Interior Designers</div><div class="tl-desc">Target interior designers in Sharjah and Dubai. Offer a "Greenhouse Origins" certificate with each pot. Pitch office plant packages (5–10 pots, quarterly replacement service).</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 6–9</div><div class="tl-title">Expand Stock &amp; Premium Products</div><div class="tl-desc">Add Monstera, Rubber Plant, Peace Lily, Calathea, Areca Palm. Introduce premium combination pots (AED 250–500). Add plant care subscription for offices — monthly visit + care AED 200–400/client.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 9–12</div><div class="tl-title">Online Store + Delivery Coverage</div><div class="tl-desc">Launch Shopify or Instagram shop. Cover Sharjah + Dubai delivery. Target gifting season (Ramadan, Diwali, New Year). Corporate gifting is huge in UAE — organic plant pots as branded gifts.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-month">Month 12–18</div><div class="tl-title">Scale or Replicate</div><div class="tl-desc">By month 12 you'll know what sells, margins, and the demand ceiling. Options: add a second greenhouse unit, hire part-time staff, or begin supplying wholesale to a garden centre.</div></div>
+  </div>
+</div>
+
+<!-- ══ RISKS TAB ══ -->
+<div id="tab-risks" class="tab">
+  <div class="section-title">Key Risks &amp; Mitigation</div>
+  <div class="card">
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">AC failure in summer — plants die within 6 hours at 45°C</span><span class="badge badge-red">Critical</span></div>
+      <div class="risk-mitigate">Mitigation: Keep a backup portable AC unit. Set a temperature alarm on your phone via a smart plug with temperature sensor (AED 30).</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">Humidity leaking to warehouse — mold and corrosion</span><span class="badge badge-red">Critical</span></div>
+      <div class="risk-mitigate">Mitigation: Silicone seal every joint. Run dehumidifier continuously. Check warehouse walls monthly for moisture signs.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">Slow sales in months 1–4 — cash pressure</span><span class="badge badge-amber">Medium</span></div>
+      <div class="risk-mitigate">Mitigation: Start Instagram 2 months before selling. Build audience first. Reserve 2 months operating costs (AED 6,000) before launch.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">Plant disease spreading in enclosed space</span><span class="badge badge-amber">Medium</span></div>
+      <div class="risk-mitigate">Mitigation: Quarantine new plant arrivals for 2 weeks before entering greenhouse. Inspect weekly. Use neem oil (organic) as preventive spray.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">Power outage — DEWA disruptions</span><span class="badge badge-blue">Low–Medium</span></div>
+      <div class="risk-mitigate">Mitigation: UAE grid is reliable, but keep a UPS for fans and sensors. A small generator (AED 1,500–2,000) protects your entire stock investment.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-header"><span class="risk-label">Organic certification — no formal claim without cert</span><span class="badge badge-blue">Strategic</span></div>
+      <div class="risk-mitigate">Mitigation: In Phase 1 use "naturally grown" or "chemical-free" language. Apply for Sharjah Municipality or UAE Ministry of Climate Change registration in Year 2.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <img id="modalImg" class="modal-img" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-badges" id="modalBadges"></div>
+      <div class="modal-rows" id="modalRows"></div>
+      <div class="modal-tip" id="modalTip"></div>
+      <div class="modal-nav">
+        <button onclick="modalNav(-1)">← Previous</button>
+        <button onclick="modalNav(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="background:#063d30;color:#9FE1CB;text-align:center;padding:20px;font-size:.8rem;margin-top:40px">
+  Indoor Greenhouse Business Plan · Sajja Industrial, Sharjah UAE · 37 Plant Varieties Catalogue
+</footer>
+
+<script>
+const PLANTS = [{"id": 1, "name": "Pothos / Devil's Ivy", "water_days": "7\u201310 days", "water_need": "Low", "light": "Indirect", "temp": "15\u201330\u00b0C", "price": "AED 25\u201390", "popularity": "High", "category": "trailing", "tip": "Let soil dry halfway before watering. Yellowing = overwatered.", "mix_group": "medium-water", "img": "assets/img/plan-dab5149627.png"}, {"id": 2, "name": "Snake Plant", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Low\u2013Medium", "temp": "18\u201330\u00b0C", "price": "AED 35\u2013120", "popularity": "High", "category": "structural", "tip": "Allow soil to dry completely. Overwatering is the #1 killer.", "mix_group": "low-water", "img": "assets/img/plan-fa27fae525.png"}, {"id": 3, "name": "ZZ Plant", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Low", "temp": "18\u201332\u00b0C", "price": "AED 40\u2013150", "popularity": "High", "category": "structural", "tip": "Waxy leaves store water. Can survive 3\u20134 weeks without water.", "mix_group": "low-water", "img": "assets/img/plan-b5e72695df.png"}, {"id": 4, "name": "Peace Lily", "water_days": "5\u20137 days", "water_need": "Medium", "light": "Low\u2013Indirect", "temp": "18\u201327\u00b0C", "price": "AED 50\u2013180", "popularity": "High", "category": "flowering", "tip": "Will visibly droop when thirsty \u2014 a reliable watering cue.", "mix_group": "high-water", "img": "assets/img/plan-f8f6320dce.png"}, {"id": 5, "name": "Aloe Vera", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright Indirect", "temp": "18\u201335\u00b0C", "price": "AED 25\u201380", "popularity": "High", "category": "succulent", "tip": "Deep water then let dry fully. Never let roots sit in water.", "mix_group": "low-water", "img": "assets/img/plan-044c29b4f9.png"}, {"id": 6, "name": "Spider Plant", "water_days": "7\u201310 days", "water_need": "Low\u2013Medium", "light": "Indirect", "temp": "15\u201328\u00b0C", "price": "AED 30\u2013100", "popularity": "High", "category": "trailing", "tip": "Produces runners (spiderettes) \u2014 easy propagation for more pots.", "mix_group": "medium-water", "img": "assets/img/plan-d4c6b6e28e.png"}, {"id": 7, "name": "Monstera", "water_days": "7\u201310 days", "water_need": "Medium", "light": "Bright Indirect", "temp": "18\u201330\u00b0C", "price": "AED 120\u2013500", "popularity": "High", "category": "statement", "tip": "Water when top 3\u20135 cm of soil is dry. Loves humidity.", "mix_group": "medium-water", "img": "assets/img/plan-eae92e7c0d.png"}, {"id": 8, "name": "Rubber Plant", "water_days": "7\u201310 days", "water_need": "Low\u2013Medium", "light": "Medium Indirect", "temp": "18\u201330\u00b0C", "price": "AED 80\u2013300", "popularity": "High", "category": "statement", "tip": "Wipe leaves monthly with damp cloth to improve light absorption.", "mix_group": "medium-water", "img": "assets/img/plan-371e31c3a5.png"}, {"id": 9, "name": "Azalea", "water_days": "5\u20137 days", "water_need": "Medium", "light": "Bright Indirect", "temp": "15\u201321\u00b0C", "price": "AED 40\u2013120", "popularity": "Moderate", "category": "flowering", "tip": "Keep moist but not waterlogged. Cooler temps extend bloom time.", "mix_group": "high-water", "img": "assets/img/plan-b76f15d958.png"}, {"id": 10, "name": "English Ivy", "water_days": "5\u20137 days", "water_need": "Medium", "light": "Low\u2013Indirect", "temp": "10\u201321\u00b0C", "price": "AED 25\u201380", "popularity": "Moderate", "category": "trailing", "tip": "Prefers cooler conditions. Mist leaves regularly in UAE heat.", "mix_group": "high-water", "img": "assets/img/plan-c490d531ee.png"}, {"id": 11, "name": "Dracaena fragrans", "water_days": "10\u201314 days", "water_need": "Low", "light": "Low\u2013Medium", "temp": "18\u201327\u00b0C", "price": "AED 50\u2013200", "popularity": "Moderate", "category": "structural", "tip": "Sensitive to fluoride \u2014 use filtered or RO water.", "mix_group": "medium-water", "img": "assets/img/plan-e26a4fe776.png"}, {"id": 12, "name": "African Milk Tree", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright Indirect", "temp": "18\u201332\u00b0C", "price": "AED 60\u2013150", "popularity": "Niche", "category": "succulent", "tip": "Handle with gloves \u2014 milky sap is toxic and skin-irritating.", "mix_group": "low-water", "img": "assets/img/plan-bc039fe640.png"}, {"id": 13, "name": "Jade Plant", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright Indirect", "temp": "18\u201327\u00b0C", "price": "AED 30\u2013100", "popularity": "Moderate", "category": "succulent", "tip": "One of the most forgiving succulents. Do not mist the leaves.", "mix_group": "low-water", "img": "assets/img/plan-a72bab1446.png"}, {"id": 14, "name": "Azalea (Orange)", "water_days": "5\u20137 days", "water_need": "Medium", "light": "Bright Indirect", "temp": "15\u201321\u00b0C", "price": "AED 40\u2013120", "popularity": "Moderate", "category": "flowering", "tip": "Deadhead spent blooms to encourage repeat flowering.", "mix_group": "high-water", "img": "assets/img/plan-beef2ba0ab.png"}, {"id": 15, "name": "Calathea", "water_days": "5\u20137 days", "water_need": "High", "light": "Medium Indirect", "temp": "18\u201327\u00b0C", "price": "AED 60\u2013220", "popularity": "Growing", "category": "high-humidity", "tip": "Use distilled or RO water \u2014 tap water causes brown leaf tips.", "mix_group": "high-water", "img": "assets/img/plan-0459d28ecc.png"}, {"id": 16, "name": "Mixed Succulents", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright Indirect", "temp": "15\u201332\u00b0C", "price": "AED 40\u2013200", "popularity": "High", "category": "succulent", "tip": "Ideal for arrangement pots. Water rarely and only at soil level.", "mix_group": "low-water", "img": "assets/img/plan-42c93278c1.png"}, {"id": 17, "name": "Rubber Plant Mixed Display", "water_days": "7\u201310 days", "water_need": "Low\u2013Medium", "light": "Medium Indirect", "temp": "18\u201330\u00b0C", "price": "AED 100\u2013350", "popularity": "High", "category": "statement", "tip": "Combine Rubber Plant with Dracaena for a striking multi-level display.", "mix_group": "medium-water", "img": "assets/img/plan-528460bc76.png"}, {"id": 18, "name": "Areca Palm", "water_days": "7\u201310 days", "water_need": "Medium", "light": "Bright Indirect", "temp": "18\u201330\u00b0C", "price": "AED 80\u2013400", "popularity": "High", "category": "palm", "tip": "Excellent air purifier. Sensitive to direct midday sun in UAE.", "mix_group": "medium-water", "img": "assets/img/plan-1f843a8d9c.png"}, {"id": 19, "name": "Hoya / Wax Plant", "water_days": "14\u201321 days", "water_need": "Low", "light": "Bright Indirect", "temp": "18\u201329\u00b0C", "price": "AED 40\u2013150", "popularity": "Growing", "category": "trailing", "tip": "Blooms star-shaped waxy flowers when slightly root-bound.", "mix_group": "low-water", "img": "assets/img/plan-559e28b583.png"}, {"id": 20, "name": "ZZ Plant & Dracaena", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Low\u2013Medium", "temp": "18\u201330\u00b0C", "price": "AED 80\u2013250", "popularity": "High", "category": "statement", "tip": "Perfect office display \u2014 both tolerate neglect beautifully.", "mix_group": "low-water", "img": "assets/img/plan-056d2fe67a.png"}, {"id": 21, "name": "Dieffenbachia", "water_days": "7\u201310 days", "water_need": "Low\u2013Medium", "light": "Low\u2013Medium", "temp": "18\u201327\u00b0C", "price": "AED 40\u2013150", "popularity": "Moderate", "category": "structural", "tip": "Toxic if ingested \u2014 keep away from pets and children.", "mix_group": "medium-water", "img": "assets/img/plan-1d57d903fc.png"}, {"id": 22, "name": "Yucca Cane", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright", "temp": "18\u201332\u00b0C", "price": "AED 80\u2013300", "popularity": "Moderate", "category": "structural", "tip": "Thrives in UAE conditions \u2014 tolerates heat and dry air very well.", "mix_group": "low-water", "img": "assets/img/plan-5eb9793a90.png"}, {"id": 23, "name": "Dracaena Compacta", "water_days": "10\u201314 days", "water_need": "Low", "light": "Low\u2013Medium", "temp": "18\u201327\u00b0C", "price": "AED 60\u2013200", "popularity": "Moderate", "category": "structural", "tip": "Slow grower. Perfect for long-term office and hotel placements.", "mix_group": "medium-water", "img": "assets/img/plan-1be0a39cee.png"}, {"id": 24, "name": "Weeping Fig (Small)", "water_days": "5\u20137 days", "water_need": "Low\u2013Medium", "light": "Bright Indirect", "temp": "18\u201328\u00b0C", "price": "AED 50\u2013180", "popularity": "Moderate", "category": "ficus", "tip": "Very sensitive to being moved \u2014 keep in same spot once placed.", "mix_group": "medium-water", "img": "assets/img/plan-ee165055b1.png"}, {"id": 25, "name": "Weeping Fig (Large)", "water_days": "5\u20137 days", "water_need": "Low\u2013Medium", "light": "Bright Indirect", "temp": "18\u201328\u00b0C", "price": "AED 200\u2013800", "popularity": "Moderate", "category": "ficus", "tip": "Dramatic statement piece. Loses leaves if moved or overwatered.", "mix_group": "medium-water", "img": "assets/img/plan-b6fed6f221.png"}, {"id": 26, "name": "Ctenanthe", "water_days": "5\u20137 days", "water_need": "High", "light": "Medium Indirect", "temp": "18\u201327\u00b0C", "price": "AED 60\u2013220", "popularity": "Growing", "category": "high-humidity", "tip": "Sister genus to Calathea. Equally stunning, slightly hardier.", "mix_group": "high-water", "img": "assets/img/plan-1ab70048ee.png"}, {"id": 27, "name": "Dracaena Lemon Lime", "water_days": "10\u201314 days", "water_need": "Low", "light": "Low\u2013Medium", "temp": "18\u201327\u00b0C", "price": "AED 60\u2013200", "popularity": "Growing", "category": "structural", "tip": "Bright striped leaves add colour without needing extra light.", "mix_group": "medium-water", "img": "assets/img/plan-bc26059507.png"}, {"id": 28, "name": "Tropical Mixed Planter", "water_days": "7\u201310 days", "water_need": "Medium", "light": "Bright Indirect", "temp": "18\u201330\u00b0C", "price": "AED 200\u2013600", "popularity": "High", "category": "arrangement", "tip": "Areca Palm + Spider Plant + English Ivy + Philodendron.", "mix_group": "medium-water", "img": "assets/img/plan-0265a2d321.png"}, {"id": 29, "name": "Statement Mixed Planter", "water_days": "7\u201310 days", "water_need": "Low\u2013Medium", "light": "Indirect", "temp": "18\u201328\u00b0C", "price": "AED 200\u2013600", "popularity": "High", "category": "arrangement", "tip": "Ficus bonsai + Echeveria + English Ivy + Snake Plant + Aglaonema.", "mix_group": "medium-water", "img": "assets/img/plan-f5c4ad0f63.png"}, {"id": 30, "name": "Boston Fern", "water_days": "3\u20135 days", "water_need": "High", "light": "Indirect", "temp": "15\u201324\u00b0C", "price": "AED 40\u2013120", "popularity": "Moderate", "category": "fern", "tip": "High humidity essential. Mist daily or use a pebble water tray.", "mix_group": "high-water", "img": "assets/img/plan-a18f0a2aa7.png"}, {"id": 31, "name": "Variegated Weeping Fig", "water_days": "5\u20137 days", "water_need": "Low\u2013Medium", "light": "Bright Indirect", "temp": "18\u201328\u00b0C", "price": "AED 200\u2013700", "popularity": "Moderate", "category": "ficus", "tip": "Cream-edged leaves glow beautifully under LED grow lights.", "mix_group": "medium-water", "img": "assets/img/plan-0ddaf4e8d1.png"}, {"id": 32, "name": "Money Plant (Pothos)", "water_days": "7\u201310 days", "water_need": "Low", "light": "Indirect", "temp": "15\u201330\u00b0C", "price": "AED 20\u201380", "popularity": "High", "category": "trailing", "tip": "Same family as Pothos \u2014 equally tough and fast-growing.", "mix_group": "medium-water", "img": "assets/img/plan-edcef2be07.png"}, {"id": 33, "name": "Dracaena Compacta (Gift)", "water_days": "10\u201314 days", "water_need": "Low", "light": "Low\u2013Medium", "temp": "18\u201327\u00b0C", "price": "AED 60\u2013200", "popularity": "Moderate", "category": "structural", "tip": "Popular premium gift plant \u2014 compact, long-lasting, low maintenance.", "mix_group": "medium-water", "img": "assets/img/plan-f5a636b4f2.png"}, {"id": 34, "name": "Tradescantia Zebrina", "water_days": "5\u20137 days", "water_need": "Low\u2013Medium", "light": "Indirect\u2013Bright", "temp": "15\u201328\u00b0C", "price": "AED 20\u201360", "popularity": "Growing", "category": "trailing", "tip": "Purple-silver striped leaves. Great trailing accent in arrangements.", "mix_group": "medium-water", "img": "assets/img/plan-50d44734d1.png"}, {"id": 35, "name": "Tradescantia Purple", "water_days": "5\u20137 days", "water_need": "Low\u2013Medium", "light": "Indirect\u2013Bright", "temp": "15\u201328\u00b0C", "price": "AED 20\u201360", "popularity": "Growing", "category": "trailing", "tip": "Intense purple foliage. Pinch tips to keep bushy and full.", "mix_group": "medium-water", "img": "assets/img/plan-b53cd5b3d6.png"}, {"id": 36, "name": "Mixed Succulent Tray", "water_days": "14\u201321 days", "water_need": "Very Low", "light": "Bright Indirect", "temp": "15\u201332\u00b0C", "price": "AED 60\u2013250", "popularity": "High", "category": "succulent", "tip": "Ideal gift product. Jade + Echeveria + Haworthia + Sedum.", "mix_group": "low-water", "img": "assets/img/plan-e3ca4c0a80.png"}, {"id": 37, "name": "Asparagus Fern", "water_days": "5\u20137 days", "water_need": "Medium", "light": "Medium Indirect", "temp": "15\u201324\u00b0C", "price": "AED 35\u2013100", "popularity": "Moderate", "category": "fern", "tip": "Feathery texture contrasts beautifully with bold-leaf plants.", "mix_group": "medium-water", "img": "assets/img/plan-2814d4c40b.png"}];
+
+let currentModal = 0;
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function filterGallery(group, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('#galleryGrid .g-card');
+  cards.forEach((card, i) => {
+    if (group === 'all' || PLANTS[i].mix_group === group) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function openModal(idx) {
+  currentModal = idx;
+  renderModal();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function renderModal() {
+  const p = PLANTS[currentModal];
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalImg').alt = p.name;
+  document.getElementById('modalName').textContent = p.name;
+  const popMap = {High:'badge-green',Moderate:'badge-blue',Growing:'badge-amber',Niche:'badge-gray'};
+  const catMap = {trailing:'Trailing',structural:'Structural',flowering:'Flowering',succulent:'Succulent',statement:'Statement',palm:'Palm',ficus:'Ficus',fern:'Fern',arrangement:'Arrangement','high-humidity':'High Humidity'};
+  document.getElementById('modalBadges').innerHTML =
+    `<span class="badge ${popMap[p.popularity]||'badge-gray'}">${p.popularity}</span>` +
+    `<span class="badge badge-gray">${catMap[p.category]||p.category}</span>` +
+    `<span class="badge badge-blue">${p.mix_group.replace('-',' ')}</span>`;
+  document.getElementById('modalRows').innerHTML =
+    `<div class="dc-row"><span>💧 Water every</span><strong>${p.water_days}</strong></div>` +
+    `<div class="dc-row"><span>💧 Water need</span><strong>${p.water_need}</strong></div>` +
+    `<div class="dc-row"><span>☀️ Light</span><strong>${p.light}</strong></div>` +
+    `<div class="dc-row"><span>🌡 Temperature</span><strong>${p.temp}</strong></div>` +
+    `<div class="dc-row"><span>💰 Price (UAE)</span><strong>${p.price}</strong></div>`;
+  document.getElementById('modalTip').textContent = '💡 ' + p.tip;
+}
+
+function modalNav(dir) {
+  currentModal = (currentModal + dir + PLANTS.length) % PLANTS.length;
+  renderModal();
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modalOverlay').classList.contains('open')) return;
+  if (e.key === 'Escape') closeModalDirect();
+  if (e.key === 'ArrowRight') modalNav(1);
+  if (e.key === 'ArrowLeft') modalNav(-1);
+});
+
+const DESIGNS = [{"src":"assets/img/plan-ffa1cdc631.png","title":"Interior Overview","caption":"Full interior perspective — multi-tier shelving along both side walls, AC unit mounted on left, ventilation domes on ceiling.","num":1},{"src":"assets/img/plan-ae39cf64b0.png","title":"Interior Detail","caption":"AC/filtration panel on left wall, shelf grid with plant slots, 2 ceiling ventilation domes visible.","num":2},{"src":"assets/img/plan-1253df3a06.png","title":"Roof Plan — Top View","caption":"Overhead view of ceiling structure — 2 ventilation domes, wooden slatted roof frame, AC duct entry point.","num":3},{"src":"assets/img/plan-c64d66df99.png","title":"Front Facade","caption":"Exterior front elevation — wooden panel cladding, ventilation domes above, shelf grid visible behind facade.","num":4},{"src":"assets/img/plan-02edcce43e.png","title":"Side Elevation — Full Length","caption":"Full exterior side view — panel wall system, dual ventilation domes, AC unit at left end, door entry.","num":5},{"src":"assets/img/plan-180040d955.png","title":"End Section — Entry Detail","caption":"Corner cut-away — AC unit lower-left, ventilation dome on roof, vertical panel walls, shelving through entry.","num":6}];
+let currentDesign = 0;
+function openDesign(idx){currentDesign=idx;renderDModal();document.getElementById('dmodalOverlay').classList.add('open');}
+function renderDModal(){
+  const d=DESIGNS[currentDesign];
+  document.getElementById('dmodalImg').src=d.src;
+  document.getElementById('dmodalImg').alt=d.title;
+  document.getElementById('dmodalLabel').textContent='View '+d.num+' / 6';
+  document.getElementById('dmodalTitle').textContent=d.title;
+  document.getElementById('dmodalCaption').textContent=d.caption;
+  document.getElementById('dmodalCounter').textContent=(currentDesign+1)+' of '+DESIGNS.length;
+}
+function dmodalNav(dir){currentDesign=(currentDesign+dir+DESIGNS.length)%DESIGNS.length;renderDModal();}
+function closeDModal(e){if(e.target===document.getElementById('dmodalOverlay'))closeDModalDirect();}
+function closeDModalDirect(){document.getElementById('dmodalOverlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('dmodalOverlay').classList.contains('open'))return;
+  if(e.key==='Escape')closeDModalDirect();
+  if(e.key==='ArrowRight')dmodalNav(1);
+  if(e.key==='ArrowLeft')dmodalNav(-1);
+});
+
+// Populate gallery design grid from DESIGNS array
+(function() {
+  function buildGalleryDesigns() {
+    var grid = document.getElementById('galleryDesignGrid');
+    if (!grid || typeof DESIGNS === 'undefined') return;
+    grid.innerHTML = DESIGNS.map(function(d, i) {
+      return '<div class="design-card" onclick="openDesign(' + i + ')">' +
+        '<div class="design-img-wrap">' +
+          '<img src="' + d.src + '" alt="' + d.title + '" loading="lazy">' +
+          '<div class="design-overlay"><span>&#128269; View</span></div>' +
+        '</div>' +
+        '<div class="design-info">' +
+          '<div class="design-num">View ' + d.num + ' / 6</div>' +
+          '<div class="design-title">' + d.title + '</div>' +
+          '<div class="design-caption">' + d.caption + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildGalleryDesigns);
+  } else {
+    buildGalleryDesigns();
+  }
+})();
+</script>
+
+<!-- DESIGN MODAL -->
+<div class="dmodal-overlay" id="dmodalOverlay" onclick="closeDModal(event)">
+  <div class="dmodal">
+    <button class="dmodal-close" onclick="closeDModalDirect()">&#10005;</button>
+    <div class="dmodal-img-wrap">
+      <img id="dmodalImg" src="" alt="">
+    </div>
+    <div class="dmodal-footer">
+      <div class="dmodal-text">
+        <div class="dmodal-label" id="dmodalLabel"></div>
+        <div class="dmodal-title" id="dmodalTitle"></div>
+        <div class="dmodal-caption" id="dmodalCaption"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <div class="dmodal-counter" id="dmodalCounter"></div>
+        <div class="dmodal-nav">
+          <button onclick="dmodalNav(-1)">&#8592; Prev</button>
+          <button onclick="dmodalNav(1)">Next &#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

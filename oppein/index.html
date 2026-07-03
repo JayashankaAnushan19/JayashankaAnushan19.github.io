@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPPEIN — Projects</title>
+<meta name="description" content="OPPEIN project hub — an index of Oppein-related builds and documentation.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:          #0B0A08;
+    --bg-alt:      #0F0D0A;
+    --panel:       #161310;
+    --panel-2:     #1C1712;
+    --border:      #2E2620;
+    --border-soft: #221C17;
+    --ink:         #F0EAE2;
+    --ink-dim:     #A99C8C;
+    --ink-faint:   #6B6055;
+    --amber:       #D98A3D;
+    --amber-dim:   #7A4E20;
+    --amber-glow:  rgba(217,138,61,0.14);
+    --green:       #5A9E6F;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.6; overflow-x:hidden; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--amber); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  ::selection{ background:var(--amber-glow); color:var(--ink); }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media(max-width:720px){ .wrap{ padding:0 20px; } }
+
+  /* NAV */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(11,10,8,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; letter-spacing:0.02em; display:flex; align-items:center; gap:10px; color:var(--ink); }
+  .logo-img{ height:50px; object-fit:contain; flex-shrink:0; display:none; }
+  .logo-img.loaded{ display:block; }
+  .logo-dot{ width:9px; height:9px; border-radius:50%; background:var(--amber); flex-shrink:0; }
+  .logo-img.loaded + .logo-dot{ display:none; }
+  .nav-tag{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.08em; color:var(--ink-faint); text-transform:uppercase; }
+  @media(max-width:560px){ .nav-tag{ display:none; } }
+
+  /* HERO */
+  .hero{
+    padding: calc(68px + 90px) 0 90px;
+    border-bottom:1px solid var(--border-soft);
+    position:relative; overflow:hidden;
+  }
+  .hero::before{
+    content:''; position:absolute; top:-15%; right:-10%;
+    width:560px; height:560px;
+    background:radial-gradient(circle,var(--amber-glow) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{ position:relative; z-index:1; display:flex; align-items:center; gap:56px; }
+  @media(max-width:820px){ .hero-inner{ flex-direction:column-reverse; text-align:center; gap:36px; } }
+  .hero-text{ flex:1; min-width:0; }
+  .hero-mark{
+    flex-shrink:0; width:180px; height:180px; border-radius:28px;
+    background:var(--panel); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    position:relative;
+  }
+  .hero-mark::before{
+    content:''; position:absolute; inset:-1px; border-radius:28px;
+    padding:1px; background:linear-gradient(135deg,var(--amber),transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    opacity:0.5;
+  }
+  .hero-mark img{ max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1; }
+  @media(max-width:820px){ .hero-mark{ width:130px; height:130px; } }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.22em;
+    color:var(--ink-faint); text-transform:uppercase; margin-bottom:24px;
+    display:flex; align-items:center; gap:10px;
+  }
+  @media(max-width:820px){ .eyebrow{ justify-content:center; } }
+  .eyebrow .led{ width:6px; height:6px; background:var(--amber); border-radius:50%; }
+  .hero h1{ font-size:clamp(38px,6vw,64px); line-height:1.05; margin-bottom:20px; }
+  .hero h1 span{ color:var(--amber); }
+  .hero p.lead{ font-size:17px; color:var(--ink-dim); max-width:520px; }
+  @media(max-width:820px){ .hero p.lead{ max-width:none; margin:0 auto; } }
+
+  /* PROJECTS */
+  .section{ padding:80px 0; }
+  .module-label{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em;
+    color:var(--amber); text-transform:uppercase; margin-bottom:40px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .module-label::after{ content:''; flex:1; height:1px; background:var(--border); }
+
+  .project-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:900px){ .project-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:640px){ .project-grid{ grid-template-columns:1fr; } }
+
+  .project-card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden;
+    display:flex; flex-direction:column;
+    transition:border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    text-decoration:none; color:inherit;
+  }
+  .project-card:hover{ border-color:var(--amber); box-shadow:0 0 28px var(--amber-glow); transform:translateY(-2px); text-decoration:none; }
+  .card-stripe{ height:2px; width:100%; background:var(--amber); flex-shrink:0; }
+  .card-body{ padding:26px; flex:1; display:flex; flex-direction:column; gap:14px; }
+  .status-pill{
+    align-self:flex-start;
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em;
+    text-transform:uppercase; padding:4px 10px; border-radius:2px;
+    display:flex; align-items:center; gap:5px;
+    background:rgba(90,158,111,0.1); color:var(--green); border:1px solid rgba(90,158,111,0.25);
+  }
+  .status-pill.planning{ background:var(--amber-glow); color:var(--amber); border:1px solid var(--amber-dim); }
+  .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .card-name{ font-size:20px; }
+  .card-desc{ font-size:13.5px; color:var(--ink-dim); }
+  .card-cta{
+    margin-top:auto; padding-top:16px; border-top:1px solid var(--border-soft);
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em;
+    color:var(--amber);
+  }
+  .card-cta .arrow{ font-size:16px; transition:transform 0.2s; }
+  .project-card:hover .card-cta .arrow{ transform:translateX(4px); }
+
+  /* EMPTY SLOT — placeholder for the next folder you add */
+  .project-card.placeholder{
+    align-items:center; justify-content:center; text-align:center;
+    border-style:dashed; opacity:0.55;
+  }
+  .project-card.placeholder:hover{ border-color:var(--border); box-shadow:none; transform:none; opacity:0.8; }
+  .project-card.placeholder .card-body{ align-items:center; justify-content:center; }
+  .project-card.placeholder .card-name{ font-size:14px; font-family:'IBM Plex Mono',monospace; color:var(--ink-faint); letter-spacing:0.04em; }
+
+  footer{ padding:40px 0; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.1em; }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">
+      <img class="logo-img" src="assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')" onerror="this.remove()">
+    </div>
+    <span class="nav-tag">Project Hub</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <div class="eyebrow"><span class="led"></span>Oppein · <span id="projectCount">2</span> projects indexed</div>
+      <h1>All Oppein work,<br>in <span>one place</span>.</h1>
+      <p class="lead">A running index of Oppein-related builds and documentation. Each project below lives in its own folder — pick one to open it.</p>
+    </div>
+    <div class="hero-mark">
+      <img src="assets/oppein-logo.webp" alt="OPPEIN">
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="module-label reveal">Projects</div>
+    <div class="project-grid">
+
+      <!--
+        To add a new project: create a folder next to this file (e.g. oppein/my-project/)
+        with its own index.html, then copy this card and update the href, name, and description.
+        Update #projectCount above when you add or remove one.
+      -->
+      <a class="project-card reveal" href="oppein-green-house/index.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill"><span class="status-dot"></span>Active</span>
+          <div>
+            <h3 class="card-name">Green House</h3>
+            <p class="card-desc">Indoor greenhouse plan and documentation — Sajja, Sharjah, UAE.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="oppein-dubai-cctv-network/oppein_network_cctv_boq.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill planning"><span class="status-dot"></span>Spec</span>
+          <div>
+            <h3 class="card-name">Dubai CCTV Network</h3>
+            <p class="card-desc">Showroom network &amp; CCTV upgrade spec — Oppein Dubai showroom.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <div class="project-card placeholder reveal">
+        <div class="card-body">
+          <div class="card-name">+ Next project<br>goes here</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>OPPEIN — PROJECT HUB</p>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
