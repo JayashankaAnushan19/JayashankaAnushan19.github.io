@@ -10,41 +10,41 @@ var POSTS = [
   {
     file:    'week-05.html',
     week:    'Week 05',
-    date:    '09 Jun 2026',
-    title:   'Person Following — Tuning the Two-Layer Identity System',
-    excerpt: 'Implementing the HSV orange-band tracking for Layer 2 of the person-lock system. Challenges with indoor lighting variation and the tuning approach that achieved reliable tracking across different room conditions.',
-    tags:    [['Software','green'],['Computer Vision','teal'],['In Progress','high']]
+    date:    '10 Jul 2026',
+    title:   'Week 05 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
   },
   {
     file:    'week-04.html',
     week:    'Week 04',
-    date:    '02 Jun 2026',
-    title:   'MediaPipe Fall Detection Running at 15fps on Jetson Nano',
-    excerpt: 'Fall detection node is live. MediaPipe Pose Estimation running with CUDA acceleration at 12–15 fps. Calibrating the hip/shoulder threshold values and the 2-second confirmation window to minimise false positives from bending and sitting postures.',
-    tags:    [['AI / Vision','teal'],['ROS','blue'],['Complete','green']]
+    date:    '03 Jul 2026',
+    title:   'Fall Detection Live on Laptop, Flask UI Built & SIM800L 2G Issue Found',
+    excerpt: 'Fall detection tested on laptop — 60.6% confidence on a test video. Flask web UI built and tested on mobile via local network. SolidWorks 3D prototype finalised. Arduino Mega received. SIM800L failed: 2G not supported by UAE networks. SIM7600 (4G) ordered.',
+    tags:    [['AI / Vision','teal'],['Hardware','orange'],['Complete','green']]
   },
   {
     file:    'week-03.html',
     week:    'Week 03',
-    date:    '26 May 2026',
-    title:   'SIM800L GSM Power Problem — Root Cause and Fix',
-    excerpt: 'The SIM800L kept resetting during SMS transmission. Root cause: 2A+ TX bursts exceed Arduino 5V rail capacity. Solution: dedicated LM2596 buck converter at 4.0V + 1000µF capacitor. Reliable SMS delivery confirmed after fix.',
-    tags:    [['Hardware','orange'],['GSM','green'],['Complete','green']]
+    date:    '26 Jun 2026',
+    title:   'Hardware Build — From Unit Testing to a Moving Robot',
+    excerpt: 'Every module unit tested first (LCD, HC-SR04, PIR — all good). Replacement motors for the Week 02 DIY kit finally arrived: loose wiring found and fixed, L298N integrated, full 4-state machine (Active/Monitoring/Alert/Reset) running with LCD showing live state. A PLA-printed chassis plate was tried next and also fell short, so an aluminium chassis was adopted.',
+    tags:    [['Hardware','orange'],['Complete','green']]
   },
   {
     file:    'week-02.html',
     week:    'Week 02',
-    date:    '19 May 2026',
-    title:   'System Architecture Finalised — Dual-Controller Split Decision',
-    excerpt: 'Finalised the core architectural decision: Jetson Nano handles all AI and ROS work, Arduino Mega handles all real-time peripherals via a 5-state machine. UART serial at 9600 baud as the inter-controller communication bridge.',
+    date:    '19 Jun 2026',
+    title:   'Architecture Done — System, Software & Hardware Designs Finalised',
+    excerpt: 'All three architecture layers completed: system block diagram, software architecture (7 ROS nodes, all topics mapped), and hardware architecture (5-state machine). Dual-controller split decided: Jetson Nano for AI, Arduino for real-time peripherals. First physical design sketched, and a DIY kit chassis assembled to test it — gear motors found broken.',
     tags:    [['Architecture','blue'],['Complete','green']]
   },
   {
     file:    'week-01.html',
     week:    'Week 01',
-    date:    '12 May 2026',
-    title:   'Project Kick-Off — Requirements, Literature, and Research Gap',
-    excerpt: 'First week of the thesis. Defined five research objectives, reviewed 53 sources on assistive robotics, fall detection, GSM alerting, and HRI. Identified the core research gap: no affordable, Wi-Fi-free, passive eldercare robot currently exists for developing countries.',
+    date:    '12 Jun 2026',
+    title:   'Project Kick-Off — Requirements, Literature, and the Research Gap',
+    excerpt: 'First week of the CARA thesis. Reviewed 53 sources on assistive robotics, fall detection, GSM alerting, and HRI. Defined five research objectives. Core gap confirmed: no affordable, Wi-Fi-independent, passive eldercare robot exists for developing countries.',
     tags:    [['Planning','blue'],['Research','amber'],['Complete','green']]
   }
 ];

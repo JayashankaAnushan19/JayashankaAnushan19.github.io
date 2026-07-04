@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 03 — Modules unit tested. Replacement motors fitted and full state machine running on the DIY kit. A PLA print, then an aluminium chassis, replaced it for good.">
+<title>Week 03 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 03
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">26 Jun 2026</span>
+      <span class="tag tag-blue">Week 03</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Complete</span>
+    </div>
+
+    <h1>Hardware Build — From Unit Testing to a Moving Robot</h1>
+
+    <p class="page-subtitle">Physical build continued with unit testing every module individually before combining anything. When the replacement motors for the Week 02 DIY kit arrived, integration moved fast — HC-SR04, PIR, LCD, and the full 4-state machine were running within days on the DIY kit itself, and fall detection was linked to the Arduino serial. Only after that did the DIY kit's cramped plate become the next problem — a PLA-printed copy was tried and also ruled out, and an aluminium chassis took over as the final platform.</p>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Unit Testing — Every Module First</h2>
+    <p>Before anything was mounted on the chassis, every sensor and module was tested individually on a breadboard with the Arduino UNO. This is the only way to know whether a fault later is a wiring problem, a code problem, or a bad component.</p>
+
+    <p>Modules tested in isolation:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>Test</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>LCD 16×2 with I2C backpack</td><td>Display text, scroll, address confirm</td><td class="yes">✓ Good</td></tr>
+          <tr><td>HC-SR04 ultrasonic</td><td>Distance reading at 10, 20, 50cm</td><td class="yes">✓ Good</td></tr>
+          <tr><td>PIR motion sensor</td><td>Motion trigger, delay, re-arm</td><td class="yes">✓ Good</td></tr>
+          <tr><td>Combined program</td><td>All three running simultaneously</td><td class="yes">✓ Good</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="post-image">
+      <img src="images/blog-03-ultrasonic-test.png" alt="HC-SR04 ultrasonic sensor on breadboard with Arduino UNO — unit test setup">
+      <figcaption>HC-SR04 unit test on breadboard with Arduino UNO. All modules tested individually before chassis assembly.</figcaption>
+    </figure>
+
+    <div class="post-callout green">
+      <p><strong>Why test individually first:</strong> When a combined system fails, the fault space is large. When each module is verified in isolation first, the fault space for integration problems is much smaller — you know the parts work, so the problem is in the connections or the combined code.</p>
+    </div>
+
+    <h2>The Two-Week Wait — Keeping Progress Moving</h2>
+    <p>While waiting for replacement motors, work continued on other parts of the project to avoid losing momentum:</p>
+
+    <ul>
+      <li><strong>Serial communication port</strong> — UART structure for Arduino-to-Jetson messaging started and tested in isolation</li>
+      <li><strong>Basic ROS concepts</strong> — first ROS node structure tested on the Jetson Nano; understanding the publisher/subscriber model with simple test topics before any real sensor integration</li>
+      <li><strong>Thesis sections 3.7 and 3.8</strong> — the communication chapter section and the safety design section written while hardware was on hold</li>
+      <li><strong>Arduino Mega ordered</strong> — the UNO has enough pins for now, but not for the RFID, GSM, and RTC modules planned for Week 04, so a Mega was ordered ahead of time</li>
+    </ul>
+
+    <h2>New Motors Arrive — New Problem Immediately</h2>
+    <p>When the replacement motors arrived, they were fitted to the DIY kit chassis and testing resumed. A new problem appeared within the first test run: one side of the robot was not moving in one direction. The diagnosis process:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Check</th><th>Observation</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Power supply (10–12V to L298N)</td><td>Reading correct</td><td class="yes">✓ OK</td></tr>
+          <tr><td>Arduino PIN signals</td><td>All correct on multimeter</td><td class="yes">✓ OK</td></tr>
+          <tr><td>L298N driver — IN and EN pins</td><td>All correct</td><td class="yes">✓ OK</td></tr>
+          <tr><td>Wiring connections to motor</td><td>Slight loose connection found</td><td class="no">Found</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Root cause: a slightly loose wiring connection on the L298N output to the motor. Fixed. Motor Stage-01 confirmed working on all four wheels.</p>
+
+    <h2>Full Integration — State Machine Running</h2>
+    <p>With the motor issue resolved, the full integration followed quickly, still on the DIY kit chassis and the Arduino UNO — the Mega was only just ordered and hadn't arrived yet. PIN assignments were corrected for the L298N dual H-bridge:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Arduino PINs</th><th>Direction</th></tr></thead>
+        <tbody>
+          <tr><td>IN1 + IN4</td><td>Backward</td></tr>
+          <tr><td>IN2 + IN3</td><td>Forward</td></tr>
+          <tr><td>IN1 + IN3</td><td>Left</td></tr>
+          <tr><td>IN2 + IN4</td><td>Right</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>HC-SR04 was integrated to the front of the chassis (Trig: PIN 12, Echo: PIN 13, 5V, GND). PIR sensor was mounted onboard. LCD 16×2 connected via I2C (SDA: A4, SDL: A5). Buzzer: PIN 10. LED: PIN 5.</p>
+
+    <p>The full 4-state machine was then coded and tested — Active, Monitoring, Alert, Reset. The LCD updates live with the current state.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-03-diy-kit-wired.png" alt="CARA robot chassis fully wired — DIY kit platform with Arduino UNO, breadboard, and HC-SR04 sensor at front">
+      <figcaption>Robot chassis fully wired. DIY kit platform with yellow-hub wheels, Arduino UNO, breadboard, and HC-SR04 at front. LCD showing live state.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-03-diy-kit-pir-mounted.png" alt="PIR motion sensor mounted on the DIY kit chassis alongside breadboard and wheel">
+      <figcaption>PIR sensor mounted onboard the DIY kit chassis. Motion trigger switches state from IDLE to ACTIVE — the entry point for the full monitoring pipeline.</figcaption>
+    </figure>
+
+    <h2>Linking Fall Detection to the State Machine</h2>
+    <p>The fall detection pipeline was also connected to the Arduino this week — not yet running in real-time, but tested via a pre-recorded video file to verify the serial handshake. The logic:</p>
+
+    <ul>
+      <li>Fall detection code on the laptop analyses each frame</li>
+      <li>When fall confidence exceeds 70%, sends <code>"fall_detected"</code> over Arduino serial</li>
+      <li>Arduino receives the string, immediately transitions to ALERT state</li>
+      <li>ALERT state: buzzer activates, LED on, motors locked, LCD shows "ALERT"</li>
+    </ul>
+
+    <p>This confirmed the serial bridge works end-to-end. The robot physically changed state in response to a software fall detection event. The GSM SMS trigger will be added when the GSM module is confirmed working — that testing is next.</p>
+
+    <div class="post-callout">
+      <p><strong>Note:</strong> No Jetson Nano was available at this stage. Fall detection was run on a laptop. The serial connection and state machine response are the same regardless of what device sends the fall event — the Arduino does not know or care.</p>
+    </div>
+
+    <h2>PLA-Printed Chassis — Still Not Enough</h2>
+    <p>With the full state machine now working, the DIY kit's plate was clearly a dead end for anything beyond this stage — it was already cramped with just the breadboard, HC-SR04, PIR, LCD, buzzer and LED, and Week 04 would need to add RFID, GSM, and RTC on top. A black PLA-printed copy of the same plate was tried first, to see if a custom-printed part could at least buy some extra mounting room.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-02-print-chassy-first-try.jpeg" alt="First 3D-printed chassis plate for CARA, printed in black PLA next to the original DIY kit plate">
+      <figcaption>3D-printed copy of the DIY kit's plate, in black PLA — testing whether a printed part could hold up before committing to a metal chassis.</figcaption>
+    </figure>
+
+    <p>PLA flexed too much under the motor mounts and wasn't rigid enough for the drive train either. The fix was an aluminium plate chassis — more rigid than both the kit plastic and the PLA print, and with enough surface area to mount every module with room to spare.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-03-receive-aluminium-chassy-assembly.jpeg" alt="Aluminium chassis received with Arduino, breadboard, and L298N moved across from the DIY kit">
+      <figcaption>Aluminium chassis received — Arduino, breadboard, and L298N driver moved across from the DIY kit to check the new layout.</figcaption>
+    </figure>
+
+    <h2>3D Printing Begins</h2>
+    <p>Alongside the electronics work, 3D printing of custom parts for CARA also started this week. Short clip below from the very first print run:</p>
+
+    <div class="post-video">
+      <iframe src="https://www.youtube.com/embed/EL4vR116WNc" title="CARA — start of 3D printing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <figure class="post-image">
+      <img src="images/blog-03-collect-printed-parts.jpeg" alt="Collected 3D printed parts for CARA laid out after the first print run">
+      <figcaption>Printed parts collected after the first run.</figcaption>
+    </figure>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The broken gear motors from the Week 02 DIY kit set the hardware timeline back by approximately two weeks. This is the clearest lesson from this phase: always order spare motors (and spare of anything with moving parts) alongside the main order. Delivery time for a single replacement component is the same as the original order — the wait is the same whether you ordered one or five.</p>
+
+    <p>The DIY kit plate also turned out to be a dead end once the full component list was mounted, and the PLA-printed copy of it wasn't rigid enough either. Both were useful to rule out quickly, but the aluminium chassis should have been the starting assumption given the full component list was already known from the Week 02 architecture.</p>
+
+    <p>The loose wiring connection on the L298N was also a reminder that wiring diagnosis requires checking systematically rather than visually. The loose connection was not visible by eye — it only showed up when each connection was checked individually with slight pressure applied.</p>
+
+    <h2>Week 03 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>All modules unit tested individually (LCD, HC-SR04, PIR)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Combined test program — all sensors simultaneous</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Serial communication port work during wait period</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Arduino Mega ordered — ahead of Week 04's RFID/GSM/RTC additions</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Basic ROS concept tested on Jetson Nano</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Thesis sections 3.7 and 3.8 written</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Replacement motors fitted to DIY kit — loose wiring found and fixed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>L298N PIN mapping corrected, all 4 directions working</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>HC-SR04 integrated to chassis front (PIN 12/13)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>PIR sensor onboard and triggering state changes</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full 4-state machine running on DIY kit (Active / Monitoring / Alert / Reset)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LCD showing live state updates</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Fall detection serial link tested via video file</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>PLA-printed chassis plate tried — not rigid enough</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>DIY kit and PLA-printed chassis ruled out — aluminium chassis adopted</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>3D printing started for custom parts</td><td class="yes">✓ Complete</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 03 — Hardware Build">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-02.html" style="color:var(--primary);">← Previous: Week 02 — Architecture</a>
+    <a href="./">All Posts</a>
+    <a href="week-04.html" style="color:var(--primary);">Next: Week 04 — Fall Detection &amp; 3D Design →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

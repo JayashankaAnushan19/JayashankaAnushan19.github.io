@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 04 — Fall detection at 60.6% confidence. Flask UI tested on mobile. SolidWorks prototype done. SIM800L failed (2G unsupported in UAE) — SIM7600 ordered.">
+<title>Week 04 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 04
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">03 Jul 2026</span>
+      <span class="tag tag-blue">Week 04</span>
+      <span class="tag tag-teal">AI / Vision</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Complete</span>
+    </div>
+
+    <h1>Fall Detection Live on Laptop, Flask UI Built &amp; SIM800L 2G Issue Found</h1>
+
+    <p class="page-subtitle">Jetson Nano board is in hand but needs an SD card — laptop used as interim. Fall detection tested at 60.6% confidence on a video. Flask web UI built and tested on mobile. SolidWorks 3D prototype finalised. The Arduino Mega ordered last week arrived. SIM800L GSM failed — root cause: 2G no longer supported in UAE. SIM7600 (4G) ordered.</p>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Fall Detection on Laptop — Jetson Nano Needs SD Card</h2>
+    <p>The Jetson Nano board is physically on hand, but an SD card is needed to install the OS and set it up — so development continued on a laptop for now. This does not block progress at all: the Python code, MediaPipe logic, and the Arduino serial handshake are identical regardless of which device runs them. The laptop is the interim development environment. All final testing will be done on the Jetson Nano once the SD card arrives.</p>
+
+    <p>Setup steps:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Python virtual environment</td><td>Created and activated — isolated from system Python</td></tr>
+          <tr><td>MediaPipe + OpenCV installed</td><td>Standard pip install — no source build needed on laptop</td></tr>
+          <tr><td>Initial test</td><td><code>test_fall_detection.py</code> — tested via images first before video</td></tr>
+          <tr><td>Video test</td><td>Fall detection processing pre-recorded video files frame by frame</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Fall Detection Results — 60.6% Confidence Shown</h2>
+    <p>The fall detection logic uses MediaPipe Pose to track hip and shoulder landmark positions. When the hip Y-coordinate approaches the shoulder Y-coordinate (person becomes horizontal), the fall condition triggers. The confidence threshold for a fall alert is set at 70%.</p>
+
+    <p>Testing on a video of a person slipping on snow showed the system detecting the event with 60.6% confidence. The UI showed "POSSIBLE FALL" at this level — below the 70% threshold so no alert was sent, but the detection and UI were working correctly.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-04-fall-detection-ui.png" alt="CARA Fall Detection web interface showing POSSIBLE FALL at 60.6% confidence — MediaPipe pose overlay on right panel">
+      <figcaption>CARA Fall Detection web interface running at http://127.0.0.1:5000. Left: original video frame. Right: MediaPipe pose overlay. Centre: 60.6% confidence — "POSSIBLE FALL" shown.</figcaption>
+    </figure>
+
+    <p>When confidence exceeds 70%, the system sends <code>"fall_detected"</code> over the Arduino serial connection. The Arduino immediately transitions to ALERT state: buzzer activates, LED on, motors locked, LCD shows alert. The full chain was verified end-to-end using a video file as input.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Live testing skipped this session</strong> — I work night shifts, and the room was too dark for the camera. Live detection will be tested on a day off with proper lighting. The video file pipeline confirms the logic is correct.</p>
+    </div>
+
+    <h2>Flask Web UI — Tested on Mobile</h2>
+    <p>A web interface was built using Flask, running on port 5000. The UI provides remote access from any device on the same local network — no app install, just a browser.</p>
+
+    <p>Features live in the first version:</p>
+
+    <ul>
+      <li>Camera live status indicator</li>
+      <li>Fall detection ON/OFF status</li>
+      <li>Live camera feed with MediaPipe pose overlay</li>
+      <li>Remote drive control (forward, backward, left, right, stop)</li>
+      <li>Current robot state display</li>
+    </ul>
+
+    <figure class="post-image">
+      <img src="images/blog-04-mobile-monitor.png" alt="CARA Live Monitor on mobile phone — camera feed with face landmarks, fall detection ON, remote control buttons, Monitoring state shown">
+      <figcaption>CARA Live Monitor tested on mobile via local network (10.231.167.38:5000). Camera live, fall detection active, MediaPipe landmarks visible on face. Remote drive controls at bottom.</figcaption>
+    </figure>
+
+    <p>The UI was tested successfully on a mobile phone on the same Wi-Fi network. Camera feed was live, fall detection status updated correctly, and remote control commands reached the Arduino. Next step is testing access via ngrok to allow remote connection from outside the local network.</p>
+
+    <h2>SolidWorks 3D Design — Full Prototype Finalised</h2>
+    <p>The 3D mechanical design was completed in SolidWorks this week. Starting from a 20×30cm base with extra space for component mounting, the design progressed through several iterations:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Design stage</th><th>What was done</th></tr></thead>
+        <tbody>
+          <tr><td>Base design</td><td>20×30cm plate with mounting holes for Arduino, motor driver, sensors</td></tr>
+          <tr><td>Camera head mechanism</td><td>Servo motor + gear drive for pan/tilt — gears simplified for first prototype</td></tr>
+          <tr><td>Camera decision</td><td>Logitech C270 (available from uni's previous coursework kit)</td></tr>
+          <tr><td>Camera tower</td><td>Central vertical tower completed — pan and tilt servos integrated</td></tr>
+          <tr><td>Sensor mounting</td><td>HC-SR04, PIR, RFID readers — positions verified against base dimensions</td></tr>
+          <tr><td>Full prototype</td><td>All components modelled, renders produced from multiple angles</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="post-image">
+      <img src="images/blog-04-solidworks-base.png" alt="SolidWorks base plate design — 20x30cm platform with mounting holes for components">
+      <figcaption>SolidWorks base design — 20×30cm platform. Mounting holes positioned for Arduino, motor driver, battery, and sensor brackets.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-04-solidworks-prototype.png" alt="SolidWorks first prototype renders — multiple views showing full robot with camera tower, sensors, and yellow standoffs">
+      <figcaption>First prototype hardware design finalized in SolidWorks. Multiple render views: camera tower with servo-driven head, base with yellow standoffs, sensors positioned around the platform.</figcaption>
+    </figure>
+
+    <p>3D printing at the university was investigated for the base and camera housing. GrabCAD sample parts were used as reference for the wheel and motor mounts to avoid designing everything from scratch.</p>
+
+    <h2>RTC Module — Tested and Working</h2>
+    <p>The DS3231 Real Time Clock module was tested on a breadboard with Arduino UNO. The module keeps accurate time independently of the microcontroller — this is the timekeeping source for the medication reminder schedule. Once set, the DS3231 maintains time even if the Arduino loses power.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-04-rtc-testing.png" alt="DS3231 RTC module on breadboard with Arduino — I2C connection, coin battery visible">
+      <figcaption>DS3231 RTC module testing. I2C connection to Arduino. The coin battery (CR2032) maintains time when the main power is off — critical for medication reminder accuracy.</figcaption>
+    </figure>
+
+    <h2>SIM800L GSM — 2G Not Supported in UAE</h2>
+    <p>GSM testing started with a SIM800L module — a compact, low-cost 2G GSM module. Testing was done with a company SIM card (Du network, UAE) using a bench power supply.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Test</th><th>Observation</th></tr></thead>
+        <tbody>
+          <tr><td>Initial power-on with Du SIM</td><td>No signal, voltage drop, no network registration</td></tr>
+          <tr><td>Bench PSU at 4V / 2A</td><td>Module responds to AT commands — power supply not the issue</td></tr>
+          <tr><td>Changed SIM to UAE local number</td><td>Some signal detected briefly</td></tr>
+          <tr><td>Increased voltage to 4.5V</td><td>Module reading 3.9V. Still no sustained signal.</td></tr>
+          <tr><td>Signal check after extended wait</td><td>Consistently failing to register on network</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="post-image">
+      <img src="images/blog-04-gsm-sim800l.png" alt="SIM800L GSM module alongside Arduino UNO and antenna connector — testing setup">
+      <figcaption>SIM800L GSM module (left, blue) with Arduino UNO and external antenna connector. AT commands responding correctly — the issue is the network, not the module.</figcaption>
+    </figure>
+
+    <div class="post-callout amber">
+      <p><strong>Root cause found — 2G decommissioned in UAE:</strong> The SIM800L is a 2G-only module. Du and Etisalat (the UAE's two main mobile networks) have decommissioned their 2G networks. A 2G module physically cannot register on a network that no longer broadcasts 2G signals. This is not a power issue or a wiring issue — the module is working correctly; there is simply no 2G network for it to connect to.</p>
+    </div>
+
+    <p>This explains every symptom: the AT command responses were fine (module hardware is working), but network registration always failed regardless of SIM card, voltage, or antenna position — because no 2G cell is broadcasting in range.</p>
+
+    <h2>Solution — SIM7600 (4G/LTE) Ordered</h2>
+    <p>The SIM800L cannot be used in the UAE. Ordered to replace it:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td>SIM7600 GSM module (4G/LTE)</td><td>Replaces SIM800L — supports LTE networks used by Du/Etisalat in UAE</td></tr>
+          <tr><td>1000µF ≥6V capacitor</td><td>Buffer for GSM TX current spikes to prevent voltage droop on power rail</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Hardware implementation is on hold until these components arrive. The SIM7600 supports LTE (4G), which is the current UAE network standard — it will register on Du and Etisalat networks without any workaround.</p>
+
+    <h2>Arduino Mega Arrives</h2>
+    <p>The Arduino Mega ordered back in <a href="week-03.html">Week 03</a> — while waiting on the DIY kit's replacement motors — arrived this week. It replaces the UNO for the next round of integration: enough digital and analog pins to run the motors, HC-SR04, PIR, LCD, buzzer, and LED alongside the RFID, GSM, and RTC modules being added now, all at once.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-04-received-the-ordered-arduino-mega-board.jpeg" alt="Arduino Mega board received, ordered for the extra I/O pins needed for full integration">
+      <figcaption>The ordered Arduino Mega board arrived — enough digital and analog pins to run every module at once.</figcaption>
+    </figure>
+
+    <h2>Every Component Staged Together</h2>
+    <p>With the SolidWorks design finalized and the RTC and GSM modules tested individually, everything built and ordered so far — chassis, Arduino Mega, sensors, RTC, GSM module, camera — was laid out together to check fit against the SolidWorks base before the SIM7600 and capacitor arrive.</p>
+
+    <figure class="post-image">
+      <div class="post-image-grid">
+        <img src="images/blog-04-assemble-all-the-items-together (1).jpeg" alt="All CARA hardware components laid out together for a fit check">
+        <img src="images/blog-04-assemble-all-the-items-together (2).jpeg" alt="CARA components staged together — second angle">
+        <img src="images/blog-04-assemble-all-the-items-together (3).jpeg" alt="CARA components staged together — third angle">
+        <img src="images/blog-04-assemble-all-the-items-together (4).jpeg" alt="CARA components staged together — fourth angle">
+      </div>
+      <figcaption>All components staged together ahead of final assembly — chassis, Arduino Mega, sensors, RTC, GSM module, and camera.</figcaption>
+    </figure>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The SIM800L was ordered without confirming whether 2G is still active in the deployment region. This is a pre-procurement check that should have happened during architecture week. Before ordering any wireless module, confirm the network generation it supports against what is available at the test location. In the UAE, only 3G and 4G/LTE are active.</p>
+
+    <p>Live fall detection testing was also blocked by lighting conditions (working night shifts). This will be picked up in the next session with proper daytime lighting.</p>
+
+    <h2>Week 04 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Python venv created, fall detection code working on laptop</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Fall detection tested via video — 60.6% confidence shown</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Arduino serial link confirmed (fall_detected → Alert state)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Flask web UI built — camera, fall status, remote drive</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Mobile UI tested on same local network (port 5000)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SolidWorks base design (20×30cm) completed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Camera tower and servo-gear mechanism designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full prototype hardware design finalized (multiple SolidWorks renders)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Logitech C270 camera confirmed (from uni kit)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>DS3231 RTC module tested and working</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SIM800L root cause identified — 2G not active in UAE</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SIM7600 (4G) + 1000µF cap ordered</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Arduino Mega received — replaces UNO for RFID/GSM/RTC integration</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>All components staged together for a fit check against the SolidWorks base</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Hardware implementation on hold — awaiting delivery</td><td class="no">⏳ Pending</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 04 — Fall Detection & SIM7600">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-03.html" style="color:var(--primary);">← Previous: Week 03 — Hardware Build</a>
+    <a href="./">All Posts</a>
+    <a href="week-05.html" style="color:var(--primary);">Next: Week 05 — Coming Soon →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

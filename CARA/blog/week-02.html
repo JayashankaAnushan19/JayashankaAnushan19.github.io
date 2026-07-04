@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 02 — System, software and hardware architecture finalised. Dual-controller split decided. Physical design sketched, DIY kit assembled — gear motors found broken.">
+<title>Week 02 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 02
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">19 Jun 2026</span>
+      <span class="tag tag-blue">Week 02</span>
+      <span class="tag tag-blue">Architecture</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Complete</span>
+    </div>
+
+    <h1>Architecture Done — System, Software &amp; Hardware Designs Finalised</h1>
+
+    <p class="page-subtitle">Chapter 3 of the thesis started and all three architecture layers were completed: system architecture, software architecture with full ROS node structure, and hardware architecture with the 5-state machine. The dual-controller split between Jetson Nano and Arduino was the central decision. The first physical design sketch was drawn, and a DIY kit chassis was assembled to test it — only to find the gear motors were broken.</p>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Chapter 3 — Starting with Requirements</h2>
+    <p>With the literature review complete, this week moved to Chapter 3 — design and architecture. The first step was documenting functional and non-functional requirements that would constrain every design decision that followed.</p>
+
+    <p>Functional requirements define what the robot must do: fall detection, GSM alerting, person following, medication reminders, obstacle avoidance. Non-functional requirements define the constraints: response time, false positive rate, battery endurance, no Wi-Fi dependency for any safety-critical function.</p>
+
+    <div class="post-callout">
+      <p><strong>The constraint that shapes everything:</strong> Every safety feature must function without Wi-Fi. This is not a limitation — it is the design intent. CARA is built for homes where internet connectivity is unreliable or absent. GSM is the only communication path for alerts.</p>
+    </div>
+
+    <h2>The Dual-Controller Decision</h2>
+    <p>The core architecture question was how to distribute the workload. Two fundamentally incompatible types of processing are required simultaneously:</p>
+
+    <ul>
+      <li>AI inference — MediaPipe Pose estimation for fall detection requires a Linux environment, GPU acceleration, and a full Python runtime</li>
+      <li>Real-time peripheral control — ultrasonic sensor timing requires microsecond precision; a Linux kernel running other tasks cannot guarantee this</li>
+    </ul>
+
+    <p>A single board cannot handle both reliably. Early tests confirmed this: running inference tasks on a Linux board caused GPIO polling interruptions, producing spurious ultrasonic distance readings at exactly the wrong moments. The solution is a clean split by task type.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Controller</th><th>Responsibilities</th><th>Reason for choice</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Jetson Nano</strong><br><span style="font-size:.8rem;color:var(--muted)">Ubuntu · ROS · Python</span></td>
+            <td>MediaPipe fall detection · person following · web interface · camera processing · ROS nodes</td>
+            <td>GPU for inference, full Linux environment, ROS ecosystem</td>
+          </tr>
+          <tr>
+            <td><strong>Arduino</strong><br><span style="font-size:.8rem;color:var(--muted)">Bare metal · deterministic</span></td>
+            <td>Ultrasonic sensors · PIR · RFID · GSM · RTC · motors · servos · buzzer · LCD</td>
+            <td>Microsecond timing, no OS overhead, large digital I/O count</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The two controllers communicate over UART serial using plain ASCII command strings — intentionally simple so there is no protocol stack dependency that could break across updates.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Direction</th><th>Example</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Jetson → Arduino</td><td><code>CMD:ALERT</code></td><td>Trigger GSM SMS and buzzer</td></tr>
+          <tr><td>Jetson → Arduino</td><td><code>CMD:MOVE:FWD:150</code></td><td>Drive forward at PWM 150</td></tr>
+          <tr><td>Arduino → Jetson</td><td><code>STATE:MONITORING</code></td><td>Current machine state</td></tr>
+          <tr><td>Arduino → Jetson</td><td><code>RFID:UID:A3F2B1</code></td><td>Card detected, send UID</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>System Architecture</h2>
+    <p>The system architecture block diagram maps every hardware component to its controller and shows the information flows between subsystems. The four critical paths are:</p>
+
+    <ul>
+      <li><strong>Camera → Jetson → fall event → UART → Arduino → GSM SMS</strong></li>
+      <li><strong>PIR motion → Arduino → state change (IDLE → ACTIVE)</strong></li>
+      <li><strong>RFID tag → Arduino → UART → Jetson → person lock confirmed</strong></li>
+      <li><strong>DS3231 RTC → Arduino → missed dose → GSM SMS reminder</strong></li>
+    </ul>
+
+    <h2>Software Architecture — ROS Node Structure</h2>
+    <p>Seven ROS nodes were defined, each with a single responsibility. Mapping all topics and dependencies before writing code prevents circular dependencies and makes testing each node in isolation straightforward.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Node</th><th>Publishes / Subscribes</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><code>camera_node</code></td><td>Pub: <code>/camera/image_raw</code></td><td>USB webcam frame stream</td></tr>
+          <tr><td><code>fall_detection_node</code></td><td>Sub: camera · Pub: <code>/cara/fall_detected</code></td><td>MediaPipe Pose → fall logic</td></tr>
+          <tr><td><code>person_follow_node</code></td><td>Sub: camera · Pub: <code>/cmd_vel</code></td><td>HSV tracking → velocity commands</td></tr>
+          <tr><td><code>serial_bridge_node</code></td><td>Sub: all command topics</td><td>ROS topics → UART commands for Arduino</td></tr>
+          <tr><td><code>pan_tilt_node</code></td><td>Sub: face position · via serial bridge</td><td>Servo angles for camera head</td></tr>
+          <tr><td><code>web_interface_node</code></td><td>Flask HTTP server</td><td>Remote monitor and manual drive UI</td></tr>
+          <tr><td><code>medication_node</code></td><td>Sub: RTC state</td><td>Dose schedule management + SMS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Hardware Architecture — The 5-State Machine</h2>
+    <p>The Arduino firmware is structured as a finite state machine. Every peripheral interaction is scoped to a state — nothing runs outside its context. This makes the firmware predictable and safe.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>State</th><th>Active subsystems</th><th>Entry condition</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IDLE</strong></td><td>PIR sensor polling only</td><td>Power-on default, or after RESET</td></tr>
+          <tr><td><strong>ACTIVE</strong></td><td>Motors, ultrasonics, camera stream</td><td>PIR detects motion</td></tr>
+          <tr><td><strong>MONITORING</strong></td><td>All sensors, fall detection running</td><td>Person identified via RFID or tracking</td></tr>
+          <tr><td><strong>ALERT</strong></td><td>GSM SMS, buzzer — motors locked out</td><td>Fall detected by Jetson</td></tr>
+          <tr><td><strong>RESET</strong></td><td>Buffer flush, return to IDLE</td><td>Alert acknowledged or timeout</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="post-callout green">
+      <p><strong>Safety rule baked into the state machine:</strong> ALERT locks all motor commands. A robot moving while sending a fall alert is a safety hazard — this is enforced at the firmware level. No software layer can override it.</p>
+    </div>
+
+    <h2>First Physical Design Sketch</h2>
+    <p>After the architecture documents were complete, the first concept of the physical robot was sketched. The design shows a wheeled chassis with a central camera tower using servo motors for pan and tilt. Dimensions: 45cm camera tower height, 35cm chassis width. RFID receivers are noted on all sides — person identification works from any approach direction.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-02-design-sketch.png" alt="First CARA robot design sketch — wheeled chassis with servo camera tower, 45cm height, RFID receivers noted on all sides">
+      <figcaption>From the field book — first physical concept sketch. Wheeled base, servo-driven camera tower, RFID receivers covering all approach angles.</figcaption>
+    </figure>
+
+    <p>A second design was also sketched with scaled dimensions and a two-layer ultrasonic sensor approach: upper level for person-distance measurement, lower level for obstacle detection. Separating these two tasks at the sensor level reduces software complexity — person following and obstacle avoidance do not share the same distance data.</p>
+
+    <h2>Chassis Assembly — The Broken Motor Problem</h2>
+    <p>To see how the sketch would actually look and feel, an off-the-shelf DIY 4WD kit was bought and assembled. The first real problem appeared immediately: the gear motors on the kit were broken. The gear mechanism inside had failed — motors spun but the drive shaft did not turn.</p>
+
+    <p>The broken motors were tested with the L298N motor driver anyway to understand the failure mode. Front motors had partial function; rear motors had none. The verdict: replacement motors needed. New motors ordered.</p>
+
+    <div class="post-callout amber">
+      <p><strong>"Expect the unexpected"</strong> — noted in the field book at this point. The kit came with motors that appeared intact but were internally broken. Always budget time for component failures, even on new purchases.</p>
+    </div>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The ROS node dependency map went through three revisions. The first version had cross-dependencies that would have caused timing deadlocks — node A waiting on node B while B waited on A. Drawing the full dependency graph on paper before writing any code caught this early and prevented a class of bugs that are very hard to diagnose once the system is running.</p>
+
+    <p>The DIY kit's broken gear motors also meant a two-week wait for replacements started right at the end of this week — picked up in <a href="week-03.html">Week 03</a>.</p>
+
+    <h2>Week 02 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Functional and non-functional requirements documented in Chapter 3</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Dual-controller architecture decided (Jetson Nano + Arduino)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>System architecture block diagram drawn</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Software architecture — 7 ROS nodes, all topics mapped</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Hardware architecture — 5-state machine states and transitions defined</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>First physical design sketched (wheeled chassis + camera tower)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Second design with two-layer navigation concept sketched</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Component procurement list started (BOM draft)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>DIY kit chassis assembled — gear motors found broken, replacements ordered</td><td class="yes">✓ Complete</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 02 — Architecture & Design">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-01.html" style="color:var(--primary);">← Previous: Week 01 — Project Kick-Off</a>
+    <a href="./">All Posts</a>
+    <a href="week-03.html" style="color:var(--primary);">Next: Week 03 — Hardware Build →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
