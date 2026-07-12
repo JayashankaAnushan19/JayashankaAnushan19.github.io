@@ -5,6 +5,9 @@
 const GITHUB_USER  = 'JayashankaAnushan19';
 const YT_HANDLE    = 'jayashankaanushan1336';
 
+// Repos to hide from the public projects feed
+const EXCLUDED_REPOS = ['JayashankaAnushan19.github.io', 'JayashankaAnushan19', 'myPropertyWebSite'];
+
 const LANG_COLORS = {
   Python:'#3572A5', JavaScript:'#f1e05a', 'C++':'#f34b7d',
   C:'#555555', Shell:'#89e051', MATLAB:'#e16737',
@@ -24,10 +27,14 @@ async function loadGitHub() {
       `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=9&type=public`,
       { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined }
     );
-    const repos = await res.json();
+    let repos = await res.json();
 
     if (!res.ok || repos.message) {
       throw new Error(repos.message || 'API error');
+    }
+
+    if (Array.isArray(repos)) {
+      repos = repos.filter(repo => !EXCLUDED_REPOS.includes(repo.name));
     }
 
     if (!Array.isArray(repos) || !repos.length) {
@@ -95,9 +102,13 @@ async function loadYouTube() {
   // Go to your YouTube channel → click a video → copy the ID from the URL
   // youtube.com/watch?v=THIS_PART_HERE
     const FALLBACK_VIDEOS = [
-    { id: 'hloTcTfTxGg', title: 'Arduino Braille-to-Text | Full Hardware Prototype Demo (JS_BlindTalk v1.0)', date: '2025' },
-    { id: 'i6VVDJAOV_g', title: 'CONTROL TURTLESIM WITH A JOYSTICK?! | Arduino + ROS Setup', date: '2025' },
+    { id: 'rQya0ex2MFQ', title: 'Autonomous Smart Cart with ROS 2 Jazzy | UWB Tracking + LiDAR Obstacle Avoidance | Gazebo Simulation', date: '2026' },
     { id: 'HQzhFaWsArA', title: 'Path Programming with Epson VT-6 Robot – PDE4431 Coursework Demonstration | Middlesex University', date: '2025' },
+    { id: 'DhipO7wUjus', title: 'ROS Arduino LED Control | Communicating Between ROS & Arduino', date: '2025' },
+    { id: 'i6VVDJAOV_g', title: 'CONTROL TURTLESIM WITH A JOYSTICK?! | Arduino + ROS Setup', date: '2025' },
+    { id: 'hloTcTfTxGg', title: 'Arduino Braille-to-Text | Full Hardware Prototype Demo (JS_BlindTalk v1.0)', date: '2025' },
+    { id: 'Gm_105isvc8', title: 'Hand Gesture Detection | Real-Time Hand Landmark Tracking', date: '2025' },
+    { id: 'UppuuGRodyE', title: 'Uno Card Detection with Object Recognition', date: '2025' },
   ];
   // ────────────────────────────────────────────────────────────
 

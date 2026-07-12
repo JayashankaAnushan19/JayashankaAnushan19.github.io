@@ -376,6 +376,7 @@
 .social-card.so:hover  { border-color:#f48024;box-shadow:0 0 25px rgba(244,128,36,0.2); }
 .social-card.ig:hover  { border-color:#e1306c;box-shadow:0 0 25px rgba(225,48,108,0.2); }
 .social-card.em:hover  { border-color:var(--accent);box-shadow:var(--glow); }
+.social-card.wa:hover  { border-color:#25D366;box-shadow:0 0 25px rgba(37,211,102,0.2); }
 .social-icon { font-size:26px; }
 .social-name { font-family:'Orbitron',monospace;font-size:11px;color:var(--text);font-weight:700; }
 .social-handle { font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted); }
