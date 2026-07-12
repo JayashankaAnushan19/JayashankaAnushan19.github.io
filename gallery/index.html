@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Gallery</title>
+    <meta name="description" content="A curated photo gallery.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="back-link" href="../index.html">← Portfolio</a>
+        <div class="eyebrow">Gallery</div>
+        <h1>Jay Gallery</h1>
+    </header>
+
+    <main>
+        <div class="album-grid" id="album-grid"></div>
+        <div class="empty-state" id="empty-state" style="display:none;">
+            No albums yet. Add a folder inside <code>gallery/</code> with an <code>images.json</code> file,
+            then list it in <code>gallery/albums.json</code>.
+        </div>
+    </main>
+
+    <footer class="site-footer">Jay Gallery</footer>
+
+    <script src="js/gallery.js"></script>
+</body>
+</html>

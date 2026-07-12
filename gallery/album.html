@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Gallery</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="album-header" id="album-header"></header>
+
+    <main class="photo-grid" id="album-root"></main>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+        <button class="lb-prev" id="lb-prev" aria-label="Previous">&#8249;</button>
+        <button class="lb-next" id="lb-next" aria-label="Next">&#8250;</button>
+        <div class="lightbox-content">
+            <img id="lb-image" src="" alt="">
+            <div class="caption">
+                <span class="count" id="lb-count"></span>
+                <span id="lb-caption-text"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/album.js"></script>
+</body>
+</html>
