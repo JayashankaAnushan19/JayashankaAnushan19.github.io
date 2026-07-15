@@ -30,9 +30,8 @@ Personal portfolio website for **Jayashanka Anushan** — Robotics Engineer and 
 
 | Page | URL | Description |
 |------|-----|-------------|
-| Portfolio | [jayashankaanushan19.github.io](https://jayashankaanushan19.github.io) | Main portfolio — about, skills, live GitHub repos, YouTube, research |
-| RoboJain | [/robojain.html](https://jayashankaanushan19.github.io/robojain.html) | RoboJain robotics company page |
-| Posts Feed | [/robojain-posts.html](https://jayashankaanushan19.github.io/robojain-posts.html) | Aggregated social posts — LinkedIn, Instagram, TikTok |
+| Portfolio | [jayashankaanushan19.github.io](https://jayashankaanushan19.github.io) | About, skills, live GitHub repos, YouTube, social hub, research |
+| Blog | [/posts.html](https://jayashankaanushan19.github.io/posts.html) | LinkedIn posts and Medium articles, filtered to AI/robotics content |
 
 ---
 
@@ -40,37 +39,26 @@ Personal portfolio website for **Jayashanka Anushan** — Robotics Engineer and 
 
 **Portfolio (`index.html`)**
 - Animated SVG humanoid robot in the hero section
-- Live GitHub repository feed — pulls from the GitHub API on every page load
-- YouTube video section — loads latest videos via RSS proxy
+- Live GitHub repository feed — pulls from the GitHub API on every page load, with an exclusion list for non-project repos
+- YouTube video section — loads latest videos via RSS proxy, with a static fallback list
+- Social hub — GitHub, YouTube, LinkedIn, Medium, Stack Overflow, Email, WhatsApp (UAE + Sri Lanka)
+- Download CV button
 - Animated stat counters, scroll reveal, smooth scroll
 - JAY-AI voice assistant — ask anything about Jayashanka via text or microphone
 - Mobile-responsive with hamburger navigation
 - Scroll progress bar, back-to-top button
 
-**SEO**
+**Blog (`posts.html`)**
+- LinkedIn posts shown as compact live-preview cards (scaled embeds), newest first, with expand/collapse past the first 10
+- Medium articles shown as cards with real cover images pulled from the RSS feed
+- Both sections link out to "View more" on the respective profile
+
+**SEO & Analytics**
 - JSON-LD `Person` structured data for Google Knowledge Graph
 - Full Open Graph + Twitter Card meta for social sharing
 - `robots.txt` and `sitemap.xml` registered at `/sitemap.xml`
 - Canonical URL, `theme-color`, geo meta tags
-
-**RoboJain Pages**
-- Company overview, capabilities, build log, and process flow
-- Official LinkedIn, Instagram, and TikTok embeds in the posts feed
-- Add a new post by pasting one URL into the `POSTS` array in `robojain-posts.html`
-
----
-
-## Adding Social Posts (RoboJain)
-
-Open `robojain-posts.html` and find the `POSTS` array. One line per post:
-
-```js
-{ platform:'instagram', url:'https://www.instagram.com/p/SHORTCODE/', date:'YYYY-MM' },
-{ platform:'tiktok',    url:'https://www.tiktok.com/@handle/video/VIDEO_ID', videoId:'VIDEO_ID', date:'YYYY-MM' },
-{ platform:'linkedin',  url:'https://www.linkedin.com/posts/...-activity-XXXXXXXX-XXXX', date:'YYYY-MM' },
-```
-
-Instagram and TikTok content loads automatically from the platforms — no copy-pasting needed. LinkedIn posts embed via the official LinkedIn iframe.
+- Google Analytics (GA4) and Google Search Console verification
 
 ---
 
@@ -80,18 +68,9 @@ Instagram and TikTok content loads automatically from the platforms — no copy-
 |-------|-------------|
 | Languages | HTML5, CSS3, Vanilla JavaScript |
 | Fonts | Orbitron, Space Mono, DM Sans (Google Fonts) |
-| APIs | GitHub REST API, YouTube RSS, Platform Embeds |
+| APIs | GitHub REST API, YouTube RSS, LinkedIn embed, Medium RSS |
+| Analytics | Google Analytics (GA4), Google Search Console |
 | Hosting | GitHub Pages (auto-deploy on push to `main`) |
-
----
-
-## RoboJain
-
-<a href="https://jayashankaanushan19.github.io/robojain.html" title="RoboJain company page">
-  <img src="assets/robojain-og.svg" alt="RoboJain — Where Code Meets Creation" width="100%">
-</a>
-
-**[→ robojain.html](https://jayashankaanushan19.github.io/robojain.html)** — Robotics engineering studio in Dubai, UAE. DIY-to-medium-scale robotic systems, embedded engineering, and automation.
 
 ---
 
