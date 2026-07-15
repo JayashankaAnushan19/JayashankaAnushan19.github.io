@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 05 — Coming soon.">
+<meta name="description" content="CARA Week 05 — Milestone M3 (Hardware Ready) reached: chassis, motors, and sensors integrated on the state machine. Jetson Nano in hand and ROS Jazzy setup begins — SIM7600 GSM module still awaiting delivery.">
 <title>Week 05 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -30,29 +30,106 @@
 
   <div class="post-header">
     <div class="post-meta">
-      <span class="post-date">10 Jul 2026</span>
+      <span class="post-date">10–16 Jul 2026</span>
       <span class="tag tag-blue">Week 05</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-high">Milestone</span>
     </div>
 
-    <h1>Week 05 — Coming Soon</h1>
+    <h1>Milestone M3 Reached — Hardware Ready, Jetson Nano In Hand and ROS Setup Begins</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">Chassis, motors, and sensors are integrated and running on the Arduino Mega state machine — hitting Milestone M3 (Hardware Ready) on schedule. The Jetson Nano is in hand and ROS Jazzy setup has started on it. The SIM7600 4G module is still awaiting delivery, so GSM wiring hasn't started yet — that stays queued for as soon as it arrives.</p>
   </div>
 
   <div class="post-body">
 
-    <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 05's work is complete and written up.</p>
+    <div class="post-callout amber">
+      <p><strong>Short-form update:</strong> this post captures where the build stands as Week 05 closes. Photos and the detailed step-by-step notes from the field book are still being transcribed and will be added here shortly — the checklist below reflects the real status either way.</p>
+    </div>
+
+    <h2>Milestone M3 — Hardware Ready</h2>
+    <p>The components staged together at the end of <a href="week-04.html">Week 04</a> — chassis, Arduino Mega, HC-SR04, PIR, LCD, RTC — are now wired and mounted rather than just laid out for a fit check. The 5-state machine (Idle / Active / Monitoring / Alert / Reset) designed back in <a href="week-02.html">Week 02</a> and first proven on the DIY kit in <a href="week-03.html">Week 03</a> is now running on the real chassis and motor setup, with the LCD reflecting live state changes.</p>
+
+    <p>This closes Milestone M3 as planned in the project timeline: chassis assembled, motors working, sensors integrated, state machine running.</p>
+
+    <h2>SIM7600 (4G/LTE) — Still Awaiting Delivery</h2>
+    <p>The SIM7600 module and the 1000µF buffer capacitor ordered at the end of Week 04 (to replace the SIM800L, which turned out to be a dead end since 2G is decommissioned in the UAE) haven't arrived yet. GSM wiring and the AT-command bring-up can't start until they do, so that work is pushed to whichever week the delivery lands in.</p>
+
+    <p>Per the project plan this task runs through Week 07, so there's still runway — but it's now the main blocker on the alerting side of the build.</p>
+
+    <h2>ROS Jazzy Setup on Jetson Nano — Started</h2>
+    <p>With the SD card sorted, setup work on the Jetson Nano itself began this week — flashing the board image and starting the ROS Jazzy install, the software foundation the <a href="week-02.html">Week 02</a> architecture design calls for on the AI side of the dual-controller split (Jetson for AI/vision, Arduino for real-time peripherals). This groundwork is what the MediaPipe port depends on next.</p>
+
+    <h2>MediaPipe Fall Detection — Still Continuing on Laptop</h2>
+    <p>The fall-detection pipeline validated on laptop in <a href="week-04.html">Week 04</a> (60.6% confidence on a test video, full Arduino serial handshake into the Alert state) hasn't moved onto the Jetson yet — that migration depends on the ROS Jazzy setup above being finished first. Laptop remains the development environment for now; this task is planned to run through Week 06.</p>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The SIM7600 order hasn't landed yet, which stalls the GSM alerting track — it's now the critical-path item since AT-command bring-up, SMS testing, and wiring it into the Alert state all depend on it. Full write-up for the hardware and Jetson work is also still catching up to the actual bench work — the field book has more detail than made it into this draft, and will be filled in as a follow-up pass.</p>
+
+    <h2>Week 05 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Chassis assembly finalized on real hardware (not DIY kit)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Motors wired and running via L298N driver</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Sensors (HC-SR04, PIR, LCD) integrated on Arduino Mega</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>5-state machine running on real chassis — Milestone M3</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SIM7600 + capacitor delivered</td><td class="no">✕ Not yet received</td></tr>
+          <tr><td>SIM7600 wired, AT-command comms / first SMS send</td><td class="no">✕ Blocked — awaiting delivery</td></tr>
+          <tr><td>Jetson Nano received, ROS Jazzy install started</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>MediaPipe fall detection ported from laptop to Jetson</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 05 — Hardware Ready">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-04.html" style="color:var(--primary);">← Previous: Week 04 — Fall Detection &amp; 3D Design</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-06.html" style="color:var(--primary);">Next: Week 06 — Coming Soon →</a>
   </div>
 
 </main>

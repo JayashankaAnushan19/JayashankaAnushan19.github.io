@@ -167,6 +167,33 @@ if (FIELD_BOOKS.length === 0) {
   empty.style.display = 'none';
   iframe.style.display = 'block';
 
+  /* Manual refresh control, next to the "Open in Drive" link */
+  const refreshBtn = document.createElement('button');
+  refreshBtn.type = 'button';
+  refreshBtn.className = 'fb-viewer-link';
+  refreshBtn.style.cssText = 'background:none;border:none;cursor:pointer;font:inherit;';
+  refreshBtn.textContent = 'Refresh now ⟳';
+  refreshBtn.addEventListener('click', () => refreshFolderView());
+  bar.appendChild(refreshBtn);
+
+  /* ── Auto-refresh the folder view every 30 min ────────────
+     Silently reloads the embedded Drive folder so newly added
+     field books show up without the visitor refreshing the page.
+     Only runs while the folder view (not a single PDF) is showing,
+     and is wrapped defensively so a failed reload can never hang
+     the page — worst case it just retries next cycle. */
+  function refreshFolderView() {
+    try {
+      if (iframe.src.includes('embeddedfolderview')) {
+        iframe.src = 'https://drive.google.com/embeddedfolderview?id=' + FOLDER_ID + '&_r=' + Date.now();
+      }
+    } catch (err) {
+      console.warn('Field books refresh skipped:', err);
+    }
+  }
+  const FB_REFRESH_MS = 30 * 60 * 1000;
+  setInterval(refreshFolderView, FB_REFRESH_MS);
+
 } else {
   /* Render individual file cards */
   FIELD_BOOKS.forEach((book, i) => {

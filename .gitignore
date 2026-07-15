@@ -1,1 +1,12 @@
 /Z
+
+# CARA blog — unused field-book scans & leftover week images.
+# Kept locally as source material for a possible "Week 00" post or to
+# enrich existing weeks (pin tables, real alert messages, debugging photos
+# — see NOTE.md in that folder). Not pushed to keep repo size down.
+CARA/blog/unused-images-archive/
+
+# Thesis field book PDF exports — personal notebook scans, not for the
+# public repo (large files; source photos live in the archive above).
+*[Ff]ield*[Bb]ook*.pdf
+*[Ff]eild*[Bb]ook*.pdf
