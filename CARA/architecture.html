@@ -78,7 +78,7 @@
                           <span class="v">Arduino Mega 2560</span> (5-state machine)
                                   │
             ┌─────────┬───────────┴──────────┬───────────┬────────────┐
-           <span class="s">Motors</span>   <span class="s">SIM800L</span>         <span class="s">HC-SR04×12</span>   <span class="s">RFID+RTC</span>   <span class="s">LCD+LED+Buzz</span>
+           <span class="s">Motors</span>   <span class="s">SIM76xx</span>         <span class="s">HC-SR04×6</span>   <span class="s">RFID+RTC</span>   <span class="s">LCD+LED+Buzz</span>
   </div>
 
   <h2>ROS Nodes (Jetson Nano)</h2>
@@ -115,7 +115,7 @@
         <tr>
           <td>pan_tilt</td>
           <td>nose_x + PIR</td>
-          <td>Calculates pan servo angle vs 320px frame centre. If nose_x &lt; 140 → PAN_LEFT; if nose_x &gt; 180 → PAN_RIGHT. PIR direction overrides if no visual target.</td>
+          <td>Calculates chassis rotation direction vs 320px frame centre (left/right aiming is done by rotating the chassis, not a pan servo — only tilt is a physical servo). If nose_x &lt; 140 → PAN_LEFT; if nose_x &gt; 180 → PAN_RIGHT. PIR direction overrides if no visual target.</td>
           <td>PAN_LEFT/RIGHT via serial</td>
         </tr>
         <tr>
@@ -137,37 +137,44 @@
   <h2>5-State Machine (Arduino)</h2>
   <p>The Arduino executes a single non-blocking loop that services all peripherals at ~50ms intervals. The system state governs which actions are taken each cycle.</p>
 
-  <div class="grid-3" style="margin-top:1.25rem;">
-    <div class="state-card s-idle">
-      <div class="state-icon">💤</div>
-      <div class="state-name">Idle</div>
-      <div class="state-desc">No target detected. Motors stopped. Ultrasonic sensors polling every 50ms. PIR sensors monitoring. LCD shows standby message. Green LED.</div>
-    </div>
-    <div class="state-card s-active">
-      <div class="state-icon">🚶</div>
-      <div class="state-name">Active</div>
-      <div class="state-desc">PIR triggered, RFID confirmed. Robot moves toward target. Person_lock tracking begins. Obstacle avoidance enforced. Amber LED pulsing.</div>
-    </div>
-    <div class="state-card s-monitoring">
-      <div class="state-icon">👁️</div>
-      <div class="state-name">Monitoring</div>
-      <div class="state-desc">Target in frame, MediaPipe fall detection active. Robot stationary or slow-follow. Fall detection threshold check running every frame. Blue LED.</div>
-    </div>
-    <div class="state-card s-alert">
-      <div class="state-icon">🚨</div>
-      <div class="state-name">Alert</div>
-      <div class="state-desc">Fall confirmed. Motors stopped. SIM800L sends SMS. LCD shows "FALL DETECTED — HELP CALLED". Buzzer beeps. Red LED solid. 30s cooldown enforced.</div>
-    </div>
-    <div class="state-card s-reset">
-      <div class="state-icon">🔄</div>
-      <div class="state-name">Reset</div>
-      <div class="state-desc">Alert cooldown complete. System checks for continued fall posture. If cleared, returns to IDLE. If posture persists, holds ALERT. Amber LED rapid pulse.</div>
-    </div>
+  <div class="table-wrap" style="margin-top:1.25rem;">
+    <table>
+      <thead>
+        <tr><th></th><th>State</th><th>Behaviour</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-size:1.3rem;">💤</td>
+          <td>Idle</td>
+          <td>No target detected. Motors stopped. Ultrasonic sensors polling every 50ms. PIR sensors monitoring. LCD shows standby message. Green LED.</td>
+        </tr>
+        <tr>
+          <td style="font-size:1.3rem;">🚶</td>
+          <td>Active</td>
+          <td>PIR triggered, RFID confirmed. Robot moves toward target. Person_lock tracking begins. Obstacle avoidance enforced. Amber LED pulsing.</td>
+        </tr>
+        <tr>
+          <td style="font-size:1.3rem;">👁️</td>
+          <td>Monitoring</td>
+          <td>Target in frame, MediaPipe fall detection active. Robot stationary or slow-follow. Fall detection threshold check running every frame. Blue LED.</td>
+        </tr>
+        <tr>
+          <td style="font-size:1.3rem;">🚨</td>
+          <td>Alert</td>
+          <td>Fall confirmed. Motors stopped. GSM module (SIM76xx) sends SMS. LCD shows "FALL DETECTED — HELP CALLED". Buzzer beeps. Red LED solid. 30s cooldown enforced.</td>
+        </tr>
+        <tr>
+          <td style="font-size:1.3rem;">🔄</td>
+          <td>Reset</td>
+          <td>Alert cooldown complete. System checks for continued fall posture. If cleared, returns to IDLE. If posture persists, holds ALERT. Amber LED rapid pulse.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="info-box" style="margin-top:1.75rem;">
     <h4>Safety Invariant</h4>
-    <p>Obstacle avoidance (20 cm threshold) and cliff detection overrides are enforced in every state, including ALERT and remote_control. No command — from any source — can cause the robot to move into an obstacle.</p>
+    <p>Obstacle avoidance (20 cm threshold) overrides are enforced in every state, including ALERT and remote_control. No command — from any source — can cause the robot to move into an obstacle. (Cliff detection is designed into the safety architecture but postponed to v1.1 — see <a href="docs.html">Docs</a>.)</p>
   </div>
 
   <h2>Communication Protocols</h2>
@@ -186,8 +193,8 @@
       <p style="font-size:.85rem;">MFRC522 communicates via hardware SPI (MISO/MOSI/SCK on Arduino pins 50/51/52). Slave Select on pin 10. Polling loop in MONITORING and ACTIVE states checks for UID match every 500ms.</p>
     </div>
     <div class="card">
-      <h4>GSM AT Commands (SIM800L)</h4>
-      <p style="font-size:.85rem;">SoftwareSerial on Arduino pins 2 &amp; 3. SMS sequence: <code>AT+CMGF=1</code> (text mode) → <code>AT+CMGS="+[number]"</code> → message body → <code>0x1A</code> (Ctrl+Z, send). 4.0V regulated supply, 1000µF cap.</p>
+      <h4>GSM AT Commands (SIM76xx)</h4>
+      <p style="font-size:.85rem;">SoftwareSerial on Arduino pins 2 &amp; 3. SMS sequence: <code>AT+CMGF=1</code> (text mode) → <code>AT+CMGS="+[number]"</code> → message body → <code>0x1A</code> (Ctrl+Z, send). 4.0V regulated supply, 1000µF cap. Same AT command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
     </div>
   </div>
 

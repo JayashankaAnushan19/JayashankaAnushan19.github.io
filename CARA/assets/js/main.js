@@ -20,11 +20,14 @@
   }
 
   /* ── Path helpers ─────────────────────────────────────── */
-  const path     = location.pathname;
-  const inSub    = path.includes('/blog/');
-  const base     = inSub ? '../' : '';
-  const root     = inSub ? '../../' : '../';
-  const blogHref = inSub ? './' : 'blog/';
+  const path       = location.pathname;
+  const inBlog      = path.includes('/blog/');
+  const inAppendix  = path.includes('/appendix/');
+  const inSub      = inBlog || inAppendix;
+  const base       = inSub ? '../' : '';
+  const root       = inSub ? '../../' : '../';
+  const blogHref     = inBlog     ? './' : 'blog/';
+  const appendixHref = inAppendix ? './' : 'appendix/';
 
   const page        = path.split('/').pop() || 'index.html';
   const isBlogIndex = inSub && (page === 'index.html' || page === '');
@@ -32,11 +35,14 @@
   function a(href, label) {
     let cur = false;
     if (href === 'index.html') {
-      // Home — only active at CARA root, never inside /blog/
+      // Home — only active at CARA root, never inside /blog/ or /appendix/
       cur = !inSub && (page === 'index.html' || page === '');
     } else if (href === blogHref) {
-      // Blog — active whenever we are inside /blog/
-      cur = inSub;
+      // Blog — active whenever we are inside /blog/ (not /appendix/)
+      cur = inBlog;
+    } else if (href === appendixHref) {
+      // Appendix — active whenever we are inside /appendix/ (not /blog/)
+      cur = inAppendix;
     } else {
       // All other pages — simple filename match
       cur = href.split('/').pop() === page;
@@ -45,14 +51,12 @@
   }
 
   function group(label, items) {
-    const hasActive = items.some(([href]) => {
-      const fn = href.replace(/\/$/, '/index.html').split('/').pop();
-      return fn === page;
-    });
+    const rendered  = items.map(([href, lbl]) => a(href, lbl));
+    const hasActive = rendered.some(html => html.includes('class="active"'));
     return `<div class="nav-group${hasActive ? ' has-active' : ''}">
       <button class="nav-group-btn">${label}</button>
       <div class="nav-drop">
-        ${items.map(([href, lbl]) => a(href, lbl)).join('')}
+        ${rendered.join('')}
       </div>
     </div>`;
   }
@@ -64,7 +68,7 @@
       ${a('index.html', 'Home')}
       ${group('Project',  [['about.html','About'],['objectives.html','Objectives']])}
       ${group('Research', [['research.html','Literature'],['fieldbooks.html','Field Books']])}
-      ${group('System',   [['features.html','Features'],['hardware.html','Hardware'],['architecture.html','Architecture'],['docs.html','Docs']])}
+      ${group('System',   [['features.html','Features'],['hardware.html','Hardware'],['architecture.html','Architecture'],['docs.html','Docs'],[appendixHref,'Appendix']])}
       ${a('timeline.html', 'Timeline')}
       ${a('gallery.html',  'Gallery')}
       ${a(blogHref,        'Blog')}

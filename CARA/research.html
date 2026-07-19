@@ -97,13 +97,13 @@
 
   <!-- NAVIGATION -->
   <h2>2.4 — Indoor Navigation</h2>
-  <p>SLAM-based navigation (GMapping, RTAB-Map) paired with ROS provides reliable indoor localization and path planning, but requires LIDAR or depth cameras that add significant cost. CARA uses a simpler sensor-based approach: 12 ultrasonic sensors providing 360° coverage are sufficient for reactive obstacle avoidance in a home environment at 0.3 m/s operating speed.</p>
+  <p>SLAM-based navigation (GMapping, RTAB-Map) paired with ROS provides reliable indoor localization and path planning, but requires LIDAR or depth cameras that add significant cost. CARA uses a simpler sensor-based approach: 6 ultrasonic sensors providing 360° coverage are sufficient for reactive obstacle avoidance in a home environment at 0.3 m/s operating speed.</p>
   <p>Person following in domestic environments typically uses one of three approaches: colour tracking, depth-sensor following, or acoustic source localisation. CARA combines PIR-triggered direction sensing with HSV orange-band tracking — a low-cost solution that avoids depth cameras entirely.</p>
 
   <!-- GSM -->
   <h2>2.5 — GSM-Based Health Alerting</h2>
   <p>IoT health monitoring research consistently demonstrates that <strong>GSM SMS provides reliable alert delivery in areas with GSM coverage but limited or no internet</strong>. In Sri Lanka's rural and semi-urban areas, GSM coverage (2G/3G cellular) is broadly available, while fibre broadband penetration remains low outside major cities.</p>
-  <p>The SIM800L module (quad-band GSM) and Hayes AT command protocol have been widely validated in embedded health monitoring literature. Key implementation challenges are power management (2A TX bursts) and AT command timing — both addressed in CARA's design through a dedicated 4.0V supply with 1000µF stabilisation.</p>
+  <p>The Hayes AT command protocol used by both the SIM800L and SIM76xx GSM module families has been widely validated in embedded health monitoring literature. Key implementation challenges are power management (~2A TX bursts) and AT command timing — both addressed in CARA's design through a dedicated 4.0V supply with 1000µF stabilisation. CARA's design targets the SIM76xx series (4G/LTE) since 2G is decommissioned in the UAE, though SIM800L remains valid for a Sri Lanka deployment.</p>
 
   <!-- HRI -->
   <h2>2.6 — Human-Robot Interaction with Elderly Users</h2>

@@ -99,7 +99,7 @@
   <div class="grid-2" style="margin-top:1rem;">
     <div class="card">
       <h4>Physical Collision Safety</h4>
-      <p style="font-size:.85rem;">12 × HC-SR04 sensors provide continuous 360° coverage with 50ms polling. Emergency stop at 20cm threshold. This threshold was calculated based on maximum operating speed (0.3 m/s) and motor deceleration response time (~80ms) to guarantee stopping before contact.</p>
+      <p style="font-size:.85rem;">6 × HC-SR04 sensors provide continuous 360° coverage with 50ms polling. Emergency stop at 20cm threshold. This threshold was calculated based on maximum operating speed (0.3 m/s) and motor deceleration response time (~80ms) to guarantee stopping before contact.</p>
       <p style="font-size:.85rem; margin:0;"><strong>Non-overridable:</strong> Obstacle avoidance takes precedence over all commands, including remote drive and ALERT state. No software path bypasses this check.</p>
     </div>
     <div class="card">
@@ -109,11 +109,12 @@
     </div>
     <div class="card">
       <h4>Electrical Safety</h4>
-      <p style="font-size:.85rem;">SIM800L powered on a dedicated 4.0V rail, isolated from Arduino 5V bus. 1000µF capacitor absorbs TX burst transients. LiPo battery has integrated protection circuit preventing overdischarge (&lt;3.0V/cell) and short-circuit protection.</p>
+      <p style="font-size:.85rem;">GSM module (SIM76xx series; SIM800L in a Sri Lanka deployment) powered on a dedicated 4.0V rail, isolated from Arduino 5V bus. 1000µF capacitor absorbs TX burst transients. LiPo battery has integrated protection circuit preventing overdischarge (&lt;3.0V/cell) and short-circuit protection.</p>
     </div>
-    <div class="card">
-      <h4>Staircase / Edge Safety</h4>
+    <div class="card" style="opacity:.6;">
+      <h4>Staircase / Edge Safety <span class="tag tag-amber">Postponed → v1.1</span></h4>
       <p style="font-size:.85rem;">Three TCRT5000 downward-facing IR sensors detect loss of floor surface. Emergency stop triggered if 2+ sensors simultaneously show no floor reflection. Prevents the robot from driving off a step edge or into a staircase during autonomous navigation.</p>
+      <p style="font-size:.85rem; margin:0;"><strong>Note:</strong> Proposed for v1.0 but postponed to v1.1 due to time constraints — not implemented or tested in the current build. Kept here for documentation continuity.</p>
     </div>
   </div>
 
@@ -124,18 +125,19 @@
 
   <!-- APPENDICES -->
   <h2>Thesis Appendices</h2>
+  <p>Full appendix content lives on its own page — see the <a href="appendix/">Appendix section →</a></p>
   <div class="table-wrap">
     <table>
       <thead>
         <tr><th>Appendix</th><th>Content</th><th>Status</th></tr>
       </thead>
       <tbody>
-        <tr><td>Appendix A</td><td>Full Circuit Wiring Diagram — all Arduino pin assignments, power rails, and bus connections</td><td>In progress</td></tr>
-        <tr><td>Appendix B</td><td>Arduino Firmware Listing — complete 5-state machine code with all peripheral drivers</td><td>In progress</td></tr>
-        <tr><td>Appendix C</td><td>Python Fall Detection Node — full MediaPipe ROS node source code</td><td>In progress</td></tr>
-        <tr><td>Appendix D</td><td>Ethics Approval Documentation</td><td>Submitted</td></tr>
-        <tr><td>Appendix E</td><td>Raw Test Results — all trial data for all 15 features</td><td>Pending (Week 9+)</td></tr>
-        <tr><td>Appendix F</td><td>AI Usage Statement — disclosure of generative AI tools used in thesis preparation</td><td>Complete</td></tr>
+        <tr><td><a href="appendix/a-wiring-diagram.html">Appendix A</a></td><td>Full Circuit Wiring Diagram — all Arduino pin assignments, power rails, and bus connections</td><td>In progress</td></tr>
+        <tr><td><a href="appendix/b-firmware-listing.html">Appendix B</a></td><td>Arduino Firmware Listing — complete 5-state machine code with all peripheral drivers</td><td>In progress</td></tr>
+        <tr><td><a href="appendix/c-fall-detection-node.html">Appendix C</a></td><td>Python Fall Detection Node — full MediaPipe ROS node source code</td><td>In progress</td></tr>
+        <tr><td><a href="appendix/d-ethics-approval.html">Appendix D</a></td><td>Ethics Approval Documentation</td><td>Submitted</td></tr>
+        <tr><td><a href="appendix/e-raw-test-results.html">Appendix E</a></td><td>Raw Test Results — all trial data for all 15 features</td><td>Pending (Week 9+)</td></tr>
+        <tr><td><a href="appendix/f-ai-usage-statement.html">Appendix F</a></td><td>AI Usage Statement — disclosure of generative AI tools used in thesis preparation</td><td>Complete</td></tr>
       </tbody>
     </table>
   </div>

@@ -158,7 +158,7 @@ footer a{color:var(--cyan);text-decoration:none}
                   ↓
       <span class="arr">Arduino Mega 2560</span> · 5-State Machine
                   ↓
-<span class="val">Motors</span> | <span class="val">SIM800L GSM</span> | <span class="val">RFID</span> | <span class="val">LCD I2C</span> | <span class="val">PIR ×2</span> | <span class="val">HC-SR04 ×12</span>
+<span class="val">Motors</span> | <span class="val">SIM76xx GSM</span> | <span class="val">RFID</span> | <span class="val">LCD I2C</span> | <span class="val">PIR ×2</span> | <span class="val">HC-SR04 ×6</span>
     </div>
 
     <h3>ROS Node Map (Jetson Nano)</h3>
@@ -170,7 +170,7 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>serial_bridge</td><td>/fall_detected topic</td><td>Sends command stream to Arduino via USB serial: FALL_DETECTED · STEER_LEFT/RIGHT · MOVE_FORWARD · STOP · TARGET_LOST · PAN_LEFT/RIGHT</td></tr>
           <tr><td>camera_stream</td><td>HTTP request from browser</td><td>Flask MJPEG server on port 5000 · /video_feed endpoint · daemon thread · streams /dev/video0</td></tr>
           <tr><td>person_lock</td><td>Camera frame received</td><td>OpenCV HSV filter detects orange band (Layer 2) · RFID UID target identity (Layer 1) · publishes /target_visible</td></tr>
-          <tr><td>pan_tilt</td><td>Nose X + PIR direction</td><td>Calculates pan servo angle vs 320px frame center · sends PAN_LEFT/RIGHT via serial · Pin 9 pan · Pin 10 tilt</td></tr>
+          <tr><td>pan_tilt</td><td>Nose X + PIR direction</td><td>Calculates chassis rotation direction vs 320px frame center (left/right aiming via chassis rotation, not a pan servo) · sends PAN_LEFT/RIGHT via serial · Pin 10 tilt servo</td></tr>
           <tr><td>remote_control</td><td>HTTP POST from phone</td><td>Receives movement commands · forwards to Arduino · obstacle override always active</td></tr>
           <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Medication reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · RFID confirm · 15min no-confirm → sendSMS() · 12:00pm daily check-in</td></tr>
         </tbody>
@@ -189,19 +189,19 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>AI Processor</td><td>NVIDIA Jetson Nano 4GB</td><td>4-core ARM, 128 CUDA cores, Ubuntu 18.04</td><td>MediaPipe fall detection, camera streaming, ROS</td><td>$99–150</td></tr>
           <tr><td>Microcontroller</td><td>Arduino Mega 2560</td><td>ATmega2560, 54 digital I/O, 16 analog, 256KB flash, 16MHz</td><td>Peripheral control, sensor polling, GSM, state machine</td><td>$10–25</td></tr>
           <tr><td>Camera</td><td>USB Webcam 720p</td><td>720p 30fps, USB 2.0, UVC compatible</td><td>MediaPipe pose input, family feed, fall detection</td><td>$15–30</td></tr>
-          <tr><td>GSM Module</td><td>SIM800L</td><td>Quad-band GSM, AT commands, 3.7–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free</td><td>$5–12</td></tr>
-          <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 7 &amp; Pin 12</td><td>Person presence detection, pan-tilt head direction trigger</td><td>$1–3 each</td></tr>
-          <tr><td>Ultrasonic ×12</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 22/23, 24/25, 26/27, 28/29, 30/31, 32/33 (upper) · 11/12 (lower)</td><td>360° obstacle detection and person distance tracking</td><td>$2–5 each</td></tr>
+          <tr><td>GSM Module</td><td>SIM76xx Series</td><td>Multi-band LTE, AT commands, ~3.4–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free. SIM800L (2G) remains valid for a Sri Lanka deployment where 2G is still active.</td><td>$15–35</td></tr>
+          <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 7 &amp; Pin 12</td><td>Person presence detection, triggers chassis/head direction toward the person</td><td>$1–3 each</td></tr>
+          <tr><td>Ultrasonic ×6</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 22/23, 24/25, 26/27, 28/29, 30/31, 32/33</td><td>360° obstacle detection and person distance tracking</td><td>$2–5 each</td></tr>
           <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS Pin 10</td><td>Medication confirmation, target identity Layer 1 lock</td><td>$2–5</td></tr>
           <tr><td>RTC Module</td><td>DS3231</td><td>I2C addr 0x68, ±2ppm, battery backup</td><td>Medication timing without network sync</td><td>$2–5</td></tr>
           <tr><td>LCD Display</td><td>16×2 with I2C</td><td>16 char × 2 lines, I2C addr 0x27</td><td>State messages and greeting display</td><td>$2–5</td></tr>
-          <tr><td>Servos ×2</td><td>SG90 9g Micro</td><td>180° rotation, 1.8kg/cm torque · Pin 9 pan, Pin 10 tilt</td><td>Pan-tilt camera head, default tilt 75°</td><td>$2–4 each</td></tr>
+          <tr><td>Tilt Servo ×1</td><td>SG90 9g Micro</td><td>180° rotation, 1.8kg/cm torque · Pin 10 tilt</td><td>Camera head tilt only, default 75° — left/right aiming is done by rotating the chassis, not a second servo</td><td>$2–4</td></tr>
           <tr><td>Motor Driver</td><td>FC120 Dual H-Bridge</td><td>1.2A per channel, PWM · Pins 2–5</td><td>DC motor direction and speed control</td><td>$3–8</td></tr>
           <tr><td>DC Motors ×2</td><td>6V Gear Motor 150RPM</td><td>6V, 150RPM, 65mm wheel compatible</td><td>Robot mobility at 0.3m/s</td><td>$5–10 each</td></tr>
           <tr><td>LiPo Battery</td><td>3S 11.1V 3000mAh</td><td>30C discharge, T-connector · primary power source</td><td>90+ minute full-load runtime</td><td>$15–30</td></tr>
-          <tr><td>Buck Converters ×2</td><td>LM2596 Step-Down</td><td>Conv 1 → 5V (Arduino) · Conv 2 → 4.0V (SIM800L regulated)</td><td>SIM800L requires dedicated regulated 4.0V rail</td><td>$1–3 each</td></tr>
+          <tr><td>Buck Converters ×2</td><td>LM2596 Step-Down</td><td>Conv 1 → 5V (Arduino) · Conv 2 → 4.0V (GSM module regulated)</td><td>GSM module requires dedicated regulated 4.0V rail</td><td>$1–3 each</td></tr>
           <tr><td>Temp/Humidity</td><td>DHT22</td><td>Single-wire, Pin 6 · −40°C to +80°C</td><td>Room temperature monitoring, heatstroke SMS alert</td><td>$3–6</td></tr>
-          <tr><td>Cliff Sensors ×3</td><td>TCRT5000</td><td>IR reflection, Pins A0–A2</td><td>Floor edge / stair detection, prevent robot falling</td><td>$1–2 each</td></tr>
+          <tr style="opacity:.6;"><td>Cliff Sensors ×3 <span class="tag tag-amber">Postponed → v1.1</span></td><td>TCRT5000</td><td>IR reflection, Pins A0–A2</td><td>Floor edge / stair detection, prevent robot falling. Proposed for v1.0 but postponed to v1.1 — not implemented in the current build.</td><td>$1–2 each</td></tr>
           <tr><td>RGB LEDs ×3</td><td>Common anode</td><td>Pins A1–A3, PWM + GPIO</td><td>State visual feedback: green (idle), amber (active), red (alert), blue (low battery)</td><td>&lt;$1 each</td></tr>
         </tbody>
       </table>
@@ -227,8 +227,8 @@ footer a{color:var(--cyan);text-decoration:none}
       </div>
       <div class="proto-card">
         <div class="proto-icon">📱</div>
-        <h4>GSM AT Commands — SIM800L</h4>
-        <p>SoftwareSerial on Arduino pins 2 &amp; 3. Hayes AT command set: <strong>AT+CMGF=1</strong> (SMS text mode), <strong>AT+CMGS</strong> (send message). 1000µF capacitor stabilises transmission current spikes. 4.0V regulated supply via LM2596 buck converter.</p>
+        <h4>GSM AT Commands — SIM76xx</h4>
+        <p>SoftwareSerial on Arduino pins 2 &amp; 3. Hayes AT command set: <strong>AT+CMGF=1</strong> (SMS text mode), <strong>AT+CMGS</strong> (send message). 1000µF capacitor stabilises transmission current spikes. 4.0V regulated supply via LM2596 buck converter. Same command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
       </div>
     </div>
 
@@ -244,7 +244,7 @@ footer a{color:var(--cyan);text-decoration:none}
     <div class="safety-grid">
       <div class="safety-card physical">
         <h4>Physical Collision Safety</h4>
-        <p>HC-SR04 ultrasonic sensors provide continuous real-time distance monitoring. Emergency stop at 20cm threshold — <strong>non-overridable even during remote drive</strong>. Threshold selected based on maximum 0.3m/s operating speed and motor response latency.</p>
+        <p>6 × HC-SR04 ultrasonic sensors provide continuous real-time distance monitoring. Emergency stop at 20cm threshold — <strong>non-overridable even during remote drive</strong>. Threshold selected based on maximum 0.3m/s operating speed and motor response latency.</p>
       </div>
       <div class="safety-card functional">
         <h4>Functional Safety — Fall Detection</h4>
@@ -252,8 +252,12 @@ footer a{color:var(--cyan);text-decoration:none}
       </div>
       <div class="safety-card electrical">
         <h4>Electrical &amp; Power Safety</h4>
-        <p>SIM800L powered via dedicated 4.0V buck converter (cannot use Arduino 5V rail — high current during TX bursts). <strong>1000µF capacitor</strong> across SIM800L terminals stabilises transient spikes. LiPo includes integrated protection circuit preventing over-discharge. High-current and low-power circuits use separate power rails.</p>
+        <p>GSM module (SIM76xx series; SIM800L in a Sri Lanka deployment) powered via dedicated 4.0V buck converter (cannot use Arduino 5V rail — high current during TX bursts). <strong>1000µF capacitor</strong> across the module's terminals stabilises transient spikes. LiPo includes integrated protection circuit preventing over-discharge. High-current and low-power circuits use separate power rails.</p>
       </div>
+    </div>
+    <div class="safety-card" style="margin-top:1rem; opacity:.6;">
+      <h4>Staircase / Edge Safety <span class="tag tag-amber">Postponed → v1.1</span></h4>
+      <p>Three TCRT5000 downward-facing IR sensors would detect loss of floor surface, emergency-stopping if 2+ sensors simultaneously show no floor reflection — preventing the robot from driving off a step edge or into a staircase. Proposed for v1.0 but postponed to v1.1 due to time constraints — not implemented or tested in the current build. Kept here for documentation continuity.</p>
     </div>
 
     <p style="margin-top:1rem">CARA v1.0 has not undergone formal ISO 13482 certification — it is a research prototype. Any real-world deployment in eldercare environments would require additional validation, extended user trials, and clinical safety assessments.</p>

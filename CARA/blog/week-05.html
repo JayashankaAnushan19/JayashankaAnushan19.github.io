@@ -58,7 +58,11 @@
     <p>Per the project plan this task runs through Week 07, so there's still runway — but it's now the main blocker on the alerting side of the build.</p>
 
     <h2>ROS Jazzy Setup on Jetson Nano — Started</h2>
-    <p>With the SD card sorted, setup work on the Jetson Nano itself began this week — flashing the board image and starting the ROS Jazzy install, the software foundation the <a href="week-02.html">Week 02</a> architecture design calls for on the AI side of the dual-controller split (Jetson for AI/vision, Arduino for real-time peripherals). This groundwork is what the MediaPipe port depends on next.</p>
+    <p>With the SD card sorted, setup work on the Jetson itself began this week — flashing the board image and starting the ROS Jazzy install, the software foundation the <a href="week-02.html">Week 02</a> architecture design calls for on the AI side of the dual-controller split (Jetson for AI/vision, Arduino for real-time peripherals). This groundwork is what the MediaPipe port depends on next.</p>
+
+    <div class="post-callout">
+      <p><strong>Note on the board itself:</strong> the design and documentation target an NVIDIA Jetson Nano 4GB, which is enough compute for this project's fall-detection and ROS workload. Due to availability, the actual unit in hand for this build is a Jetson Orin Nano 8GB Developer Kit instead — a straightforward drop-in swap that doesn't change any of the architecture or wiring described elsewhere on this site.</p>
+    </div>
 
     <h2>MediaPipe Fall Detection — Still Continuing on Laptop</h2>
     <p>The fall-detection pipeline validated on laptop in <a href="week-04.html">Week 04</a> (60.6% confidence on a test video, full Arduino serial handshake into the Alert state) hasn't moved onto the Jetson yet — that migration depends on the ROS Jazzy setup above being finished first. Laptop remains the development environment for now; this task is planned to run through Week 06.</p>
