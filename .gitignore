@@ -10,3 +10,9 @@ CARA/blog/unused-images-archive/
 # public repo (large files; source photos live in the archive above).
 *[Ff]ield*[Bb]ook*.pdf
 *[Ff]eild*[Bb]ook*.pdf
+
+# CARA appendix source files — raw content embedded into password-gated
+# appendix pages. Must NOT be separately servable (see NOTE.md in that
+# folder), since GitHub Pages has no access control and a public raw
+# file would let anyone bypass the password gate.
+CARA/appendix/appendix-source/

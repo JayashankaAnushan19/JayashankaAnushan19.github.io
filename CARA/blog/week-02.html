@@ -147,16 +147,29 @@
     <p>After the architecture documents were complete, the first concept of the physical robot was sketched. The design shows a wheeled chassis with a central camera tower using servo motors for pan and tilt. Dimensions: 45cm camera tower height, 35cm chassis width. RFID receivers are noted on all sides — person identification works from any approach direction.</p>
 
     <figure class="post-image">
-      <img src="images/blog-02-design-sketch.png" alt="First CARA robot design sketch — wheeled chassis with servo camera tower, 45cm height, RFID receivers noted on all sides">
+      <div class="post-image-grid">
+        <img src="images/blog-02-design-sketch.png" alt="First CARA robot design sketch — wheeled chassis with servo camera tower, 45cm height, RFID receivers noted on all sides">
+        <img src="images/blog-02-design-sketch-2.png" alt="First CARA robot design sketch, second view — camera head detail with screw mount and wire routing down the tower">
+      </div>
       <figcaption>From the field book — first physical concept sketch. Wheeled base, servo-driven camera tower, RFID receivers covering all approach angles.</figcaption>
     </figure>
 
     <p>A second design was also sketched with scaled dimensions and a two-layer ultrasonic sensor approach: upper level for person-distance measurement, lower level for obstacle detection. Separating these two tasks at the sensor level reduces software complexity — person following and obstacle avoidance do not share the same distance data.</p>
 
+    <figure class="post-image">
+      <img src="images/blog-02-navigation-concept.png" alt="Second CARA design sketch — scaled component layout with Jetson Nano, Arduino, sensors, and the two-layer ultrasonic navigation concept noted">
+      <figcaption>Second design — scaled component layout. Note on the two ultrasonic layers: upper for person distance, lower for obstacle avoidance.</figcaption>
+    </figure>
+
     <h2>Chassis Assembly — The Broken Motor Problem</h2>
     <p>To see how the sketch would actually look and feel, an off-the-shelf DIY 4WD kit was bought and assembled. The first real problem appeared immediately: the gear motors on the kit were broken. The gear mechanism inside had failed — motors spun but the drive shaft did not turn.</p>
 
     <p>The broken motors were tested with the L298N motor driver anyway to understand the failure mode. Front motors had partial function; rear motors had none. The verdict: replacement motors needed. New motors ordered.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-03-motor-test.png" alt="Bench power supply and laptop testing the DIY kit's original gear motors through an L298N driver, before ordering replacements">
+      <figcaption>Testing the original DIY-kit motors on the bench with the L298N driver — this run is what confirmed they were the faulty ones, before replacement motors were ordered.</figcaption>
+    </figure>
 
     <div class="post-callout amber">
       <p><strong>"Expect the unexpected"</strong> — noted in the field book at this point. The kit came with motors that appeared intact but were internally broken. Always budget time for component failures, even on new purchases.</p>

@@ -73,6 +73,11 @@
 
     <p>When confidence exceeds 70%, the system sends <code>"fall_detected"</code> over the Arduino serial connection. The Arduino immediately transitions to ALERT state: buzzer activates, LED on, motors locked, LCD shows alert. The full chain was verified end-to-end using a video file as input.</p>
 
+    <figure class="post-image">
+      <img src="images/blog-04-fall-arduino-code.png" alt="Arduino IDE showing the firmware pin-map header alongside a live serial monitor reading FALL_DETECTED, confirming the Arduino received the alert triggered by video-based fall analysis">
+      <figcaption>Arduino side of the chain confirmed — the firmware (left) and live serial monitor (right) show <code>FALL_DETECTED</code> arriving and the state machine responding, triggered by the video-analysed fall event.</figcaption>
+    </figure>
+
     <div class="post-callout amber">
       <p><strong>Live testing skipped this session</strong> — I work night shifts, and the room was too dark for the camera. Live detection will be tested on a day off with proper lighting. The video file pipeline confirms the logic is correct.</p>
     </div>
@@ -151,7 +156,10 @@
     </div>
 
     <figure class="post-image">
-      <img src="images/blog-04-gsm-sim800l.png" alt="SIM800L GSM module alongside Arduino UNO and antenna connector — testing setup">
+      <div class="post-image-grid">
+        <img src="images/blog-04-gsm-sim800l.png" alt="SIM800L GSM module alongside Arduino UNO and antenna connector — testing setup">
+        <img src="images/blog-04-gsm-bench-psu.png" alt="SIM800L module wired to the bench power supply, antenna connector visible, current reading 0.08A">
+      </div>
       <figcaption>SIM800L GSM module (left, blue) with Arduino UNO and external antenna connector. AT commands responding correctly — the issue is the network, not the module.</figcaption>
     </figure>
 
