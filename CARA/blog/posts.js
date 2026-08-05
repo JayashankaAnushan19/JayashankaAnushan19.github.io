@@ -10,12 +10,36 @@
 
 var POSTS = [
   {
+    file:    'week-09.html',
+    week:    'Week 09',
+    date:    '7–13 Aug 2026',
+    title:   'Week 09 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
+    file:    'week-08.html',
+    week:    'Week 08',
+    date:    '31 Jul–6 Aug 2026',
+    title:   'Camera Tower Complete — Full Assembly Testing Next',
+    excerpt: 'Camera tower assembly and the remaining chassis wire connections finished. Full assembly testing is next. This week is still in progress — post will be filled in further as the week continues.',
+    tags:    [['Hardware','orange'],['In Progress','high']]
+  },
+  {
+    file:    'week-07.html',
+    week:    'Week 07',
+    date:    '24–30 Jul 2026',
+    title:   'GSM Bring-Up Continues, Camera Tower Assembly Begins',
+    excerpt: 'A7670C GSM module re-tested on the full breadboard wiring — still solid on AT commands, SMS/network registration still open. Camera tower assembly started, with sensor logic integrated and tested as it went together.',
+    tags:    [['Hardware','orange'],['Complete','green']]
+  },
+  {
     file:    'week-06.html',
     week:    'Week 06',
     date:    '17–23 Jul 2026',
-    title:   'Week 06 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Jetson Online via SSH, ROS Jazzy Installed & GSM Module A7670C Received',
+    excerpt: 'Jetson reached over SSH for the first time and ROS Jazzy installed on it. The A7670C (4G/LTE) GSM module ordered after the SIM800L dead end arrived along with capacitors and JST connectors, and bench testing started — powers on and responds to AT commands.',
+    tags:    [['Hardware','orange'],['Complete','green']]
   },
   {
     file:    'week-05.html',

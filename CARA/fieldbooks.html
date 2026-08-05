@@ -15,6 +15,12 @@
 <title>Field Books — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .lock-card{ max-width:420px; margin:2rem auto; text-align:center; padding:2.5rem 2rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); }
+  .lock-icon{ font-size:2.5rem; margin-bottom:1rem; }
+  .lock-card input{ width:100%; padding:.7rem .9rem; margin:1rem 0 .5rem; border:1px solid var(--border); border-radius:var(--r); background:var(--bg); color:var(--text); font-family:var(--font-mono); font-size:.95rem; box-sizing:border-box; }
+  .lock-error{ color:#ef4444; font-size:.82rem; min-height:1.2em; margin-bottom:.5rem; }
+</style>
 </head>
 <body>
 
@@ -43,10 +49,19 @@
     </p>
   </div> -->
 
+  <div id="lock-view" class="lock-card">
+    <div class="lock-icon">🔒</div>
+    <h3 style="margin-bottom:.5rem;">Password required</h3>
+    <p style="color:var(--muted); font-size:.85rem;">The field books are locked while the thesis is in progress. Enter the password to view them.</p>
+    <input type="password" id="lock-input" placeholder="Password" autocomplete="off">
+    <div class="lock-error" id="lock-error"></div>
+    <button class="btn btn-primary" id="lock-submit" style="width:100%;">Unlock</button>
+  </div>
+
 </div>
 
 <!-- ══ VIEWER LAYOUT ══════════════════════════════════════════ -->
-<div style="max-width:1160px; margin:0 auto; padding:0 1.75rem 4rem;">
+<div id="fb-content" style="display:none; max-width:1160px; margin:0 auto; padding:0 1.75rem 4rem;">
 
   <div class="fieldbooks-layout" id="fb-layout">
 
@@ -218,6 +233,28 @@ if (FIELD_BOOKS.length === 0) {
   folderLink.style.color = 'var(--primary)';
   folderLink.innerHTML = `<div class="fb-item-title">Browse All in Drive ↗</div>`;
   list.appendChild(folderLink);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PASSWORD LOCK — same password as CARA/appendix/b-firmware-listing.html
+   Note: client-side lock for casual access only, not real security.
+───────────────────────────────────────────────────────────── */
+const PASSWORD = 'm01037028';
+
+document.getElementById('lock-submit').addEventListener('click', unlock);
+document.getElementById('lock-input').addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+
+function unlock() {
+  const input = document.getElementById('lock-input');
+  const error = document.getElementById('lock-error');
+  if (input.value === PASSWORD) {
+    document.getElementById('lock-view').style.display = 'none';
+    document.getElementById('fb-content').style.display = 'block';
+  } else {
+    error.textContent = 'Incorrect password.';
+    input.value = '';
+    input.focus();
+  }
 }
 </script>
 </body>

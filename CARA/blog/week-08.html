@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DX08C95RT5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DX08C95RT5');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 08 (in progress) — Camera tower and remaining wire connections completed on the aluminium chassis, ready for a full assembly test.">
+<title>Week 08 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 08
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">31 Jul–6 Aug 2026</span>
+      <span class="tag tag-blue">Week 08</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-amber">In Progress</span>
+    </div>
+
+    <h1>Camera Tower Complete — Full Assembly Testing Next</h1>
+
+    <p class="page-subtitle">The camera tower assembly started in <a href="week-07.html">Week 07</a> was finished, along with the remaining wire connections on the aluminium chassis. Full assembly testing — everything mounted and running together — is next, and this post will be filled in further as the week continues.</p>
+  </div>
+
+  <div class="post-body">
+
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the field book up to the last entry so far; more will be added as the rest of the week's work happens.</p>
+    </div>
+
+    <h2>Camera Tower and Wiring Complete</h2>
+    <p>The camera tower and the rest of the wire connections were finished, bringing the chassis to a state ready for a full assembly test — everything mounted together rather than tested piece by piece as in <a href="week-07.html">Week 07</a>.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-08-aluminium-chassis-camera-tower.jpeg" alt="Aluminium chassis close-up showing the camera tower mounting posts, bundled and labelled wiring, and front ultrasonic sensors">
+      <figcaption>Aluminium chassis with the camera tower mounting posts in place, wiring bundled and numbered, front HC-SR04 pair visible.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-08-camera-tower-head-mockup.jpeg" alt="Camera tower head unit on a test stand, with LCD, 4x4 keypad, and RC522 RFID reader mounted on a 3D-printed housing">
+      <figcaption>The tower head unit itself, staged on a stand for testing — LCD, 4×4 keypad, and RC522 RFID reader mounted on the 3D-printed housing.</figcaption>
+    </figure>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>The A7670C GSM module's SMS-send and network-registration test — carried over from <a href="week-06.html">Week 06</a> and still open at the end of <a href="week-07.html">Week 07</a> — has not moved forward this week either, since effort went into finishing the camera tower instead. That test is now the longest-running open item on the board.</p>
+
+    <h2>Week 08 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Camera tower assembly completed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Remaining chassis wire connections completed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full assembly test — everything mounted and running together</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>A7670C SMS send / network registration test</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 08 — Camera Tower Complete">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-07.html" style="color:var(--primary);">← Previous: Week 07 — GSM Bring-Up &amp; Camera Tower</a>
+    <a href="./">All Posts</a>
+    <a href="week-09.html" style="color:var(--primary);">Next: Week 09 — Coming Soon →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
