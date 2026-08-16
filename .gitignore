@@ -16,3 +16,6 @@ CARA/blog/unused-images-archive/
 # folder), since GitHub Pages has no access control and a public raw
 # file would let anyone bypass the password gate.
 CARA/appendix/appendix-source/
+
+# VS Code workspace settings — local editor preferences, not project config.
+.vscode/
