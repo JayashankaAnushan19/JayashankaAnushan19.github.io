@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 09 — Coming soon.">
+<meta name="description" content="CARA Week 09 — A full-system integration test brings every chassis module onto one sketch, surfacing an unresponsive RFID reader and underpowered drive motors. The cara_jetson ROS2 package grows a real camera + patient-tracking + enrollment pipeline.">
 <title>Week 09 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,167 @@
     <div class="post-meta">
       <span class="post-date">7–13 Aug 2026</span>
       <span class="tag tag-blue">Week 09</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-teal">AI / Vision</span>
+      <span class="tag tag-green">Complete</span>
     </div>
 
-    <h1>Week 09 — Coming Soon</h1>
+    <h1>Full Integration Test Finds RFID &amp; Motor Issues, Perception Pipeline Scaffolding Begins</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">A full-system integration sketch brought every chassis module — bar GSM and the drive motors — onto one board for the first time, immediately surfacing an unresponsive RFID reader and underpowered drive motors. In parallel, the <code>cara_jetson</code> ROS2 package grew from last week's placeholder into a real camera-capture, two-tier patient-tracking, and enrollment pipeline.</p>
   </div>
 
   <div class="post-body">
 
+    <h2>Full System Integration Test (15th in the Series)</h2>
+    <p>Every module wired onto the actual assembled chassis — except GSM and the drive motors — was brought together into one sketch for the first time, to catch the kind of integration issue that standalone module tests (9th–13th) can't reveal: a shared I2C bus, SPI timing conflicts, pin conflicts, or combined power draw problems.</p>
+
     <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 09's work is complete and written up.</p>
+      <p><strong>Included:</strong> buzzer, I2C LCD, RFID access control, 4×4 keypad, 2× PIR, DS18B20 temperature, DS3231 RTC, and the 6× HC-SR04 ultrasonic ring (sensing/logging only). <strong>Deliberately excluded:</strong> GSM stays out per the current plan, and the drive motors are declared in the pin map for documentation but never actuated — the current motors don't have enough torque at low PWM and are being replaced (see below). This is a new file; <code>cara_main_mega.ino</code> itself was not touched, per the standing rule of never editing the real firmware directly.</p>
+    </div>
+
+    <p>Two things were added that hadn't been tested before: a hardcoded one-shot medication-reminder alert two minutes after boot (buzzer + LCD prompt, acknowledged with the keypad's <code>*</code>), as a first check that the alert mechanism itself works before building a real keypad-driven schedule UI around it — and RTC time correction over serial, so the DS3231 clock can be set without a recompile.</p>
+
+    <div class="code-block">
+<span class="c">// Set the RTC over serial while connected to the laptop — no recompile needed</span>
+SETTIME 2026 08 10 14 30 00
+    </div>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>Full integration test running on the assembled chassis — LCD, RFID, keypad, PIR, and sensor ring wired together on one sketch.</figcaption>
+    </figure>
+
+    <h2>RFID Comes Back Unresponsive — Diagnosed at the Wiring Level</h2>
+    <p>The RFID reader kept reading <code>VersionReg = 0x00</code> through the MFRC522 library during the integration test — which only says "not responding," with no detail on why. A dedicated diagnostic sketch was built to bypass the library entirely and bit-bang the SPI protocol by hand, printing every bit that comes back on MISO:</p>
+
+    <ul>
+      <li>MISO never changes across all 8 bits → that line is dead/disconnected, or the chip has no power / isn't responding at all.</li>
+      <li>MISO changes but the result still isn't a real value → communication is happening at the pin level, so the fault is elsewhere (RST line, timing, or a damaged chip).</li>
+      <li>A real value (<code>0x91</code>/<code>0x92</code>) suddenly comes back → the pins are actually fine, and the library-based test may have hit a transient/init issue worth re-confirming.</li>
+      <li>As an extra cross-check, the same wiring was also swapped onto otherwise-unused Mega pins and re-tested on a separate Uno rig, to rule out the specific SPI pins (53/52/51/50/49) themselves being damaged.</li>
+    </ul>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>Serial monitor output from the raw-SPI RFID diagnostic — reading MISO bit by bit instead of trusting the library's summary.</figcaption>
+    </figure>
+
+    <h2>Obstacle Avoidance Retuned ("Gentle Walker" v2)</h2>
+    <p>The obstacle-avoidance sketch was revised based on real bench-test feedback from the first version, which was triggering "blocked" almost everywhere in a normal room and stalling out at the chosen motor speed:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Parameter</th><th>v1</th><th>v2</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>STOP_DIST</td><td>60 cm</td><td>12 cm</td><td>v1 flagged "blocked" almost everywhere in a normal room</td></tr>
+          <tr><td>MOTOR_SPEED</td><td>150</td><td>70</td><td>Motors have a minimum PWM floor below which they stall — needs re-tuning once the motors are replaced</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>There's no true PID controller here — that needs a feedback sensor (wheel encoders or a gyro) that isn't wired in yet. What smooths the motion instead is open-loop ramping: speed changes gradually over a few hundred milliseconds rather than jumping instantly, which is what actually produces calm, non-startling movement for a companion robot meant to move around elderly users. A small tie-breaker was also added so the left/right turn choice doesn't flip-flop forever when both sides look equally blocked, plus a standalone <code>live_proximity_view.py</code> tool for watching the sensor ring in real time on a laptop.</p>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>live_proximity_view.py showing the 6× HC-SR04 ring in real time during a bench retune pass.</figcaption>
+    </figure>
+
+    <h2>Perception Pipeline: the <code>cara_jetson</code> ROS2 Package Grows</h2>
+    <p>Last week's placeholder scaffold turned into real nodes: <code>camera_node</code> captures webcam frames and publishes them as ROS2 <code>Image</code> messages on <code>/cara/camera/image_raw</code> at 15 fps — the one piece of the pipeline with zero dependency on the Arduino link. <code>person_tracker_node</code> keeps a continuous lock on the patient using two cooperating tiers: face detection first, falling back after a few consecutive missed frames to color-blob detection of a bright, highly-saturated wristband that's chosen specifically to still segment well in low light. While band-locked, face detection keeps retrying inside a region of interest expanded around the band's position, so the band anchors quick re-acquisition of the face instead of losing the patient outright — states are <code>FACE</code>, <code>BAND</code>, or <code>LOST</code>, published for downstream nodes (motion control, fall detection) to hold position on rather than guess.</p>
+
+    <p>A companion <code>enroll_patient_node</code> is a keyboard-driven admin tool — capture a photo with <code>C</code>, train the recognition model with <code>T</code>, reset with <code>R</code>, quit with <code>Q</code> — that writes to disk so enrollment survives a reboot and only needs doing once per patient. <code>fall_detection_node</code> is still a placeholder that just confirms the package builds and runs end-to-end; per the standing rule of never editing the existing main scripts directly, it will eventually <strong>wrap</strong> the real logic in <code>Skeleton_Analysis/fall_detection.py</code> rather than duplicate it.</p>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>enroll_patient_node's on-screen capture UI during a training pass — face box, capture count, and controls overlaid on the live feed.</figcaption>
+    </figure>
+
+    <h2>Also This Week</h2>
+    <p>A smaller fix landed alongside the above: <code>remote_control.py</code> was using a hardcoded test-video file instead of the live webcam by default — now fixed to use the actual camera.</p>
+
+    <h2>What Did Not Go Well</h2>
+    <p>The drive motors are now confirmed inadequate rather than just suspected — the obstacle-avoidance retune can't be properly validated on real hardware until they're replaced. The RFID diagnostic sketch is built, but it hasn't been run against real hardware yet to get a conclusive read on which of the three failure modes this actually is. GSM SMS-send / network-registration testing, open since Week 06, still hasn't been picked back up.</p>
+
+    <h2>Week 09 Checklist</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Full system integration test sketch built (all modules but GSM/motors)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Medication reminder alert + RTC serial time-set tested</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>RFID raw-SPI diagnostic sketch built</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>RFID root cause confirmed on real hardware</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Obstacle avoidance v2 retuned ("gentle walker")</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Drive motor replacement</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>cara_jetson: camera_node + person_tracker_node + enroll_patient_node built</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>fall_detection_node wired to real Skeleton_Analysis logic</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>A7670C SMS send / network registration test</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 09 — Full Integration Test & Perception Pipeline">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-08.html" style="color:var(--primary);">← Previous: Week 08 — Camera Tower Complete</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-10.html" style="color:var(--primary);">Next: Week 10 — Remote Control Hardened →</a>
   </div>
 
 </main>

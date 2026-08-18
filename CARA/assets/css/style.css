@@ -566,6 +566,15 @@ html.light .post-callout.accent { background: rgba(184,88,24,.06); }
 .post-image img { width: 100%; border-radius: var(--r-lg); border: 1px solid var(--border); display: block; }
 .post-image figcaption { font-size: .78rem; color: var(--muted); margin-top: .5rem; font-family: var(--font-mono); }
 .post-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.post-image-placeholder {
+  width: 100%; aspect-ratio: 16/9; border-radius: var(--r-lg);
+  border: 1px dashed var(--border); background: rgba(127,127,127,.04);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem;
+  color: var(--muted); text-align: center; padding: 1rem;
+}
+.post-image-placeholder .ph-icon { font-size: 1.6rem; opacity: .55; }
+.post-image-placeholder .ph-text { font-family: var(--font-mono); font-size: .78rem; }
+html.light .post-image-placeholder { background: rgba(0,0,0,.02); }
 .post-video { margin: 2rem 0; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); }
 .post-video video, .post-video iframe { width: 100%; display: block; aspect-ratio: 16/9; }
 .post-chart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.5rem; margin: 2rem 0; }
