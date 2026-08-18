@@ -10,12 +10,28 @@
 
 var POSTS = [
   {
+    file:    'week-11.html',
+    week:    'Week 11',
+    date:    '21–27 Aug 2026',
+    title:   'Week 11 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
+    file:    'week-10.html',
+    week:    'Week 10',
+    date:    '14–20 Aug 2026',
+    title:   'Remote Control Hardened for Always-On Service, IP Display Groundwork Laid',
+    excerpt: 'remote_control.py made robust for systemd: real network-interface enumeration replacing a single guessed IP, plus camera/serial auto-reconnect. Groundwork laid for showing CARA\'s IP on an LCD, and reference notes written for a second LCD wired directly to the Jetson. Still in progress.',
+    tags:    [['Software','green'],['In Progress','high']]
+  },
+  {
     file:    'week-09.html',
     week:    'Week 09',
     date:    '7–13 Aug 2026',
-    title:   'Week 09 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Full Integration Test Finds RFID & Motor Issues, Perception Pipeline Scaffolding Begins',
+    excerpt: 'A full-system integration sketch brought every chassis module (bar GSM and the drive motors) onto one board, surfacing an unresponsive RFID reader and underpowered drive motors. The cara_jetson ROS2 package grew a real camera, two-tier patient-tracking, and enrollment pipeline.',
+    tags:    [['Hardware','orange'],['AI / Vision','teal'],['Complete','green']]
   },
   {
     file:    'week-08.html',

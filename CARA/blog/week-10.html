@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DX08C95RT5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DX08C95RT5');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CARA Week 10 (in progress) — remote_control.py hardened for always-on systemd operation with real interface enumeration and auto-reconnect, plus groundwork and reference notes for on-demand IP displays.">
+<title>Week 10 — CARA Blog</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav"></nav>
+
+<main class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">CARA</a><span class="sep">›</span>
+    <a href="./">Blog</a><span class="sep">›</span>
+    Week 10
+  </div>
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span class="post-date">14–20 Aug 2026</span>
+      <span class="tag tag-blue">Week 10</span>
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-amber">In Progress</span>
+    </div>
+
+    <h1>Remote Control Hardened for Always-On Service, IP Display Groundwork Laid</h1>
+
+    <p class="page-subtitle"><code>remote_control.py</code> was made robust enough to run unattended as a systemd service — real network-interface enumeration instead of a single guessed IP, and auto-reconnecting camera/serial links. Alongside it, groundwork and reference notes went in for two separate ways to eventually show CARA's IP on an LCD. This post is still in progress and will be filled in further as the week continues.</p>
+  </div>
+
+  <div class="post-body">
+
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2><code>remote_control.py</code> Hardened for Always-On systemd Service</h2>
+    <p>Two reliability gaps mattered now that this script runs as an always-on systemd service rather than something started by hand: how it finds its own IP, and what happens when the camera or Arduino isn't available yet.</p>
+
+    <p>IP detection previously used <code>socket.gethostbyname(gethostname())</code>, which guesses a single IP and is unreliable on this dual-NIC machine. It's now replaced with real interface enumeration via <code>ip -4 -o addr show</code>, filtering out loopback/docker/virtual interfaces, and prints <strong>all</strong> live IPs (Wi-Fi and Ethernet) at startup — no more guessing which one to actually use.</p>
+
+    <p>Camera and serial connections previously connected once at startup and gave up permanently if unavailable. As a systemd service, the Arduino or camera may not be plugged in yet when the service starts, or may get unplugged and replugged later — so both now auto-reconnect instead of failing for good.</p>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>remote_control.py startup on the Jetson, printing every live interface IP instead of a single guessed one.</figcaption>
+    </figure>
+
+    <h2>Groundwork for an On-Demand IP Display</h2>
+    <p>On every serial (re)connect, <code>remote_control.py</code> now sends a <code>SET_IPS</code> command to the Arduino with the current IP(s). <code>cara_main_mega.ino</code> doesn't act on this yet — it's currently ignored by <code>handleCommand()</code> — so this is groundwork only. Acting on it for real needs a new sketch (not an edit to the real firmware) and real hardware to build and test against, tracked as a separate follow-up.</p>
+
+    <h2>Reference Notes: a Second LCD Wired Directly to the Jetson</h2>
+    <p>There are now two separate, unrelated ideas for showing the IP on an LCD, worth keeping distinct so they don't get conflated:</p>
+
+    <ol>
+      <li>The Arduino's existing 16×2 LCD, driven by the <code>SET_IPS</code> serial command above — not built yet.</li>
+      <li>A <em>second, separate</em> LCD wired straight to the Jetson's own I2C pins, with no Arduino involved at all — this is the one that could stay on-screen permanently, since it isn't competing with the Arduino LCD's state-machine, greeting, and alert messages.</li>
+    </ol>
+
+    <p>Notes-only for now — nothing is wired or installed. The same PCF8574-backpack-style 16×2 I2C LCD already used on the Arduino side would work here too, since it's a standard I2C peripheral with nothing Arduino-specific about it.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Signal</th><th>Physical pin (40-pin header)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>3.3V power</td><td>Pin 1 (or Pin 17)</td></tr>
+          <tr><td>I2C SDA</td><td>Pin 3</td></tr>
+          <tr><td>I2C SCL</td><td>Pin 5</td></tr>
+          <tr><td>GND</td><td>Pin 6 (also 9, 14, 20, 25, 30, 34, 39)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The bus number needed on-device confirmation rather than a guess: checking this Jetson's available I2C adapters points to <strong>/dev/i2c-7</strong> (<code>c250000.i2c</code>) as the most likely match for the 40-pin header's I2C — flagged as a candidate, not yet confirmed, until real hardware is attached and tested.</p>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>Jetson 40-pin header with the I2C pins called out, once the second LCD is actually wired up.</figcaption>
+    </figure>
+
+    <h2>What Did Not Go Well</h2>
+    <p>Nothing broke this week, but several items carried over stay open: the Arduino side of <code>SET_IPS</code> isn't implemented, the RFID root cause from <a href="week-09.html">Week 09</a> still hasn't been confirmed on real hardware, the drive motors still need replacing, and GSM SMS/registration testing remains untouched.</p>
+
+    <h2>Week 10 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Real network-interface enumeration (replacing single-IP guess)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Camera / serial auto-reconnect for systemd operation</td><td class="yes">✓ Complete</td></tr>
+          <tr><td><code>SET_IPS</code> sent to Arduino on serial (re)connect</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Arduino-side handling of <code>SET_IPS</code> (LCD IP display)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Jetson-side I2C LCD reference notes written</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Jetson I2C bus number confirmed on real hardware</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 10 — Remote Control Hardened">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
+  <hr>
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
+    <a href="week-09.html" style="color:var(--primary);">← Previous: Week 09 — Full Integration Test</a>
+    <a href="./">All Posts</a>
+    <a href="week-11.html" style="color:var(--primary);">Next: Week 11 — Coming Soon →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="./">Blog</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../../">Portfolio</a>
+  </div>
+  <p>CARA Project · Jayashanka Anushan · 2026</p>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
