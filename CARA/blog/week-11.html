@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 11 — Coming soon.">
+<meta name="description" content="CARA Week 11 (in progress) — real Jetson firmware with a live-caught STOP safety bug fixed, patient enrollment goes keypad/mobile, fall detection is gated to the tracking lock, and the full autonomous pipeline — camera to person tracking to motion control to the Arduino — runs live end to end for the first time.">
 <title>Week 11 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,178 @@
     <div class="post-meta">
       <span class="post-date">21–27 Aug 2026</span>
       <span class="tag tag-blue">Week 11</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 11 — Coming Soon</h1>
+    <h1>Jetson Drives &amp; Displays Its Own IP — Real Firmware, a Live-Caught Safety Bug, and ROS2 Nodes Go Live</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">The Jetson-side IP-display idea sketched as reference notes in <a href="week-10.html">Week 10</a> became real, working code this week — confirmed live on hardware, not just on paper. A bare-minimum motor-control sketch let driving be bench-tested from the Jetson alone, with a speed slider added to the web UI. A real <code>cara_main_jetson.ino</code> firmware pulled all of that together — and a live incident during testing caught a genuine safety bug in how <code>STOP</code> worked. Patient enrollment moved onto the keypad and mobile web UI, fall detection was scoped to only run while actually tracking the patient, and the week's biggest moment: the full autonomous pipeline — camera → person tracking → motion decisions → the real Arduino — ran live, end to end, for the first time. This post is still in progress and will be filled in further as the week continues.</p>
   </div>
 
   <div class="post-body">
 
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2><code>ip_display_lcd.py</code> — the Jetson-Side IP Display, For Real This Week</h2>
+    <p>Week 10 left this as notes only. This week it became a working script: a 16×2 I2C LCD wired straight to the Jetson's 40-pin header — no Arduino involved at all — cycling through every live network interface's IP (and the real Wi-Fi SSID where relevant) every few seconds. It's meant to run automatically at boot via systemd, so the IP is visible immediately without needing to already be connected remotely — solving the chicken-and-egg problem of needing the IP to connect, but needing to connect to see it.</p>
+
+    <p>Building it for real surfaced exactly why Week 10 flagged the I2C bus as a guess rather than a fact: the candidate was <code>/dev/i2c-7</code>, and live testing confirmed that guess correct — bus 7, address <code>0x27</code>, clean single-device read via <code>i2cdetect -y -r 7</code>. Two other rough edges got fixed once it was actually running: the first SSID-lookup method (<code>nmcli dev wifi</code>) occasionally triggered a real background scan and stalled the display loop for up to ~12 seconds, so <code>iwgetid -r</code> (reads the kernel's current association directly, never scans) is now tried first, with <code>nmcli</code> only as a fallback. A docker0/veth/virtual-interface filter that Week 10's notes described was also actually wired up in the real code this time.</p>
+
     <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 11's work is complete and written up.</p>
+      <p><strong>Also worth knowing:</strong> if LCD characters look faint or incomplete (a classic symptom is the vertical stroke of a "T" not showing), that's a contrast problem, not a backlight problem — there's no software control for it on a standard PCF8574 backpack. It's a physical trimmer potentiometer on the backpack board, adjusted by hand while the display is live.</p>
+    </div>
+
+    <h2>Bench-Testing Driving From the Jetson — Without the Rest of the System</h2>
+    <p>A new bare-minimum sketch, <code>SixteenthTest_JetsonDirectControl</code>, strips motor control down to just that — no ultrasonic gating, PIR, LCD, RFID, keypad, servo, buzzer, or RTC — so driving via <code>remote_control.py</code> can be bench-tested in isolation from everything else. It understands the same serial vocabulary the web UI already sends (<code>MOVE_FORWARD</code>, <code>MOVE_BACKWARD</code>, <code>TURN_LEFT</code>, <code>TURN_RIGHT</code>, <code>STOP</code>, <code>SET_SPEED:&lt;0-255&gt;</code>), so no Jetson-side changes were needed to drive it. Per the standing rule, <code>cara_main_mega.ino</code> itself was left untouched — this is a separate bring-up sketch.</p>
+
+    <p>Motion is ramped rather than instant — PWM steps toward the target speed gradually, and a direction reversal ramps down to a stop first before ramping up the other way, instead of flipping the H-bridge polarity while still moving. Adding LCD output to this same sketch was tried and reverted: enabling it made the board hang completely on boot, with no serial output at all. That points to a real I2C bus problem — most likely the LCD not actually being powered on this rig, since an unpowered bus with no pull-ups can make the AVR's blocking <code>Wire</code> calls hang forever — not a code bug. Restoring it needs the physical connection checked first.</p>
+
+    <h2>A Speed Slider Lands in the Web UI</h2>
+    <p>To go with the new direct-control sketch, <code>remote_control.py</code>'s web interface got a speed slider (0–100%), debounced so dragging it doesn't flood the serial link with a new <code>SET_SPEED</code> command on every pixel of movement. The percentage maps to a 0–255 PWM value sent to the Arduino. Worth noting honestly: at very low percentages the motors may just buzz without actually turning — that's the same motor-torque limitation flagged back in <a href="week-09.html">Week 09</a>, not a bug in the new slider.</p>
+
+    <h2>Combined Test: RFID + LCD + Buzzer (17th Test)</h2>
+    <p><code>SeventeenthTest_LCD_RFID_Buzzer</code> brings the newly-fixed RFID and LCD together in one sketch: the LCD shows "Ready – tap tag" by default, and tapping a tag shows its UID plus an accepted/rejected result, with the same buzzer accept/reject pattern as <code>TwelfthTest_RFIDAccessControl</code> and Week 10's <code>KnownTags.md</code> UID list. The LCD returns to the ready message automatically after a few seconds. It runs on the same bit-banged driver (SDA=20, SCL=A0) introduced in Week 10 to work around the damaged hardware SCL pin.</p>
+
+    <h2><code>cara_main_jetson.ino</code> — Real Firmware, and a Safety Bug Caught Live</h2>
+    <p>Everything bench-tested this week (ramped/speed-controllable motors from the Sixteenth test, the bit-banged LCD from the Seventeenth test) came together into a real new sketch, <code>cara_main_jetson.ino</code> — again a new file, with <code>cara_main_mega.ino</code> itself left untouched per the standing rule. Building it surfaced two pre-existing bugs in <code>cara_main_mega.ino</code> that stop it compiling on this toolchain at all — an <code>IDLE</code>/keypad name collision and an <code>lcd.begin()</code> argument mismatch — confirmed unrelated to anything done this session, just found along the way. Obstacle avoidance was adapted from that same file's ultrasonic logic (fixed, not copied broken), and the LCD now flashes <code>CMD RECEIVED:</code> on every command and <code>BLOCKED!</code> on a refused one — enough to tell "reached the Arduino but didn't move" apart from "never reached the Arduino" at a glance. The Sixteenth test's L/R motor polarity also turned out to be backwards from <code>cara_main_mega.ino</code>'s documented pattern — caught and fixed via real driving tests, not assumed correct.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Safety fix, found live:</strong> <code>STOP</code> was only zeroing target speed, not target direction. A real incident during testing showed why that matters — after a <code>STOP</code>, the last direction was still "remembered," so a later, unrelated <code>SET_SPEED</code> (even just nudging the web UI's speed slider) could silently re-arm movement in that stale direction with no <code>MOVE_*</code> command anywhere nearby. Root-caused from live <code>journalctl</code> logs, not guessed — <code>STOP</code> now resets both.</p>
+    </div>
+
+    <h2><code>remote_control.py</code>: Closing the Debug Loop, Fixing a Real Threading Bug</h2>
+    <p><code>_send()</code> now reads back the Arduino's actual <code>OK:</code>/<code>BLOCKED:</code>/<code>IGNORED</code> response instead of just logging "sent X" — <code>journalctl -u cara-remote-control -f</code> now shows the full round trip, not just the outbound half. Building that surfaced a real concurrency bug: two Flask request threads could read the same serial stream at once, each waiting on a response line the other had already consumed — reproduced live as a genuine 120+ second hung request, not a hypothetical. Fixed by wrapping all serial access in a lock. Separately, the systemd service now sets <code>PYTHONUNBUFFERED=1</code> — Python fully buffers stdout when it isn't attached to a TTY, which is what was silently delaying <code>print()</code> output in the logs; that one line is what makes "live log" actually live.</p>
+
+    <h2>ROS2 Nodes Get Real: Bridge, Motion Controller, and Fall Detection</h2>
+    <p>Three <code>cara_jetson</code> nodes moved from placeholder to real logic this week, each tested as far as possible without disrupting active teleoperation:</p>
+
+    <ul>
+      <li><strong><code>arduino_bridge_node</code></strong> — intended to become the sole owner of the serial port going forward. <code>remote_control.py</code> is <strong>not</strong> yet rewired to use it and still writes serial directly, so the two must not run against <code>/dev/ttyACM0</code> at the same time. Built with this week's concurrency lesson baked in from the start — a short 50ms read timeout so the read loop can't starve command writes of the lock.</li>
+      <li><strong><code>motion_controller_node</code></strong> — arbitrates a face/band tracking target into a drive command. <code>autonomous_enabled</code> defaults to <code>False</code> (dry-run: logs decisions, never publishes) — deliberately, since no patient is enrolled yet, no wristband exists yet, <code>remote_control.py</code> isn't ROS2-integrated (so it has no way to yield to a human driver), and the <code>STOP</code> bug above was found the same day. All four decision branches (<code>TURN_LEFT</code> / <code>MOVE_FORWARD</code> / <code>MOVE_BACKWARD</code> / <code>STOP</code>) were verified live via manual topic publishes.</li>
+      <li><strong><code>fall_detection_node</code></strong> — real logic at last, correctly wrapping <code>fall_detection.py</code>'s <code>FallTracker</code> / <code>get_body_signals</code> / <code>get_fall_confidence</code> / <code>load_classifier</code>. It publishes <code>FALL_DETECTED</code> straight to <code>/cara/drive_cmd</code>, not gated behind <code>autonomous_enabled</code> — a real fall should always reach the Arduino. Import-verified against the real module; live camera testing is blocked for now by the camera device already being in use elsewhere (same busy-device constraint as the serial port).</li>
+    </ul>
+
+    <h2>Patient Enrollment Goes Keypad + Mobile — No Desktop GUI Needed</h2>
+    <p>An explicit requirement — enrollment must not need a monitor, mouse, and keyboard sitting at the Jetson — landed this week with two equivalent trigger paths that both land on the same code: the physical keypad (<strong>A</strong> = capture, <strong>B</strong> = train, <strong>D</strong> = reset — deliberately not <strong>C</strong>, since the keypad's 7/8/9/C row is a known-dead row confirmed during earlier hardware testing) and matching buttons in the mobile web UI.</p>
+
+    <p>The keypad path runs through the firmware: <code>cara_main_jetson.ino</code> reports A/B/D as <code>ENROLL:CAPTURE</code>/<code>TRAIN</code>/<code>RESET</code> over serial, which <code>remote_control.py</code>'s background serial reader picks up and routes into the exact same capture/train/reset functions the web buttons call directly. Every keypress also flashes a confirmation on the robot's own LCD (e.g. "ENROLL: Capture"), reusing the same flash-message mechanism already built for drive commands. Both paths write to the same <code>patient_data/</code> directory — <code>raw_photos/</code> and a trained <code>patient_model.yml</code> — that <code>person_tracker_node</code> reads from, regardless of which path enrollment happened through. A new <code>PERSON_TRACKING_AND_FALL_DETECTION_WORKFLOW.md</code> documents the full enroll → track → fall-detect pipeline end to end.</p>
+
+    <div class="post-callout">
+      <p><strong>Known manual step:</strong> <code>person_tracker_node</code> only loads the recognition model at startup — after training a new one, it currently needs a restart to pick it up. Not automatic yet.</p>
+    </div>
+
+    <h2>Fall Detection Now Gated to the Tracking Lock</h2>
+    <p><code>fall_detection_node</code> now subscribes to <code>person_tracker_node</code>'s lock state (<code>FACE</code>/<code>BAND</code>/<code>LOST</code>) and only runs MediaPipe pose detection while actually locked onto the patient. While <code>LOST</code>, it publishes <code>"No target"</code> and skips pose detection entirely, instead of flagging a fall for whoever happens to be in frame regardless of who's being tracked — both a safety fix and a CPU saving, since MediaPipe never runs on frames that weren't trustworthy anyway.</p>
+
+    <p>Two distinct, deliberately different statuses come out of this: <strong>"No target"</strong> means not locked onto the patient right now, so detection was deliberately skipped; <strong>"No person"</strong> means the node was locked and looked, but MediaPipe just didn't find a pose in that frame. Still open: while <code>BAND</code>-locked (face/pose struggling), the patient's body isn't guaranteed to be well-framed for pose estimation either — locking via the band doesn't guarantee a usable skeleton, and that's not solved yet.</p>
+
+    <h2>Web UI Gets a Photo Gallery and a Live Face-Tracking View</h2>
+    <p>The enrollment buttons now sit above a thumbnail grid of captured photos, each with its own delete (×), refreshing after every capture/train/reset and on a timer. The new <code>/enroll/photos</code> and <code>/enroll/photo/&lt;name&gt;</code> endpoints validate filenames against what's actually on disk rather than trusting the URL segment, so a crafted filename can't path-traverse out of the photos directory.</p>
+
+    <p>A new checkbox toggles the main camera view between the plain feed and <code>/tracking_feed</code>, which draws a circle around any detected face — green if the LBPH model recognizes the patient, orange otherwise. It's built natively into <code>remote_control.py</code>, reusing the same frame buffer the rest of the UI already holds, rather than standing up a second ROS2 <code>camera_node</code> that would just hit the same "device busy" conflict enrollment already sidesteps. The recognizer itself reloads whenever <code>patient_model.yml</code>'s modified time changes, so retraining from the gallery's Train button takes effect on the very next frame — no restart needed here, unlike <code>person_tracker_node</code>'s own model load, which still only happens at startup. The video generator only runs while a browser actually has the tracking view open, so leaving the checkbox off costs zero extra Haar/LBPH work.</p>
+
+    <p>A first version of this made the face-tracking and skeleton/fall-detection overlays mutually exclusive — a design choice made without asking — and was corrected to draw both on the same frame once asked why.</p>
+
+    <h2>Keypad Alert Control: <code>#</code> to Panic, <code>*</code> to Silence</h2>
+    <p>The keypad's <code>#</code> and <code>*</code> keys — unused in <code>cara_main_jetson.ino</code> until now — are wired to the alert system: <code>#</code> triggers a manual panic alert, identical to a real <code>FALL_DETECTED</code>, and <code>*</code> acknowledges and silences it. This matches <code>cara_main_mega.ino</code>'s original intended behavior for those two keys, which the buzzer previously had no way to be silenced without a serial <code>RESET</code> or waiting out the 30-second timeout. The shared logic was refactored into <code>triggerAlert()</code>/<code>clearAlert()</code> so the serial (<code>FALL_DETECTED</code>/<code>RESET</code>) and keypad (<code>#</code>/<code>*</code>) paths can't drift apart from each other over time.</p>
+
+    <h2>First Full Autonomous Pipeline Test — Live, End to End</h2>
+    <p>The whole chain — <code>camera_node</code> → <code>person_tracker_node</code> → <code>motion_controller_node</code> → <code>arduino_bridge_node</code> → the real Arduino — ran live for the first time this week, confirmed working end to end: <code>STOP</code> commands correctly published, relayed, and executed, matching what the Arduino itself reported back. Getting there took a real bug fix: <code>motion_controller_node</code>'s rate-limit check compared "now" against a timestamp it had just set to "now" two lines above, so it was always true — drive decisions were being computed correctly but never actually reaching <code>publish()</code> while <code>autonomous_enabled</code> was on. Found because the node logged nothing past its own startup line on the first live attempt; fixed by removing the redundant check and relying on the existing "same command within 2s" dedup as the rate limit. Turning left or right now always arms at full speed (<code>SET_SPEED:255</code>, sent once when autonomous mode engages) rather than depending on whatever speed happened to be left over from earlier teleop testing.</p>
+
+    <p>A new <code>debug_viewer_node</code> — a lightweight standalone MJPEG server — lets a phone watch any ROS2 debug-image topic live without needing the full <code>remote_control.py</code> web UI (which can't run alongside <code>camera_node</code> anyway, the same device-conflict class as everywhere else this week). It now overlays the live drive decision and the Arduino's actual reported direction/speed directly on the video, so one view answers both "is it seeing me" and "what is it telling the robot to do" — added after debugging blind via terminal logs alone turned out to be impractical.</p>
+
+    <p>Separately, the long-dead bug in <code>remote_control.py</code>'s own background fall-detection thread — a wrong import path and function names that don't exist in <code>fall_detection.py</code>, silently failing every session — is now actually fixed, confirmed via a live CPU increase and a working <code>/skeleton_status</code> endpoint. And enrollment got its first real trial: 11 real photos captured, the LBPH model trained, and a 232/232 clean <code>FACE</code> lock over a 20-second window facing the camera directly. One limitation surfaced doing that: recognition is sensitive to pose angle — looking down at a phone instead of at the camera can drop the match even against the same trained model.</p>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>The LCD-on-<code>SixteenthTest_JetsonDirectControl</code> attempt hung the board outright and had to be reverted, rather than just failing gracefully. The wristband color used for the tracking fallback is still a placeholder (bright magenta/pink) — not tuned against an actual physical band, which itself hasn't been built yet. <code>remote_control.py</code> still writes directly to the Arduino's serial port instead of publishing to <code>/cara/drive_cmd</code>, which means the web UI's manual teleop and the ROS2 autonomous stack still can't run at the same time. The decision logic behind autonomous left/right centering is now proven correct end-to-end (including today's live bug fix), but a session-ending time crunch meant an actual "robot physically turned to recenter on a person" moment was never directly observed — worth confirming first thing next session. Carried-over open items: the Arduino side of the original <code>SET_IPS</code> LCD-display idea from Week 10 still isn't implemented, the DS3231 RTC is still disabled on the damaged bus, and the drive motors' replacement status wasn't reconfirmed today.</p>
+
+    <h2>Week 11 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Jetson-side I2C LCD IP display working on real hardware (bus 7 confirmed)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Boot-time systemd service documented for the IP display</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Bare-minimum Jetson-driven motor control sketch (Sixteenth test)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LCD on the direct-control sketch</td><td class="no">⏳ Reverted — bus hang, needs hardware check</td></tr>
+          <tr><td>Speed slider added to remote_control.py web UI</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Combined RFID + LCD + buzzer test (Seventeenth test)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>cara_main_jetson.ino built (motors + LCD + obstacle avoidance combined)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>STOP safety bug (stale targetDir) found live and fixed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>remote_control.py response readback + threading lock fix</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>arduino_bridge_node, motion_controller_node, fall_detection_node built</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Keypad + mobile web patient enrollment (no desktop GUI)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Fall detection gated to person_tracker_node's lock state</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>PERSON_TRACKING_AND_FALL_DETECTION_WORKFLOW.md written</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Web UI photo gallery (view/delete) + live tracking view toggle</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Keypad #/* wired to panic alert / acknowledge</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>motion_controller_node rate-limit bug found live and fixed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full autonomous pipeline verified live, end to end (camera → Arduino)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>debug_viewer_node built (phone-viewable MJPEG + drive-decision overlay)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>remote_control.py's own fall-detection import bug fixed for real</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>First real patient enrolled (11 photos, LBPH trained, 232/232 FACE lock)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Physical wristband built</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Wristband color tuned against a real physical band</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>person_tracker_node auto-reloads model after training (no restart)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>remote_control.py migrated onto /cara/drive_cmd (ROS2 integration)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Physical "turned to recenter" moment directly observed and confirmed</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Recognition robustness to pose angle</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Arduino-side SET_IPS handling (Week 10's original LCD-display idea)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>DS3231 RTC re-enabled on a working bus</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
 
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 11 — Jetson Drives, Displays Its IP, ROS2 Nodes Go Live">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
+
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
-    <a href="week-10.html" style="color:var(--primary);">← Previous: Week 10 — Remote Control Hardened</a>
+    <a href="week-10.html" style="color:var(--primary);">← Previous: Week 10 — Remote Control Hardened &amp; RFID Fixed</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-12.html" style="color:var(--primary);">Next: Week 12 — Coming Soon →</a>
   </div>
 
 </main>

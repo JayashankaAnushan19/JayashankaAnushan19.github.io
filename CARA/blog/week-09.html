@@ -59,11 +59,16 @@ SETTIME 2026 08 10 14 30 00
     </div>
 
     <figure class="post-image">
-      <div class="post-image-placeholder">
-        <span class="ph-icon">🖼</span>
-        <span class="ph-text">Photo placeholder — to be added</span>
-      </div>
-      <figcaption>Full integration test running on the assembled chassis — LCD, RFID, keypad, PIR, and sensor ring wired together on one sketch.</figcaption>
+      <img src="images/blog-09-full-integration-test.jpeg" alt="Fully assembled chassis with battery, wiring harness, and sensor ring connected, sitting on the floor for the full integration test">
+      <figcaption>The fully assembled chassis during the integration test — battery, wiring harness, and sensor ring connected together on one board.</figcaption>
+    </figure>
+
+    <h2>Power Regulation: Buck/Boost Converters Tuned and Fixed to the Chassis</h2>
+    <p>Before the full assembly test, the three buck/boost converters supplying the system needed their output voltages set and locked in: 6.6V for the GSM module, 5V for the Arduino, and 19V for the Jetson. Each was checked against a multimeter under load and adjusted until it held steady, then fixed onto the chassis rather than left loose on jumper wires.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-09-converter-voltage-tuning.jpeg" alt="Multimeter reading 6.60V across one of the buck/boost converter boards during voltage adjustment">
+      <figcaption>Converter output verified at 6.6V for the GSM rail before locking the trimmer and mounting the board to the chassis.</figcaption>
     </figure>
 
     <h2>RFID Comes Back Unresponsive — Diagnosed at the Wiring Level</h2>
@@ -77,11 +82,8 @@ SETTIME 2026 08 10 14 30 00
     </ul>
 
     <figure class="post-image">
-      <div class="post-image-placeholder">
-        <span class="ph-icon">🖼</span>
-        <span class="ph-text">Photo placeholder — to be added</span>
-      </div>
-      <figcaption>Serial monitor output from the raw-SPI RFID diagnostic — reading MISO bit by bit instead of trusting the library's summary.</figcaption>
+      <img src="images/blog-09-rfid-isolation-test-uno.jpeg" alt="Serial monitor output titled RFID Isolation Test on UNO, showing VersionReg = 0x0 and a message confirming the module itself needs replacing">
+      <figcaption>The Uno cross-check from the last bullet above: same RFID wiring, isolated onto a separate board — still <code>VersionReg = 0x0</code>, confirming the module itself, not the Mega's pins, is at fault.</figcaption>
     </figure>
 
     <h2>Obstacle Avoidance Retuned ("Gentle Walker" v2)</h2>
@@ -101,38 +103,23 @@ SETTIME 2026 08 10 14 30 00
 
     <p>There's no true PID controller here — that needs a feedback sensor (wheel encoders or a gyro) that isn't wired in yet. What smooths the motion instead is open-loop ramping: speed changes gradually over a few hundred milliseconds rather than jumping instantly, which is what actually produces calm, non-startling movement for a companion robot meant to move around elderly users. A small tie-breaker was also added so the left/right turn choice doesn't flip-flop forever when both sides look equally blocked, plus a standalone <code>live_proximity_view.py</code> tool for watching the sensor ring in real time on a laptop.</p>
 
-    <figure class="post-image">
-      <div class="post-image-placeholder">
-        <span class="ph-icon">🖼</span>
-        <span class="ph-text">Photo placeholder — to be added</span>
-      </div>
-      <figcaption>live_proximity_view.py showing the 6× HC-SR04 ring in real time during a bench retune pass.</figcaption>
-    </figure>
-
     <h2>Perception Pipeline: the <code>cara_jetson</code> ROS2 Package Grows</h2>
     <p>Last week's placeholder scaffold turned into real nodes: <code>camera_node</code> captures webcam frames and publishes them as ROS2 <code>Image</code> messages on <code>/cara/camera/image_raw</code> at 15 fps — the one piece of the pipeline with zero dependency on the Arduino link. <code>person_tracker_node</code> keeps a continuous lock on the patient using two cooperating tiers: face detection first, falling back after a few consecutive missed frames to color-blob detection of a bright, highly-saturated wristband that's chosen specifically to still segment well in low light. While band-locked, face detection keeps retrying inside a region of interest expanded around the band's position, so the band anchors quick re-acquisition of the face instead of losing the patient outright — states are <code>FACE</code>, <code>BAND</code>, or <code>LOST</code>, published for downstream nodes (motion control, fall detection) to hold position on rather than guess.</p>
 
     <p>A companion <code>enroll_patient_node</code> is a keyboard-driven admin tool — capture a photo with <code>C</code>, train the recognition model with <code>T</code>, reset with <code>R</code>, quit with <code>Q</code> — that writes to disk so enrollment survives a reboot and only needs doing once per patient. <code>fall_detection_node</code> is still a placeholder that just confirms the package builds and runs end-to-end; per the standing rule of never editing the existing main scripts directly, it will eventually <strong>wrap</strong> the real logic in <code>Skeleton_Analysis/fall_detection.py</code> rather than duplicate it.</p>
 
-    <figure class="post-image">
-      <div class="post-image-placeholder">
-        <span class="ph-icon">🖼</span>
-        <span class="ph-text">Photo placeholder — to be added</span>
-      </div>
-      <figcaption>enroll_patient_node's on-screen capture UI during a training pass — face box, capture count, and controls overlaid on the live feed.</figcaption>
-    </figure>
-
     <h2>Also This Week</h2>
     <p>A smaller fix landed alongside the above: <code>remote_control.py</code> was using a hardcoded test-video file instead of the live webcam by default — now fixed to use the actual camera.</p>
 
     <h2>What Did Not Go Well</h2>
-    <p>The drive motors are now confirmed inadequate rather than just suspected — the obstacle-avoidance retune can't be properly validated on real hardware until they're replaced. The RFID diagnostic sketch is built, but it hasn't been run against real hardware yet to get a conclusive read on which of the three failure modes this actually is. GSM SMS-send / network-registration testing, open since Week 06, still hasn't been picked back up.</p>
+    <p>The drive motors are now confirmed inadequate rather than just suspected — the obstacle-avoidance retune can't be properly validated on real hardware until they're replaced. The RFID diagnostic sketch is built, but it hasn't been run against real hardware yet to get a conclusive read on which of the three failure modes this actually is.</p>
 
     <h2>Week 09 Checklist</h2>
     <div class="table-wrap">
       <table>
         <tbody>
           <tr><td>Full system integration test sketch built (all modules but GSM/motors)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Buck/boost converters tuned (6.6V/5V/19V) and fixed to chassis</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Medication reminder alert + RTC serial time-set tested</td><td class="yes">✓ Complete</td></tr>
           <tr><td>RFID raw-SPI diagnostic sketch built</td><td class="yes">✓ Complete</td></tr>
           <tr><td>RFID root cause confirmed on real hardware</td><td class="no">⏳ In Progress</td></tr>
@@ -140,7 +127,6 @@ SETTIME 2026 08 10 14 30 00
           <tr><td>Drive motor replacement</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>cara_jetson: camera_node + person_tracker_node + enroll_patient_node built</td><td class="yes">✓ Complete</td></tr>
           <tr><td>fall_detection_node wired to real Skeleton_Analysis logic</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>A7670C SMS send / network registration test</td><td class="no">⏳ In Progress</td></tr>
         </tbody>
       </table>
     </div>

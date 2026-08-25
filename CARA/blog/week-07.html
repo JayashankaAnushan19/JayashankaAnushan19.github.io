@@ -53,6 +53,15 @@
 
     <p>This stretch of the week was mostly repetition rather than new problems: re-running the same AT-command checks to make sure the earlier voltage tuning wasn't a one-off fluke.</p>
 
+    <h2>A7670C SMS Send &amp; Network Registration — Confirmed Working</h2>
+    <p>Partway through the week the module was pushed past AT-command response and into an actual SMS round trip. A reset cycle (<code>AT+CFUN=0</code> then <code>AT+CFUN=1</code>) brought the radio up cleanly, and a <code>CEREG?</code> check confirmed network registration before anything else was attempted — no point sending against a radio that isn't actually on the network yet.</p>
+
+    <p>With registration confirmed, a test message was sent to a real phone number and came back <strong>"Sent."</strong> A reply arrived and was logged automatically moments later — a genuine two-way SMS round trip, not just transmit-and-hope. The same exchange was repeated a second time to rule out a fluke, and it held up both times.</p>
+
+    <div class="post-callout">
+      <p><strong>Note:</strong> the screenshots from this test session were lost to a later file-cleanup mistake, so there's no photo to show here — the result itself is confirmed and carried forward into every later post as done.</p>
+    </div>
+
     <h2>Camera Tower Assembly Starts</h2>
     <p>Towards the end of the week, assembly of the camera tower began — the pan/tilt housing and mounting hardware first sketched back in <a href="week-02.html">Week 02</a> and modelled in SolidWorks in <a href="week-04.html">Week 04</a>. Rather than assembling it fully before testing anything, sensor logic was tested as each piece went on, to catch wiring problems early instead of after the whole tower was sealed up.</p>
 
@@ -62,14 +71,14 @@
     </figure>
 
     <h2>What Did Not Go Well</h2>
-    <p>GSM bring-up is taking longer than the Week 06 pace suggested — AT-command response is solid, but the module hasn't been pushed to an actual SMS send or network registration test yet, so that's now carried two weeks running. Camera tower assembly also started later in the week than planned, since the GSM re-testing took priority once it became clear the full-breadboard wiring needed re-verifying.</p>
+    <p>Camera tower assembly started later in the week than planned, since GSM bring-up and the SMS round-trip test took priority once the full-breadboard wiring needed re-verifying. Otherwise a clean week — the SMS/registration test that had been the longest-open item since Week 06 is now resolved.</p>
 
     <h2>Week 07 Checklist</h2>
     <div class="table-wrap">
       <table>
         <tbody>
           <tr><td>A7670C re-tested on full breadboard wiring (module + Arduino + breadboard)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>A7670C SMS send / network registration test</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>A7670C SMS send / network registration test</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Camera tower assembly started</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Sensor logic integrated and tested mid-assembly</td><td class="yes">✓ Complete</td></tr>
         </tbody>

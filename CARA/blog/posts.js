@@ -10,20 +10,28 @@
 
 var POSTS = [
   {
+    file:    'week-12.html',
+    week:    'Week 12',
+    date:    '28 Aug–3 Sep 2026',
+    title:   'Week 12 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
     file:    'week-11.html',
     week:    'Week 11',
     date:    '21–27 Aug 2026',
-    title:   'Week 11 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Jetson Drives, Displays Its IP, ROS2 Nodes Go Live',
+    excerpt: 'Real Jetson firmware landed with a live-caught STOP safety bug fixed, patient enrollment moved to the keypad and mobile web UI (with a photo gallery and live tracking view), fall detection is gated to the tracking lock, and the full autonomous pipeline — camera to person tracking to motion control to the Arduino — ran live end to end for the first time. Still in progress.',
+    tags:    [['Software','green'],['In Progress','high']]
   },
   {
     file:    'week-10.html',
     week:    'Week 10',
     date:    '14–20 Aug 2026',
-    title:   'Remote Control Hardened for Always-On Service, IP Display Groundwork Laid',
-    excerpt: 'remote_control.py made robust for systemd: real network-interface enumeration replacing a single guessed IP, plus camera/serial auto-reconnect. Groundwork laid for showing CARA\'s IP on an LCD, and reference notes written for a second LCD wired directly to the Jetson. Still in progress.',
-    tags:    [['Software','green'],['In Progress','high']]
+    title:   'Remote Control Hardened, and the RFID Mystery from Week 09 Finally Solved',
+    excerpt: 'remote_control.py made robust for systemd: real network-interface enumeration and camera/serial auto-reconnect. The Mega\'s hardware I2C pin was found damaged and fixed with a bit-banged LCD driver, and along the way the RFID module was replaced and confirmed working.',
+    tags:    [['Hardware','orange'],['Software','green'],['Complete','green']]
   },
   {
     file:    'week-09.html',
@@ -38,7 +46,7 @@ var POSTS = [
     week:    'Week 08',
     date:    '31 Jul–6 Aug 2026',
     title:   'Camera Tower Complete — Full Assembly Testing Next',
-    excerpt: 'Camera tower assembly and the remaining chassis wire connections finished. Full assembly testing is next. This week is still in progress — post will be filled in further as the week continues.',
+    excerpt: 'Camera tower assembly and the remaining chassis wire connections finished, plus a reprinted camera pan gear fitted and tested. Full assembly testing is next. This week is still in progress — post will be filled in further as the week continues.',
     tags:    [['Hardware','orange'],['In Progress','high']]
   },
   {
@@ -46,7 +54,7 @@ var POSTS = [
     week:    'Week 07',
     date:    '24–30 Jul 2026',
     title:   'GSM Bring-Up Continues, Camera Tower Assembly Begins',
-    excerpt: 'A7670C GSM module re-tested on the full breadboard wiring — still solid on AT commands, SMS/network registration still open. Camera tower assembly started, with sensor logic integrated and tested as it went together.',
+    excerpt: 'A7670C GSM module re-tested on the full breadboard wiring, then confirmed working end-to-end with a real SMS send and network registration test. Camera tower assembly started, with sensor logic integrated and tested as it went together.',
     tags:    [['Hardware','orange'],['Complete','green']]
   },
   {
