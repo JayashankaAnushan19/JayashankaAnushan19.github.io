@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 12 — Coming soon.">
+<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit: empty sections, stale draft flags, and results that have fallen behind the real project, plus a draft-fill reference guide grounded in the actual build history.">
 <title>Week 12 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,105 @@
     <div class="post-meta">
       <span class="post-date">28 Aug–3 Sep 2026</span>
       <span class="tag tag-blue">Week 12</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-blue">Planning</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 12 — Coming Soon</h1>
+    <h1>Thesis Report Gets a Structural Audit — Gaps Found, Draft Guide Built</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">A break from firmware and ROS2 this week: the actual Thesis Report document got a full structural read, heading by heading, to find out what's genuinely missing versus just out of date. No code changes landed this session — this was a writing/documentation pass, not a build session. This post is still in progress and will be filled in further as the week continues.</p>
   </div>
 
   <div class="post-body">
 
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2>What the Structural Read Found</h2>
+    <p>Every heading level of the Thesis Report was reviewed to separate three genuinely different problems that "the report isn't finished" can mean:</p>
+
+    <ul>
+      <li><strong>Completely empty sections</strong> — Chapter 5's System Integration Evaluation, Objectives Achievement, and Limitations and Threats to Validity; all of Chapter 6; all six appendices, A through F.</li>
+      <li><strong>False alarms</strong> — two sections in Chapter 4 still marked <code>***draft</code> that, on closer read, turned out to already be complete. A labeling leftover, not a real gap.</li>
+      <li><strong>Sections that are filled but now factually behind the actual project</strong> — Hardware Implementation's I2C-bus description (predates the bit-banged LCD driver fix), GSM Integration ending on "procured" rather than describing the SMS system now confirmed working, Individual Feature Results covering only 2 of the 15 features, and Phase 1's exclusion list still claiming GSM and live fall-detection weren't done — both now are.</li>
+    </ul>
+
+    <p>Splitting the problem this way matters because each category needs a different fix: the false alarms just need their draft flag removed, the stale sections need updating to match reality rather than being rewritten from scratch, and the empty sections need real content written for the first time.</p>
+
+    <h2>A Draft-Fill Reference Guide, Grounded in the Real Project History</h2>
+    <p>For every gap found, a reference page (<code>thesis_fill_guide.html</code> — a local scratch file, not part of this repo) was put together with copy-paste-ready draft text for each section, written to match the report's existing academic tone rather than as placeholder filler. Grounded in what actually happened on this project: the RFID and LCD hardware-fault diagnoses, the SIM800L-to-A76xx GSM migration, motor torque sizing, the person-tracker/fall-detection lock-state gating, and keypad-plus-web patient enrollment — the same history this blog has been tracking week by week.</p>
+
     <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 12's work is complete and written up.</p>
+      <p><strong>Deliberately left for the user to write personally, not drafted:</strong> the Ethics Approval appendix, the Final Reflection section, and the wiring-diagram appendix — these need to be the author's own material, not generated on their behalf.</p>
+    </div>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>No code changes landed this session, so the engineering open items carried in from <a href="week-11.html">Week 11</a> are all still exactly where they were: the LCD power issue (suspected buck/boost converter) is unresolved, the "robot isn't moving" report is still undiagnosed, the physical wristband still hasn't been built, and a live "turned to recenter" observation still hasn't happened. None of that moved this week — the report audit was the whole session.</p>
+
+    <h2>Week 12 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Full structural read of the Thesis Report (every heading level)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Empty / stale / false-alarm sections categorized</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Draft-fill reference guide built for every identified gap</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Draft text actually pasted into the report</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Ethics Approval appendix (author-written)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Final Reflection section (author-written)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Wiring-diagram appendix (author-written)</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 12 — Thesis Report Structural Audit">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-11.html" style="color:var(--primary);">← Previous: Week 11 — Jetson Drives, Displays Its IP, ROS2 Nodes Go Live</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-13.html" style="color:var(--primary);">Next: Week 13 — Coming Soon →</a>
   </div>
 
 </main>

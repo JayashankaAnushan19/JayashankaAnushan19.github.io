@@ -10,20 +10,28 @@
 
 var POSTS = [
   {
+    file:    'week-13.html',
+    week:    'Week 13',
+    date:    '4–10 Sep 2026',
+    title:   'Week 13 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
     file:    'week-12.html',
     week:    'Week 12',
     date:    '28 Aug–3 Sep 2026',
-    title:   'Week 12 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Thesis Report Gets a Structural Audit — Gaps Found, Draft Guide Built',
+    excerpt: 'A break from firmware this week: a full structural read of the Thesis Report found completely empty sections, stale draft flags on sections that were actually done, and results sections that have fallen behind the real project. A draft-fill reference guide was built for every gap, grounded in the project\'s actual history. No code changes this session. Still in progress.',
+    tags:    [['Planning','blue'],['In Progress','high']]
   },
   {
     file:    'week-11.html',
     week:    'Week 11',
     date:    '21–27 Aug 2026',
     title:   'Jetson Drives, Displays Its IP, ROS2 Nodes Go Live',
-    excerpt: 'Real Jetson firmware landed with a live-caught STOP safety bug fixed, patient enrollment moved to the keypad and mobile web UI (with a photo gallery and live tracking view), fall detection is gated to the tracking lock, and the full autonomous pipeline — camera to person tracking to motion control to the Arduino — ran live end to end for the first time. Still in progress.',
-    tags:    [['Software','green'],['In Progress','high']]
+    excerpt: 'Real Jetson firmware landed with a live-caught STOP safety bug fixed, the full autonomous pipeline ran live end to end for the first time, and turn speed went proportional to fix jitter. A dark LCD got root-caused to a power issue, a near-incident with a stray test sketch was caught in time, and a sensor-fusion obstacle-detection idea was designed but not yet built.',
+    tags:    [['Software','green'],['Complete','green']]
   },
   {
     file:    'week-10.html',

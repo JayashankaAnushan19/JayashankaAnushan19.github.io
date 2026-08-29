@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 11 (in progress) — real Jetson firmware with a live-caught STOP safety bug fixed, patient enrollment goes keypad/mobile, fall detection is gated to the tracking lock, and the full autonomous pipeline — camera to person tracking to motion control to the Arduino — runs live end to end for the first time.">
+<meta name="description" content="CARA Week 11 — real Jetson firmware, the full autonomous pipeline runs live end to end for the first time, turn speed goes proportional to kill overshoot, a dark LCD gets root-caused to a power issue, a near-incident with a stray test sketch is caught in time, and a sensor-fusion obstacle-detection idea gets designed but not yet built.">
 <title>Week 11 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -33,19 +33,15 @@
       <span class="post-date">21–27 Aug 2026</span>
       <span class="tag tag-blue">Week 11</span>
       <span class="tag tag-green">Software</span>
-      <span class="tag tag-amber">In Progress</span>
+      <span class="tag tag-green">Complete</span>
     </div>
 
     <h1>Jetson Drives &amp; Displays Its Own IP — Real Firmware, a Live-Caught Safety Bug, and ROS2 Nodes Go Live</h1>
 
-    <p class="page-subtitle">The Jetson-side IP-display idea sketched as reference notes in <a href="week-10.html">Week 10</a> became real, working code this week — confirmed live on hardware, not just on paper. A bare-minimum motor-control sketch let driving be bench-tested from the Jetson alone, with a speed slider added to the web UI. A real <code>cara_main_jetson.ino</code> firmware pulled all of that together — and a live incident during testing caught a genuine safety bug in how <code>STOP</code> worked. Patient enrollment moved onto the keypad and mobile web UI, fall detection was scoped to only run while actually tracking the patient, and the week's biggest moment: the full autonomous pipeline — camera → person tracking → motion decisions → the real Arduino — ran live, end to end, for the first time. This post is still in progress and will be filled in further as the week continues.</p>
+    <p class="page-subtitle">The Jetson-side IP-display idea sketched as reference notes in <a href="week-10.html">Week 10</a> became real, working code this week — confirmed live on hardware, not just on paper. A bare-minimum motor-control sketch let driving be bench-tested from the Jetson alone, with a speed slider added to the web UI. A real <code>cara_main_jetson.ino</code> firmware pulled all of that together — and a live incident during testing caught a genuine safety bug in how <code>STOP</code> worked. Patient enrollment moved onto the keypad and mobile web UI, fall detection was scoped to only run while actually tracking the patient, and the week's biggest moment: the full autonomous pipeline — camera → person tracking → motion decisions → the real Arduino — ran live, end to end, for the first time. Later in the week, turn speed went proportional to kill overshoot, a dark LCD got root-caused to a power issue rather than wiring or code, a stray test sketch nearly caused real trouble and was caught in time, and a sensor-fusion obstacle-detection idea got fully designed but deliberately left unbuilt.</p>
   </div>
 
   <div class="post-body">
-
-    <div class="post-callout amber">
-      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
-    </div>
 
     <h2><code>ip_display_lcd.py</code> — the Jetson-Side IP Display, For Real This Week</h2>
     <p>Week 10 left this as notes only. This week it became a working script: a 16×2 I2C LCD wired straight to the Jetson's 40-pin header — no Arduino involved at all — cycling through every live network interface's IP (and the real Wi-Fi SSID where relevant) every few seconds. It's meant to run automatically at boot via systemd, so the IP is visible immediately without needing to already be connected remotely — solving the chicken-and-egg problem of needing the IP to connect, but needing to connect to see it.</p>
@@ -63,6 +59,11 @@
 
     <h2>A Speed Slider Lands in the Web UI</h2>
     <p>To go with the new direct-control sketch, <code>remote_control.py</code>'s web interface got a speed slider (0–100%), debounced so dragging it doesn't flood the serial link with a new <code>SET_SPEED</code> command on every pixel of movement. The percentage maps to a 0–255 PWM value sent to the Arduino. Worth noting honestly: at very low percentages the motors may just buzz without actually turning — that's the same motor-torque limitation flagged back in <a href="week-09.html">Week 09</a>, not a bug in the new slider.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-11-web-ui-full-view.png" alt="CARA Remote Control web UI showing Serial Connected and Camera Live status, drive controls, a speed slider at 60 percent, and the patient enrollment panel with three saved training photos">
+      <figcaption>The <code>remote_control.py</code> web UI's current state — drive controls and the new speed slider at 60%, alongside the patient enrollment panel (Capture / Train / Reset) with three photos already saved.</figcaption>
+    </figure>
 
     <h2>Combined Test: RFID + LCD + Buzzer (17th Test)</h2>
     <p><code>SeventeenthTest_LCD_RFID_Buzzer</code> brings the newly-fixed RFID and LCD together in one sketch: the LCD shows "Ready – tap tag" by default, and tapping a tag shows its UID plus an accepted/rejected result, with the same buzzer accept/reject pattern as <code>TwelfthTest_RFIDAccessControl</code> and Week 10's <code>KnownTags.md</code> UID list. The LCD returns to the ready message automatically after a few seconds. It runs on the same bit-banged driver (SDA=20, SCL=A0) introduced in Week 10 to work around the damaged hardware SCL pin.</p>
@@ -117,8 +118,32 @@
 
     <p>Separately, the long-dead bug in <code>remote_control.py</code>'s own background fall-detection thread — a wrong import path and function names that don't exist in <code>fall_detection.py</code>, silently failing every session — is now actually fixed, confirmed via a live CPU increase and a working <code>/skeleton_status</code> endpoint. And enrollment got its first real trial: 11 real photos captured, the LBPH model trained, and a 232/232 clean <code>FACE</code> lock over a 20-second window facing the camera directly. One limitation surfaced doing that: recognition is sensitive to pose angle — looking down at a phone instead of at the camera can drop the match even against the same trained model.</p>
 
+    <h2>Turn Speed Made Proportional — Fixing Overshoot and Jitter</h2>
+    <p>Live testing of the always-full-speed (255) turn from earlier this week found visible overshoot and jitter: by the time a new camera-frame decision arrived, a full-speed turn had already swung well past the deadzone, so the next tick would see itself off-center on the <em>other</em> side and turn hard back the other way — that oscillation was the jitter. The fix makes turn speed scale linearly with how far outside the deadzone the target is: <code>MIN_TURN_SPEED</code> (150) right at the deadzone edge, ramping up to <code>MAX_TURN_SPEED</code> (255) only near the frame edge, so it decelerates naturally approaching center instead of slamming to a stop past it. Verified with unit tests on the speed function's boundary conditions (deadzone edge → exactly MIN, frame edge → exactly MAX, clamped beyond that) and a dry-run of the full decision pipeline across near/far off-center positions before committing.</p>
+
+    <div class="post-callout">
+      <p><strong>Noted honestly in the code:</strong> the DC 6V DIY motors have no encoder feedback, which puts a real hardware ceiling on how far this can go — this is a mitigation, not a complete fix. Better motors or encoders would be the fundamental answer, not something software alone can fully solve.</p>
+    </div>
+
+    <h2>LCD Goes Dark Again — Root-Caused to Power, Not Wiring or Code</h2>
+    <p>A long investigation this week chased why the Arduino's LCD suddenly showed nothing. A real <code>isConnected()</code> diagnostic was added — checking the actual I2C ACK bit, which the bit-banged driver already computed but had never checked anywhere, so <code>begin()</code>/<code>print()</code> previously reported no error whether or not an LCD was actually present and responding. With that in place, two separate tests both came back <code>LCD: NO ACK at 0x27</code> — nothing responding on the bus at all. Checking the backlight and the I2C backpack's power LED narrowed it further: initially fully dark (pointing at VCC/GND wiring), then after reseating connections both were confirmed on, but the display stayed dim with no visible characters — the classic contrast-trimmer symptom from <a href="week-10.html">Week 10</a>, not power or wiring after all.</p>
+
+    <p>The decisive test: the same <code>LCDCheck_RotatingContent.ino</code> uploaded directly from a laptop, with the Arduino completely disconnected from the Jetson — and it worked correctly, real text visible. That rules out the LCD hardware, its wiring, the bit-banged driver, and the sketch itself, all at once. The problem is specific to the Jetson-connected power setup. Leading theory: a buck/boost converter in the external power path has failed or gone unstable — laptop USB bypasses it entirely and works, while every Jetson-connected test so far had external power in the chain too, with both sources active at once (itself worth avoiding as a test variable going forward — test power sources one at a time, not together). Not yet resolved; next step is physically checking the wiring and the converter's actual output voltage with a multimeter.</p>
+
+    <h2>A Near-Incident, Caught in Time</h2>
+    <p>A routine git sync merged in <code>EighteenthTest_MotorDriverWASD.ino</code> — a new single-keystroke WASD/± motor test sketch built elsewhere — cleanly, no conflicts. After reconnecting the Arduino following the laptop-side LCD test above, the board still had whatever was last flashed to it, likely that same WASD sketch. It reacts to single characters immediately, with no full-word matching — which meant <code>remote_control.py</code>'s own command strings contain accidental trigger letters: <code>"FALL_DETECTED"</code> contains both 'A' and 'D', which that sketch read as <code>TURN_LEFT</code> then <code>TURN_RIGHT</code>. The log confirmed a real <code>FALL_DETECTED</code> had already been sent moments before this was caught.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Caught and corrected:</strong> <code>cara_main_jetson.ino</code> was re-flashed immediately, with a clean boot (<code>DIR:STOPPED SPD:0</code>) and correct word-based command handling (<code>OK:STOP</code> for a real <code>STOP</code>) verified before resuming. Lesson for next time: after any laptop-side upload to the shared Arduino, explicitly reflash the real firmware before reconnecting to the Jetson — don't assume the board still has what you last built for it.</p>
+    </div>
+
+    <h2>Obstacle-Detection Idea: Discussed, Not Built Yet</h2>
+    <p>A proposal to decompose the 45°-diagonal corner sensors (FL/FR/BL/BR) into front/side components via <code>distance × sin(45°)</code> / <code>distance × cos(45°)</code> got talked through before any code was written. Since <code>sin(45°) = cos(45°)</code>, a single corner sensor's decomposition always produces two equal numbers — on its own, it can't distinguish "a wall dead ahead" from "a nearby side wall," so it doesn't add new information in isolation from the existing front-wall/narrow-pocket ambiguity flagged earlier in the project.</p>
+
+    <p>Where it would genuinely help: cross-referencing each corner's decomposed component against the true <code>L</code>/<code>R</code> sensors — if FR's side-component roughly matches what R independently reports, that's real evidence FR is just seeing the same side wall, not a front obstacle. That's a legitimate sensor-fusion improvement over today's flat "is FL or FR close?" check, just not implemented yet — parked for a later session. Also worth noting: this idea wouldn't have explained the "robot isn't moving" report that prompted the question in the first place, since <code>motion_controller_node</code>'s current <code>TURN_LEFT</code>/<code>TURN_RIGHT</code>-only logic only gates on the true L/R sensors, not the diagonal ones — that report is still undiagnosed going into next session.</p>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>The LCD-on-<code>SixteenthTest_JetsonDirectControl</code> attempt hung the board outright and had to be reverted, rather than just failing gracefully. The wristband color used for the tracking fallback is still a placeholder (bright magenta/pink) — not tuned against an actual physical band, which itself hasn't been built yet. <code>remote_control.py</code> still writes directly to the Arduino's serial port instead of publishing to <code>/cara/drive_cmd</code>, which means the web UI's manual teleop and the ROS2 autonomous stack still can't run at the same time. The decision logic behind autonomous left/right centering is now proven correct end-to-end (including today's live bug fix), but a session-ending time crunch meant an actual "robot physically turned to recenter on a person" moment was never directly observed — worth confirming first thing next session. Carried-over open items: the Arduino side of the original <code>SET_IPS</code> LCD-display idea from Week 10 still isn't implemented, the DS3231 RTC is still disabled on the damaged bus, and the drive motors' replacement status wasn't reconfirmed today.</p>
+    <p>The LCD-on-<code>SixteenthTest_JetsonDirectControl</code> attempt hung the board outright and had to be reverted, rather than just failing gracefully. The wristband color used for the tracking fallback is still a placeholder (bright magenta/pink) — not tuned against an actual physical band, which itself hasn't been built yet. <code>remote_control.py</code> still writes directly to the Arduino's serial port instead of publishing to <code>/cara/drive_cmd</code>, which means the web UI's manual teleop and the ROS2 autonomous stack still can't run at the same time. The decision logic behind autonomous left/right centering is now proportional and unit-tested, but an actual "robot physically turned to recenter on a person" moment still hasn't been directly observed — first a wrong-firmware close call, then an unrelated "not moving" report that wasn't chased down before time ran out. The LCD power issue remains unresolved, pending a physical check of the wiring/converter. Two <code>DAILY_LOG.md</code> files now exist (repo root and <code>experiments/</code>) after a merge from elsewhere — not yet consolidated. Carried-over open items: the Arduino side of the original <code>SET_IPS</code> LCD-display idea from Week 10 still isn't implemented, the DS3231 RTC is still disabled on the damaged bus, and the drive motors' replacement status wasn't reconfirmed this week.</p>
 
     <h2>Week 11 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -144,12 +169,21 @@
           <tr><td>debug_viewer_node built (phone-viewable MJPEG + drive-decision overlay)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>remote_control.py's own fall-detection import bug fixed for real</td><td class="yes">✓ Complete</td></tr>
           <tr><td>First real patient enrolled (11 photos, LBPH trained, 232/232 FACE lock)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Proportional turn speed (fixes overshoot/jitter), unit-tested</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Real isConnected() I2C ACK diagnostic added to LCD code</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LCD "goes dark" issue root-caused to power, not wiring/code/driver</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Near-incident (stray WASD sketch) caught, correct firmware re-verified</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Sensor-fusion obstacle-detection idea designed (diagonal decomposition)</td><td class="yes">✓ Complete — design only</td></tr>
           <tr><td>Physical wristband built</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Wristband color tuned against a real physical band</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>person_tracker_node auto-reloads model after training (no restart)</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>remote_control.py migrated onto /cara/drive_cmd (ROS2 integration)</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Physical "turned to recenter" moment directly observed and confirmed</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Recognition robustness to pose angle</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>LCD power issue resolved (buck/boost converter suspected)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>"Robot isn't moving" report diagnosed</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Sensor-fusion obstacle-detection idea actually built</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Two DAILY_LOG.md files (root + experiments/) consolidated</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Arduino-side SET_IPS handling (Week 10's original LCD-display idea)</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>DS3231 RTC re-enabled on a working bus</td><td class="no">⏳ In Progress</td></tr>
         </tbody>
@@ -203,7 +237,7 @@
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-10.html" style="color:var(--primary);">← Previous: Week 10 — Remote Control Hardened &amp; RFID Fixed</a>
     <a href="./">All Posts</a>
-    <a href="week-12.html" style="color:var(--primary);">Next: Week 12 — Coming Soon →</a>
+    <a href="week-12.html" style="color:var(--primary);">Next: Week 12 — Thesis Report Structural Audit →</a>
   </div>
 
 </main>
