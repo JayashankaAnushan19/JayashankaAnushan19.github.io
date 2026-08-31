@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit: empty sections, stale draft flags, and results that have fallen behind the real project, plus a draft-fill reference guide grounded in the actual build history.">
+<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit and an IEEEtran LaTeX rebuild, then a big engineering day: the LCD power issue is resolved, obstacle-detection sensor fusion is actually built, a recognition-threshold bug is fixed, the full autonomous pipeline is verified live including the turn itself, and the long-open 'robot isn't moving' mystery is root-caused to a dead battery.">
 <title>Week 12 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -33,12 +33,14 @@
       <span class="post-date">28 Aug–3 Sep 2026</span>
       <span class="tag tag-blue">Week 12</span>
       <span class="tag tag-blue">Planning</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Software</span>
       <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Thesis Report Gets a Structural Audit — Gaps Found, Draft Guide Built</h1>
+    <h1>From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live</h1>
 
-    <p class="page-subtitle">A break from firmware and ROS2 this week: the actual Thesis Report document got a full structural read, heading by heading, to find out what's genuinely missing versus just out of date. No code changes landed this session — this was a writing/documentation pass, not a build session. This post is still in progress and will be filled in further as the week continues.</p>
+    <p class="page-subtitle">The week started with a break from firmware and ROS2: the Thesis Report document got a full structural read to find what's genuinely missing versus just out of date, followed by a full LaTeX rebuild of the dissertation, converted to IEEEtran format and re-scoped into a verified 4-page submission document. Then the engineering work came roaring back — the long-open LCD power issue got resolved, the obstacle-detection sensor-fusion idea from <a href="week-11.html">Week 11</a> actually got built, a recognition-threshold bug got fixed, the full autonomous pipeline was verified live end to end including the turn itself, and the "robot isn't moving" mystery was finally root-caused to a dead battery. This post is still in progress and will be filled in further as the week continues.</p>
   </div>
 
   <div class="post-body">
@@ -65,8 +67,44 @@
       <p><strong>Deliberately left for the user to write personally, not drafted:</strong> the Ethics Approval appendix, the Final Reflection section, and the wiring-diagram appendix — these need to be the author's own material, not generated on their behalf.</p>
     </div>
 
+    <h2>A Full LaTeX Version of the Dissertation</h2>
+    <p>A parallel LaTeX build of the whole dissertation went in under <code>reports/LaTex Report/</code>, mirroring the folder layout of an earlier coursework report (<code>main.tex</code> + <code>sections/</code> + <code>code/</code> + <code>images/</code> + <code>references.bib</code>). Every section was populated from the real, freshly re-extracted Thesis Report content — every paragraph and all 7 tables — not placeholder text.</p>
+
+    <p>The whole document was then converted to <code>\documentclass[journal,twocolumn]{IEEEtran}</code> (originally a chapter-based <code>report</code> class), which meant shifting every heading level down one and fixing every "Chapter&nbsp;X" reference to "Section&nbsp;X" across all six section files. Getting IEEEtran's twocolumn layout to actually compile surfaced four separate issues: a MiKTeX font-expansion error (fixed by disabling <code>microtype</code> expansion), Unicode characters inside code listings breaking pdfLaTeX (fixed with a <code>literate</code> table), a wide table refusing to run in twocolumn mode (fixed by wrapping it in <code>\onecolumn</code>/<code>\twocolumn</code>), and <code>\appendix</code> (singular) silently dropping three of six appendices — the fix was the plural <code>\appendices</code>. The Declaration of Originality, Acknowledgements, Table of Contents, and all six appendices were then removed from this LaTeX version entirely, leaving Title/Abstract plus six numbered sections.</p>
+
+    <h2>Re-Scoped to an 8-Page Submission Document</h2>
+    <p>The same LaTeX report was then trimmed down to an 8-page-max submission: System Design and Implementation merged into one section, Related Work condensed to about four paragraphs plus one comparison table, and <code>references.bib</code> cut down to the 7 citations that could actually be verified as real — every placeholder citation dropped rather than left in. Two real figure slots were added (<code>images/cara_robot.jpg</code>, <code>images/test_setup.jpg</code>) that render automatically the moment those files exist — boxed placeholders until then, no `.tex` edit needed once the photos are dropped in.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-12-power-system-diagram.png" alt="Power System Design block diagram: 3S LiPo battery feeding three converters (5V buck for the Arduino Mega and sensors, 6.6V buck for the GSM module, 19V boost with a 2A fuse for the Jetson Nano) plus a direct 11.1V line to the L298N motor driver powering Motor L and Motor R">
+      <figcaption>The new power-system block diagram — battery through each converter to its load, built for the report's Power System Design section.</figcaption>
+    </figure>
+
+    <div class="post-callout">
+      <p><strong>Verified, not assumed:</strong> the true compiled page count was read directly from pdfLaTeX's own log line — an earlier log-grepping check had silently matched the wrong "page marker" text from an unrelated table-overflow warning. The real count: 4 pages, well inside the 8-page cap.</p>
+    </div>
+
+    <h2>Docx Progress Check and a Corrected Power Diagram</h2>
+    <p>The user's own edits to the Word version of the report were reviewed — the earlier fill-guide content for Chapter 5, Chapter 6, and the Chapter 4 corrections had already been pasted in. Checking which figures are genuinely embedded images (rather than just captions) confirmed Figures 3-1 and 3-2 are real, and re-catalogued what's still empty: the Physical Design section and all six appendices.</p>
+
+    <p>The power-system diagram above was built for that Physical Design section, alongside matching report prose — and corrected mid-session after it came out that the Jetson actually runs on 19V through a boost converter with a 2A fuse (wired by the user), not 5V as first assumed. The diagram's Jetson branch was relabeled from a flagged "buck, needs verification" box to the correct 19V boost path with the fuse drawn in. One FYI flagged, not treated as a blocker: that 2A fuse sits under the Jetson power adapter's rated 2.37A draw. Separately, a paragraph already pasted into the docx's Power System Design section turned out to be the pre-correction version — still describing "5V... 4A" — flagged for replacement, along with a garbled figure caption/number that needs a field refresh.</p>
+
+    <h2>The LCD Mystery, Mostly Resolved — a Real Power Fix</h2>
+    <p>The dark-LCD investigation from <a href="week-11.html">Week 11</a> ended with a physical fix: the whole robot now runs on unified single-battery power instead of the mixed external/converter setup that made the earlier tests hard to interpret, and the LCD is confirmed visually working again. It's not a fully closed loop, though — a settling delay was added to the <code>isConnected()</code> I2C ACK diagnostic to test a timing hypothesis for why it disagreed with the direct visual confirmation the display was working, and that disagreement did <strong>not</strong> get resolved. Documented honestly as still-unresolved rather than claimed fixed just because the display itself is working.</p>
+
+    <h2>Obstacle-Detection Sensor Fusion, Actually Built</h2>
+    <p>The diagonal-sensor idea designed but deliberately left unbuilt in Week 11 is real code now. <code>frontBlocked()</code>/<code>backBlocked()</code> replace the old flat "is either corner sensor close?" checks, cross-referencing each corner sensor's <code>sin(45°)</code>/<code>cos(45°)</code>-decomposed side-component against the true L/R sensors — exactly the sensor-fusion approach discussed but not built last week, now distinguishing "this is really a side wall" from "this is genuinely something ahead or behind," which a raw diagonal reading alone can't do. <code>HARD_STOP_DIST</code> (15cm) sits underneath as an unconditional safety floor — always blocks that close regardless of how the fusion interprets it, no exceptions. The fusion result was also added to the live status line for visibility while testing.</p>
+
+    <h2>Full Autonomous Pipeline Verified Live — Including the Turn Itself</h2>
+    <p>Getting there needed one more bug fixed first: the LBPH recognition confidence threshold was raised from 70 to 85 after live testing found a clean, correct face match scoring 78.66 — just above the old threshold, causing a false <code>LOST</code>/no-match on a genuinely good detection. It turned out to be a duplicate bug across two independent recognizer instances, since the ROS2 node and the web UI each keep their own.</p>
+
+    <p>With that fixed, the full autonomous tracking pipeline was live-verified end to end for real this time: real <code>SET_SPEED</code>/<code>TURN_LEFT</code> commands with correct proportional-speed deceleration actually reaching the Arduino — the "watched it turn to recenter" moment that's been open since Week 11 finally happened. A new standalone tool, <code>wasd_web_control.py</code> (a Flask WASD control page on port 5003), came out of this too, for bench-testing the L298N motor driver in isolation from the rest of the stack.</p>
+
+    <h2>The "Robot Isn't Moving" Mystery — a Dead Battery</h2>
+    <p>The long-open "robot not moving, no sound at all" report from Week 11 finally got root-caused: a dead battery, not a wiring or driver fault. Confirmed via an isolated bench test using the new WASD tool above, then <code>cara_main_jetson.ino</code> was re-flashed and re-verified back on the Arduino afterward.</p>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>No code changes landed this session, so the engineering open items carried in from <a href="week-11.html">Week 11</a> are all still exactly where they were: the LCD power issue (suspected buck/boost converter) is unresolved, the "robot isn't moving" report is still undiagnosed, the physical wristband still hasn't been built, and a live "turned to recenter" observation still hasn't happened. None of that moved this week — the report audit was the whole session.</p>
+    <p>The <code>isConnected()</code> I2C diagnostic still disagrees with the LCD's actual working state — a real, unresolved inconsistency, not swept aside just because the display itself is fine now. The physical wristband still hasn't been built, <code>person_tracker_node</code> still needs a restart to pick up a freshly trained model, and <code>remote_control.py</code> still isn't migrated onto <code>/cara/drive_cmd</code>. On the report side, the docx still has a stale pre-correction power paragraph sitting in it that needs manually replacing, and the Physical Design section plus all six appendices remain unwritten.</p>
 
     <h2>Week 12 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -75,7 +113,22 @@
           <tr><td>Full structural read of the Thesis Report (every heading level)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Empty / stale / false-alarm sections categorized</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Draft-fill reference guide built for every identified gap</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Draft text actually pasted into the report</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Full LaTeX dissertation built, populated from real content</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Converted to IEEEtran twocolumn, compile issues fixed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Re-scoped to 8-page submission doc, page count verified (4 pages)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Power-system block diagram built and corrected (19V boost, not 5V)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Draft text actually pasted into the Word report (Ch5/Ch6/Ch4)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LCD power issue resolved (unified single-battery power, visually confirmed)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Obstacle-detection sensor fusion built (frontBlocked/backBlocked)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LBPH recognition threshold bug fixed (70→85, duplicate-instance bug)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full autonomous pipeline verified live end-to-end, including the turn</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>wasd_web_control.py built (standalone motor bench-test tool)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>"Robot isn't moving" report root-caused (dead battery)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>isConnected() diagnostic disagreement with LCD's real state</td><td class="no">⏳ Unresolved</td></tr>
+          <tr><td><code>cara_robot.jpg</code> / <code>test_setup.jpg</code> submission photos</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Stale pre-correction power paragraph replaced in the docx</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Physical Design section (docx) written</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Physical wristband built</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Ethics Approval appendix (author-written)</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Final Reflection section (author-written)</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Wiring-diagram appendix (author-written)</td><td class="no">⏳ In Progress</td></tr>
@@ -91,7 +144,7 @@
     <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
     <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
-      <input type="hidden" name="subject"    value="CARA Feedback: Week 12 — Thesis Report Structural Audit">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 12 — Report Audit & a Big Engineering Day">
       <input type="hidden" name="redirect"   value="false">
       <div class="form-row">
         <input type="text"  name="name"  placeholder="Your name (optional)">

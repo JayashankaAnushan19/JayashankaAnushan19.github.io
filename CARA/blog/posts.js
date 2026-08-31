@@ -21,9 +21,9 @@ var POSTS = [
     file:    'week-12.html',
     week:    'Week 12',
     date:    '28 Aug–3 Sep 2026',
-    title:   'Thesis Report Gets a Structural Audit — Gaps Found, Draft Guide Built',
-    excerpt: 'A break from firmware this week: a full structural read of the Thesis Report found completely empty sections, stale draft flags on sections that were actually done, and results sections that have fallen behind the real project. A draft-fill reference guide was built for every gap, grounded in the project\'s actual history. No code changes this session. Still in progress.',
-    tags:    [['Planning','blue'],['In Progress','high']]
+    title:   'From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live',
+    excerpt: 'Started with a Thesis Report structural audit and a full LaTeX/IEEEtran rebuild re-scoped to a verified 4-page submission doc. Then the engineering came back: the long-open LCD power issue got resolved, the Week 11 obstacle-fusion idea got built, a recognition-threshold bug got fixed, the full autonomous pipeline ran live end-to-end including the turn itself, and "robot isn\'t moving" was root-caused to a dead battery. Still in progress.',
+    tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {
     file:    'week-11.html',
