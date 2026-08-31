@@ -78,7 +78,7 @@
                           <span class="v">Arduino Mega 2560</span> (5-state machine)
                                   │
             ┌─────────┬───────────┴──────────┬───────────┬────────────┐
-           <span class="s">Motors</span>   <span class="s">SIM76xx</span>         <span class="s">HC-SR04×6</span>   <span class="s">RFID+RTC</span>   <span class="s">LCD+LED+Buzz</span>
+           <span class="s">Motors</span>   <span class="s">A7670C</span>         <span class="s">HC-SR04×6</span>   <span class="s">RFID+RTC</span>   <span class="s">LCD+LED+Buzz</span>
   </div>
 
   <h2>ROS Nodes (Jetson Nano)</h2>
@@ -127,7 +127,7 @@
         <tr>
           <td>health_management</td>
           <td>DS3231 time match</td>
-          <td>Polls RTC time via serial. Medication reminders at 08:00, 13:00, 18:00, 22:00. 15-min RFID confirm window. Missed → sendSMS(). Daily check-in at 12:00. Heatstroke at 38°C.</td>
+          <td>Polls RTC time via serial. Medication reminders at 08:00, 13:00, 18:00, 22:00. 15-min RFID confirm window. Missed → sendSMS(). Daily check-in at 12:00. Heatstroke alert at 38°C — postponed to v1.1, not implemented in the current build.</td>
           <td>Medication trigger · SMS alerts</td>
         </tr>
       </tbody>
@@ -161,7 +161,7 @@
         <tr>
           <td style="font-size:1.3rem;">🚨</td>
           <td>Alert</td>
-          <td>Fall confirmed. Motors stopped. GSM module (SIM76xx) sends SMS. LCD shows "FALL DETECTED — HELP CALLED". Buzzer beeps. Red LED solid. 30s cooldown enforced.</td>
+          <td>Fall confirmed. Motors stopped. GSM module (A7670C) sends SMS. LCD shows "FALL DETECTED — HELP CALLED". Buzzer beeps. Red LED solid. 30s cooldown enforced.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">🔄</td>
@@ -190,11 +190,11 @@
     </div>
     <div class="card">
       <h4>SPI (RFID)</h4>
-      <p style="font-size:.85rem;">MFRC522 communicates via hardware SPI (MISO/MOSI/SCK on Arduino pins 50/51/52). Slave Select on pin 10. Polling loop in MONITORING and ACTIVE states checks for UID match every 500ms.</p>
+      <p style="font-size:.85rem;">MFRC522 communicates via hardware SPI (MISO/MOSI/SCK on Arduino pins 50/51/52). Slave Select on pin 53, Reset on pin 49. Polling loop in MONITORING and ACTIVE states checks for UID match every 500ms.</p>
     </div>
     <div class="card">
-      <h4>GSM AT Commands (SIM76xx)</h4>
-      <p style="font-size:.85rem;">SoftwareSerial on Arduino pins 2 &amp; 3. SMS sequence: <code>AT+CMGF=1</code> (text mode) → <code>AT+CMGS="+[number]"</code> → message body → <code>0x1A</code> (Ctrl+Z, send). 4.0V regulated supply, 1000µF cap. Same AT command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
+      <h4>GSM AT Commands (A7670C)</h4>
+      <p style="font-size:.85rem;">Hardware Serial1 on Arduino pins 18 (TX) &amp; 19 (RX), not SoftwareSerial — PWRKEY on pin 9. SMS sequence: <code>AT+CMGF=1</code> (text mode) → <code>AT+CMGS="+[number]"</code> → message body → <code>0x1A</code> (Ctrl+Z, send). 6.6V regulated supply, 1000µF cap. Same AT command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
     </div>
   </div>
 

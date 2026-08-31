@@ -67,7 +67,7 @@
         <tr><td>FR6</td><td>Send SMS if medication not confirmed within 15 minutes</td><td>100% SMS trigger rate when RFID not presented within 15-min window</td><td>OBJ4</td><td><span class="tag tag-crit">Critical</span></td></tr>
         <tr><td>FR7</td><td>Stream live camera feed via phone browser</td><td>Accessible on local network without app installation · latency &lt;500ms</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
         <tr><td>FR8</td><td>Accept remote drive commands from phone browser</td><td>Command response time &lt;200ms · obstacle avoidance always overrides</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
-        <tr><td>FR9</td><td>Monitor room temperature and send heatstroke alert at 38°C</td><td>Alert triggered within 5 minutes of sustained 38°C ambient condition</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
+        <tr style="opacity:.6;"><td>FR9 <span class="tag tag-amber">Postponed → v1.1</span></td><td>Monitor room temperature and send heatstroke alert at 38°C</td><td>Alert triggered within 5 minutes of sustained 38°C ambient condition</td><td>User need</td><td><span class="tag tag-high">High</span></td></tr>
         <tr><td>FR10</td><td>Log all key events with timestamps for evaluation analysis</td><td>Event log persists across reboots · each event includes timestamp from RTC</td><td>OBJ5</td><td><span class="tag tag-med">Medium</span></td></tr>
       </tbody>
     </table>
@@ -109,7 +109,7 @@
     </div>
     <div class="card">
       <h4>Electrical Safety</h4>
-      <p style="font-size:.85rem;">GSM module (SIM76xx series; SIM800L in a Sri Lanka deployment) powered on a dedicated 4.0V rail, isolated from Arduino 5V bus. 1000µF capacitor absorbs TX burst transients. LiPo battery has integrated protection circuit preventing overdischarge (&lt;3.0V/cell) and short-circuit protection.</p>
+      <p style="font-size:.85rem;">GSM module (A7670C; SIM800L in a Sri Lanka deployment) powered on a dedicated 6.6V rail, isolated from Arduino 5V bus. 1000µF capacitor absorbs TX burst transients. LiPo battery has integrated protection circuit preventing overdischarge (&lt;3.0V/cell) and short-circuit protection.</p>
     </div>
     <div class="card" style="opacity:.6;">
       <h4>Staircase / Edge Safety <span class="tag tag-amber">Postponed → v1.1</span></h4>

@@ -158,7 +158,7 @@ footer a{color:var(--cyan);text-decoration:none}
                   ↓
       <span class="arr">Arduino Mega 2560</span> · 5-State Machine
                   ↓
-<span class="val">Motors</span> | <span class="val">SIM76xx GSM</span> | <span class="val">RFID</span> | <span class="val">LCD I2C</span> | <span class="val">PIR ×2</span> | <span class="val">HC-SR04 ×6</span>
+<span class="val">Motors</span> | <span class="val">A7670C GSM</span> | <span class="val">RFID</span> | <span class="val">LCD I2C</span> | <span class="val">PIR ×2</span> | <span class="val">HC-SR04 ×6</span> | <span class="val">Keypad 4×4</span>
     </div>
 
     <h3>ROS Node Map (Jetson Nano)</h3>
@@ -189,20 +189,22 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>AI Processor</td><td>NVIDIA Jetson Nano 4GB</td><td>4-core ARM, 128 CUDA cores, Ubuntu 18.04</td><td>MediaPipe fall detection, camera streaming, ROS</td><td>$99–150</td></tr>
           <tr><td>Microcontroller</td><td>Arduino Mega 2560</td><td>ATmega2560, 54 digital I/O, 16 analog, 256KB flash, 16MHz</td><td>Peripheral control, sensor polling, GSM, state machine</td><td>$10–25</td></tr>
           <tr><td>Camera</td><td>USB Webcam 720p</td><td>720p 30fps, USB 2.0, UVC compatible</td><td>MediaPipe pose input, family feed, fall detection</td><td>$15–30</td></tr>
-          <tr><td>GSM Module</td><td>SIM76xx Series</td><td>Multi-band LTE, AT commands, ~3.4–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free. SIM800L (2G) remains valid for a Sri Lanka deployment where 2G is still active.</td><td>$15–35</td></tr>
+          <tr><td>GSM Module</td><td>A7670C</td><td>Multi-band LTE, AT commands, ~3.4–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free. SIM800L (2G) remains valid for a Sri Lanka deployment where 2G is still active.</td><td>$15–35</td></tr>
           <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 2 &amp; Pin 3</td><td>Person presence detection, triggers chassis/head direction toward the person</td><td>$1–3 each</td></tr>
-          <tr><td>Ultrasonic ×6</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 22/23, 24/25, 26/27, 28/29, 30/31, 32/33</td><td>360° obstacle detection and person distance tracking</td><td>$2–5 each</td></tr>
-          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS Pin 10</td><td>Medication confirmation, target identity Layer 1 lock</td><td>$2–5</td></tr>
+          <tr><td>Ultrasonic ×6</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 26/27, 28/29, 30/31, 32/33, 34/35, 36/37</td><td>360° obstacle-detection ring: front-left, front-right, back-left, back-right, left, right</td><td>$2–5 each</td></tr>
+          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td><td>Medication confirmation, target identity Layer 1 lock</td><td>$2–5</td></tr>
           <tr><td>RTC Module</td><td>DS3231</td><td>I2C addr 0x68, ±2ppm, battery backup</td><td>Medication timing without network sync</td><td>$2–5</td></tr>
+          <tr><td>Keypad</td><td>4×4 Matrix Membrane</td><td>GPIO, momentary contact · Rows=38,39,40,41; Cols=42,43,4,5</td><td>Manual input — panic alert (#), acknowledge/silence (*), enrolment (A/B/D). Reuses existing hardware, no dedicated panic button needed</td><td>$2–4</td></tr>
           <tr><td>LCD Display</td><td>16×2 with I2C</td><td>16 char × 2 lines, I2C addr 0x27</td><td>State messages and greeting display</td><td>$2–5</td></tr>
-          <tr><td>Tilt Servo ×1</td><td>SG90 9g Micro</td><td>180° rotation, 1.8kg/cm torque · Pin 10 tilt</td><td>Camera head tilt only, default 75° — left/right aiming is done by rotating the chassis, not a second servo</td><td>$2–4</td></tr>
-          <tr><td>Motor Driver</td><td>FC120 Dual H-Bridge</td><td>1.2A per channel, PWM · Pins 2–5</td><td>DC motor direction and speed control</td><td>$3–8</td></tr>
-          <tr><td>DC Motors ×2</td><td>6V Gear Motor 150RPM</td><td>6V, 150RPM, 65mm wheel compatible</td><td>Robot mobility at 0.3m/s</td><td>$5–10 each</td></tr>
+          <tr><td>Servo ×1</td><td>SG90 9g Micro</td><td>180° rotation, 1.8kg/cm torque · Pin 46</td><td>One-shot greeting wave gesture only — not a camera tilt/pan mechanism. There is no pan-tilt hardware on this robot; camera aiming (left/right) is done by rotating the chassis itself</td><td>$2–4</td></tr>
+          <tr><td>Motor Driver</td><td>L298N Dual H-Bridge</td><td>2A per channel, PWM · IN1–4: 22,23,24,25 · ENA/ENB: 11,12</td><td>DC motor direction and speed control</td><td>$3–8</td></tr>
+          <tr><td>DC Motors ×4</td><td>6V Gear Motor 150RPM</td><td>6V, 150RPM, 65mm wheel compatible</td><td>Robot mobility at 0.3m/s</td><td>$5–10 each</td></tr>
           <tr><td>LiPo Battery</td><td>3S 11.1V 3000mAh</td><td>30C discharge, T-connector · primary power source</td><td>90+ minute full-load runtime</td><td>$15–30</td></tr>
-          <tr><td>Buck Converters ×2</td><td>LM2596 Step-Down</td><td>Conv 1 → 5V (Arduino) · Conv 2 → 4.0V (GSM module regulated)</td><td>GSM module requires dedicated regulated 4.0V rail</td><td>$1–3 each</td></tr>
-          <tr><td>Temperature</td><td>DS18B20</td><td>1-Wire digital probe, Pin 7 · −55°C to +125°C · needs 4.7kΩ pull-up to 5V</td><td>Room temperature monitoring, heatstroke SMS alert</td><td>$1–3</td></tr>
+          <tr><td>Buck Converters ×2</td><td>LM2596 Step-Down</td><td>Conv 1 → 5V (Arduino) · Conv 2 → 6.6V (GSM module regulated)</td><td>GSM module requires dedicated regulated 6.6V rail</td><td>$1–3 each</td></tr>
+          <tr><td>Boost Converter</td><td>XL6009 Step-Up</td><td>11.1V → 19V, 2A inline fuse</td><td>Powers the Jetson Nano</td><td>$1–3</td></tr>
+          <tr style="opacity:.6;"><td>Temperature <span class="tag tag-amber">Postponed → v1.1</span></td><td>DS18B20</td><td>1-Wire digital probe, Pin 7 · −55°C to +125°C · needs 4.7kΩ pull-up to 5V</td><td>Room temperature monitoring, heatstroke SMS alert. Proposed for v1.0 but postponed to v1.1 — not implemented in the current build.</td><td>$1–3</td></tr>
           <tr style="opacity:.6;"><td>Cliff Sensors ×3 <span class="tag tag-amber">Postponed → v1.1</span></td><td>TCRT5000</td><td>IR reflection, Pins A0–A2</td><td>Floor edge / stair detection, prevent robot falling. Proposed for v1.0 but postponed to v1.1 — not implemented in the current build.</td><td>$1–2 each</td></tr>
-          <tr><td>RGB LEDs ×3</td><td>Common anode</td><td>Pins A1–A3, PWM + GPIO</td><td>State visual feedback: green (idle), amber (active), red (alert), blue (low battery)</td><td>&lt;$1 each</td></tr>
+          <tr><td>Status LED ×1</td><td>Standard single-colour</td><td>Pin 10, PWM-dimmable (brightness only, no RGB)</td><td>Visual status: gentle brightness pulse in IDLE, blink pattern during ALERT</td><td>&lt;$1</td></tr>
         </tbody>
       </table>
     </div>
@@ -218,17 +220,17 @@ footer a{color:var(--cyan);text-decoration:none}
       <div class="proto-card">
         <div class="proto-icon">🔌</div>
         <h4>UART Serial — Jetson Nano ↔ Arduino</h4>
-        <p>9600 baud via USB Serial. One-way signaling: Jetson decides, Arduino executes. Arduino reads with <code>Serial.readStringUntil('\n')</code>. Commands: FALL_DETECTED, STEER_LEFT, STEER_RIGHT, MOVE_FORWARD, SLOW_DOWN, STOP, TARGET_LOST, PAN_LEFT, PAN_RIGHT.</p>
+        <p>9600 baud via USB Serial. One-way signaling: Jetson decides, Arduino executes. Arduino reads with <code>Serial.readStringUntil('\n')</code>. Commands: MOVE_FORWARD, MOVE_BACKWARD, TURN_LEFT, TURN_RIGHT, STOP, SET_SPEED:&lt;0–255&gt;, FALL_DETECTED, RESET, ENROLL:CAPTURE/TRAIN/RESET.</p>
       </div>
       <div class="proto-card">
         <div class="proto-icon">📡</div>
-        <h4>I2C Bus — LCD + RTC</h4>
-        <p>Shared two-wire bus (SDA/SCL on Arduino A4/A5). LCD at addr 0x27, DS3231 RTC at addr 0x68. Reduces GPIO usage — both peripherals on two wires. Scalable for additional I2C devices.</p>
+        <h4>I2C — LCD (bit-banged)</h4>
+        <p>The Mega's hardware I2C pin (21/SCL) is physically damaged, so the LCD now runs on a hand-written bit-banged I2C driver on SDA=20/SCL=A0 instead of the standard <code>Wire</code> library pins (20/21). LCD at addr 0x27. The DS3231 RTC's connection status is under active review — internal report drafts disagree on whether it's currently wired/working, not yet reconciled.</p>
       </div>
       <div class="proto-card">
         <div class="proto-icon">📱</div>
-        <h4>GSM AT Commands — SIM76xx</h4>
-        <p>SoftwareSerial on Arduino pins 2 &amp; 3. Hayes AT command set: <strong>AT+CMGF=1</strong> (SMS text mode), <strong>AT+CMGS</strong> (send message). 1000µF capacitor stabilises transmission current spikes. 4.0V regulated supply via LM2596 buck converter. Same command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
+        <h4>GSM AT Commands — A7670C</h4>
+        <p>Hardware Serial1 on Arduino pins 18 (TX) &amp; 19 (RX), not SoftwareSerial — PWRKEY on pin 9. Hayes AT command set: <strong>AT+CMGF=1</strong> (SMS text mode), <strong>AT+CMGS</strong> (send message). 1000µF capacitor stabilises transmission current spikes. 6.6V regulated supply via LM2596 buck converter. Same command set works on SIM800L, used in a Sri Lanka deployment where 2G is still active.</p>
       </div>
     </div>
 
@@ -252,7 +254,7 @@ footer a{color:var(--cyan);text-decoration:none}
       </div>
       <div class="safety-card electrical">
         <h4>Electrical &amp; Power Safety</h4>
-        <p>GSM module (SIM76xx series; SIM800L in a Sri Lanka deployment) powered via dedicated 4.0V buck converter (cannot use Arduino 5V rail — high current during TX bursts). <strong>1000µF capacitor</strong> across the module's terminals stabilises transient spikes. LiPo includes integrated protection circuit preventing over-discharge. High-current and low-power circuits use separate power rails.</p>
+        <p>GSM module (A7670C; SIM800L in a Sri Lanka deployment) powered via dedicated 6.6V buck converter (cannot use Arduino 5V rail — high current during TX bursts). <strong>1000µF capacitor</strong> across the module's terminals stabilises transient spikes. LiPo includes integrated protection circuit preventing over-discharge. High-current and low-power circuits use separate power rails.</p>
       </div>
     </div>
     <div class="safety-card" style="margin-top:1rem; opacity:.6;">

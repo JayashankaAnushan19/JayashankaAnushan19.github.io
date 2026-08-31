@@ -19,7 +19,43 @@
 .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 .gallery-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; transition: box-shadow .2s, border-color .2s; }
 .gallery-card:hover { box-shadow: var(--sh-md); border-color: var(--border-2); }
-.gallery-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.gallery-card img { width: 100%; height: 200px; object-fit: cover; display: block; cursor: zoom-in; transition: transform .25s ease; }
+.gallery-card img:hover { transform: scale(1.03); }
+.gallery-card img:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,.92);
+  display: none; align-items: center; justify-content: center;
+  padding: 3rem 1.25rem;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-stage { max-width: 92vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; }
+.lightbox-stage img {
+  max-width: 92vw; max-height: 72vh; object-fit: contain;
+  border-radius: var(--r-lg); box-shadow: var(--sh-md); background: var(--surface);
+}
+.lightbox-caption { margin-top: 1rem; text-align: center; max-width: 640px; }
+.lightbox-caption h4 { font-size: .92rem; color: var(--text); margin-bottom: .3rem; }
+.lightbox-caption p { font-size: .78rem; color: var(--muted); }
+.lightbox-counter { font-family: var(--font-mono); font-size: .68rem; color: var(--light); letter-spacing: 1.5px; margin-top: .6rem; text-transform: uppercase; }
+.lightbox-close, .lightbox-prev, .lightbox-next {
+  position: fixed; background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
+  cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s, color .2s;
+}
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { border-color: var(--primary); color: var(--primary); }
+.lightbox-close { top: 1.5rem; right: 1.5rem; width: 42px; height: 42px; font-size: 1.2rem; line-height: 1; }
+.lightbox-prev, .lightbox-next { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 1.5rem; }
+.lightbox-prev { left: 1.25rem; }
+.lightbox-next { right: 1.25rem; }
+@media (max-width: 680px) {
+  .lightbox-prev, .lightbox-next { width: 38px; height: 38px; font-size: 1.15rem; }
+  .lightbox-prev { left: .4rem; }
+  .lightbox-next { right: .4rem; }
+  .lightbox-close { top: .75rem; right: .75rem; width: 36px; height: 36px; }
+}
 .gallery-placeholder { width: 100%; height: 200px; background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; }
 .gallery-placeholder .ph-icon { font-size: 2.5rem; opacity: .3; }
 .gallery-placeholder .ph-label { font-size: .72rem; font-family: var(--font-mono); color: var(--light); letter-spacing: 1px; text-align: center; }
@@ -118,14 +154,10 @@
     </div>
 
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">🔋</div>
-        <div class="ph-label">POWER TOPOLOGY<br>DIAGRAM</div>
-      </div>
-      <!-- Replace with: <img src="assets/images/power-topology.png" alt="Power Topology"> -->
+      <img src="assets/images/power-topology.png" alt="Power System Design block diagram: 3S LiPo battery feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct 11.1V line to the L298N motor driver">
       <div class="gallery-info">
         <h4>Power System Topology</h4>
-        <p>3S LiPo → dual buck converters (5V Arduino rail, 4.0V SIM76xx GSM rail) → motor driver direct 11.1V.</p>
+        <p>3S LiPo → buck converters (5V Arduino rail, 6.6V A7670C GSM rail) → boost converter (19V Jetson Nano rail) → L298N motor driver direct 11.1V.</p>
         <span class="fig-ref">Figure 3-6 · Thesis Chapter 3</span>
       </div>
     </div>
@@ -136,38 +168,29 @@
   <div class="gallery-grid">
 
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">🤖</div>
-        <div class="ph-label">CARA ROBOT<br>FULL BUILD PHOTO</div>
-      </div>
+      <img src="assets/images/cara-full-assembly.jpeg" alt="Assembled aluminium chassis with battery, wiring harness, and ultrasonic sensors mounted, during the full-system integration test">
       <div class="gallery-info">
         <h4>CARA v1.0 — Full Assembly</h4>
         <p>Complete robot with chassis, tilt camera head, ultrasonic sensor ring, and all mounted electronics.</p>
-        <span class="fig-ref">Build photo · coming soon</span>
+        <span class="fig-ref">Full integration test · Week 9</span>
       </div>
     </div>
 
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">🔌</div>
-        <div class="ph-label">ELECTRONICS<br>CLOSE-UP</div>
-      </div>
+      <img src="assets/images/electronics-bay.jpeg" alt="Aluminium chassis close-up showing the camera tower mounting posts, bundled and numbered wiring harness, and front ultrasonic sensors">
       <div class="gallery-info">
         <h4>Electronics Bay</h4>
-        <p>Arduino Mega, Jetson Nano, buck converters, SIM76xx GSM module, and RFID mounted inside the chassis compartment.</p>
-        <span class="fig-ref">Build photo · coming soon</span>
+        <p>Arduino Mega, Jetson Nano, buck converters, A7670C GSM module, and RFID mounted inside the chassis compartment.</p>
+        <span class="fig-ref">Chassis wiring · Week 8</span>
       </div>
     </div>
 
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">📷</div>
-        <div class="ph-label">TILT<br>CAMERA HEAD</div>
-      </div>
+      <img src="assets/images/camera-tower.jpeg" alt="Camera tower head unit with USB webcam, lit 16x2 LCD, 4x4 keypad, and RC522 RFID reader mounted on the 3D-printed housing">
       <div class="gallery-info">
-        <h4>Tilt Camera Assembly</h4>
-        <p>Single SG90 servo tilt mount with USB webcam, default tilt 75°. Left/right aiming is done by rotating the chassis, not a second pan servo.</p>
-        <span class="fig-ref">Build photo · coming soon</span>
+        <h4>Camera Tower &amp; Greeting Servo</h4>
+        <p>USB webcam on the fixed camera tower, alongside the SG90 servo used for a one-shot greeting wave gesture. No pan-tilt hardware — camera aiming (left/right) is done by rotating the chassis itself, and there is no vertical/tilt axis at all.</p>
+        <span class="fig-ref">Tower head unit · Week 10</span>
       </div>
     </div>
 
@@ -227,6 +250,97 @@
   <p>CARA Project · Jayashanka Anushan · 2026</p>
 </footer>
 
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous image">‹</button>
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next image">›</button>
+  <div class="lightbox-stage">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption">
+      <h4 id="lightbox-title"></h4>
+      <p id="lightbox-desc"></p>
+    </div>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+  </div>
+</div>
+
 <script src="assets/js/main.js"></script>
+<script>
+(function () {
+  const cards = Array.from(document.querySelectorAll('.gallery-card img'));
+  if (!cards.length) return;
+
+  const items = cards.map(img => {
+    const info = img.closest('.gallery-card').querySelector('.gallery-info');
+    return {
+      src: img.getAttribute('src'),
+      alt: img.getAttribute('alt') || '',
+      title: info ? (info.querySelector('h4') || {}).textContent || '' : '',
+      desc: info ? (info.querySelector('p') || {}).textContent || '' : ''
+    };
+  });
+
+  cards.forEach((img, i) => {
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Open image: ' + (items[i].title || items[i].alt));
+    img.addEventListener('click', () => open(i));
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+    });
+  });
+
+  const overlay  = document.getElementById('lightbox');
+  const stageImg = document.getElementById('lightbox-img');
+  const titleEl  = document.getElementById('lightbox-title');
+  const descEl   = document.getElementById('lightbox-desc');
+  const counter  = document.getElementById('lightbox-counter');
+  const btnClose = document.getElementById('lightbox-close');
+  const btnPrev  = document.getElementById('lightbox-prev');
+  const btnNext  = document.getElementById('lightbox-next');
+
+  let current = 0;
+
+  function render() {
+    const it = items[current];
+    stageImg.src = it.src;
+    stageImg.alt = it.alt;
+    titleEl.textContent = it.title;
+    descEl.textContent  = it.desc;
+    counter.textContent = (current + 1) + ' / ' + items.length;
+  }
+
+  function open(i) {
+    current = i;
+    render();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    btnClose.focus();
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function next() { current = (current + 1) % items.length; render(); }
+  function prev() { current = (current - 1 + items.length) % items.length; render(); }
+
+  btnClose.addEventListener('click', close);
+  btnNext.addEventListener('click', next);
+  btnPrev.addEventListener('click', prev);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') next();
+    else if (e.key === 'ArrowLeft') prev();
+  });
+})();
+</script>
 </body>
 </html>
