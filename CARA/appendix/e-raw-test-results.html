@@ -29,14 +29,33 @@
   </div>
 
   <div class="page-header">
-    <div class="page-label">Appendix E <span class="tag tag-med" style="margin-left:.5rem;">Pending (Week 9+)</span></div>
+    <div class="page-label">Appendix E <span class="tag tag-amber" style="margin-left:.5rem;">Draft — from thesis</span></div>
     <h1 class="page-title">Raw Test Results</h1>
-    <p class="page-subtitle">Raw Test Results — all trial data for all 15 features.</p>
+    <p class="page-subtitle">Raw Test Results — fall detection confusion matrix and accuracy metrics (labelled Appendix D in the thesis document).</p>
   </div>
 
-  <div class="info-box">
-    <h4>Content pending</h4>
-    <p>This appendix hasn't been filled in yet. It will be populated here once the material is ready to publish — no need to wait for the full thesis submission.</p>
+  <h3 style="margin-top:0;">Fall Detection — Confusion Matrix</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>Predicted Fall</th><th>Predicted Not Fall</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Actual Fall</td><td>55 (TP)</td><td>6 (FN)</td></tr>
+        <tr><td>Actual Not Fall</td><td>10 (FP)</td><td>58 (TN)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-top:1.25rem;">
+    <div class="card"><h4>Test Accuracy</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">87.6%</p></div>
+    <div class="card"><h4>Cross-Validated</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">89.6% <span style="font-size:.8rem; color:var(--muted); font-weight:400;">(±4.8%)</span></p></div>
+    <div class="card"><h4>Precision</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">84.6%</p></div>
+    <div class="card"><h4>Recall</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">90.2%</p></div>
+  </div>
+
+  <div class="info-box amber" style="margin-top:1.5rem;">
+    <p><strong>Note:</strong> across 129 total trials, this result (87.6% accuracy) is higher than the ≥80%-across-20-trials figure quoted elsewhere on this site and in the thesis Abstract — that figure was the original target/earlier-draft result and hasn't been reconciled with this more complete run yet. Pulled directly from the thesis document (Appendix D there) — treat as accurate but not yet the final submitted version, and not yet cross-checked against the raw per-trial data for all 15 features.</p>
   </div>
 
   <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">

@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit and an IEEEtran LaTeX rebuild, then a big engineering day: the LCD power issue is resolved, obstacle-detection sensor fusion is actually built, a recognition-threshold bug is fixed, the full autonomous pipeline is verified live including the turn itself, and the long-open 'robot isn't moving' mystery is root-caused to a dead battery.">
+<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit and an IEEEtran LaTeX rebuild, then a big engineering stretch: the LCD power issue is resolved, obstacle-detection sensor fusion is built, the full autonomous pipeline drives and turns the real robot for the first time, a turn-overshoot investigation finds the real culprit is perception latency, and a new voltage-sag lead opens up under the unified battery.">
 <title>Week 12 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -40,7 +40,7 @@
 
     <h1>From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live</h1>
 
-    <p class="page-subtitle">The week started with a break from firmware and ROS2: the Thesis Report document got a full structural read to find what's genuinely missing versus just out of date, followed by a full LaTeX rebuild of the dissertation, converted to IEEEtran format and re-scoped into a verified 4-page submission document. Then the engineering work came roaring back — the long-open LCD power issue got resolved, the obstacle-detection sensor-fusion idea from <a href="week-11.html">Week 11</a> actually got built, a recognition-threshold bug got fixed, the full autonomous pipeline was verified live end to end including the turn itself, and the "robot isn't moving" mystery was finally root-caused to a dead battery. This post is still in progress and will be filled in further as the week continues.</p>
+    <p class="page-subtitle">The week started with a break from firmware and ROS2: the Thesis Report document got a full structural read to find what's genuinely missing versus just out of date, followed by a full LaTeX rebuild of the dissertation, converted to IEEEtran format and re-scoped into a verified 4-page submission document. Then the engineering work came roaring back — the long-open LCD power issue got resolved, the obstacle-detection sensor-fusion idea from <a href="week-11.html">Week 11</a> actually got built, a recognition-threshold bug got fixed, and the full autonomous pipeline drove and turned the real robot for the first time. Getting the turn clean took two more rounds: a clearance-distance fix, then an overshoot investigation that traced the real cause to perception latency rather than motor physics — and opened a new lead on voltage sag under the unified battery. This post is still in progress and will be filled in further as the week continues.</p>
   </div>
 
   <div class="post-body">
@@ -101,10 +101,30 @@
     <p>With that fixed, the full autonomous tracking pipeline was live-verified end to end for real this time: real <code>SET_SPEED</code>/<code>TURN_LEFT</code> commands with correct proportional-speed deceleration actually reaching the Arduino — the "watched it turn to recenter" moment that's been open since Week 11 finally happened. A new standalone tool, <code>wasd_web_control.py</code> (a Flask WASD control page on port 5003), came out of this too, for bench-testing the L298N motor driver in isolation from the rest of the stack.</p>
 
     <h2>The "Robot Isn't Moving" Mystery — a Dead Battery</h2>
-    <p>The long-open "robot not moving, no sound at all" report from Week 11 finally got root-caused: a dead battery, not a wiring or driver fault. Confirmed via an isolated bench test using the new WASD tool above, then <code>cara_main_jetson.ino</code> was re-flashed and re-verified back on the Arduino afterward.</p>
+    <p>The long-open "robot not moving, no sound at all" report from Week 11 finally got root-caused: a dead battery, not a wiring or driver fault. Confirmed via an isolated bench test using the new WASD tool above, then <code>cara_main_jetson.ino</code> was re-flashed and re-verified back on the Arduino afterward. It came back a second time the next morning — the battery had simply died again overnight — root-caused the same way and cleared before continuing.</p>
+
+    <h2>First Live Turn — a Clearance Fix, an Overshoot Investigation, and the Real Culprit</h2>
+    <p>With the battery sorted, the full pipeline went up for real: <code>camera_node</code> → <code>person_tracker_node</code> → <code>motion_controller_node</code> (<code>autonomous_enabled:=true</code>) → <code>arduino_bridge_node</code>, plus two <code>debug_viewer_node</code> instances — one for face/patient tracking, one for skeleton/fall-detection (the second only publishes frames while a patient is actively locked, which briefly looked like a bug before being confirmed as correct, expected behaviour).</p>
+
+    <p>The first real turn attempt was rejected outright: <code>BLOCKED:TURN_RIGHT</code>. The cause was a threshold mismatch — <code>TURN_LEFT</code>/<code>TURN_RIGHT</code> were gating on the raw L/R ultrasonic sensor against the same 60cm <code>STOP_DIST</code> used for forward/backward driving clearance, reused as-is even though turning in place doesn't sweep nearly that much lateral space. Actual clearance in the test area was ~30–47cm — comfortably safe for a turn, just under the borrowed 60cm requirement. Fixed with a new, turn-specific <code>TURN_STOP_DIST=20cm</code> and an <code>isTurnBlocked()</code> check, per explicit instruction that "safe distance to stop should be maximum 15–20cm" — the <code>frontBlocked()</code>/<code>backBlocked()</code> fusion logic for actual driving was left untouched.</p>
+
+    <p>Turning then worked, but visibly overshot past center. Two hypotheses were tested in order, not guessed: first, motor coast-down — <code>STOP</code> was reusing the same gentle deceleration ramp as everything else, measured at ~624ms to fully stop, meaning the robot kept driving in the same direction for over half a second after <code>STOP</code> was logged. A separate, much steeper <code>STOP_ACCEL_STEP=40</code> was added for stopping specifically (direction reversals still use the gentle ramp, to protect the H-bridge from an abrupt polarity flip) — verified live: <code>SPD</code> now reaches 0 within ~110ms of <code>STOP</code>, down from ~624ms.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Fixed, but not the real cause:</strong> the overshoot was reported just as bad after the deceleration fix. Log evidence — a <code>TURN_RIGHT</code> immediately followed by a <code>TURN_LEFT</code> correction burst — points to the actual dominant cause being perception latency, not motor physics: face detection is CPU-heavy (~300%+ on <code>person_tracker_node</code>), so by the time a "you're centered" frame is captured, processed, and turned into a <code>STOP</code> command, the robot has already kept turning for that whole delay window at real speed. The motor-stop fix is real and worth keeping, it just wasn't the dominant factor. Not yet fixed further — options on the table: lower the max turn speed so less real-world rotation happens per unit of latency, and/or have <code>motion_controller_node</code> start slowing before literal frame-center to anticipate the lag.</p>
+    </div>
+
+    <h2>Torque Floor Raised — and a New Power Lead for Next Session</h2>
+    <p>Live testing found the old <code>MIN_TURN_SPEED=150</code> — and even speeds up to 224–238 tried during testing — produced audible jitter and buzzing with <strong>no actual movement</strong>, consistent with the already-known underpowered drive motors lacking breakaway torque below roughly 200 PWM. Raised to <code>MIN_TURN_SPEED=200</code> so a turn never starts in that buzz-without-moving zone.</p>
+
+    <p>A more important finding came out of that same testing, still unresolved: even at 238 PWM, on the full unified-battery setup (Arduino, Jetson, sensors, and motors all sharing one battery), the motors reportedly still weren't moving — a real contrast with the isolated bench test earlier that moved fine at only 150–180 PWM on its own dedicated supply. The leading theory heading into next session is voltage sag: the unified battery/converter setup may not be able to supply enough current to the motors once everything else is also drawing from it under motor startup load, rather than a firmware or wiring fault. Next step is measuring actual voltage at the motor driver's input while a turn is commanded, and weighing whether the motor driver should go back onto its own dedicated supply — though the motors were already flagged underpowered and pending replacement before any of this, so that replacement may end up being the real fix regardless of how the power-sharing question resolves.</p>
+
+    <div class="post-callout">
+      <p><strong>Process note for next time:</strong> a manual diagnostic command published directly to <code>/cara/drive_cmd</code> while <code>motion_controller_node</code> was still running got silently overridden by that node's own periodic <code>STOP</code> publish on the same topic. Any future direct-command probing needs to stop <code>motion_controller_node</code> first — a single publish doesn't just "win."</p>
+    </div>
 
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>The <code>isConnected()</code> I2C diagnostic still disagrees with the LCD's actual working state — a real, unresolved inconsistency, not swept aside just because the display itself is fine now. The physical wristband still hasn't been built, <code>person_tracker_node</code> still needs a restart to pick up a freshly trained model, and <code>remote_control.py</code> still isn't migrated onto <code>/cara/drive_cmd</code>. On the report side, the docx still has a stale pre-correction power paragraph sitting in it that needs manually replacing, and the Physical Design section plus all six appendices remain unwritten.</p>
+    <p>The turn overshoot is only partially fixed — the real dominant cause (perception/decision latency) is identified but not yet addressed. The unified-battery voltage-sag lead is a brand new open problem, not a solved one. The <code>isConnected()</code> I2C diagnostic still disagrees with the LCD's actual working state — a real, unresolved inconsistency, not swept aside just because the display itself is fine now. The physical wristband still hasn't been built, <code>person_tracker_node</code> still needs a restart to pick up a freshly trained model, and <code>remote_control.py</code> still isn't migrated onto <code>/cara/drive_cmd</code>. On the report side, the docx still has a stale pre-correction power paragraph sitting in it that needs manually replacing, and the Physical Design section plus all six appendices remain unwritten.</p>
 
     <h2>Week 12 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -123,7 +143,13 @@
           <tr><td>LBPH recognition threshold bug fixed (70→85, duplicate-instance bug)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Full autonomous pipeline verified live end-to-end, including the turn</td><td class="yes">✓ Complete</td></tr>
           <tr><td>wasd_web_control.py built (standalone motor bench-test tool)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>"Robot isn't moving" report root-caused (dead battery)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>"Robot isn't moving" report root-caused (dead battery, twice)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Turn-clearance fix (TURN_STOP_DIST=20cm, isTurnBlocked())</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Fast-stop deceleration for STOP (110ms vs old 624ms)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>MIN_TURN_SPEED raised 150→200 (torque floor)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>First live autonomous turn achieved</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Turn-overshoot real cause identified (perception latency)</td><td class="no">⏳ Identified — not yet fixed</td></tr>
+          <tr><td>Voltage sag under unified battery at high PWM</td><td class="no">⏳ New open lead</td></tr>
           <tr><td>isConnected() diagnostic disagreement with LCD's real state</td><td class="no">⏳ Unresolved</td></tr>
           <tr><td><code>cara_robot.jpg</code> / <code>test_setup.jpg</code> submission photos</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Stale pre-correction power paragraph replaced in the docx</td><td class="no">⏳ In Progress</td></tr>

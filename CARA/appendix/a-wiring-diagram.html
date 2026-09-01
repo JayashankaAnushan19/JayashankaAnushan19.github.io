@@ -29,14 +29,35 @@
   </div>
 
   <div class="page-header">
-    <div class="page-label">Appendix A <span class="tag tag-amber" style="margin-left:.5rem;">In progress</span></div>
+    <div class="page-label">Appendix A <span class="tag tag-amber" style="margin-left:.5rem;">Draft — from thesis</span></div>
     <h1 class="page-title">Wiring Diagram</h1>
-    <p class="page-subtitle">Full Circuit Wiring Diagram — all Arduino pin assignments, power rails, and bus connections.</p>
+    <p class="page-subtitle">Full Circuit Wiring Diagram — all Arduino Mega 2560 pin assignments, power rails, and bus connections.</p>
   </div>
 
-  <div class="info-box">
-    <h4>Content pending</h4>
-    <p>This appendix hasn't been filled in yet. It will be populated here once the material is ready to publish — no need to wait for the full thesis submission.</p>
+  <p style="color:var(--muted); font-size:.85rem; margin-top:-.5rem;">Table 8 — Circuit Wiring Diagram (Author developed)</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Subsystem</th><th>Pins</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Motors (L298N)</td><td>IN1=22, IN2=23, IN3=24, IN4=25, ENA=11 (PWM), ENB=12 (PWM)</td></tr>
+        <tr><td>Ultrasonic ring (×6)</td><td>FL=26/27, FR=28/29, BL=30/31, BR=32/33, L=34/35, R=36/37</td></tr>
+        <tr><td>PIR</td><td>Front=2, Rear=3</td></tr>
+        <tr><td>Buzzer / LED</td><td>Buzzer=8, LED=10</td></tr>
+        <tr><td>Servo (MG90S)</td><td>Pin 46</td></tr>
+        <tr><td>LCD (bit-banged I2C)</td><td>SDA=20, SCL=A0</td></tr>
+        <tr><td>RTC</td><td>SDA=20, SCL=21 (shared hardware bus — see Limitations)</td></tr>
+        <tr><td>RFID (SPI)</td><td>SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td></tr>
+        <tr><td>Keypad (4×4)</td><td>Rows=38,39,40,41; Cols=42,43,4,5</td></tr>
+        <tr><td>GSM (A7670C)</td><td>Hardware Serial1: TX=18, RX=19; PWRKEY=9</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box amber" style="margin-top:1.5rem;">
+    <p><strong>Note:</strong> the LCD and RTC share SDA=20 on a bit-banged I2C bus rather than the hardware I2C pins (20/21) used conventionally — a workaround for a damaged I2C pin on this Mega, documented in Chapter 3.8 (Safety Design) / Limitations. Pulled directly from the thesis document (Appendix A) — treat as accurate but not yet the final submitted version.</p>
   </div>
 
   <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
