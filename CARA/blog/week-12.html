@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 12 (in progress) — the Thesis Report gets a full structural audit and an IEEEtran LaTeX rebuild, then a big engineering stretch: the LCD power issue is resolved, obstacle-detection sensor fusion is built, the full autonomous pipeline drives and turns the real robot for the first time, a turn-overshoot investigation finds the real culprit is perception latency, and a new voltage-sag lead opens up under the unified battery.">
+<meta name="description" content="CARA Week 12 — a Thesis Report structural audit and IEEEtran LaTeX rebuild, then a huge engineering stretch: the autonomous pipeline drives and turns the robot for the first time, a faulty battery cell is found and the power split, person-following and camera tilt come online, a full medicine reminder system ships with RFID/keypad acknowledge, and a Jetson timezone bug is found and fixed.">
 <title>Week 12 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -40,7 +40,7 @@
 
     <h1>From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live</h1>
 
-    <p class="page-subtitle">The week started with a break from firmware and ROS2: the Thesis Report document got a full structural read to find what's genuinely missing versus just out of date, followed by a full LaTeX rebuild of the dissertation, converted to IEEEtran format and re-scoped into a verified 4-page submission document. Then the engineering work came roaring back — the long-open LCD power issue got resolved, the obstacle-detection sensor-fusion idea from <a href="week-11.html">Week 11</a> actually got built, a recognition-threshold bug got fixed, and the full autonomous pipeline drove and turned the real robot for the first time. Getting the turn clean took two more rounds: a clearance-distance fix, then an overshoot investigation that traced the real cause to perception latency rather than motor physics — and opened a new lead on voltage sag under the unified battery. This post is still in progress and will be filled in further as the week continues.</p>
+    <p class="page-subtitle">The week started with a break from firmware and ROS2: the Thesis Report document got a full structural read to find what's genuinely missing versus just out of date, followed by a full LaTeX rebuild of the dissertation, converted to IEEEtran format and re-scoped into a verified 4-page submission document. Then the engineering work came roaring back — the long-open LCD power issue got resolved, the obstacle-detection sensor-fusion idea from <a href="week-11.html">Week 11</a> actually got built, a recognition-threshold bug got fixed, and the full autonomous pipeline drove and turned the real robot for the first time. Getting the turn clean took two more rounds: a clearance-distance fix, then an overshoot investigation that traced the real cause to perception latency, and a voltage-sag lead that turned out to be a genuinely dead battery cell. The week closed with a big push: turning parked as an accepted hardware limit, forward/backward person-following and camera tilt control coming online, a full medicine reminder system with RFID and keypad acknowledge, and a robot clock in the web UI that surfaced a real timezone bug. This post is still in progress and will be filled in further as the week continues.</p>
   </div>
 
   <div class="post-body">
@@ -123,8 +123,49 @@
       <p><strong>Process note for next time:</strong> a manual diagnostic command published directly to <code>/cara/drive_cmd</code> while <code>motion_controller_node</code> was still running got silently overridden by that node's own periodic <code>STOP</code> publish on the same topic. Any future direct-command probing needs to stop <code>motion_controller_node</code> first — a single publish doesn't just "win."</p>
     </div>
 
+    <h2>Power Split, Turning Parked as a Hardware Limit, Obstacle Fusion Proven Live</h2>
+    <p>The voltage-sag lead from the previous section got a real answer: the 3S battery pack was confirmed genuinely faulty — one dead cell — not a firmware or power-sharing problem. The fix was a power split rather than a repair: the Jetson moved onto its own wall adapter, leaving the battery dedicated to the Arduino, motors, and sensors only.</p>
+
+    <p>Turning itself got <strong>parked</strong> rather than chased further in software: the overshoot and torque issues are a real hardware limit of the 6V DIY DC gear motors, not something more code can fix. That matches the motor replacement already flagged as pending back in <a href="week-09.html">Week 09</a> — it's the real fix, not another firmware patch.</p>
+
+    <p>The obstacle-fusion sensor logic built earlier this week finally got tested against real staged scenarios, not just traced through code: the hard-stop floor held in both directions against real <code>MOVE_FORWARD</code> commands, and side-wall corroboration worked correctly on both branches at once in a real room-corner test. One honest limitation surfaced too — a coincidental tolerance-match between a corner sensor and a true side sensor can explain away a genuine obstruction in tight corner geometries. Not a safety gap (<code>HARD_STOP_DIST</code> still catches it regardless), just a known limit of the heuristic. A submission deadline was also noted: <strong>15 September 2026</strong>.</p>
+
+    <h2>Speed Floor, Tighter Stop Distance, and a Live Mid-Drive Safety Check</h2>
+    <p>Live testing pinned down the motors' real breakaway point: the entire 0–149 PWM range just jitters with no actual movement. <code>MIN_DRIVE_SPEED=145</code> now floors the web UI's speed slider, and a matching <code>START_SPEED_FLOOR=145</code> means a fresh <code>MOVE_*</code>/<code>TURN_*</code> from a stop jumps straight to 145 instead of climbing there gradually through the normal ramp.</p>
+
+    <p><code>STOP_DIST</code> for forward/backward driving was tightened from 60cm to 20cm, matching <code>TURN_STOP_DIST</code> — the old 60cm was blocking <code>MOVE_BACKWARD</code> with a genuinely clear ~40cm behind the robot, and stop distance was capped at a maximum of 20cm per explicit instruction.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Real safety gap found and closed:</strong> obstacle checks (<code>frontBlocked()</code>/<code>backBlocked()</code>/turn-blocked) were only ever evaluated once, at the moment a command was accepted — never re-checked while the robot was already moving. A new <code>checkLiveObstacles()</code> now runs every <code>loop()</code> iteration, force-stopping immediately if the direction in motion becomes newly blocked. Live-verified: a real obstacle placed in front of the robot while driving at <code>SPD:185</code> triggered an immediate <code>EMERGENCY_STOP</code>, decelerating to 0 in about a second.</p>
+    </div>
+
+    <h2>Forward/Backward Follow, Faster Reversals, and Camera Tilt Comes Online</h2>
+    <p><code>motion_controller_node</code> now implements forward-follow using the tracked person's bounding-box area as a distance proxy. Live-calibrated by walking a real distance range, which turned up a real limitation: that area signal doesn't scale reliably up close — so the originally-planned <code>MOVE_BACKWARD</code>/retreat behavior was dropped entirely rather than trusted on an unreliable "stop at a safe distance" signal. Vision only decides <em>when</em> to approach; the Arduino's own tightened stop distance and live obstacle check (above) is what actually keeps it at a safe distance. Live-tested end to end, confirmed working.</p>
+
+    <p>Direction reversals now use the fast stop-deceleration to cancel the old direction first, not just a plain <code>STOP</code> — after live feedback that reacting to a person stepping aside mid-approach felt too slow. The ramp into the new direction is unchanged and still gentle, so this is fast to cancel and smooth to commit, with no new overshoot risk.</p>
+
+    <p>Camera tilt control (<code>TILT_UP</code>/<code>TILT_DOWN</code>/<code>TILT_CENTER</code>) came online too, repurposing the servo on pin 46 that had only ever done the one-shot greeting wave gesture before — kept continuously attached now, as its own actuator separate from the drive motors. Bench-tested over serial, all three commands acknowledge correctly, but the servo hasn't been visually confirmed actually moving yet, and it isn't wired into the web UI or the ROS2 tracking pipeline yet either (<code>person_tracker_node</code> already publishes the vertical position that would eventually drive it, unused so far). Separately, a reported turn "jitter" near a tracked person was investigated and confirmed live as the <code>TURN_STOP_DIST</code> safety check correctly detecting the person's own body — not a bug. Camera tilt is the intended fix for that close-range framing case, not a reason to weaken the safety check.</p>
+
+    <div class="post-callout">
+      <p><strong>Naming correction:</strong> the tilt servo's firmware comments now consistently call it an <strong>MG90S</strong>, not the SG90 used elsewhere on this site and in earlier posts — worth reconciling once it's clear whether that's a part swap or just inconsistent naming.</p>
+    </div>
+
+    <h2>A Full Medicine Reminder System</h2>
+    <p><code>remote_control.py</code> grew a complete reminder system: JSON storage (time, label, enabled, last-fired date), a 30-second background scheduler, REST endpoints for list/add/delete/test-now/acknowledge, and a UI panel in the main web interface. On the firmware side, <code>triggerAlert()</code> was generalized into <code>triggerAlertWithMessage()</code>, adding a <code>MED_REMINDER:&lt;label&gt;</code> path that reuses the same buzzer/forced-<code>STOP</code>/LCD mechanism as a real <code>FALL_DETECTED</code>.</p>
+
+    <p>Two more ways to acknowledge a reminder exist now, beyond the web UI: the keypad's <code>0</code> key enters a time-entry mode (type <code>HHMM</code>, <code>#</code> to confirm, <code>*</code> to cancel, with live digits shown on the LCD) to add one, and MFRC522 RFID reading was ported into the main firmware for the first time — tapping the patient's known tag now acknowledges an active alert, the same role the keypad's <code>*</code> already had. The serial reader watches the Arduino's <code>STATE:</code> line for an <code>ALERT</code>→<code>OK</code> transition, so the web notification clears no matter which path did the acknowledging. Both the RFID and keypad reminder-entry paths compiled clean and flashed, but haven't been physically tested yet — a real tag tap and keypad sequence is first on the list for next session.</p>
+
+    <h2>Robot Clock in the Web UI — and a Timezone Bug It Surfaced</h2>
+    <p>A new clock panel shows live time in the web UI, re-fetched every 5 seconds rather than ticking client-side, so it actually reveals real drift instead of just animating smoothly regardless of the truth. It's deliberately built on the Jetson's own system clock rather than the physical DS3231 RTC — that RTC shares the same hardware I2C bus as the damaged SCL=21 pin, so using it for real would mean writing a whole new bit-banged driver this close to the deadline. Confirmed with the project owner before choosing the simpler path over the "more correct" one.</p>
+
+    <p>Setting the time needs root, which the Flask process doesn't have — the adjust path attempts a non-interactive <code>sudo</code> and, if that fails, surfaces the exact one-time setup command needed (a <code>visudo</code>-validated sudoers line, not a raw edit, specifically to avoid the risk of a malformed file locking out <code>sudo</code> entirely).</p>
+
+    <div class="post-callout">
+      <p><strong>Real bug found along the way:</strong> building this surfaced that the Jetson's timezone was set to Africa/Abidjan (GMT+0) instead of its actual location — looked up via IP geolocation rather than guessed, and corrected to Asia/Dubai. An already-running Python process caches its timezone at startup, so the fix needed a service restart before the web UI actually reflected it.</p>
+    </div>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>The turn overshoot is only partially fixed — the real dominant cause (perception/decision latency) is identified but not yet addressed. The unified-battery voltage-sag lead is a brand new open problem, not a solved one. The <code>isConnected()</code> I2C diagnostic still disagrees with the LCD's actual working state — a real, unresolved inconsistency, not swept aside just because the display itself is fine now. The physical wristband still hasn't been built, <code>person_tracker_node</code> still needs a restart to pick up a freshly trained model, and <code>remote_control.py</code> still isn't migrated onto <code>/cara/drive_cmd</code>. On the report side, the docx still has a stale pre-correction power paragraph sitting in it that needs manually replacing, and the Physical Design section plus all six appendices remain unwritten.</p>
+    <p>The camera tilt servo isn't confirmed physically moving yet, despite acknowledging commands correctly — a real gap between "the firmware thinks it worked" and "it visibly worked." RFID and keypad reminder entry are flashed but physically untested. Turning is now a known, accepted hardware limit rather than a solved problem — the real fix is motor replacement, not more software. The <code>isConnected()</code> I2C diagnostic still disagrees with the LCD's actual working state. The physical wristband still hasn't been built, <code>person_tracker_node</code> still needs a restart to pick up a freshly trained model, and <code>remote_control.py</code> still isn't migrated onto <code>/cara/drive_cmd</code>. On the report side, the docx still has a stale pre-correction power paragraph sitting in it that needs manually replacing, and the Physical Design section plus all six appendices remain unwritten.</p>
 
     <h2>Week 12 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -149,7 +190,18 @@
           <tr><td>MIN_TURN_SPEED raised 150→200 (torque floor)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>First live autonomous turn achieved</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Turn-overshoot real cause identified (perception latency)</td><td class="no">⏳ Identified — not yet fixed</td></tr>
-          <tr><td>Voltage sag under unified battery at high PWM</td><td class="no">⏳ New open lead</td></tr>
+          <tr><td>Voltage-sag lead root-caused (faulty battery cell, Jetson split off)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Turning parked as an accepted hardware limit (motor replacement pending)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Obstacle fusion live-tested against real staged scenarios</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Speed floor (145) + tightened stop distance (20cm) shipped</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>checkLiveObstacles() — mid-drive safety re-check, live-verified</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Forward/backward person-follow live-tested end to end</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Fast direction-reversal deceleration shipped</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Camera tilt control built (TILT_UP/DOWN/CENTER)</td><td class="yes">✓ Complete — commands ack, not yet visually confirmed moving</td></tr>
+          <tr><td>Full medicine reminder system (storage, scheduler, REST, UI)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>RFID + keypad reminder acknowledge/entry — flashed</td><td class="no">⏳ Flashed, not yet physically tested</td></tr>
+          <tr><td>Robot clock in web UI (Jetson system clock, not RTC)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Jetson timezone bug found and fixed (Africa/Abidjan → Asia/Dubai)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>isConnected() diagnostic disagreement with LCD's real state</td><td class="no">⏳ Unresolved</td></tr>
           <tr><td><code>cara_robot.jpg</code> / <code>test_setup.jpg</code> submission photos</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Stale pre-correction power paragraph replaced in the docx</td><td class="no">⏳ In Progress</td></tr>

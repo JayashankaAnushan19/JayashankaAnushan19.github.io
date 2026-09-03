@@ -22,7 +22,7 @@ var POSTS = [
     week:    'Week 12',
     date:    '28 Aug–3 Sep 2026',
     title:   'From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live',
-    excerpt: 'Started with a Thesis Report structural audit and a full LaTeX/IEEEtran rebuild re-scoped to a verified 4-page submission doc. Then the engineering came back: LCD power resolved, the Week 11 obstacle-fusion idea got built, and the full autonomous pipeline drove and turned the real robot for the first time. A turn-overshoot investigation traced the real cause to perception latency, and a new voltage-sag lead opened up under the unified battery. Still in progress.',
+    excerpt: 'Started with a Thesis Report structural audit and a full LaTeX/IEEEtran rebuild re-scoped to a verified 4-page submission doc. Then engineering took over: LCD power resolved, obstacle fusion built and live-tested, and the full autonomous pipeline drove and turned the real robot for the first time. A faulty battery cell was found, turning got parked as a hardware limit, person-following and camera tilt came online, a full medicine reminder system shipped with RFID/keypad acknowledge, and a robot clock surfaced a real timezone bug. Still in progress.',
     tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {
