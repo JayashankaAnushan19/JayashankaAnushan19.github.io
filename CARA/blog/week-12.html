@@ -147,7 +147,7 @@
     <p>Camera tilt control (<code>TILT_UP</code>/<code>TILT_DOWN</code>/<code>TILT_CENTER</code>) came online too, repurposing the servo on pin 46 that had only ever done the one-shot greeting wave gesture before — kept continuously attached now, as its own actuator separate from the drive motors. Bench-tested over serial, all three commands acknowledge correctly, but the servo hasn't been visually confirmed actually moving yet, and it isn't wired into the web UI or the ROS2 tracking pipeline yet either (<code>person_tracker_node</code> already publishes the vertical position that would eventually drive it, unused so far). Separately, a reported turn "jitter" near a tracked person was investigated and confirmed live as the <code>TURN_STOP_DIST</code> safety check correctly detecting the person's own body — not a bug. Camera tilt is the intended fix for that close-range framing case, not a reason to weaken the safety check.</p>
 
     <div class="post-callout">
-      <p><strong>Naming correction:</strong> the tilt servo's firmware comments now consistently call it an <strong>MG90S</strong>, not the SG90 used elsewhere on this site and in earlier posts — worth reconciling once it's clear whether that's a part swap or just inconsistent naming.</p>
+      <p><strong>Naming correction:</strong> the tilt servo's firmware comments now consistently call it an <strong>MG90S</strong>, not the SG90 used elsewhere on this site and in earlier posts. Confirmed the following week: MG90S is the real, deliberate part — the LaTeX report and site references to "SG90" are the ones that need correcting, not this one.</p>
     </div>
 
     <h2>A Full Medicine Reminder System</h2>
@@ -261,7 +261,7 @@
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-11.html" style="color:var(--primary);">← Previous: Week 11 — Jetson Drives, Displays Its IP, ROS2 Nodes Go Live</a>
     <a href="./">All Posts</a>
-    <a href="week-13.html" style="color:var(--primary);">Next: Week 13 — Coming Soon →</a>
+    <a href="week-13.html" style="color:var(--primary);">Next: Week 13 — Shared-Power Fault Found →</a>
   </div>
 
 </main>

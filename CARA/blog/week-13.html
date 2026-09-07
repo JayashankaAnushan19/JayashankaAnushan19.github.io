@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 13 — Coming soon.">
+<meta name="description" content="CARA Week 13 (in progress) — finishing covers designed, a shared-power fault traced to the Arduino's 5V regulator, a new hardware diagnostics tool, a supervisor meeting with real outcomes, the LaTeX report reframed as a standalone paper with a properly rebuilt bibliography, and a real HSV calibration tool for the wristband.">
 <title>Week 13 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,183 @@
     <div class="post-meta">
       <span class="post-date">4–10 Sep 2026</span>
       <span class="tag tag-blue">Week 13</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 13 — Coming Soon</h1>
+    <h1>From Finishing Covers to a Shared-Power Fault — Root Cause Found, Fix Underway</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">The week started as a CAD-only stretch — covers and holders that turn a working prototype into something that looks like a finished product. Then a camera-tilt bench test, meant to be routine, uncovered something much more serious: obstacle sensors silently failing open, an RFID reader gone unresponsive, and a servo that still wouldn't move with everything attached — three separate symptoms that traced back to one shared root cause on the Arduino's own power rail. A new browser-based diagnostics tool came out of chasing it down, and a first fix attempt didn't work — but the real fix is now understood and underway. Later in the week: a report accuracy pass, a supervisor meeting with real actionable outcomes, the LaTeX report reframed as a standalone paper with its bibliography rebuilt from real Word citation data, and a proper HSV calibration tool built for the long-open wristband color placeholder.</p>
   </div>
 
   <div class="post-body">
 
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2>New Covers and Holders for a Cleaner Build</h2>
+    <p>Two design sessions landed a set of finishing parts in <code>Hardware_Creation/</code>, all aimed at the same goal — a tidier, more finished-looking robot rather than new sensors or features:</p>
+
+    <ul>
+      <li><strong>Camera Cover</strong> — housing for the camera module.</li>
+      <li><strong>LCD Cover</strong> — housing for the 16×2 display.</li>
+      <li><strong>RFID Cover</strong> — housing for the MFRC522 reader.</li>
+      <li><strong>Jetson and LCD holder</strong> — a combined mounting bracket for the Jetson Nano and the LCD.</li>
+      <li><strong>Switch holder</strong> — a dedicated mount for the power switch.</li>
+      <li><strong>Wire hidden component + cover</strong> — a wire-management piece that tucks cabling out of sight, with a matching cover panel.</li>
+      <li><strong>Cam hold pins</strong> — small pins to secure the camera module in place.</li>
+      <li><strong>Part5 – New1</strong> — a further revision of the camera-gear part first modified back in <a href="week-08.html">Week 08</a>.</li>
+    </ul>
+
+    <figure class="post-image">
+      <div class="post-image-placeholder">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-text">Photo placeholder — to be added</span>
+      </div>
+      <figcaption>The new covers and holders, once printed and test-fitted onto the chassis.</figcaption>
+    </figure>
+
+    <p>A further revision of the camera base landed too (<code>Part5 – New1</code>, updated again), continuing the same part's iteration from earlier this week — no written description accompanies the change, so specifics aren't documented yet.</p>
+
+    <h2>Camera Tilt Bench Test — and a More Serious Issue Found Along the Way</h2>
+    <p>Debugging the still-unmoving tilt servo from <a href="week-12.html">Week 12</a> started with a minimal servo-only bench test (<code>NineteenthTest_CameraTiltCheck.ino</code>) — still no movement, which at least ruled firmware out. That was replaced with a proven 3-phase diagnostic (small moves, full sweep, fast snaps) which confirmed the servo works correctly in isolation, and is being kept as the reference for any future tilt debugging.</p>
+
+    <p>Re-verifying through the real firmware turned up something more serious: 5 of the 6 ultrasonic sensors (FL/FR/BR/L/R) stuck reporting <code>0.00</code>, with the tilt servo still not physically moving once everything was attached together. A <code>0</code> reading means "no obstacle" in this firmware — it fails open, so obstacle safety cannot be trusted for live movement until this is fixed.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Diagnosis:</strong> the shared Arduino 5V rail can't supply enough current once the servo, the full ultrasonic ring, and everything else are all actually attached at once — the same pattern behind the LCD and motor power problems from earlier weeks. The fix is hardware, not yet done. <strong>No further live movement tests until this is physically fixed and re-verified.</strong></p>
+    </div>
+
+    <h2>RFID Isolation Test Confirms the Same Root Cause</h2>
+    <p>A physical test of RFID-acknowledge during a real alert got no response at all — not even an "unknown tag" rejection. An isolated bench test (<code>TwentiethTest_RFIDCheck.ino</code>, same philosophy as the tilt test) found the MFRC522's <code>VersionReg</code> reads back <code>0x24</code> — the chip is alive and responding over SPI — but a tag scan produces nothing at all, even with no time limit.</p>
+
+    <p>That's a third data point for the same root cause already suspected for the tilt servo and ultrasonic ring: basic digital SPI communication works fine, but actively driving an RF field to detect a tag needs more current than the shared, insufficient power rail can supply. The recommendation going forward is to fix the shared power problem first, before separately debugging RFID wiring — it likely resolves all three symptoms at once.</p>
+
+    <h2>A Browser-Based Hardware Diagnostics Tool</h2>
+    <p>Chasing all of this by hand — flashing sketches and watching serial output — kept hitting the same friction, so a proper tool came out of it: <code>hardware_diagnostics.py</code> (port 5050), a browser-based flash-and-monitor for the bench-test sketches with no command line or <code>arduino-cli</code> knowledge needed. It scans <code>Sensor_Testing_Codes/After_Full_Assembly</code> for available sketches (plus a pinned entry for the real firmware), a Flash button runs compile-and-upload via <code>arduino-cli</code>, live log streams over Server-Sent Events (the same pattern already used for the camera feed), and a send-command box allows interactive testing — since refined with a preset dropdown (<code>MOVE_FORWARD</code>, <code>TILT_UP</code>, <code>SET_SPEED:200</code>, etc.) that auto-fills but stays editable, with the input left in place after sending so a command can be resent or tweaked quickly.</p>
+
+    <p>It also solves a recurring bit of friction from every hardware test this session: manually stopping and starting the <code>cara-remote-control</code> service before and after each bench test. Stop/Start buttons attempt this via non-interactive <code>sudo</code>, with a clear one-time <code>visudo</code> setup command if not yet configured — the same safe pattern already used for the clock-adjust feature, not a raw edit into <code>/etc/sudoers.d/</code>. Live-tested end to end: sketch listing, flash-then-auto-monitor, live streaming, and send-command all confirmed working.</p>
+
+    <h2>Power Fix Attempt #1 Didn't Help — Real Root Cause Now Understood</h2>
+    <p>The first attempt at a fix — connecting external power to the Arduino board itself, rather than feeding peripherals directly — didn't help. Re-tested via the new diagnostics tool, RFID still detected nothing.</p>
+
+    <p>The real root cause: the Arduino's onboard 5V regulator has its own current limit, regardless of how well-powered the board's input supply is — and RFID, the servo, and the ultrasonic sensors are all still wired through that same pin. The agreed real fix, not yet done: external 5V wired directly to each peripheral's VCC, bypassing the Arduino's 5V pin entirely, with a common ground tied back to the Arduino — explicitly not the big drive motors, which already have their own separate supply. That wiring is in progress, to be retested together next session.</p>
+
+    <h2>Report Accuracy Pass — Diagrams, Text Cleanup, and a Research Questions Section</h2>
+    <p>An ongoing accuracy pass across the week added a full "Research Questions Revisited" section to Chapter 6, redrew Figure 3-2 (Software Architecture) to remove the fictional pan-tilt dual-servo mechanism and collapse the two-ring ultrasonic layout down to the real single 6-sensor ring, and cleaned up several leftover text issues: a stray personal note that had been typed directly into the "Future Work" heading, a duplicated research question, and redundant restated-question openings in the RQ answers.</p>
+
+    <p>Repo hygiene got a pass too: the session-scratch files that had been accidentally tracked (<code>thesis_dump_*.txt</code>, <code>thesis_tables_*.txt</code>, <code>scratch_images/</code>) were removed, and <code>scratch_images/</code> added to <code>.gitignore</code> so they don't come back.</p>
+
+    <h2>Supervisor Meeting — Turning Refinement, a Cell-Recovery Attempt, and Real-World Validation</h2>
+    <p>A supervisor progress meeting produced several concrete outcomes. The dissertation should explicitly answer its research questions — matching the new Chapter 6 section above. A motor-control refinement was proposed for the drive motors' known lack of closed-loop feedback: asymmetric left/right power during turns (one side slower, one side faster) instead of equal-and-opposite pivoting, to reduce turn overshoot without needing encoders — not yet implemented, added to Future Work in both report versions.</p>
+
+    <p>Also discussed: attempting to recover the dead 3rd LiPo cell — reading <strong>0.01V</strong> — by connecting it to a charger in isolation from the rest of the pack. Attempted the same day; the outcome isn't known yet. Real-world/outdoor validation of the fall-detection model specifically (lighting and environment robustness, beyond the current lab-only testing) was requested too, worded carefully in Future Work to apply to the perception model without contradicting the project's declared out-of-scope status for outdoor robot navigation. Separately: the university lab has started 3D-printing the redesigned chassis parts submitted earlier this week, to be installed once received.</p>
+
+    <h2>LaTeX Report Reframed as a Standalone Paper, Bibliography Rebuilt Properly</h2>
+    <p>The LaTeX report was brought up to date with the same hardware findings as the Word version — the servo named explicitly as MG90S throughout, and the full power architecture (3S 11.1V/7000mAh battery, 5V/6.6V buck rails, a boosted-and-fused 19V rail for the Jetson) added as new hardware-table rows and a paragraph, having been entirely absent from the condensed version.</p>
+
+    <p>Per explicit instruction, the document was reframed as a standalone publishable research paper rather than a dissertation excerpt: "dissertation" became "paper" throughout, a formal Research Questions list and an itemised Contributions statement were added to the Introduction, a "Research Questions Revisited" paragraph and a Code/Data Availability statement (linking the GitHub repo) were added to the Conclusion, and Related Work was fully rewritten into 9 subsections matching the dissertation's real literature-review structure — so all real sources are genuinely cited in support of specific claims, not just listed.</p>
+
+    <p>The bibliography itself got rebuilt from scratch, properly this time: the Word thesis's in-text citations turned out to be real Word citation-manager fields — 51 <code>CITATION</code> fields and one <code>BIBLIOGRAPHY</code> field — that had simply never been refreshed (<code>Ctrl+A → F9</code>), with Word storing the full real source data for all of them inside the <code>.docx</code> file itself (<code>customXml/item1.xml</code>). All 53 real sources were extracted directly from that XML (51 after merging two true duplicates), replacing the earlier placeholder 7-entry <code>references.bib</code> outright.</p>
+
     <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 13's work is complete and written up.</p>
+      <p><strong>Three real data-quality bugs found along the way:</strong> a narrow no-break space (Unicode U+202F) hidden inside one title that silently killed the entire pdfLaTeX compile with no PDF produced at all; a trailing comma on a corporate author name ("World_Bank,") that crashed BibTeX outright; and two entries where a long author list had been truncated with a literal "..." or "et al." typed in as a fake extra author, now correctly converted to BibTeX's own "others" convention so it renders as a proper "et al."</p>
+    </div>
+
+    <p>Confirmed clean throughout: zero BibTeX warnings, zero undefined citations, final page count 6 — still comfortably within the 8-page cap.</p>
+
+    <h2>A Proper HSV Calibration Tool for the Wristband</h2>
+    <p>The wristband color has been a known placeholder since <a href="week-11.html">Week 11</a> — bright magenta/pink, never tuned against a real physical band. That finally has a real path forward: <code>hsv_band_calibrator.py</code>, a standalone, laptop-side tool (no dependency on any other project file) for calibrating the actual printed wristband's HSV range under real lighting, before touching any Jetson tracking code. Iterated per feedback into its final form — two live windows (raw camera feed and the filtered/mask preview) instead of three, a clickable on-screen SAVE button plus an <code>'s'</code> keyboard fallback (real GUI buttons aren't reliably supported by standard <code>opencv-python</code> builds), and each save producing one combined image — both views plus the exact H/S/V values as text — into a dedicated captures folder, alongside a running paste-ready text file with the latest values. Set up to be run on the user's own laptop the next day with the now-printed band.</p>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>The camera-tilt debugging session uncovered a real safety-relevant issue rather than a simple fix: 5 of 6 ultrasonic sensors currently read <code>0.00</code>, which this firmware treats as "no obstacle" — obstacle safety cannot be trusted for live movement until the shared-power fix is done and re-verified. RFID remains completely unresponsive to tag scans. The camera tilt servo still isn't confirmed physically moving with everything attached, even though it works correctly in isolation. The first power-fix attempt (external power to the board) didn't resolve anything — the real fix (direct-to-peripheral wiring) is in progress but not yet retested. The dead 3rd LiPo cell's recovery attempt has an unknown outcome so far. The wristband calibration tool is built but hasn't actually been run against the real printed band yet. Everything else carried in from <a href="week-12.html">Week 12</a> is still open too: RFID/keypad reminder acknowledge is untested, turning remains parked as an accepted motor-torque limit, and the <code>isConnected()</code> LCD diagnostic still disagrees with the display's real state. On the hardware-finishing side, every cover and holder designed this week is still just a design file — none printed or test-fitted yet, though the university lab has now started printing them.</p>
+
+    <h2>Week 13 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Camera Cover designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>LCD Cover designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>RFID Cover designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Jetson and LCD holder designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Switch holder designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Wire-hiding component + cover designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Cam hold pins designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Parts printed and test-fitted on the chassis</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Physical Design section (Thesis Report) updated with new hardware</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Camera tilt servo proven working in isolation (3-phase diagnostic)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Shared-power root cause identified (Arduino 5V regulator current limit)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>RFID isolation test — confirms same shared-power theory</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Browser-based hardware diagnostics tool built (port 5050)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Obstacle sensors trustworthy for live movement (5/6 reading 0.00)</td><td class="no">⛔ Not safe — do not run live movement tests</td></tr>
+          <tr><td>Power fix attempt #1 (external power to board)</td><td class="no">✗ Did not work</td></tr>
+          <tr><td>Real power fix — direct-to-peripheral 5V wiring, common ground</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Camera tilt confirmed moving with everything attached</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>RFID tag detection restored</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Research Questions Revisited section added (Ch6)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Figure 3-2 redrawn (fictional pan-tilt + second ultrasonic ring removed)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Repo scratch-file cleanup (thesis_dump/tables, scratch_images)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Supervisor meeting held — outcomes logged and actioned</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Asymmetric-turn motor refinement (from supervisor meeting)</td><td class="no">⏳ Future Work — not implemented</td></tr>
+          <tr><td>Dead 3rd LiPo cell isolated-charge recovery attempt</td><td class="no">⏳ Outcome unknown</td></tr>
+          <tr><td>LaTeX report reframed as a standalone paper</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Bibliography rebuilt from real Word citation data (53 sources)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>hsv_band_calibrator.py built for real wristband tuning</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Wristband actually calibrated with the tool against the real band</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 13 — Shared-Power Fault Found">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-12.html" style="color:var(--primary);">← Previous: Week 12 — Report Audit & a Big Engineering Day</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-14.html" style="color:var(--primary);">Next: Week 14 — Coming Soon →</a>
   </div>
 
 </main>

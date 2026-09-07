@@ -10,12 +10,20 @@
 
 var POSTS = [
   {
+    file:    'week-14.html',
+    week:    'Week 14',
+    date:    '11–17 Sep 2026',
+    title:   'Week 14 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
     file:    'week-13.html',
     week:    'Week 13',
     date:    '4–10 Sep 2026',
-    title:   'Week 13 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'From Finishing Covers to a Shared-Power Fault — Root Cause Found, Fix Underway',
+    excerpt: 'Started as CAD-only week designing covers and holders for a neater final build. Then a routine camera-tilt bench test uncovered something serious: obstacle sensors failing open, RFID gone unresponsive, and a servo that still wouldn\'t move — three symptoms traced to one shared root cause on the Arduino\'s 5V regulator, with a new diagnostics tool built along the way. Later: a supervisor meeting with real outcomes, the LaTeX report reframed as a standalone paper with its bibliography rebuilt from real Word citation data, and a proper HSV calibration tool for the wristband. Still in progress.',
+    tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {
     file:    'week-12.html',
