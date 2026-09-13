@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 14 (in progress) — replacement gear motors bench-tested with a sign-inversion bug found and fixed, a spare keypad traced to a defective membrane, a real wristband built and two genuine HSV tracking failure modes found and fixed, and an untested bit-banged RTC driver written for the Mega.">
+<meta name="description" content="CARA Week 14 (in progress) — replacement gear motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, an untested RTC driver, and a full 'CARA Care' admin dashboard redesign verified live end to end.">
 <title>Week 14 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -39,7 +39,7 @@
 
     <h1>New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control</h1>
 
-    <p class="page-subtitle">The underpowered drive motors flagged all the way back in <a href="week-09.html">Week 09</a> — and parked as an accepted hardware limit in <a href="week-12.html">Week 12</a> — finally got real replacements: gear motors with genuine torque margin and built-in encoders, brought up from scratch on the bench, fully independent of the Mega-integrated robot for now. Getting from "the motor spins" to real closed-loop position control surfaced a genuine sign-inversion bug, caught live and fixed. Scaling to all four wheels was deliberately not attempted yet — proving the concept came first. A separate bench session hit a dead end with a spare keypad: methodical pin-by-pin isolation ruled out the Arduino and the code entirely, tracing the fault cleanly to a defective keypad membrane. Later in the week, with no motors or battery on hand, work shifted to a real physical wristband — exposing two genuine HSV-tracking failure modes and fixing both — plus an untested bit-banged RTC driver, and a report sync that deliberately left the sign-inversion bug out of the dissertation.</p>
+    <p class="page-subtitle">The underpowered drive motors flagged all the way back in <a href="week-09.html">Week 09</a> — and parked as an accepted hardware limit in <a href="week-12.html">Week 12</a> — finally got real replacements: gear motors with genuine torque margin and built-in encoders, brought up from scratch on the bench, fully independent of the Mega-integrated robot for now. Getting from "the motor spins" to real closed-loop position control surfaced a genuine sign-inversion bug, caught live and fixed. Scaling to all four wheels was deliberately not attempted yet — proving the concept came first. A separate bench session hit a dead end with a spare keypad: methodical pin-by-pin isolation ruled out the Arduino and the code entirely, tracing the fault cleanly to a defective keypad membrane. Later in the week, with no motors or battery on hand, work shifted to a real physical wristband — exposing two genuine HSV-tracking failure modes and fixing both — plus an untested bit-banged RTC driver, and a report sync that deliberately left the sign-inversion bug out of the dissertation. The week closed with a full redesign of the web UI into a real admin dashboard — "CARA Care" — with genuine login, settings, and activity logs, verified live end to end rather than just written, catching a real import-crash bug and two mobile-layout bugs along the way.</p>
   </div>
 
   <div class="post-body">
@@ -181,8 +181,35 @@
 
     <p>Some housekeeping too: <code>DAILY_LOG.md</code> and the new <code>TODO_DEMO_READINESS.md</code> (a project-wide gap audit specifically aimed at live-demo readiness, tiered by what each item actually needs — bench, Mega, Jetson, or just paperwork) both moved to <code>.gitignore</code> — personal working notes, not meant for repo history.</p>
 
+    <h2>A Real Admin Dashboard — "CARA Care", Built on Top of the Mockup</h2>
+    <p>The web UI got a full redesign, built out on top of the earlier static <code>dashboard_mockup.html</code> reference: a tabbed layout — Live Dashboard, Action Log, Connected IPs, Medicine Log, Error Log, Settings — with real drive controls, live camera feed, patient enrollment, and medicine scheduling on the main view, all now wired to a real backend instead of the mockup's hardcoded sample rows. Settings are backed by an actual <code>settings.json</code> (admin password plus five emergency/family contact slots), and three rolling JSON logs — action, medicine-change, and error — each capped at 300 entries so they can't grow unbounded on a device left running for months. Existing actions were wired into them directly: enrollment, drive commands, and reminder changes all now leave a real trail instead of just returning a response and moving on.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-dashboard-live-view.png" alt="CARA Care dashboard live view showing the camera feed, movement D-pad controls with a speed slider, patient face recognition panel, and scheduled medicine delivery form">
+      <figcaption>The redesigned dashboard's main view — live camera feed, drive controls, patient enrollment, and medicine scheduling in one place.</figcaption>
+    </figure>
+
+    <p>Access is session-based — a real login gated on the stored password, honestly still the default <code>1234</code> until changed, flagged rather than glossed over. The Settings tab is upfront about what's actually wired up: the sharing link is same-network-only right now (<code>http://localhost:5001/dashboard</code>), with public internet access via ngrok noted as a planned addition, not something claimed working before it is.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-dashboard-settings.png" alt="CARA Care dashboard Settings tab showing the local sharing link, five emergency contact number slots, and a change-password form">
+      <figcaption>Settings — the sharing link is honestly labeled same-network-only, contacts and password change both real, backend-wired forms.</figcaption>
+    </figure>
+
+    <h2>Verified Live, Not Just Written</h2>
+    <p>A real bug turned up before anything else could be tested: <code>@app.before_request</code> had been registered before <code>app = Flask(__name__)</code> even existed, which would have crashed on import — caught by an actual <code>py_compile</code> check, not assumed fixed after writing it. With that cleared, the whole system was live-tested against the running server with real requests, not just a read-through: an unauthenticated request to <code>/logs/actions</code> correctly returned 401, a wrong password was correctly rejected and logged as a failed attempt, the correct password established a real session and unlocked the log routes, a real reminder add-then-delete round-tripped through to the medicine log with the right timestamp and label, a deliberately invalid drive command was rejected and appeared in the error log with a real error code, and <code>/connected_ips</code> showed the actual client IP rather than a placeholder. Test data — one dummy reminder used for the round-trip check — was deleted afterward rather than left sitting in the real reminders file.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-dashboard-action-log.png" alt="CARA Care dashboard Action Log tab showing a real captured sequence: a failed login attempt, a successful login, a motor command, medicine schedule changes, and an enrollment reset, each with a real timestamp">
+      <figcaption>The Action Log capturing exactly this verification pass — the failed-then-successful login is the first two rows.</figcaption>
+    </figure>
+
+    <p>Per explicit instruction, <code>/dashboard</code> was then promoted to the site root — the new dashboard now serves directly at <code>/</code>, with the original D-pad-only interface kept as a backup at <code>/legacy</code>, both still the same <code>remote_control.py</code> process on the same port. A "your local time" chip was added next to the robot's own clock in the medicine reminder card — purely client-side, ticking every second with no server round-trip, labeled <strong>ROBOT</strong> versus <strong>YOU</strong> so a family member viewing from a different timezone can tell at a glance which clock is which.</p>
+
+    <p>Real mobile-friendliness was checked rather than assumed from the CSS alone, and two genuine bugs turned up. The six-tab nav bar forced horizontal scrolling on a phone-width screen — fixed to wrap across rows instead. The bigger find: the Live Dashboard tab's grid layout was silently inert at every screen size, not just narrow ones — a shared <code>.tab-content.active{display:flex}</code> rule was overriding the grid display the layout needed to do anything at all, and it only ever looked right on desktop by flex-layout coincidence. Fixed with a scoped, higher-specificity override for that one tab, confirmed via a real before/after screenshot at the narrowest width available to test with.</p>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>L298N Channel B's fault was never actually root-caused — it was avoided by switching to Channel A, not diagnosed as dead-chip vs. broken-signal-path. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The new RTC driver is written but completely unverified — no compile check, let alone a bench test. None of this week's work — new motors, keypad, wristband, or RTC — is integrated into the main robot yet; today's session was scoped entirely to laptop-side and paperwork items since no motors or battery were on hand. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
+    <p>L298N Channel B's fault was never actually root-caused — it was avoided by switching to Channel A, not diagnosed as dead-chip vs. broken-signal-path. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The RTC driver from earlier in the week is still completely unverified — no compile check, let alone a bench test. The dashboard's admin password is still the unchanged default. None of this week's work — new motors, keypad, wristband, RTC, or the new dashboard — is integrated into the main robot's own firmware yet, and nothing from today has been committed: <code>remote_control.py</code>, its legacy backup, the settings/log JSON files, and yesterday's RTC driver are all still sitting in the working tree, the user's to commit when ready. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
 
     <h2>Week 14 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -221,6 +248,14 @@
           <tr><td>LaTeX report Evaluation/Conclusion synced to motor progress</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Real submission photos added (cara_robot.jpg, test_setup.jpg)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>DAILY_LOG.md / TODO_DEMO_READINESS.md moved to .gitignore</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>New "CARA Care" admin dashboard built (real settings + 3 rolling logs)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Import-crash bug found and fixed (before_request registered pre-app)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Live end-to-end verification (auth, logs, reminder round-trip, IP tracking)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Dashboard promoted to site root, old UI kept at /legacy</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>ROBOT vs YOU local-time chip added to reminder card</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>2 real mobile-layout bugs found and fixed (nav wrap, dead grid CSS)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Admin default password changed from 1234</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Dashboard work committed</td><td class="no">⏳ In Progress — user's to commit</td></tr>
         </tbody>
       </table>
     </div>
@@ -233,7 +268,7 @@
     <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
     <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
-      <input type="hidden" name="subject"    value="CARA Feedback: Week 14 — Motors, Keypad, Wristband, RTC Driver">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 14 — Motors, Keypad, Wristband, Dashboard">
       <input type="hidden" name="redirect"   value="false">
       <div class="form-row">
         <input type="text"  name="name"  placeholder="Your name (optional)">
