@@ -34,6 +34,40 @@
 .cm-stats div { text-align: center; }
 .cm-stats .cm-stat-val { display: block; font-family: var(--font-mono); font-weight: 700; font-size: .95rem; color: var(--primary); }
 .cm-stats .cm-stat-lbl { display: block; font-size: .62rem; color: var(--muted); margin-top: .1rem; }
+
+/* Drive motor PWM calibration chart */
+.range-chart { padding: 1.1rem 1.1rem 1.4rem; background: var(--surface-2); }
+.range-chart-title { font-family: var(--font-mono); font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+.range-track-wrap { position: relative; padding-top: 24px; }
+.range-track { display: flex; width: 100%; height: 44px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.range-seg { display: flex; align-items: center; justify-content: center; text-align: center; }
+.range-seg.dead { background: var(--surface-3); }
+.range-seg.usable { background: color-mix(in srgb, var(--primary) 38%, var(--surface-2)); }
+.range-seg-label { font-size: .6rem; line-height: 1.3; color: var(--text); padding: 0 .3rem; }
+.range-marker { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-mono); font-size: .62rem; color: var(--primary); background: var(--surface-2); padding: .1rem .4rem; border: 1px solid var(--border); border-radius: 4px; white-space: nowrap; }
+.range-marker::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 6px; background: var(--primary); }
+.range-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-top: 1.1rem; }
+.range-stats div { text-align: center; }
+.range-stats .range-stat-val { display: block; font-family: var(--font-mono); font-weight: 700; font-size: .9rem; color: var(--primary); }
+.range-stats .range-stat-lbl { display: block; font-size: .6rem; color: var(--muted); margin-top: .1rem; }
+
+/* Project journey map (full width, single item) */
+.journey-map-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.5rem 1.5rem 0; overflow-x: auto; }
+.journey-map-svg { display: block; min-width: 840px; width: 100%; height: auto; }
+.jm-line { fill: none; stroke: var(--border-2); stroke-width: 2; stroke-dasharray: 5 5; }
+.jm-dot { stroke: var(--surface); stroke-width: 3; }
+.jm-dot.start { fill: var(--light); }
+.jm-dot.up { fill: var(--primary); }
+.jm-dot.down { fill: var(--amber); }
+.jm-dot.peak { fill: var(--green); }
+.jm-title { font: 600 13px var(--font, sans-serif); fill: var(--text); }
+.jm-sub { font: 10px var(--font-mono); fill: var(--muted); }
+.jm-week { font: 600 9px var(--font-mono); fill: var(--bg); letter-spacing: .3px; }
+.jm-band-label { font: 600 10.5px var(--font, sans-serif); fill: var(--bg); letter-spacing: .2px; }
+.jm-axis-label { font: 9px var(--font-mono); fill: var(--light); letter-spacing: .5px; }
+.journey-map-foot { padding: .9rem 0 1.4rem; }
+.journey-map-foot h4 { font-size: .95rem; margin-bottom: .3rem; }
+.journey-map-foot p { font-size: .8rem; color: var(--muted); margin: 0; }
 .gallery-card img:hover { transform: scale(1.03); }
 .gallery-card img:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 
@@ -109,10 +143,86 @@
   <div class="page-header">
     <div class="page-label">Visual Documentation</div>
     <h1 class="page-title">Gallery</h1>
-    <p class="page-subtitle">System diagrams, circuit schematics, build photos, and evaluation result charts — updated as the project progresses.</p>
+    <p class="page-subtitle">System diagrams, circuit schematics, build photos, the web dashboard, and evaluation result charts — updated as the project progresses.</p>
   </div>
 
-  <h2 style="margin-top:0">System Diagrams</h2>
+  <h2 style="margin-top:0">Project Journey</h2>
+  <div class="journey-map-card">
+    <svg class="journey-map-svg" viewBox="0 0 1300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CARA project journey map from Week 1 to Week 14, showing key wins and setbacks over time">
+
+      <!-- axis hints -->
+      <text class="jm-axis-label" x="14" y="55">GOING WELL</text>
+      <text class="jm-axis-label" x="14" y="300">SETBACK</text>
+
+      <!-- dashed zigzag connector -->
+      <path class="jm-line" d="M90,170 L210,110 L330,250 L450,110 L570,250 L730,110 L890,55 L1050,250 L1210,100" />
+
+      <!-- Point 1 — Week 1-2 — start -->
+      <text class="jm-title" x="100" y="126" text-anchor="start">W1–2 · Kick-Off &amp; Architecture</text>
+      <text class="jm-sub" x="100" y="142" text-anchor="start">Requirements, system design finalised</text>
+      <circle class="jm-dot start" cx="90" cy="170" r="7" />
+
+      <!-- Point 2 — Week 3 — up -->
+      <text class="jm-title" x="210" y="66" text-anchor="middle">W3 · Robot Moves</text>
+      <text class="jm-sub" x="210" y="82" text-anchor="middle">First moving chassis</text>
+      <circle class="jm-dot up" cx="210" cy="110" r="7" />
+
+      <!-- Point 3 — Week 4 — down -->
+      <circle class="jm-dot down" cx="330" cy="250" r="7" />
+      <text class="jm-title" x="330" y="284" text-anchor="middle">W4 · SIM800L 2G Issue</text>
+      <text class="jm-sub" x="330" y="300" text-anchor="middle">GSM module incompatible</text>
+
+      <!-- Point 4 — Week 6 — up -->
+      <text class="jm-title" x="450" y="66" text-anchor="middle">W6 · Jetson Online</text>
+      <text class="jm-sub" x="450" y="82" text-anchor="middle">SSH, ROS, A7670C in hand</text>
+      <circle class="jm-dot up" cx="450" cy="110" r="7" />
+
+      <!-- Point 5 — Week 9 — down -->
+      <circle class="jm-dot down" cx="570" cy="250" r="7" />
+      <text class="jm-title" x="570" y="284" text-anchor="middle">W9 · Integration Finds Faults</text>
+      <text class="jm-sub" x="570" y="300" text-anchor="middle">RFID + motor issues found</text>
+
+      <!-- Point 6 — Week 10-11 — up -->
+      <text class="jm-title" x="730" y="66" text-anchor="middle">W10–11 · RFID Solved, Robot Drives</text>
+      <text class="jm-sub" x="730" y="82" text-anchor="middle">Root cause fixed, robot drives</text>
+      <circle class="jm-dot up" cx="730" cy="110" r="7" />
+
+      <!-- Point 7 — Week 12 — peak -->
+      <text class="jm-title" x="890" y="20" text-anchor="middle">W12 · Robot Turns Live</text>
+      <text class="jm-sub" x="890" y="36" text-anchor="middle">First autonomous turn achieved</text>
+      <circle class="jm-dot peak" cx="890" cy="55" r="9" />
+
+      <!-- Point 8 — Week 13 — down -->
+      <circle class="jm-dot down" cx="1050" cy="250" r="7" />
+      <text class="jm-title" x="1050" y="284" text-anchor="middle">W13 · Shared-Power Fault</text>
+      <text class="jm-sub" x="1050" y="300" text-anchor="middle">Sensors, RFID, servo affected</text>
+
+      <!-- Point 9 — Week 14 — up (current) -->
+      <text class="jm-title" x="1200" y="66" text-anchor="end">W14 · Recovery, In Progress</text>
+      <text class="jm-sub" x="1200" y="82" text-anchor="end">Motors, wristband, dashboard shipped</text>
+      <circle class="jm-dot up" cx="1210" cy="100" r="7" />
+
+      <!-- phase band footer -->
+      <g>
+        <rect x="20"   y="340" width="130" height="36" fill="#475569" />
+        <rect x="150"  y="340" width="240" height="36" fill="#155e75" />
+        <rect x="390"  y="340" width="420" height="36" fill="#0e7490" />
+        <rect x="810"  y="340" width="320" height="36" fill="#b45309" />
+        <rect x="1130" y="340" width="150" height="36" fill="#047857" />
+        <text class="jm-band-label" x="85"   y="362" text-anchor="middle">Foundation</text>
+        <text class="jm-band-label" x="270"  y="362" text-anchor="middle">Hardware Build</text>
+        <text class="jm-band-label" x="600"  y="362" text-anchor="middle">Bring-Up &amp; Integration</text>
+        <text class="jm-band-label" x="970"  y="362" text-anchor="middle">Engineering Sprint</text>
+        <text class="jm-band-label" x="1205" y="362" text-anchor="middle">Recovery</text>
+      </g>
+    </svg>
+    <div class="journey-map-foot">
+      <h4>CARA — 14 Weeks So Far</h4>
+      <p>The real wins and setbacks across the build, from finalised architecture in Week 1–2 to the shared-power fault diagnosed in Week 13 and the recovery now underway in Week 14.</p>
+    </div>
+  </div>
+
+  <h2>System Diagrams</h2>
   <div class="gallery-grid">
 
     <div class="gallery-card">
@@ -141,12 +251,13 @@
       </div>
     </div>
 
+    <!-- Not yet ready — no real diagram exists for these two yet, commented out rather than shown as an empty placeholder:
     <div class="gallery-card">
       <div class="gallery-placeholder">
         <div class="ph-icon">↔️</div>
         <div class="ph-label">5-STATE MACHINE<br>FLOW DIAGRAM</div>
       </div>
-      <!-- Replace with: <img src="assets/images/state-machine.png" alt="5-State Machine Diagram"> -->
+      <img src="assets/images/state-machine.png" alt="5-State Machine Diagram">
       <div class="gallery-info">
         <h4>5-State Machine Diagram</h4>
         <p>IDLE → ACTIVE → MONITORING → ALERT → RESET state transition diagram with trigger conditions.</p>
@@ -159,13 +270,14 @@
         <div class="ph-icon">⚡</div>
         <div class="ph-label">CIRCUIT WIRING<br>DIAGRAM</div>
       </div>
-      <!-- Replace with: <img src="assets/images/circuit-diagram.png" alt="Circuit Wiring Diagram"> -->
+      <img src="assets/images/circuit-diagram.png" alt="Circuit Wiring Diagram">
       <div class="gallery-info">
         <h4>Circuit Wiring Diagram</h4>
         <p>Full Arduino Mega 2560 pin assignment diagram — all 6 ultrasonic sensors, PIR, RFID, I2C bus, servos, motor driver, and GSM module.</p>
         <span class="fig-ref">Appendix A · Thesis</span>
       </div>
     </div>
+    -->
 
     <div class="gallery-card">
       <img src="assets/images/power-topology.png" alt="Power System Design block diagram: 3S LiPo battery feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct 11.1V line to the L298N motor driver">
@@ -208,6 +320,130 @@
       </div>
     </div>
 
+    <div class="gallery-card">
+      <img src="assets/images/tracking-wristband.jpg" alt="Red HSV tracking wristband worn on a wrist, held against blue and red calibration reference paper">
+      <div class="gallery-info">
+        <h4>Person-Tracking Wristband</h4>
+        <p>The physical wristband for the HSV colour-band person-tracking fallback — built and worn for the first time, closing a gap that had sat as an untuned placeholder since Week 11.</p>
+        <span class="fig-ref">Wristband build · Week 14</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/replacement-motors-bench-test.jpg" alt="Two replacement DC gear motors with wheels attached, wired to an L298N motor driver and Arduino Uno on a workbench">
+      <div class="gallery-info">
+        <h4>Replacement Drive Motors — Bench Test</h4>
+        <p>The new DC gear motors and wheels, wired to the L298N and bench-tested — the fix for the torque/gear-ratio limitation that had left turning as an accepted hardware constraint since Week 09.</p>
+        <span class="fig-ref">Motor bench test · Week 14</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/keypad-wiring.jpg" alt="4x4 matrix keypad wired to an Arduino Uno on a workbench, resting on a multimeter and tool box">
+      <div class="gallery-info">
+        <h4>Keypad Wiring</h4>
+        <p>The 4×4 matrix keypad used for medication-reminder acknowledgement and patient enrolment, bench-wired to confirm row/column mapping before integration onto the main firmware.</p>
+        <span class="fig-ref">Keypad bring-up · Week 14</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Software Interface</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-card">
+      <img src="assets/images/web-dashboard.png" alt="CARA Care web dashboard showing the live camera feed, movement controls, patient face recognition panel, and scheduled medicine delivery panel">
+      <div class="gallery-info">
+        <h4>Web Control Dashboard</h4>
+        <p>The browser-based remote interface — live camera feed, directional drive controls with adjustable speed, patient face-recognition enrolment, and scheduled medicine delivery, all served from the Jetson Nano over the local network.</p>
+        <span class="fig-ref">Remote UI · Week 14</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/dashboard-action-log.png" alt="CARA Care System Action Log panel showing a timestamped table of admin logins, medicine-schedule edits, enrolment resets, and a motor command">
+      <div class="gallery-info">
+        <h4>System Action Log</h4>
+        <p>Real command history — every drive, enrolment, and reminder action taken through the dashboard, timestamped with actor, action, and status.</p>
+        <span class="fig-ref">Remote UI · Week 14</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/dashboard-settings.png" alt="CARA Care Settings panel showing the local network link, up to 5 emergency contact numbers, and an admin password change form">
+      <div class="gallery-info">
+        <h4>Settings Panel</h4>
+        <p>Same-network access link, up to 5 emergency contact numbers for fall/reminder alerts, and the admin password used to unlock the logs and this settings page.</p>
+        <span class="fig-ref">Remote UI · Week 14</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>CAD Design Gallery</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-card">
+      <img src="assets/images/cad-chassis-base.png" alt="SolidWorks render of the base chassis plate — the flat aluminium deck with wheel, sensor, and mounting-post cutouts">
+      <div class="gallery-info">
+        <span class="tag tag-med" style="margin-bottom:.4rem;">Chassis</span>
+        <h4>Chassis Base Plate</h4>
+        <p>The original flat chassis deck design — wheel wells, mounting-post holes, and sensor cutouts, before any tier stacking or the camera tower.</p>
+        <span class="fig-ref">CAD render · Week 4</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/cad-full-prototype.png" alt="Multi-angle SolidWorks composite of the full 3-tier chassis prototype with camera tower, fan, ultrasonic sensors, and pan servo">
+      <div class="gallery-info">
+        <span class="tag tag-blue" style="margin-bottom:.4rem;">Full Assembly</span>
+        <h4>Full Prototype Assembly</h4>
+        <p>The complete 3-tier chassis design from multiple angles — camera tower, cooling fan, ultrasonic mounts, and the pan servo bracket, before the finishing covers existed.</p>
+        <span class="fig-ref">CAD render · Week 4</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/cover-camera.png" alt="SolidWorks render of the Camera Cover — a rounded dome-shaped housing for the camera module">
+      <div class="gallery-info">
+        <span class="tag tag-teal" style="margin-bottom:.4rem;">Camera Housing</span>
+        <h4>Camera Cover</h4>
+        <p>Housing for the camera module, one of a set of finishing parts designed to turn the working prototype into something closer to a finished product.</p>
+        <span class="fig-ref">CAD render · Week 13</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/cover-lcd.png" alt="SolidWorks render of the LCD Cover — a rectangular housing with a window cutout for the 16x2 display, engraved with the author's student ID">
+      <div class="gallery-info">
+        <span class="tag tag-teal" style="margin-bottom:.4rem;">Display Housing</span>
+        <h4>LCD Cover</h4>
+        <p>Housing for the 16×2 display with a clear window cutout, engraved with the project's MSc Robotics attribution.</p>
+        <span class="fig-ref">CAD render · Week 13</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/cover-electronics-holder.png" alt="SolidWorks render of a combined mounting bracket with three labelled bays for the Jetson, Arduino, and GSM module">
+      <div class="gallery-info">
+        <span class="tag tag-teal" style="margin-bottom:.4rem;">Electronics Mount</span>
+        <h4>Jetson / Arduino / GSM Holder</h4>
+        <p>A combined mounting bracket with three dedicated, labelled bays — tidier internal layout than the original loose wiring.</p>
+        <span class="fig-ref">CAD render · Week 13</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <img src="assets/images/cover-wire-management.png" alt="SolidWorks render of a two-piece wire-management tray and cover with cable routing slots">
+      <div class="gallery-info">
+        <span class="tag tag-teal" style="margin-bottom:.4rem;">Wire Management</span>
+        <h4>Wire Management Tray &amp; Cover</h4>
+        <p>A wire-management piece that tucks cabling out of sight, with a matching cover panel, cutting down on the exposed-wire look of earlier assemblies.</p>
+        <span class="fig-ref">CAD render · Week 13</span>
+      </div>
+    </div>
+
   </div>
 
   <h2>Test Results &amp; Evaluation</h2>
@@ -243,6 +479,61 @@
     </div>
 
     <div class="gallery-card">
+      <div class="range-chart">
+        <div class="range-chart-title">Drive Motor PWM Calibration · Live Bench Test</div>
+        <div class="range-track-wrap">
+          <div class="range-marker" style="left:56.5%;">145</div>
+          <div class="range-track">
+            <div class="range-seg dead" style="width:56.5%;">
+              <span class="range-seg-label">0–144<br>jitter, no movement</span>
+            </div>
+            <div class="range-seg usable" style="width:43.5%;">
+              <span class="range-seg-label">145–255<br>usable range</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">145</span><span class="range-stat-lbl">PWM speed floor</span></div>
+          <div><span class="range-stat-val">56.5%</span><span class="range-stat-lbl">of range unusable</span></div>
+          <div><span class="range-stat-val">0–255</span><span class="range-stat-lbl">Arduino PWM scale</span></div>
+        </div>
+      </div>
+      <div class="gallery-info">
+        <h4>Drive Motor PWM Calibration</h4>
+        <p>Live bench testing found the drive motors don't turn at all below PWM 145 — the whole 0–144 range only jitters. <code>MIN_DRIVE_SPEED</code> and <code>START_SPEED_FLOOR</code> were both set to 145 as a result.</p>
+        <span class="fig-ref">Week 12 · Live bench test</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="range-chart">
+        <div class="range-chart-title">Obstacle Stop-Distance Safety Margin</div>
+        <div class="range-track-wrap">
+          <div class="range-marker" style="left:12%;">2.4cm</div>
+          <div class="range-track">
+            <div class="range-seg dead" style="width:12%;">
+              <span class="range-seg-label">min</span>
+            </div>
+            <div class="range-seg usable" style="width:88%;">
+              <span class="range-seg-label">20cm emergency-stop threshold — 8.3× the calculated minimum</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">20cm</span><span class="range-stat-lbl">Stop threshold</span></div>
+          <div><span class="range-stat-val">2.4cm</span><span class="range-stat-lbl">Physics minimum</span></div>
+          <div><span class="range-stat-val">8.3×</span><span class="range-stat-lbl">Safety margin</span></div>
+        </div>
+      </div>
+      <div class="gallery-info">
+        <h4>Obstacle Stop-Distance Safety Margin</h4>
+        <p>At the 0.3 m/s max operating speed and ~80ms motor deceleration response time, the robot needs just 2.4cm to stop. The 20cm emergency-stop threshold builds in an 8.3× margin over that calculated minimum.</p>
+        <span class="fig-ref">Chapter 3.8 · Safety Design</span>
+      </div>
+    </div>
+
+    <!-- Not yet ready — no real trial data exists for these two yet, commented out rather than shown as an empty placeholder:
+    <div class="gallery-card">
       <div class="gallery-placeholder">
         <div class="ph-icon">📈</div>
         <div class="ph-label">SMS DELIVERY<br>TIME CHART</div>
@@ -265,6 +556,7 @@
         <span class="fig-ref">Chapter 5 · Available Week 11+</span>
       </div>
     </div>
+    -->
 
   </div>
 
