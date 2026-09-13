@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 14 — Coming soon.">
+<meta name="description" content="CARA Week 14 (in progress) — replacement gear motors bench-tested with a sign-inversion bug found and fixed, a spare keypad traced to a defective membrane, a real wristband built and two genuine HSV tracking failure modes found and fixed, and an untested bit-banged RTC driver written for the Mega.">
 <title>Week 14 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,247 @@
     <div class="post-meta">
       <span class="post-date">11–17 Sep 2026</span>
       <span class="tag tag-blue">Week 14</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 14 — Coming Soon</h1>
+    <h1>New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">The underpowered drive motors flagged all the way back in <a href="week-09.html">Week 09</a> — and parked as an accepted hardware limit in <a href="week-12.html">Week 12</a> — finally got real replacements: gear motors with genuine torque margin and built-in encoders, brought up from scratch on the bench, fully independent of the Mega-integrated robot for now. Getting from "the motor spins" to real closed-loop position control surfaced a genuine sign-inversion bug, caught live and fixed. Scaling to all four wheels was deliberately not attempted yet — proving the concept came first. A separate bench session hit a dead end with a spare keypad: methodical pin-by-pin isolation ruled out the Arduino and the code entirely, tracing the fault cleanly to a defective keypad membrane. Later in the week, with no motors or battery on hand, work shifted to a real physical wristband — exposing two genuine HSV-tracking failure modes and fixing both — plus an untested bit-banged RTC driver, and a report sync that deliberately left the sign-inversion bug out of the dissertation.</p>
   </div>
 
   <div class="post-body">
 
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens. No commits landed yet — this was a bench-only session.</p>
+    </div>
+
+    <h2>New Motors, Real Torque Margin This Time</h2>
+    <p>The replacement gear motors are 200RPM at 6V with a 30:1 reduction. The exact reduction-ratio row on the supplier datasheet was confirmed rather than assumed: 1.7 kg/cm torque at load, 2.5 kg/cm stall torque, 0.45A at-load current and 1.2A stall current. Sanity-checked against an estimated robot weight, that's roughly 2–3.5× torque headroom depending on the assumed 3–5kg chassis weight — comfortably sufficient, unlike the old motors.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-new-motor-bench-setup.jpg" alt="New replacement gear motor with wheel attached, wired to an Arduino Uno and an L298N motor driver on a workbench">
+      <figcaption>The new gear motor on the bench — Arduino Uno and L298N driver, fully independent of the main robot for this round of testing.</figcaption>
+    </figure>
+
+    <h2>Bench Bring-Up — Isolating Each Ambiguity</h2>
+    <p>The bring-up sequence deliberately isolated one variable at a time rather than debugging everything at once. Wiring the motor directly to the bench supply, bypassing the driver and Arduino entirely, confirmed the motor itself spins correctly down to 3V. L298N Channel B (OUT3/OUT4) then showed no movement and only about 0.01V measured at the output terminals despite correct control signals reaching it — diagnosed as either a dead channel or a broken control-signal path, rather than chased further. The pragmatic move was to swap to Channel A (OUT1/OUT2, ENA/IN1/IN2) and continue there instead.</p>
+
+    <p>A separate, initially confusing symptom — the motor seemingly not getting "enough voltage to rotate" — turned out to be the bench power supply's own current limit set too low, sagging voltage under the starting/stiction current a motor draws when it first begins moving. Not a driver or wiring fault at all.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-arduino-l298n-wiring.jpg" alt="Close-up of an Arduino Uno wired to an L298N motor driver board with color-coded jumper wires">
+      <figcaption>Arduino Uno and L298N wiring for the bench bring-up — Channel A ended up doing the work after Channel B showed a dead output.</figcaption>
+    </figure>
+
+    <h2>Encoder Wiring Verified</h2>
+    <p>The encoder's Yellow/Green signal lines and Blue/Black power lines were verified independently of the motor driver, before trusting them in any control loop. Single-edge pulse counting on one interrupt pin, with direction sense read from the other channel, gave roughly 328–330 counts per manual full output-shaft revolution — matching the datasheet's math (11 pulses per motor revolution × 30:1 gearbox = 330 theoretical counts) closely enough to trust the wiring as correct.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-encoder-led-active.jpg" alt="Close-up of the gear motor's built-in optical encoder disc lit up by its internal green LED sensor, wheel and wiring visible">
+      <figcaption>The encoder's optical sensor lit up mid-test — confirming the disc and sensor are actually generating pulses before trusting them in a control loop.</figcaption>
+    </figure>
+
+    <h2>Closed-Loop Position Control — a Real Sign-Inversion Bug, Found Live</h2>
+    <p>A real closed-loop position-control sketch — encoder-feedback PID driving to a target revolution count, not just open-loop spinning — was built and iterated through genuine bugs found via live diagnostic tracing, not guesswork. The first attempts produced two rounds with zero movement, followed by one round that ran away to <strong>-9124 counts</strong> (roughly 28 revolutions) before hitting a 6-second timeout. That prompted adding a hard runaway-abort safety cutoff and live per-loop count/error/PWM status printing, so any future fault would be immediately visible and diagnosable from the trace instead of only showing up as a bad final result.</p>
+
+    <p>The trace then revealed a genuine, consistent sign inversion: commanding "forward" — a positive PID output — reliably drove the encoder count <em>negative</em> on every run, which is textbook positive-feedback runaway rather than convergence toward a target. Fixed by swapping the IN1/IN2 polarity mapping in the direction-drive function, so a positive PID output actually increases the count instead of decreasing it.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-encoder-sign-inversion-bug.jpg" alt="Arduino IDE serial monitor showing the encoder count running away negative (-1124 and decreasing) while the code labels the direction Forward, live evidence of the sign-inversion bug">
+      <figcaption>The live trace that caught the bug: count going negative and falling while the firmware still labels the direction "Forward."</figcaption>
+    </figure>
+
     <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 14's work is complete and written up.</p>
+      <p><strong>After the fix:</strong> a real 3-revolution closed-loop run settled at 988 counts against a 984-count target (3 × 328) — confirmed working, correcting overshoot in either direction as intended. The per-revolution constant was also recalibrated from 328 (a single hand-rotated measurement) to 329 (988 ÷ 3, averaged over a real motor-driven multi-revolution run) — a more reliable figure than the original manual count.</p>
+    </div>
+
+    <h2>Scaling to Four Motors — a Deliberate Pause</h2>
+    <p>Scaling this up to all four wheels on the Mega was discussed and mapped against the real constraint, not assumed to just work: the Mega's 6 hardware-interrupt pins are already down to just 18/19/20/21 free, since pins 2 and 3 are taken by the existing PIR sensors — exactly enough for 4 single-edge motor-encoder inputs and no headroom beyond that.</p>
+
+    <p>The explicit decision was <strong>not</strong> to port this Uno PID code directly into <code>cara_main_mega.ino</code> yet. Real load and gain requirements will differ once running in the full integrated system with all four motors, the chassis weight, and everything else drawing power at once — so today's scope was deliberately limited to proving the motors spin correctly and are fully controllable via encoder feedback on the bench, not integrating them into the main robot code.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-dual-motor-bench-test.jpg" alt="Two new gear motors with wheels attached, side by side on a workbench, wired together to an Arduino and L298N driver for bench testing">
+      <figcaption>Two of the new motors bench-tested together later the same evening — one step toward four-wheel drive, still bench-only.</figcaption>
+    </figure>
+
+    <p>Four new sketches came out of this session, all under <code>Sensor_Testing_Codes/Before_Full_Assembly/Chassi_L298_Driver_Testing/</code>: <code>newGearMotorSingleTest.ino</code>, <code>newGearMotorFullPowerTest.ino</code> (Channel A/B ramp and full-power bring-up), <code>newGearMotorEncoderTest.ino</code> (the manual pulse-count sanity check), and <code>newGearMotorPositionPID.ino</code> (the working closed-loop controller).</p>
+
+    <h2>A Second Keypad, Bench-Tested to a Dead End — the Membrane Itself Is Bad</h2>
+    <p>Separate from the motor work, a spare 4×4 matrix keypad (Alnicov membrane, 16 keys) was bench-tested on its own Arduino Uno, independent of the main robot's own keypad on the Mega. The board kept resetting mid-session on every keypress, printing garbled characters. A plain Serial-only sketch with no keypad code ran indefinitely without resetting, which ruled out the USB connection, power, and the board itself. Raw <code>digitalRead</code> testing on the row/column pins then found the actual cause: row pin D8 was stuck LOW at rest (<code>Rows: 1101</code>) — the <code>Keypad.h</code> library was reading that as a permanently-held key, and that's what triggered the erratic resets. Moving that row to D10 fixed it.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-keypad-bench-setup.jpg" alt="4x4 matrix keypad's ribbon connector wired directly into an Arduino Uno's digital pins, with a multimeter box in the background">
+      <figcaption>The spare keypad wired to its own Arduino Uno for isolated bench testing, away from the main robot's Mega.</figcaption>
+    </figure>
+
+    <p>With that fixed, every candidate pin D2–D11 was individually grounded (<code>INPUT_PULLUP</code> plus a touch to GND) while watching raw <code>digitalRead</code> output — a full sweep rather than trusting the first working configuration. Every pin came back clean except D2, which never responded even after two firm retries, confirmed genuinely dead on this board. Swapped to D11, landing on a final confirmed-good pin set: rows = {3, 11, 10, 9}, columns = {7, 6, 5, 4}.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-keypad-connector-closeup.jpg" alt="Close-up of the 4x4 keypad's flex connector soldered to a small breakout PCB with an 8-pin header">
+      <figcaption>The keypad's own 8-pin flex-to-header connector — the thing that eventually turned out to be the real fault, not the Arduino side.</figcaption>
+    </figure>
+
+    <p>Even with all 8 Arduino pins individually verified good, the library-based test still missed most keys and occasionally swapped two (D and # confused), inconsistently between runs. A custom raw matrix-scan sketch — driving each row LOW by hand and reading columns directly, bypassing <code>Keypad.h</code> entirely — isolated it further: Row 0 (1,2,3,A) and Row 3 (*,0,#,D) consistently worked, but Row 1 (4,5,6,B) and Row 2 (7,8,9,C) never registered at all, no matter which already-verified-good Arduino pin was assigned to them. Since changing which pin drove which row had zero effect on which physical buttons failed, that ruled the Arduino and the code out completely.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-keypad-final-wiring.jpg" alt="4x4 keypad fully wired to an Arduino Uno with color-coded jumper wires, a digital multimeter reading 000 in the background">
+      <figcaption>Final wiring on the confirmed-good pin set, multimeter in hand for the GND-continuity checks that isolated the fault to the keypad itself.</figcaption>
+    </figure>
+
+    <div class="post-callout">
+      <p><strong>Conclusion:</strong> a hardware defect in the keypad membrane itself — worn or damaged carbon-trace contacts on two whole rows — not a wiring or code problem, confirmed via direct GND-continuity testing and raw matrix scanning rather than assumed. This unit needs replacing; the confirmed-good pin set (rows = {3, 11, 10, 9}, columns = {7, 6, 5, 4}) is expected to need no changes once a healthy keypad is swapped in.</p>
+    </div>
+
+    <h2>A Real Wristband, Finally — and Camera-Switching Support in the Calibrator</h2>
+    <p>The wristband color-fallback tracking, sketched back in <a href="week-11.html">Week 11</a> and only ever tested against paper swatches held up separately, got its first real physical band: a 4cm-wide strip cut from the same sheet of paper used in calibration testing, wrapped around the wrist. Every test from here on used this actual band, not a swatch held near the camera.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-physical-band-on-wrist.jpg" alt="A 4cm-wide red paper strip wrapped around a wrist as the physical wristband for CARA's HSV color-band person-tracking fallback">
+      <figcaption>The first real physical band — a 4cm strip cut from the calibration sheet, not a swatch held up separately.</figcaption>
+    </figure>
+
+    <p><code>hsv_band_calibrator.py</code> got two practical additions once real hardware entered the picture: startup camera probing across indices 0–5, confirmed by actually reading a frame rather than trusting <code>isOpened()</code>, with a console prompt when more than one camera is found, plus a live <code>'c'</code> hotkey to switch cameras mid-session without restarting — needed once the laptop's own webcam and a USB camera were both in play. Separately, <code>hsv_calibration_result.txt</code> switched from overwrite-on-save to append-on-save, with each entry recording its matching capture image, timestamp, and camera index — every attempt now stays on record instead of only ever keeping the last one.</p>
+
+    <h2>Two Real Failure Modes, Found via Live Testing</h2>
+    <p><code>person_tracker_node.py</code> turned out to already implement the intended face-fail → band-fallback → band-anchored face re-acquisition behavior in full — existing code, not new. The actual gap was that it had never been fed real HSV values. Those went in externally, through a new <code>config/person_tracker_params.yaml</code> loaded via <code>launch/cara.launch.py</code> and registered in <code>setup.py</code> — the node's own source left untouched for the values themselves. A real shape filter was added to its <code>_detect_band()</code> function too: rejects any color-matched contour whose bounding-box aspect ratio doesn't fall within tolerance of the band's real 3:2 proportions, checked orientation-agnostic so landscape or portrait presentation doesn't matter. A new standalone tool, <code>band_shape_test.py</code>, mirrors this exact detection logic against the laptop's own webcam — reading the same YAML so it can't drift out of sync with the real node — with every candidate contour drawn red or green live.</p>
+
+    <p>Ten real tests against the actual band, across near/distance/lighting variations, exposed two genuine failure modes rather than confirming the fix worked on the first try. First: the band's color mask repeatedly split into two vertical slivers under near, angled lighting — a specular highlight down the middle of the curved paper cutting the blob in half. Whether either half happened to land inside the aspect-ratio tolerance was pure luck, no reliable pattern either way.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-band-sliver-split-fail.png" alt="Band shape test tool showing the wristband's color mask split into two separate thin vertical slivers, both rejected with aspect ratios of 3.93 and 3.22 against a 1.5 target">
+      <figcaption>The sliver-split failure caught live: a specular highlight cuts the band's mask into two thin candidates (ratio 3.93 and 3.22), both correctly rejected — but for the wrong reason, since neither is really "the band."</figcaption>
+    </figure>
+
+    <p>Second: a same-colored full sheet of paper, held up deliberately next to the band as a confusion test, beat the band outright on area — and critically, a full sheet's aspect ratio held portrait (roughly 1.4:1) sits inside the same tolerance window the band itself needs, so the shape filter alone would not have reliably told the two apart even with it in place.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-band-vs-paper-confusion.png" alt="HSV band calibrator live view showing a large sheet of paper detected as the tracking target (area 14077) instead of the smaller actual wristband, both the same color">
+      <figcaption>The confusion test that mattered: a same-colored sheet of paper (area 14077) winning purely on size — a real gap the shape filter alone didn't close.</figcaption>
+    </figure>
+
+    <p>Both root causes got fixed directly rather than tuned around. A targeted morphological CLOSE step (a 15×5 rectangular kernel, sized to bridge the specific gap observed) runs before the existing noise-cleanup erode/dilate, so the band registers as one blob instead of two unreliable slivers. A new <code>band_max_area</code> upper bound (20000, calibrated against the band's own real solid-blob area of roughly 6000px at normal distance) stops a much larger same-colored object from winning on size alone. Both changes were mirrored into <code>band_shape_test.py</code> too, which now prints each candidate's area and specific rejection reason — "too big" versus "bad shape" — instead of just accept or reject, for faster diagnosis next round.</p>
+
+    <h2>Confirmed Fixed, With an Honest Range Limit</h2>
+    <p>A full batch of 51 <code>band_shape_test.py</code> captures against the real band, after the close-kernel and area fixes, confirmed the fix directly: the band now registers as one solid accepted blob instead of the earlier two-sliver split.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-band-shape-fix-confirmed.png" alt="Band shape test tool showing the wristband detected as a single accepted candidate after the morphological close and max-area fixes, labelled ACCEPTED with a clean ratio">
+      <figcaption>One of the post-fix batch captures — a single accepted candidate, no more sliver splitting.</figcaption>
+    </figure>
+
+    <p>At real operating distance, though, the band's projected size dropped below the minimum-area threshold entirely — zero candidates. That's a genuine field-of-view/resolution limit, not a software bug to chase further, and it's documented as an accepted, known limitation in <code>config/person_tracker_params.yaml</code> and <code>TODO_DEMO_READINESS.md</code> rather than silently dropped: this fallback works close-up, and drops out beyond a few feet.</p>
+
+    <div class="post-callout">
+      <p><strong>A silent crash, also fixed:</strong> after the camera-selection prompt, <code>band_shape_test.py</code> sometimes died with no Python traceback at all — diagnosed as a native Windows DSHOW driver issue, not a code exception. The probe step opens and releases every candidate camera, then immediately reopens the chosen one, and some webcam drivers don't handle that rapid release-then-reacquire cleanly. Fixed with a 0.3-second settle delay at every release-then-reopen handoff, in both <code>band_shape_test.py</code> and <code>hsv_band_calibrator.py</code>.</p>
+    </div>
+
+    <h2>A Bit-Banged RTC Driver — Written, Not Yet Testable</h2>
+    <p>With no motors, battery, or Jetson on hand today, one more piece of firmware got written anyway: a <code>SoftI2C_RTC</code> driver for <code>cara_main_mega.ino</code>, bit-banging the DS3231 on the LCD's existing SDA=20/SCL=A0 bus (a multi-drop I2C bus — the LCD's 0x27 and the RTC's 0x68 addresses don't conflict), reusing the exact same technique that fixed the LCD's own damaged-pin problem back in <a href="week-10.html">Week 10</a>. It gates every real use behind an <code>isConnected()</code> check, the same fail-safe pattern the LCD driver already uses.</p>
+
+    <p><strong>Honestly flagged, not claimed working:</strong> there's no way to verify it actually compiles without <code>arduino-cli</code> or the Arduino IDE, neither of which was available today — so this is written but unverified, not a confirmed fix. <code>cara_main_mega_gsm.ino</code> has the identical disabled RTC block and was deliberately left unpatched, pending confirmation of which file is actually the one running on the real robot.</p>
+
+    <h2>Report Sync, and What Deliberately Stayed Out of It</h2>
+    <p>The LaTeX report's Evaluation and Conclusion sections were updated to reflect the new motors' real specs and the closed-loop encoder-PID validation, superseding the earlier asymmetric-turn workaround proposal — that workaround was explicitly justified by "no closed-loop feedback," a premise that no longer holds now that encoder feedback actually exists. Real submission photos also finally went in: <code>cara_robot.jpg</code> and <code>test_setup.jpg</code>, filling the placeholder figure slots that had been sitting empty since <a href="week-12.html">Week 12</a>.</p>
+
+    <p>Deliberately <strong>not</strong> added to the report: the sign-inversion bug itself. That bug was found and fixed on a standalone Arduino Uno bench rig, not the real Mega board that actually runs CARA, so it stayed out of the dissertation for that reason — a report-specific call, not a reason to leave it out of this blog, where it's covered in full above.</p>
+
+    <p>Some housekeeping too: <code>DAILY_LOG.md</code> and the new <code>TODO_DEMO_READINESS.md</code> (a project-wide gap audit specifically aimed at live-demo readiness, tiered by what each item actually needs — bench, Mega, Jetson, or just paperwork) both moved to <code>.gitignore</code> — personal working notes, not meant for repo history.</p>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>L298N Channel B's fault was never actually root-caused — it was avoided by switching to Channel A, not diagnosed as dead-chip vs. broken-signal-path. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The new RTC driver is written but completely unverified — no compile check, let alone a bench test. None of this week's work — new motors, keypad, wristband, or RTC — is integrated into the main robot yet; today's session was scoped entirely to laptop-side and paperwork items since no motors or battery were on hand. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
+
+    <h2>Week 14 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>New motors' torque margin verified against datasheet + estimated weight</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Motor spins correctly on bench supply, isolated from driver/Arduino</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>L298N Channel A bring-up (after Channel B found dead)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>L298N Channel B fault actually root-caused</td><td class="no">⏳ Avoided, not diagnosed</td></tr>
+          <tr><td>Encoder wiring verified (pulse count matches datasheet math)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Closed-loop position-control sketch built and debugged</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Sign-inversion bug found live and fixed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>3-revolution closed-loop run confirmed accurate (988/984 counts)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>4-motor scaling constraint mapped (Mega interrupt pins)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>New motors integrated into cara_main_mega.ino / main robot</td><td class="no">⏳ Deliberately not started</td></tr>
+          <tr><td>Shared-power fix for RFID/tilt/ultrasonic retested</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Wristband HSV calibration run against the real printed band</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>New covers/holders printed and test-fitted</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Spare keypad bench-tested, board-reset bug fixed (D8→D10)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Full pin sweep D2–D11, dead pin found and swapped (D2→D11)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Root cause isolated to the keypad membrane itself</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Replacement keypad obtained and re-tested</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Real physical wristband built (4cm paper strip)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>hsv_band_calibrator.py: multi-camera probing + live switch hotkey</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>hsv_calibration_result.txt: append-only history (was overwrite)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Real HSV values wired into person_tracker_node via YAML</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Band shape+size filter added (3:2 aspect, min/max area)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>band_shape_test.py standalone validator built</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Sliver-split failure mode found and fixed (morphological close)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Same-color-paper confusion found and fixed (max-area bound)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Band confirmed as single solid blob across a 51-capture batch</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Wristband fallback usable beyond a few feet</td><td class="no">⏳ Accepted limitation, not solved</td></tr>
+          <tr><td>Silent DSHOW camera-driver crash fixed (settle delay)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SoftI2C_RTC driver written for cara_main_mega.ino</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SoftI2C_RTC driver compiled/bench-tested</td><td class="no">⏳ Not possible today — no tooling/hardware</td></tr>
+          <tr><td>LaTeX report Evaluation/Conclusion synced to motor progress</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Real submission photos added (cara_robot.jpg, test_setup.jpg)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>DAILY_LOG.md / TODO_DEMO_READINESS.md moved to .gitignore</td><td class="yes">✓ Complete</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 14 — Motors, Keypad, Wristband, RTC Driver">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-13.html" style="color:var(--primary);">← Previous: Week 13 — Shared-Power Fault Found</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-15.html" style="color:var(--primary);">Next: Week 15 — Coming Soon →</a>
   </div>
 
 </main>

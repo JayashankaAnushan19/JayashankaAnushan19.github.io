@@ -62,15 +62,29 @@
       <li><strong>Part5 – New1</strong> — a further revision of the camera-gear part first modified back in <a href="week-08.html">Week 08</a>.</li>
     </ul>
 
+    <p>CAD renders of four of these are ready, ahead of the others:</p>
+
     <figure class="post-image">
-      <div class="post-image-placeholder">
-        <span class="ph-icon">🖼</span>
-        <span class="ph-text">Photo placeholder — to be added</span>
-      </div>
-      <figcaption>The new covers and holders, once printed and test-fitted onto the chassis.</figcaption>
+      <img src="images/blog-13-camera-cover-render.png" alt="SolidWorks render of the dome-shaped Camera Cover assembly, showing a ribbed rounded housing over the camera tower">
+      <figcaption>Camera Cover — a ribbed dome housing for the camera tower.</figcaption>
     </figure>
 
-    <p>A further revision of the camera base landed too (<code>Part5 – New1</code>, updated again), continuing the same part's iteration from earlier this week — no written description accompanies the change, so specifics aren't documented yet.</p>
+    <figure class="post-image">
+      <img src="images/blog-13-lcd-cover-render.png" alt="SolidWorks render of the LCD Cover, a rectangular housing with a window cutout, engraved CARA - M01037028 (MSc Robotics, MDX - Dubai)">
+      <figcaption>LCD Cover — a windowed housing for the 16×2 display, engraved with the project ID.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-13-switch-holder-render.png" alt="SolidWorks render of the Switch holder assembly, a mounting base with labelled slots for Jetson, Arduino, and GSM, engraved with the author's name and student ID">
+      <figcaption>Switch holder — a labelled mounting base (Jetson / Arduino / GSM slots), engraved with the author's name and student ID.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-13-wire-hidden-component-render.png" alt="SolidWorks render of the Wire hidden component assembly, a two-tier bracket with cable slots and a ventilated cover panel">
+      <figcaption>Wire hidden component — a two-tier bracket with slotted cable routing and a ventilated cover panel.</figcaption>
+    </figure>
+
+    <p>RFID Cover, the Jetson and LCD holder, and the cam hold pins don't have renders ready yet. A further revision of the camera base also landed (<code>Part5 – New1</code>, updated again), continuing the same part's iteration from earlier this week — no written description accompanies the change, so specifics aren't documented yet.</p>
 
     <h2>Camera Tilt Bench Test — and a More Serious Issue Found Along the Way</h2>
     <p>Debugging the still-unmoving tilt servo from <a href="week-12.html">Week 12</a> started with a minimal servo-only bench test (<code>NineteenthTest_CameraTiltCheck.ino</code>) — still no movement, which at least ruled firmware out. That was replaced with a proven 3-phase diagnostic (small moves, full sweep, fast snaps) which confirmed the servo works correctly in isolation, and is being kept as the reference for any future tilt debugging.</p>
@@ -136,6 +150,7 @@
           <tr><td>Switch holder designed</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Wire-hiding component + cover designed</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Cam hold pins designed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>CAD renders exported (Camera Cover, LCD Cover, Switch holder, Wire hidden component)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Parts printed and test-fitted on the chassis</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Physical Design section (Thesis Report) updated with new hardware</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Camera tilt servo proven working in isolation (3-phase diagnostic)</td><td class="yes">✓ Complete</td></tr>
@@ -208,7 +223,7 @@
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-12.html" style="color:var(--primary);">← Previous: Week 12 — Report Audit & a Big Engineering Day</a>
     <a href="./">All Posts</a>
-    <a href="week-14.html" style="color:var(--primary);">Next: Week 14 — Coming Soon →</a>
+    <a href="week-14.html" style="color:var(--primary);">Next: Week 14 — New Motors Bench-Tested →</a>
   </div>
 
 </main>
