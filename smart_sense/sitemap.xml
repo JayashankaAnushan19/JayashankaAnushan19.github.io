@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  NOTE: URLs below use the eventual custom domain (smartsense.lk), which
+  also matches the canonical/og:url tags in each page's <head>.
+  Two-stage deployment plan:
+    1. GitHub Pages first (new account/repo) — until the custom domain
+       is live, replace every "https://smartsense.lk/" below AND the
+       canonical/og:url/twitter:image tags in each page's <head> with
+       your actual Pages URL (e.g. https://<username>.github.io/<repo>/).
+    2. Once smartsense.lk is registered and pointed at the site, switch
+       all of those back to "https://smartsense.lk/" (what's here now).
+  Submit this file to Google Search Console after each switch so it
+  re-crawls with the correct URLs.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.smartsense.lk/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.smartsense.lk/shop.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.smartsense.lk/about.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.smartsense.lk/reviews.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.smartsense.lk/faq.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.smartsense.lk/contact.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>

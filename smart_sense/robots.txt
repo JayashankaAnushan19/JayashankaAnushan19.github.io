@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# NOTE: update to your actual GitHub Pages URL until smartsense.lk is live
+# (see the note at the top of sitemap.xml for the full two-stage plan).
+Sitemap: https://smartsense.lk/sitemap.xml
