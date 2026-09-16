@@ -19,3 +19,8 @@ CARA/appendix/appendix-source/
 
 # VS Code workspace settings — local editor preferences, not project config.
 .vscode/
+
+# Smart Sense storefront — internal build notes, not meant to ship with the
+# public site (the file itself documents why; the rest of smart_sense/ is
+# the live storefront and stays tracked).
+smart_sense/PROJECT_NOTES.md

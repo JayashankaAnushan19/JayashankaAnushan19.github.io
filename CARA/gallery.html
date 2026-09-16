@@ -532,6 +532,93 @@
       </div>
     </div>
 
+    <div class="gallery-card">
+      <div class="range-chart">
+        <div class="range-chart-title">Fall Detection — Training Dataset</div>
+        <div class="range-track-wrap">
+          <div class="range-track">
+            <div class="range-seg usable" style="width:47%;">
+              <span class="range-seg-label">303<br>Fall</span>
+            </div>
+            <div class="range-seg dead" style="width:53%;">
+              <span class="range-seg-label">341<br>Not-Fall</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">644</span><span class="range-stat-lbl">Total samples</span></div>
+          <div><span class="range-stat-val">47%</span><span class="range-stat-lbl">Fall class</span></div>
+          <div><span class="range-stat-val">53%</span><span class="range-stat-lbl">Not-fall class</span></div>
+        </div>
+      </div>
+      <div class="gallery-info">
+        <h4>Fall Detection — Training Dataset</h4>
+        <p>The 644 labelled pose samples used to train and evaluate the RandomForestClassifier — a near-even class split, which avoids the classifier simply learning to favour the majority class.</p>
+        <span class="fig-ref">Chapter 5 · Individual Feature Results</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="range-chart">
+        <div class="range-chart-title">Fall Detection — Cross-Validation Range</div>
+        <div class="range-track-wrap">
+          <div class="range-marker" style="left:50.4%;">87.6% split</div>
+          <div class="range-track">
+            <div class="range-seg dead" style="width:39.2%;">
+              <span class="range-seg-label">75%</span>
+            </div>
+            <div class="range-seg usable" style="width:38.4%;">
+              <span class="range-seg-label">84.8–94.4%<br>5-fold CV range</span>
+            </div>
+            <div class="range-seg dead" style="width:22.4%;">
+              <span class="range-seg-label">100%</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">87.6%</span><span class="range-stat-lbl">Single held-out split</span></div>
+          <div><span class="range-stat-val">89.6%</span><span class="range-stat-lbl">5-fold CV mean</span></div>
+          <div><span class="range-stat-val">±4.8%</span><span class="range-stat-lbl">CV spread</span></div>
+        </div>
+      </div>
+      <div class="gallery-info">
+        <h4>Fall Detection — Cross-Validation Range</h4>
+        <p>5-fold cross-validation was run to check the 87.6% single-split result wasn't just a favourable split of the data — the CV mean (89.6%) lands close by, within a ±4.8% spread.</p>
+        <span class="fig-ref">Chapter 5 · Individual Feature Results</span>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="range-chart">
+        <div class="range-chart-title">Reverse Stop-Distance Tuning</div>
+        <div class="range-track-wrap">
+          <div class="range-marker" style="left:28.57%;">20cm · new</div>
+          <div class="range-marker" style="left:85.71%;">60cm · old</div>
+          <div class="range-track">
+            <div class="range-seg dead" style="width:28.57%;">
+              <span class="range-seg-label">0cm</span>
+            </div>
+            <div class="range-seg usable" style="width:57.14%;">
+              <span class="range-seg-label">40cm reverse clearance freed</span>
+            </div>
+            <div class="range-seg dead" style="width:14.29%;">
+              <span class="range-seg-label">70cm</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">60cm</span><span class="range-stat-lbl">Old threshold</span></div>
+          <div><span class="range-stat-val">20cm</span><span class="range-stat-lbl">New threshold</span></div>
+          <div><span class="range-stat-val">40cm</span><span class="range-stat-lbl">Clearance freed</span></div>
+        </div>
+      </div>
+      <div class="gallery-info">
+        <h4>Reverse Stop-Distance Tuning</h4>
+        <p><code>STOP_DIST</code> for forward/backward driving was tightened from 60cm to 20cm (matching <code>TURN_STOP_DIST</code>) after the old value blocked <code>MOVE_BACKWARD</code> with a genuinely clear ~40cm behind the robot.</p>
+        <span class="fig-ref">Week 12 · Live bench test</span>
+      </div>
+    </div>
+
     <!-- Not yet ready — no real trial data exists for these two yet, commented out rather than shown as an empty placeholder:
     <div class="gallery-card">
       <div class="gallery-placeholder">
