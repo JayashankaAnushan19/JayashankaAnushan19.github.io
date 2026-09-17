@@ -22,7 +22,7 @@ var POSTS = [
     week:    'Week 14',
     date:    '11–17 Sep 2026',
     title:   'New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control',
-    excerpt: 'The underpowered motors flagged since Week 09 finally got real replacements, bench-tested with a genuine sign-inversion bug found and fixed. A spare keypad traced cleanly to a defective membrane. A real physical wristband exposed and fixed two genuine HSV-tracking failure modes, and an untested bit-banged RTC driver got written. The week closed with a full "CARA Care" admin dashboard redesign — real login, settings, and activity logs — verified live end to end, catching a real import-crash bug and two mobile-layout bugs along the way. Deliberately not yet integrated into the main robot. Still in progress.',
+    excerpt: 'The underpowered motors flagged since Week 09 finally got real replacements, bench-tested with a genuine sign-inversion bug found and fixed. A spare keypad traced cleanly to a defective membrane. A real physical wristband exposed and fixed two genuine HSV-tracking failure modes, and a full "CARA Care" admin dashboard redesign was verified live end to end, catching a real import-crash bug and two mobile-layout bugs. The week closed with hardware finally back: 4 new motors mapped against the Mega\'s fully-occupied interrupt pins and physically wired for real 4WD, firmware still to come. Still in progress.',
     tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {

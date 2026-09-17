@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 14 (in progress) — replacement gear motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, an untested RTC driver, and a full 'CARA Care' admin dashboard redesign verified live end to end.">
+<meta name="description" content="CARA Week 14 — replacement motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, a 'CARA Care' admin dashboard verified live end to end, and the week closes with 4 new motors mapped, wired, and ready for real 4WD.">
 <title>Week 14 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -39,7 +39,7 @@
 
     <h1>New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control</h1>
 
-    <p class="page-subtitle">The underpowered drive motors flagged all the way back in <a href="week-09.html">Week 09</a> — and parked as an accepted hardware limit in <a href="week-12.html">Week 12</a> — finally got real replacements: gear motors with genuine torque margin and built-in encoders, brought up from scratch on the bench, fully independent of the Mega-integrated robot for now. Getting from "the motor spins" to real closed-loop position control surfaced a genuine sign-inversion bug, caught live and fixed. Scaling to all four wheels was deliberately not attempted yet — proving the concept came first. A separate bench session hit a dead end with a spare keypad: methodical pin-by-pin isolation ruled out the Arduino and the code entirely, tracing the fault cleanly to a defective keypad membrane. Later in the week, with no motors or battery on hand, work shifted to a real physical wristband — exposing two genuine HSV-tracking failure modes and fixing both — plus an untested bit-banged RTC driver, and a report sync that deliberately left the sign-inversion bug out of the dissertation. The week closed with a full redesign of the web UI into a real admin dashboard — "CARA Care" — with genuine login, settings, and activity logs, verified live end to end rather than just written, catching a real import-crash bug and two mobile-layout bugs along the way.</p>
+    <p class="page-subtitle">The underpowered drive motors flagged all the way back in <a href="week-09.html">Week 09</a> — and parked as an accepted hardware limit in <a href="week-12.html">Week 12</a> — finally got real replacements: gear motors with genuine torque margin and built-in encoders, brought up from scratch on the bench, fully independent of the Mega-integrated robot for now. Getting from "the motor spins" to real closed-loop position control surfaced a genuine sign-inversion bug, caught live and fixed. Scaling to all four wheels was deliberately not attempted yet — proving the concept came first. A separate bench session hit a dead end with a spare keypad: methodical pin-by-pin isolation ruled out the Arduino and the code entirely, tracing the fault cleanly to a defective keypad membrane. Later in the week, with no motors or battery on hand, work shifted to a real physical wristband — exposing two genuine HSV-tracking failure modes and fixing both — plus an untested bit-banged RTC driver, and a report sync that deliberately left the sign-inversion bug out of the dissertation. The web UI got a full redesign into a real admin dashboard — "CARA Care" — with genuine login, settings, and activity logs, verified live end to end rather than just written, catching a real import-crash bug and two mobile-layout bugs along the way. The week closed with hardware finally back on hand: 4 new motors mapped against the Mega's fully-occupied interrupt pins (catching two wiring mistakes before connecting anything), then physically wired for real 4WD with encoders on two of them, firmware still to come.</p>
   </div>
 
   <div class="post-body">
@@ -57,13 +57,13 @@
     </figure>
 
     <h2>Bench Bring-Up — Isolating Each Ambiguity</h2>
-    <p>The bring-up sequence deliberately isolated one variable at a time rather than debugging everything at once. Wiring the motor directly to the bench supply, bypassing the driver and Arduino entirely, confirmed the motor itself spins correctly down to 3V. L298N Channel B (OUT3/OUT4) then showed no movement and only about 0.01V measured at the output terminals despite correct control signals reaching it — diagnosed as either a dead channel or a broken control-signal path, rather than chased further. The pragmatic move was to swap to Channel A (OUT1/OUT2, ENA/IN1/IN2) and continue there instead.</p>
+    <p>The bring-up sequence deliberately isolated one variable at a time rather than debugging everything at once, using a spare L298N driver dedicated to this bench rig — separate hardware from the motor driver already running on the actual robot, not the same board. Wiring the motor directly to the bench supply, bypassing that driver and Arduino entirely, confirmed the motor itself spins correctly down to 3V. This spare board's Channel B (OUT3/OUT4) then showed no movement and only about 0.01V measured at the output terminals despite correct control signals reaching it — diagnosed as either a dead channel or a broken control-signal path on this specific spare board, not a fault in the robot's own driver, which this test never touched. The pragmatic move was to swap to Channel A (OUT1/OUT2, ENA/IN1/IN2) on the same spare board and continue there instead.</p>
 
     <p>A separate, initially confusing symptom — the motor seemingly not getting "enough voltage to rotate" — turned out to be the bench power supply's own current limit set too low, sagging voltage under the starting/stiction current a motor draws when it first begins moving. Not a driver or wiring fault at all.</p>
 
     <figure class="post-image">
       <img src="images/blog-14-arduino-l298n-wiring.jpg" alt="Close-up of an Arduino Uno wired to an L298N motor driver board with color-coded jumper wires">
-      <figcaption>Arduino Uno and L298N wiring for the bench bring-up — Channel A ended up doing the work after Channel B showed a dead output.</figcaption>
+      <figcaption>Arduino Uno and the spare L298N driver for the bench bring-up — Channel A ended up doing the work after Channel B showed a dead output on this board.</figcaption>
     </figure>
 
     <h2>Encoder Wiring Verified</h2>
@@ -208,8 +208,46 @@
 
     <p>Real mobile-friendliness was checked rather than assumed from the CSS alone, and two genuine bugs turned up. The six-tab nav bar forced horizontal scrolling on a phone-width screen — fixed to wrap across rows instead. The bigger find: the Live Dashboard tab's grid layout was silently inert at every screen size, not just narrow ones — a shared <code>.tab-content.active{display:flex}</code> rule was overriding the grid display the layout needed to do anything at all, and it only ever looked right on desktop by flex-layout coincidence. Fixed with a scoped, higher-specificity override for that one tab, confirmed via a real before/after screenshot at the narrowest width available to test with.</p>
 
+    <h2>Hardware's Back — 4 New Motors Mapped and Wired for Real 4WD</h2>
+    <p>After a week of laptop-only work with no motors or battery on hand, hardware returned: 4 new motors (LF/LR/RF/RR), with encoders on 2 of them — one per side (LR, RR). Before touching a single wire, the real Mega pin plan got worked out on paper first, and that caught two mistakes that would have caused real problems wired blind. The Mega's 6 true hardware-interrupt pins (2, 3, 18, 19, 20, 21) are now <em>all</em> already occupied — 2/3 by the PIR sensors, 18/19 by the GSM module's hardware <code>Serial1</code>, 20 by the LCD's bit-banged SDA, 21 physically damaged — so the new encoders have to go in via Pin Change Interrupts instead of a plain <code>attachInterrupt()</code>. The first candidate pins (D4/D5) turned out to already be the keypad's column pins, missed on the first pass and only caught on a full re-audit against the firmware's own header comment and a real grep, not memory; the second candidate (D13) was flagged too, since it drives the Mega's onboard LED and would flicker with every encoder pulse. Final confirmed-clear pins: left-side encoder (on LR) on D14/D15, right-side encoder (on RR) on D6/D44.</p>
+
+    <p>Checking the existing drive logic paid off too: <code>moveForward()</code>/<code>turnLeft()</code> already treat IN1/IN2+ENA as the whole left side and IN3/IN4+ENB as the whole right side, so wiring LF's motor leads in parallel with the existing left motor's L298N terminals (and RR's with the right) gets full 4WD with zero changes to the drive logic — and explains why one encoder per side, not all four, is actually the correct amount of sensing for this chassis rather than a shortfall.</p>
+
+    <p>All 4 motors got physically connected the same day, encoders included, using extension cables in different colors than the motors' own leads. The exact color mapping was recorded deliberately, since it's exactly the kind of detail that's easy to get backwards later and silently cause a repeat of this week's earlier direction-sign bug — the extension wire colors for the two encoder signal lines land on colors that mean something <em>different</em> from what they'd naturally suggest (extension-green carries Channel A, not the motor's own green wire, which is actually Channel B; extension-red carries Channel B, not power). No firmware has been written for the new encoders yet — pins decided and hardware connected only, wiring the code in is next session's task.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-four-motor-chassis-front.jpg" alt="Aluminium chassis with all four new gear motors and blue wheels mounted, one at each corner, Arduino Mega and breadboard wired on top with ultrasonic sensor pairs front and back">
+      <figcaption>All four corners mounted for the first time — new motors, blue wheels, Arduino Mega and sensor wiring on top.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-14-four-motor-chassis-side.jpg" alt="Side view of the four-motor chassis showing the aluminium plate, ultrasonic sensor pair, and dense wiring routed to the Mega and shield stack">
+      <figcaption>Side view of the same assembly — the chassis is now physically a 4WD platform, even with the drive code still to come.</figcaption>
+    </figure>
+
+    <h2>A Custom Battery Pack — Closing Out a Long-Open Thread</h2>
+    <p>The battery saga that started with a dead 3rd LiPo cell back in <a href="week-12.html">Week 12</a> — recovery attempted, outcome never confirmed — gets a real resolution: a custom-built replacement pack, assembled from genuine Samsung <code>INR18650-32E</code> 18650 lithium-ion cells rather than another off-the-shelf LiPo. Rated by the builder at <strong>12V output, up to 12A</strong>, with a dedicated Li-ion charger (AC 100–240V input, 12V/2A output) rather than improvising one.</p>
+
+    <figure class="post-image">
+      <img src="images/blog-14-custom-battery-pack.jpg" alt="Custom-built green shrink-wrapped battery pack with XT60 connectors, next to its dedicated Li-ion charger rated AC100-240V input, 12V output">
+      <figcaption>The custom pack and its dedicated charger — a real replacement for the LiPo pack that lost a cell back in Week 12.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-14-battery-cell-samsung-18650.jpg" alt="A single genuine Samsung INR18650-32E 18650 lithium-ion cell held in hand, showing the fire-hazard handling warning label">
+      <figcaption>One of the pack's Samsung INR18650-32E cells — genuine, labeled, not an unmarked generic.</figcaption>
+    </figure>
+
+    <div class="post-callout">
+      <p><strong>Not yet verified:</strong> this pack hasn't been run against the newly-wired 4-motor chassis yet, so it's a real replacement on paper and on the bench, not a confirmed fix for the power problems flagged across Weeks 12 and 13 until it's actually been tested under load with everything attached.</p>
+    </div>
+
+    <div class="post-callout">
+      <p><strong>Also confirmed, not assumed:</strong> the RTC and LCD sharing the same SDA/SCL pins (SDA=20, SCL=A0) is by design, not a mistake — the RTC driver written earlier this week deliberately reused the LCD's existing bit-banged bus, since I2C is a shared multi-drop bus and the two devices sit at different addresses (LCD 0x27, RTC 0x68). That reasoning has never actually been bench-tested with both devices live on the bus at once, though — flagged honestly as still needing verification once hardware allows it, not assumed to work just because the theory is sound.</p>
+    </div>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>L298N Channel B's fault was never actually root-caused — it was avoided by switching to Channel A, not diagnosed as dead-chip vs. broken-signal-path. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The RTC driver from earlier in the week is still completely unverified — no compile check, let alone a bench test. The dashboard's admin password is still the unchanged default. None of this week's work — new motors, keypad, wristband, RTC, or the new dashboard — is integrated into the main robot's own firmware yet, and nothing from today has been committed: <code>remote_control.py</code>, its legacy backup, the settings/log JSON files, and yesterday's RTC driver are all still sitting in the working tree, the user's to commit when ready. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
+    <p>The spare bench L298N's dead Channel B was never actually root-caused — it was avoided by switching to Channel A rather than diagnosed as dead-chip vs. broken-signal-path; that's a fault in the standalone bench driver board, not the robot's own motor driver, which this bench testing never touched. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The RTC driver is still completely unverified — no compile check, let alone a bench test, and now a second unverified assumption sits on top of it (LCD+RTC bus-sharing in practice). The dashboard's admin password is still the unchanged default. The new 4WD encoder wiring has no firmware behind it yet — hardware only. The new custom battery pack hasn't been run under load with the rest of the robot attached, so it's a promising replacement, not a confirmed fix, until it is. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
 
     <h2>Week 14 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -217,8 +255,8 @@
         <tbody>
           <tr><td>New motors' torque margin verified against datasheet + estimated weight</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Motor spins correctly on bench supply, isolated from driver/Arduino</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>L298N Channel A bring-up (after Channel B found dead)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>L298N Channel B fault actually root-caused</td><td class="no">⏳ Avoided, not diagnosed</td></tr>
+          <tr><td>Spare bench L298N Channel A bring-up (after Channel B found dead on that board)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Spare bench L298N's Channel B fault actually root-caused</td><td class="no">⏳ Avoided, not diagnosed</td></tr>
           <tr><td>Encoder wiring verified (pulse count matches datasheet math)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Closed-loop position-control sketch built and debugged</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Sign-inversion bug found live and fixed</td><td class="yes">✓ Complete</td></tr>
@@ -255,7 +293,15 @@
           <tr><td>ROBOT vs YOU local-time chip added to reminder card</td><td class="yes">✓ Complete</td></tr>
           <tr><td>2 real mobile-layout bugs found and fixed (nav wrap, dead grid CSS)</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Admin default password changed from 1234</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Dashboard work committed</td><td class="no">⏳ In Progress — user's to commit</td></tr>
+          <tr><td>Dashboard work committed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>4 new motors (LF/LR/RF/RR) on hand, Mega pin plan worked out</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>2 wiring mistakes caught before connecting anything (D4/D5, D13)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>All 4 motors + 2 encoders physically wired, colors mapped</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Encoder firmware written for the new 4WD wiring</td><td class="no">⏳ Not started</td></tr>
+          <tr><td>LCD+RTC shared-bus assumption bench-verified with both live at once</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Custom 12V/12A battery pack built (Samsung 18650 cells)</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Custom battery pack tested under real load</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Chassis physically assembled with all 4 new motors + wheels</td><td class="yes">✓ Complete</td></tr>
         </tbody>
       </table>
     </div>
