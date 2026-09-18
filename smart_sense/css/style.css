@@ -53,6 +53,11 @@ a {
   text-decoration: none;
 }
 
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-head);
   line-height: 1.15;
@@ -332,6 +337,7 @@ button {
     top: 0;
     right: 0;
     height: 100vh;
+    height: 100dvh;
     width: min(78vw, 320px);
     background: var(--white);
     flex-direction: column;
@@ -654,6 +660,7 @@ button {
   top: 0;
   right: 0;
   height: 100vh;
+  height: 100dvh;
   width: min(420px, 100vw);
   background: var(--cream);
   z-index: 95;
@@ -820,7 +827,7 @@ button {
   border-radius: var(--radius-sm);
   border: 1px solid rgba(36,26,18,0.2);
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 16px;
   background: var(--cream);
 }
 
