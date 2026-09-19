@@ -1,0 +1,143 @@
+{
+  "Beers, Ciders & Alcopops": {
+    "slug": "beers-ciders",
+    "file": "beers-ciders.jpg",
+    "status": "ok",
+    "title": "Free beer bottle image",
+    "creator": null,
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.rawpixel.com/image/5923208/photo-image-public-domain-free-beer"
+  },
+  "Wines": {
+    "slug": "wines",
+    "file": "wines.jpg",
+    "status": "ok",
+    "title": "Wine Bottles",
+    "creator": "Markus Spiske",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://stocksnap.io/photo/wine-bottles-YO2USSKK2K"
+  },
+  "Spirits": {
+    "slug": "spirits",
+    "file": "spirits.jpg",
+    "status": "ok",
+    "title": "Vodka Bottle",
+    "creator": "espensorvik",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/28478778@N05/5729020694"
+  },
+  "Soft Drinks & Mixers": {
+    "status": "icon-fallback",
+    "note": "No suitable free/relevant photo found; product cards use the CSS icon tile instead."
+  },
+  "Snacks & Confectionery": {
+    "slug": "snacks-confectionery",
+    "file": "snacks-confectionery.jpg",
+    "status": "ok",
+    "title": "Free potato chips image",
+    "creator": null,
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.rawpixel.com/image/5904291/photo-image-public-domain-food-free"
+  },
+  "Newspapers & Magazines": {
+    "slug": "newspapers-magazines",
+    "file": "newspapers-magazines.jpg",
+    "status": "ok",
+    "title": "Newspaper Magazine",
+    "creator": "Patryk Dziejma",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://stocksnap.io/photo/newspaper-magazine-FT18I6U09O"
+  },
+  "Greetings Cards & Gifts": {
+    "slug": "greeting-cards",
+    "file": "greeting-cards.jpg",
+    "status": "ok",
+    "title": "Gift Box",
+    "creator": null,
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://stocksnap.io/"
+  },
+  "Fresh Bread & Bakery": {
+    "slug": "bakery",
+    "file": "bakery.jpg",
+    "status": "ok",
+    "title": "Sourdough bread fresh from the oven",
+    "creator": "Nutrition, Food Safety & Health",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/93936679@N05/51327616477"
+  },
+  "Milk, Eggs & Dairy": {
+    "status": "icon-fallback",
+    "note": "No suitable free/relevant photo found; product cards use the CSS icon tile instead."
+  },
+  "Fruit & Veg": {
+    "slug": "fruit-veg",
+    "file": "fruit-veg.jpg",
+    "status": "ok",
+    "title": "Food Fruits",
+    "creator": "Lukas Budimaier",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://stocksnap.io/photo/food-fruits-AWJD4WV6W1"
+  },
+  "Store Cupboard & Groceries": {
+    "status": "icon-fallback",
+    "note": "Candidate photos had visible third-party brand logos (Swanson, Campbell's); product cards use the CSS icon tile instead."
+  },
+  "Household & Cleaning": {
+    "status": "icon-fallback",
+    "note": "No suitable free/relevant photo found; product cards use the CSS icon tile instead."
+  },
+  "Toiletries & Health": {
+    "slug": "toiletries",
+    "file": "toiletries.jpg",
+    "status": "ok",
+    "title": "Skincare bottles, Location unknown, Aug",
+    "creator": null,
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.rawpixel.com/image/6112549/skincare-bottles-location-unknown-aug-2015"
+  },
+  "Snacks & Soft Drinks": {
+    "slug": "snacks-drinks",
+    "file": "snacks-drinks.jpg",
+    "status": "ok",
+    "title": "Tortilla chips",
+    "creator": "Valters Krontals",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/53442856@N06/7217270626"
+  },
+  "Frozen Foods": {
+    "status": "icon-fallback",
+    "note": "No suitable free/relevant photo found; product cards use the CSS icon tile instead."
+  },
+  "Baby & Pet Care": {
+    "slug": "baby-pet",
+    "file": "baby-pet.jpg",
+    "status": "ok",
+    "title": "Dog Food Bowl",
+    "creator": "JnL",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/27503925@N00/48331634"
+  }
+}

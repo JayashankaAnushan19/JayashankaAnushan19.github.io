@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>QUICK STOP — Product Manager (private)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23e3a91a'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Arial,sans-serif' font-weight='800' fill='%230b3d24' text-anchor='middle'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="adm-body">
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="adm-topbar">
+  <div class="adm-topbar-inner">
+    <div class="adm-brand">
+      <span class="brand-mark">Q</span>
+      <div>
+        <strong>Product Manager</strong>
+        <small>Private — keep the <code>admin</code> folder off the live website</small>
+      </div>
+    </div>
+    <div class="adm-topbar-actions">
+      <span class="adm-status" id="status-chip">Loading…</span>
+      <button class="adm-btn adm-btn-ghost" id="btn-discard" type="button" title="Throw away unpublished changes">Discard changes</button>
+      <button class="adm-btn adm-btn-ghost" id="btn-zip" type="button">Download update (ZIP)</button>
+      <button class="adm-btn adm-btn-primary" id="btn-publish" type="button">Publish to website</button>
+    </div>
+  </div>
+  <div class="adm-folder-line" id="folder-line" hidden></div>
+</header>
+
+<main class="adm-main">
+
+  <nav class="adm-tabs" role="tablist">
+    <button class="adm-tab active" data-tab="products" role="tab">Products</button>
+    <button class="adm-tab" data-tab="promo" role="tab">Promotion banner</button>
+    <button class="adm-tab" data-tab="help" role="tab">How to publish</button>
+  </nav>
+
+  <!-- ===================== PRODUCTS TAB ===================== -->
+  <section class="adm-panel" id="tab-products">
+
+    <div class="adm-stats" id="stats"></div>
+
+    <div class="adm-toolbar">
+      <input type="search" id="f-search" placeholder="Search name, brand, category…" class="adm-input adm-input-search">
+      <select id="f-shop" class="adm-input"></select>
+      <select id="f-category" class="adm-input"></select>
+      <select id="f-status" class="adm-input">
+        <option value="all">All products</option>
+        <option value="offer">On offer now</option>
+        <option value="expired">Offer expired</option>
+        <option value="featured">Featured on Home</option>
+        <option value="nophoto">No own photo</option>
+        <option value="age">18+ only</option>
+      </select>
+      <select id="f-sort" class="adm-input">
+        <option value="shop">Sort: Shop &amp; category</option>
+        <option value="name">Sort: Name A–Z</option>
+        <option value="price-asc">Sort: Price low → high</option>
+        <option value="price-desc">Sort: Price high → low</option>
+        <option value="offer">Sort: Biggest offers first</option>
+      </select>
+      <button class="adm-btn adm-btn-primary" id="btn-add" type="button">+ Add product</button>
+    </div>
+
+    <div class="adm-bulk" id="bulk-bar" hidden>
+      <strong id="bulk-count">0 selected</strong>
+      <button class="adm-btn adm-btn-sm" id="bulk-offer" type="button">Set % offer…</button>
+      <button class="adm-btn adm-btn-sm" id="bulk-clear-offer" type="button">Clear offers</button>
+      <button class="adm-btn adm-btn-sm adm-btn-danger" id="bulk-delete" type="button">Delete</button>
+      <button class="adm-btn adm-btn-sm adm-btn-ghost" id="bulk-none" type="button">Deselect all</button>
+    </div>
+
+    <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th class="adm-col-check"><input type="checkbox" id="check-all" aria-label="Select all"></th>
+            <th class="adm-col-photo">Photo</th>
+            <th>Product</th>
+            <th>Shop</th>
+            <th>Category</th>
+            <th class="adm-num">Regular</th>
+            <th>Customer pays</th>
+            <th>Flags</th>
+            <th class="adm-col-actions"></th>
+          </tr>
+        </thead>
+        <tbody id="product-rows"></tbody>
+      </table>
+      <p class="adm-empty" id="empty-note" hidden>No products match. Try clearing a filter.</p>
+    </div>
+  </section>
+
+  <!-- ===================== PROMOTION TAB ===================== -->
+  <section class="adm-panel" id="tab-promo" hidden>
+    <div class="adm-card">
+      <h2>Promotion banner &amp; popup</h2>
+      <p class="adm-hint">Shown as a slim banner on every page, and once as a popup on the Home page.</p>
+      <label class="adm-check"><input type="checkbox" id="promo-active"> Show the promotion on the website</label>
+      <div class="adm-field">
+        <label for="promo-message">Message</label>
+        <textarea id="promo-message" class="adm-input" rows="2" maxlength="160" placeholder="e.g. 20% off all soft drinks this weekend!"></textarea>
+        <small class="adm-hint"><span id="promo-count">0</span>/160 characters</small>
+      </div>
+      <div class="adm-row2">
+        <div class="adm-field">
+          <label for="promo-cta-label">Button text</label>
+          <input id="promo-cta-label" class="adm-input" placeholder="Shop Now">
+        </div>
+        <div class="adm-field">
+          <label for="promo-cta-link">Button goes to</label>
+          <select id="promo-cta-link" class="adm-input">
+            <option value="shop.html">Shop page</option>
+            <option value="index.html">Home page</option>
+            <option value="contact.html">Contact page</option>
+            <option value="about.html">Our Story</option>
+            <option value="how-it-works.html">How ordering works</option>
+            <option value="reviews.html">Reviews</option>
+          </select>
+        </div>
+      </div>
+      <h3>Preview</h3>
+      <div class="promo-banner show adm-promo-preview">
+        <div class="promo-banner-inner">
+          <span id="promo-prev-text"></span>
+          <a class="promo-banner-cta" id="promo-prev-cta" href="#" onclick="return false"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HELP TAB ===================== -->
+  <section class="adm-panel" id="tab-help" hidden>
+    <div class="adm-card adm-help">
+      <h2>How to publish your changes</h2>
+      <ol>
+        <li><strong>Make your changes</strong> — add, edit or delete products, set offers, add photos. They're saved as a <em>draft</em> in this browser, so you can close the page and carry on later.</li>
+        <li><strong>Publish</strong> — press <em>Publish to website</em> (Chrome or Edge). The first time, pick your website folder (the one containing <code>index.html</code>). The page then writes the new <code>js/data.js</code> and your photos into <code>images/products/</code> for you, and keeps a backup of the old file in <code>admin/backups/</code>.</li>
+        <li><strong>No Chrome/Edge?</strong> Press <em>Download update (ZIP)</em>, unzip it, and copy the <code>js</code> and <code>images</code> folders over your website folder, choosing "replace".</li>
+        <li><strong>Upload to your host</strong> — upload the website files as usual, but <strong>do not upload the <code>admin</code> folder</strong>. That keeps this page private.</li>
+      </ol>
+      <h3>Good to know</h3>
+      <ul>
+        <li>Photos are automatically resized, compressed and renamed to something tidy like <code>images/products/news-booze-carlsberg-lager.jpg</code>.</li>
+        <li>Offers with an "until" date switch themselves off on the website — no need to come back and remove them.</li>
+        <li>Deleting a product doesn't delete its photo file, so nothing is lost by accident.</li>
+        <li>Product IDs are kept the same when you edit, so customers' saved baskets keep working.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== PRODUCT DIALOG ===================== -->
+<dialog id="product-dialog" class="adm-dialog">
+  <form id="product-form" novalidate>
+    <header class="adm-dialog-head">
+      <h2 id="pf-title">Add product</h2>
+      <button type="button" class="adm-x" data-close aria-label="Close">×</button>
+    </header>
+
+    <div class="adm-dialog-body">
+      <div class="adm-form-main">
+        <div class="adm-row2">
+          <div class="adm-field adm-span2">
+            <label for="pf-name">Product name *</label>
+            <input id="pf-name" class="adm-input" placeholder="e.g. Carlsberg Lager" autocomplete="off">
+          </div>
+        </div>
+        <div class="adm-row3">
+          <div class="adm-field">
+            <label for="pf-shop">Sold by *</label>
+            <select id="pf-shop" class="adm-input"></select>
+          </div>
+          <div class="adm-field">
+            <label for="pf-category">Category *</label>
+            <input id="pf-category" class="adm-input" list="dl-categories" placeholder="Pick or type new" autocomplete="off">
+            <datalist id="dl-categories"></datalist>
+          </div>
+          <div class="adm-field">
+            <label for="pf-brand">Brand</label>
+            <input id="pf-brand" class="adm-input" list="dl-brands" placeholder="Generic" autocomplete="off">
+            <datalist id="dl-brands"></datalist>
+          </div>
+        </div>
+        <div class="adm-row3">
+          <div class="adm-field">
+            <label for="pf-unit">Size / pack</label>
+            <input id="pf-unit" class="adm-input" placeholder="e.g. 4x440ml">
+          </div>
+          <div class="adm-field">
+            <label for="pf-price">Regular price (£) *</label>
+            <input id="pf-price" class="adm-input" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0.00">
+          </div>
+          <div class="adm-field adm-flags">
+            <label class="adm-check"><input type="checkbox" id="pf-featured"> Feature on Home page</label>
+            <label class="adm-check"><input type="checkbox" id="pf-age"> Age restricted (18+)</label>
+          </div>
+        </div>
+
+        <fieldset class="adm-offer">
+          <legend>Offer</legend>
+          <div class="adm-seg" id="pf-offer-type">
+            <button type="button" data-type="none" class="active">No offer</button>
+            <button type="button" data-type="percent">% off</button>
+            <button type="button" data-type="price">New price</button>
+          </div>
+          <div class="adm-row2" id="pf-offer-fields" hidden>
+            <div class="adm-field">
+              <label for="pf-offer-value" id="pf-offer-label">Discount (%)</label>
+              <input id="pf-offer-value" class="adm-input" type="number" step="0.01" min="0" inputmode="decimal">
+            </div>
+            <div class="adm-field">
+              <label for="pf-until">Offer ends (optional)</label>
+              <input id="pf-until" class="adm-input" type="date">
+              <div class="adm-quick">
+                <button type="button" data-days="7">1 week</button>
+                <button type="button" data-days="14">2 weeks</button>
+                <button type="button" data-days="month">End of month</button>
+                <button type="button" data-days="none">No end date</button>
+              </div>
+            </div>
+          </div>
+          <div class="adm-calc" id="pf-calc"></div>
+        </fieldset>
+
+        <p class="adm-error" id="pf-error" role="alert" hidden></p>
+      </div>
+
+      <aside class="adm-form-side">
+        <label class="adm-side-label">Photo</label>
+        <div class="adm-drop" id="pf-drop" tabindex="0">
+          <input type="file" id="pf-file" accept="image/*" hidden>
+          <div class="adm-drop-empty" id="pf-drop-empty">
+            <strong>Drop a photo here</strong>
+            <span>or click to choose · or paste (Ctrl+V)</span>
+          </div>
+          <img id="pf-drop-img" alt="" hidden>
+        </div>
+        <p class="adm-hint" id="pf-photo-note">No photo yet — the category photo will be used.</p>
+        <button type="button" class="adm-btn adm-btn-sm adm-btn-ghost" id="pf-photo-remove" hidden>Remove photo</button>
+
+        <label class="adm-side-label">How it will look</label>
+        <div class="adm-preview" id="pf-preview"></div>
+      </aside>
+    </div>
+
+    <footer class="adm-dialog-foot">
+      <button type="button" class="adm-btn adm-btn-ghost" data-close>Cancel</button>
+      <button type="submit" class="adm-btn adm-btn-primary" id="pf-save">Save product</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- ===================== BULK OFFER DIALOG ===================== -->
+<dialog id="bulk-dialog" class="adm-dialog adm-dialog-sm">
+  <form id="bulk-form" novalidate>
+    <header class="adm-dialog-head">
+      <h2>Set a % offer</h2>
+      <button type="button" class="adm-x" data-close aria-label="Close">×</button>
+    </header>
+    <div class="adm-dialog-body adm-single">
+      <p class="adm-hint" id="bulk-summary"></p>
+      <div class="adm-row2">
+        <div class="adm-field">
+          <label for="bulk-percent">Discount (%)</label>
+          <input id="bulk-percent" class="adm-input" type="number" min="1" max="95" step="1" value="10">
+        </div>
+        <div class="adm-field">
+          <label for="bulk-until">Offer ends (optional)</label>
+          <input id="bulk-until" class="adm-input" type="date">
+        </div>
+      </div>
+      <p class="adm-error" id="bulk-error" hidden></p>
+    </div>
+    <footer class="adm-dialog-foot">
+      <button type="button" class="adm-btn adm-btn-ghost" data-close>Cancel</button>
+      <button type="submit" class="adm-btn adm-btn-primary">Apply offer</button>
+    </footer>
+  </form>
+</dialog>
+
+<div class="adm-toast" id="adm-toast" role="status"></div>
+
+<!-- Existing site data (read-only source for this page) -->
+<script src="../js/data.js"></script>
+<script src="zip.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

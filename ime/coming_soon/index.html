@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coming Soon · For Ime</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@300;400&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--night:#0b0716;--plum:#1c1030;--rose:#f0a3b5;--gold:#e6c78a;--ink:#f6ecf0;--dim:#a99ab8}
+html{background:var(--night)}
+body{min-height:100vh;font-family:'DM Sans',sans-serif;color:var(--ink);background:linear-gradient(180deg,#0b0716 0%,#1c1030 55%,#3a1d4f 100%) fixed;overflow:hidden}
+#fly{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+.moon{position:fixed;top:9vh;right:12vw;width:clamp(70px,14vw,120px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffaf0,#f3dfb8 60%,#e0c48f);box-shadow:0 0 50px 12px rgba(246,224,170,.35),0 0 160px 60px rgba(246,224,170,.12);animation:float 9s ease-in-out infinite;z-index:0}
+.moon::after{content:"";position:absolute;width:22%;height:22%;left:55%;top:24%;border-radius:50%;background:rgba(200,170,120,.35)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* lanterns rising */
+.lantern{position:fixed;bottom:-90px;width:34px;height:44px;border-radius:14px 14px 10px 10px;background:linear-gradient(180deg,#ffd9a0,#f0a3b5);box-shadow:0 0 26px 8px rgba(255,190,140,.45);opacity:0;animation:rise linear infinite;z-index:1}
+.lantern::before{content:"";position:absolute;left:50%;top:-8px;width:16px;height:8px;transform:translateX(-50%);border-radius:6px 6px 0 0;background:#c98f6a}
+.lantern::after{content:"";position:absolute;left:50%;bottom:-14px;width:1px;height:14px;background:rgba(255,220,180,.5)}
+@keyframes rise{0%{transform:translate(0,0) scale(var(--s,1));opacity:0}10%{opacity:.95}50%{transform:translate(var(--dx,20px),-55vh) scale(var(--s,1))}90%{opacity:.8}100%{transform:translate(calc(var(--dx,20px) * -1),-125vh) scale(var(--s,1));opacity:0}}
+
+main{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 16px 5rem}
+.kicker{font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;opacity:0;animation:fade 1.4s .3s forwards}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,10vw,4.6rem);line-height:1.08;opacity:0;animation:fade 1.6s .7s forwards}
+h1 em{display:block;font-family:'Dancing Script',cursive;font-style:normal;font-weight:500;color:var(--rose);text-shadow:0 0 30px rgba(240,163,181,.6)}
+.line{width:min(220px,50vw);height:1px;margin:2rem auto 1.6rem;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;animation:fade 1.6s 1.2s forwards}
+#hope{min-height:3.4rem;max-width:420px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,4vw,1.4rem);line-height:1.5;color:var(--ink);transition:opacity .9s}
+.sprout{margin-top:1.6rem;opacity:0;animation:fade 1.6s 1.6s forwards}
+.sprout svg{width:74px;height:auto;overflow:visible}
+.sprout .stem{stroke:#9fd4a0;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-dasharray:60;stroke-dashoffset:60;animation:grow 4s 2s ease-out forwards}
+.sprout .leaf{fill:#9fd4a0;transform-box:fill-box;transform-origin:bottom center;transform:scale(0);animation:pop 1.2s ease-out forwards}
+.sprout .leaf.l1{animation-delay:4s}.sprout .leaf.l2{animation-delay:4.4s}
+.sprout .bud{fill:var(--rose);transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop 1.4s 5s ease-out forwards,pulse 3s 6.4s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(240,163,181,.8))}
+@keyframes grow{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes fade{to{opacity:1}}
+.note{margin-top:1rem;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);opacity:0;animation:fade 1.6s 2.2s forwards}
+
+.back{position:fixed;left:50%;bottom:1.8rem;transform:translateX(-50%);z-index:3;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--dim);padding:.65rem 1.6rem;border:1px solid rgba(255,255,255,.2);border-radius:50px;background:rgba(11,7,22,.5);backdrop-filter:blur(6px);transition:all .3s}
+.back:hover,.back:focus-visible{color:var(--ink);border-color:var(--rose);box-shadow:0 0 22px rgba(240,163,181,.3);outline:none}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.lantern{display:none}}
+</style>
+</head>
+<body>
+<div class="moon" aria-hidden="true"></div>
+<canvas id="fly" aria-hidden="true"></canvas>
+<div id="lanterns" aria-hidden="true"></div>
+
+<main>
+  <p class="kicker">coming soon</p>
+  <h1>Good things<em>take a little time</em></h1>
+  <div class="line"></div>
+  <p id="hope" aria-live="polite">Something new is being made for you.</p>
+  <div class="sprout" aria-hidden="true">
+    <svg viewBox="0 0 80 90">
+      <path class="stem" d="M40 88 C40 70 38 55 40 34"/>
+      <path class="leaf l1" d="M40 66 C24 64 16 54 14 46 C28 46 38 54 40 66Z"/>
+      <path class="leaf l2" d="M40 54 C56 52 64 42 66 34 C52 34 42 42 40 54Z"/>
+      <circle class="bud" cx="40" cy="30" r="8"/>
+    </svg>
+  </div>
+  <p class="note">worth the wait</p>
+</main>
+
+<a class="back" href="../">&larr; Back</a>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // hopeful messages, rotating gently
+  var lines = [
+    'Something new is being made for you.',
+    'It will be worth the wait.',
+    'Every good thing starts quietly.',
+    'Keep this door in mind. It will open.',
+    'I am working on it, one small piece at a time.'
+  ];
+  var hope = document.getElementById('hope'), i = 0;
+  setInterval(function () {
+    hope.style.opacity = 0;
+    setTimeout(function () { i = (i + 1) % lines.length; hope.textContent = lines[i]; hope.style.opacity = 1; }, 900);
+  }, 4800);
+
+  // lanterns
+  var box = document.getElementById('lanterns');
+  for (var n = 0; n < 9; n++) {
+    var l = document.createElement('span');
+    l.className = 'lantern';
+    l.style.left = (Math.random() * 92 + 2) + 'vw';
+    l.style.animationDuration = (18 + Math.random() * 14) + 's';
+    l.style.animationDelay = (-Math.random() * 30) + 's';
+    l.style.setProperty('--s', (0.6 + Math.random() * 0.7).toFixed(2));
+    l.style.setProperty('--dx', ((Math.random() * 60) - 30).toFixed(0) + 'px');
+    box.appendChild(l);
+  }
+
+  // fireflies + stars
+  if (reduce) return;
+  var cv = document.getElementById('fly'), cx = cv.getContext('2d'), W, H, bugs = [], stars = [];
+  function resize() {
+    W = cv.width = innerWidth; H = cv.height = innerHeight;
+    bugs = []; stars = [];
+    for (var k = 0; k < 28; k++) bugs.push({ x: Math.random() * W, y: Math.random() * H, a: Math.random() * 6.28, sp: Math.random() * .4 + .15, p: Math.random() * 6.28 });
+    for (var j = 0; j < Math.min(120, W * H / 11000); j++) stars.push({ x: Math.random() * W, y: Math.random() * H * .75, r: Math.random() * 1.2 + .3, p: Math.random() * 6.28 });
+  }
+  function draw() {
+    cx.clearRect(0, 0, W, H);
+    cx.fillStyle = '#fff';
+    stars.forEach(function (s) {
+      s.p += .015; cx.globalAlpha = .3 + .6 * Math.abs(Math.sin(s.p));
+      cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 6.28); cx.fill();
+    });
+    bugs.forEach(function (b) {
+      b.a += (Math.random() - .5) * .3; b.x += Math.cos(b.a) * b.sp; b.y += Math.sin(b.a) * b.sp; b.p += .03;
+      if (b.x < 0) b.x = W; if (b.x > W) b.x = 0; if (b.y < 0) b.y = H; if (b.y > H) b.y = 0;
+      var al = .25 + .75 * Math.abs(Math.sin(b.p));
+      var g = cx.createRadialGradient(b.x, b.y, 0, b.x, b.y, 12);
+      g.addColorStop(0, 'rgba(255,240,170,' + al + ')'); g.addColorStop(1, 'rgba(255,240,170,0)');
+      cx.globalAlpha = 1; cx.fillStyle = g; cx.beginPath(); cx.arc(b.x, b.y, 12, 0, 6.28); cx.fill();
+      cx.fillStyle = '#fff';
+    });
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize', resize);
+  resize(); draw();
+})();
+</script>
+</body>
+</html>
