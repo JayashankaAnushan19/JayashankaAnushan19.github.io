@@ -83,7 +83,7 @@
           <td style="font-size:1.3rem;">🚗</td>
           <td>Obstacle Avoidance Navigation</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>6 × HC-SR04 ultrasonic sensors provide 360° coverage. Emergency stop at 20 cm threshold — non-overridable even during remote drive commands. The fundamental safety invariant of the platform.</td>
+          <td>6 × HC-SR04 ultrasonic sensors provide 360° coverage. Emergency stop at 20 cm threshold — non-overridable even during remote drive commands. The fundamental safety invariant of the platform. <strong>Terrain limitation:</strong> flat, level indoor floors only — the wheeled chassis has no mechanism for climbing or descending stairs, curbs, or steep inclines. This is a hardware limitation of the platform, not a software gap to be tuned away.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">👤</td>
@@ -135,11 +135,11 @@
           <td><span class="tag tag-high">High</span></td>
           <td>DS18B20 sensor would monitor room temperature and, if ambient temperature exceeds 38°C for more than 5 minutes, trigger a heatstroke-risk SMS alert and LCD warning message. Proposed for v1.0 but postponed to v1.1 due to time constraints — not implemented in the current build.</td>
         </tr>
-        <tr>
+        <tr style="opacity:.6;">
           <td style="font-size:1.3rem;">🔋</td>
-          <td>Battery Management</td>
+          <td>Battery Management &amp; Low-Battery SMS Alert <span class="tag tag-amber">Postponed → v2.0</span></td>
           <td><span class="tag tag-high">High</span></td>
-          <td>Voltage divider monitors LiPo cell voltage. Below 10.5V (≈25% capacity), the status LED switches to a rapid blink pattern and LCD displays low battery warning. Below 9.6V (≈5%), non-critical motors are suspended and a battery SMS alert is sent.</td>
+          <td>Designed behaviour: a voltage divider monitors the LiPo pack, switching the status LED to a rapid blink pattern and showing a low-battery warning on the LCD below ≈25% capacity, then sending an SMS asking a family member to replace the battery once it's critically low or dead. None of this is implemented in the current build — not the voltage monitoring, not the SMS. Planned for v2.0, not v1.0/v1.1.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">📅</td>

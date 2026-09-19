@@ -10,20 +10,28 @@
 
 var POSTS = [
   {
+    file:    'week-16.html',
+    week:    'Week 16',
+    date:    '25 Sep–1 Oct 2026',
+    title:   'Week 16 — Coming Soon',
+    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
+    tags:    [['Coming Soon','amber']]
+  },
+  {
     file:    'week-15.html',
     week:    'Week 15',
     date:    '18–24 Sep 2026',
-    title:   'Week 15 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Final Wiring Done — Next Up, Everything Together on the New Battery',
+    excerpt: 'The week opens closing out Week 14\'s motor/encoder wiring — final wiring declared complete, plus a Battery Clip designed to mount the custom pack. Next: connecting everything together on the new battery and starting real integrated testing, not another isolated bench rig. Still in progress.',
+    tags:    [['Hardware','orange'],['In Progress','high']]
   },
   {
     file:    'week-14.html',
     week:    'Week 14',
     date:    '11–17 Sep 2026',
     title:   'New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control',
-    excerpt: 'The underpowered motors flagged since Week 09 finally got real replacements, bench-tested with a genuine sign-inversion bug found and fixed. A spare keypad traced cleanly to a defective membrane. A real physical wristband exposed and fixed two genuine HSV-tracking failure modes, and a full "CARA Care" admin dashboard redesign was verified live end to end, catching a real import-crash bug and two mobile-layout bugs. The week closed with hardware finally back: 4 new motors mapped against the Mega\'s fully-occupied interrupt pins and physically wired for real 4WD, firmware still to come. Still in progress.',
-    tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
+    excerpt: 'The underpowered motors flagged since Week 09 finally got real replacements, bench-tested with a genuine sign-inversion bug found and fixed. A spare keypad traced cleanly to a defective membrane. A real physical wristband exposed and fixed two genuine HSV-tracking failure modes, and a full "CARA Care" admin dashboard redesign was verified live end to end, catching a real import-crash bug and two mobile-layout bugs. The week closed with hardware finally back: 4 new motors mapped against the Mega\'s fully-occupied interrupt pins and physically wired for real 4WD, plus a custom 12V/12A battery pack built to replace the dead LiPo cell.',
+    tags:    [['Hardware','orange'],['Software','green'],['Complete','green']]
   },
   {
     file:    'week-13.html',

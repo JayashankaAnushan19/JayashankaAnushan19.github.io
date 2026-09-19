@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 15 — Coming soon.">
+<meta name="description" content="CARA Week 15 (in progress) — final wiring on the new 4-motor/encoder setup declared complete, a Battery Clip designed to mount the custom pack, with full integration testing next.">
 <title>Week 15 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,27 +32,92 @@
     <div class="post-meta">
       <span class="post-date">18–24 Sep 2026</span>
       <span class="tag tag-blue">Week 15</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 15 — Coming Soon</h1>
+    <h1>Final Wiring Done — Next Up, Everything Together on the New Battery</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">The week opens closing out the wiring pass that spilled over from <a href="week-14.html">Week 14</a>'s motor and encoder work: the final wiring on the new 4-motor/encoder setup is declared fixed and complete, and a dedicated mount was designed for the custom battery pack. The next step is the real milestone — connecting everything together on the new battery and starting actual integrated testing, not another isolated bench rig.</p>
   </div>
 
   <div class="post-body">
 
-    <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 15's work is complete and written up.</p>
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2>Final Wiring Declared Complete</h2>
+    <p>The wiring on the 4-motor, 2-encoder setup mapped out and physically connected in <a href="week-14.html">Week 14</a> got its final fixes today, closing out that thread. This is a hardware-side call, not something re-verified independently here — the real test is the integration run coming up next, not a claim on its own.</p>
+
+    <h2>A Battery Clip for the Custom Pack</h2>
+    <p>A new mounting part — <code>Battery Clip</code> (<code>All</code>/<code>Bottom</code>/<code>Top</code> — a two-piece clip design) — was designed to physically hold the custom 18650 battery pack from <a href="week-14.html">Week 14</a> in place on the chassis, rather than leaving it loose. The wire-hiding cover's support bar from <a href="week-13.html">Week 13</a> was revised again alongside it, to fit around the final wiring run.</p>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>Nothing broken this session, but nothing physically integration-tested yet either — the final wiring and the new battery clip are both declared done on the hardware side, not proven by actually running the robot on them together. Everything carried in from <a href="week-14.html">Week 14</a> is still open: the new 4WD encoder wiring has no firmware behind it, the RTC driver remains completely unverified, the LCD+RTC shared-bus assumption hasn't been bench-tested with both live at once, the dashboard's admin password is still the unchanged default, and the custom battery pack itself hasn't been run under real load.</p>
+
+    <h2>Week 15 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Final 4-motor/encoder wiring fixed and declared complete</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Battery Clip designed to mount the custom pack</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Wire-hiding cover support bar revised for final wiring</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Everything connected together on the new battery</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Full integrated testing (not an isolated bench rig)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Encoder firmware written for the new 4WD wiring</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 15 — Final Wiring Done">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-14.html" style="color:var(--primary);">← Previous: Week 14 — New Motors Bench-Tested</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
+    <a href="week-16.html" style="color:var(--primary);">Next: Week 16 — Coming Soon →</a>
   </div>
 
 </main>
