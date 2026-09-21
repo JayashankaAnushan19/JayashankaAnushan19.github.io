@@ -42,7 +42,8 @@
         <tr><th>Subsystem</th><th>Pins</th></tr>
       </thead>
       <tbody>
-        <tr><td>Motors (L298N)</td><td>IN1=22, IN2=23, IN3=24, IN4=25, ENA=11 (PWM), ENB=12 (PWM)</td></tr>
+        <tr><td>Drive motors (L298N) — 4 geared motors, two paralleled per channel</td><td>IN1=22, IN2=23, IN3=24, IN4=25, ENA=11 (PWM), ENB=12 (PWM)</td></tr>
+        <tr><td>Wheel encoders (one per side, on 2 of the 4 motors)</td><td>Left A=14, B=15; Right A=A8, B=A9 (pin-change interrupt pins)</td></tr>
         <tr><td>Ultrasonic ring (×6)</td><td>FL=26/27, FR=28/29, BL=30/31, BR=32/33, L=34/35, R=36/37</td></tr>
         <tr><td>PIR</td><td>Front=2, Rear=3</td></tr>
         <tr><td>Buzzer / LED</td><td>Buzzer=8, LED=10</td></tr>

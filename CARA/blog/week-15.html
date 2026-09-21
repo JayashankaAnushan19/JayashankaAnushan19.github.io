@@ -96,8 +96,11 @@
 
     <p>The day ended with the pipeline left running disarmed — the robot can't move in that state — and the project's dissertation deadline (15 September) already behind it, with live testing carrying on.</p>
 
+    <h2>Formal Testing Started</h2>
+    <p>On 21 September the formal test plan began, working through the hardware checks first. Five tests have been run so far: Arduino startup, Jetson boot, camera, LCD and keypad. The first four passed, and the keypad came out partial because keys 7, 8, 9 and C don't register. Photos, video and the recorded results are in <a href="../appendix/e-raw-test-results.html">Appendix E — Raw Test Results</a>.</p>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>The first integrated drive attempt failed and its root cause — hot driver, no movement — is still unknown. The left wheel stalls in spins, the drive motors still look underpowered under load, the right encoder counts nothing and needs rewiring, the tilt servo doesn't physically move the camera (likely power again), the GSM module doesn't respond and needs its own supply, and serial garbling under motor load points at a real power or noise problem that the new battery hasn't solved. The heading-memory return and the wider centre band have only been checked offline. Older items are still open too: the RTC driver is unverified, the dashboard's admin password is still the default, and the custom pack has only been run in these first tests, not characterized under sustained load.</p>
+    <p>The first integrated drive attempt failed and its root cause — hot driver, no movement — is still unknown. The left wheel stalls in spins, the drive motors still look underpowered under load, the right encoder counts nothing and needs rewiring, the tilt servo doesn't physically move the camera (likely power again), keys 7, 8, 9 and C on the keypad are dead (so reminder times like 08:00 can't be typed in),the GSM module doesn't respond and needs its own supply, and serial garbling under motor load points at a real power or noise problem that the new battery hasn't solved. The heading-memory return and the wider centre band have only been checked offline. Older items are still open too: the RTC driver is unverified, the dashboard's admin password is still the default, and the custom pack has only been run in these first tests, not characterized under sustained load.</p>
 
     <h2>Week 15 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -112,6 +115,7 @@
           <tr><td>SMS state machine written (A7670C)</td><td class="yes">✓ Complete — never sent a real SMS</td></tr>
           <tr><td>Camera-to-tracker latency cut 710 ms → ~101 ms</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Run logger + 3 armed trials + tilt test recorded</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Formal testing started — hardware checks H-01 to H-05 (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 4 pass, 1 partial (keys 7/8/9/C dead)</td></tr>
           <tr><td>First integrated drive test</td><td class="no">✗ Failed — cause undiagnosed</td></tr>
           <tr><td>Left wheel stall / underpowered drive motors</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Right encoder moved to A8/A9 (pin-change capable pins)</td><td class="no">⏳ In Progress</td></tr>

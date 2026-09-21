@@ -22,7 +22,7 @@ var POSTS = [
     week:    'Week 15',
     date:    '18–24 Sep 2026',
     title:   'First Integrated Tests — Fully Assembled, and the Drive Train Fights Back',
-    excerpt: 'The robot is fully assembled with printed covers fitted and runs its first integrated tests. The first drive attempt failed (hot driver, no movement, cause unknown); encoder speed control and SMS support were written, tracking latency dropped from 710 ms to about 100 ms, and recorded runs exposed a stalling left wheel, a right encoder on pins that cannot count, and serial corruption under motor load. Still in progress.',
+    excerpt: 'The robot is fully assembled with printed covers fitted and runs its first integrated tests. The first drive attempt failed (hot driver, no movement, cause unknown); encoder speed control and SMS support were written, tracking latency dropped from 710 ms to about 100 ms, and recorded runs exposed a stalling left wheel, a right encoder on pins that cannot count, and serial corruption under motor load. Formal testing has started too, with the first hardware checks recorded in Appendix E. Still in progress.',
     tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {

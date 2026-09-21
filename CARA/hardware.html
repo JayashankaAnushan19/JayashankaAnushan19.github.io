@@ -181,17 +181,17 @@
         <tr>
           <td>Motor Driver</td>
           <td>L298N Dual H-Bridge</td>
-          <td>2A per channel · PWM · up to 46V · 4 control inputs</td>
-          <td>DC motor direction and speed control</td>
+          <td>2A per channel · PWM · up to 46V · 4 control inputs · two motors paralleled on each channel</td>
+          <td>Motor direction and speed control</td>
           <td>IN1–4: 22,23,24,25 · ENA/ENB: 11,12 (PWM)</td>
           <td>$3–8</td>
         </tr>
         <tr>
-          <td>DC Motors ×4</td>
-          <td>6V Gear Motor 150 RPM</td>
-          <td>6V nominal · 150 RPM · 65mm wheel compatible</td>
-          <td>Robot mobility at 0.3 m/s operating speed</td>
-          <td>Via L298N</td>
+          <td>Geared Motors with Encoders ×4</td>
+          <td>6V 200 RPM Gear Motor, 30:1, built-in optical encoder</td>
+          <td>6V nominal · 200 RPM · 1.7 kg/cm at load, 2.5 kg/cm stall · 0.45A at load, 1.2A stall · encoder fitted on 2 wheels (one per side)</td>
+          <td>Robot mobility; encoder feedback for closed-loop wheel-speed control</td>
+          <td>Via L298N · encoders: left 14/15, right A8/A9</td>
           <td>$5–10 ea.</td>
         </tr>
         <tr>
@@ -319,7 +319,7 @@
     │
     ├── <span class="v">Boost Conv (XL6009) → 19V</span> ── Jetson Nano (2A fuse inline)
     │
-    └── <span class="s">L298N Motor Driver</span> ─── DC Motors × 4 (direct 11.1V)
+    └── <span class="s">L298N Motor Driver</span> ─── Geared Motors × 4 (encoders on 2 wheels)
   </div>
 
   <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
