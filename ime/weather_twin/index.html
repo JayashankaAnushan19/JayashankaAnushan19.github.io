@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Twin</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#06090f;--panel:rgba(13,20,32,.72);--line:#1c2a3d;--ink:#e8f1fb;--dim:#7b8ea6;--accent:#4de3ff;--accent2:#8b7bff}
+html{background:var(--bg)}
+body{min-height:100vh;font-family:'Fredoka',sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+
+/* soft animated background, same family as the Linner Clock */
+.blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;width:52vmax;height:52vmax;border-radius:50%;filter:blur(90px);opacity:.28;background:var(--accent);transition:background 1.6s}
+.blob.b1{top:-18vmax;left:-14vmax;animation:drift1 26s ease-in-out infinite alternate}
+.blob.b2{bottom:-22vmax;right:-16vmax;background:var(--accent2);animation:drift2 32s ease-in-out infinite alternate}
+.blob.b3{top:30%;left:35%;width:34vmax;height:34vmax;opacity:.14;animation:drift3 38s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(18vmax,12vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-16vmax,-10vmax) scale(1.1)}}
+@keyframes drift3{to{transform:translate(-12vmax,14vmax) scale(.85)}}
+
+/* falling or rising bits matching the weather */
+.floaters{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.floater{position:absolute;opacity:0;animation:fall linear forwards}
+.floater.up{bottom:-3rem;animation-name:floatUp}
+.floater.down{top:-3rem}
+@keyframes fall{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.4}90%{opacity:.3}100%{transform:translateY(115vh) rotate(var(--rot,20deg));opacity:0}}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.35}88%{opacity:.25}100%{transform:translateY(-115vh) rotate(var(--rot,20deg));opacity:0}}
+
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:3.5rem 16px 5rem;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.back{align-self:flex-start;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;margin-bottom:2.2rem;transition:color .2s}
+.back:hover,.back:focus-visible{color:var(--accent);outline:none}
+
+h1{font-weight:600;font-size:clamp(2.2rem,8vw,3.6rem);letter-spacing:-.01em;line-height:1.05}
+h1 span{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:.7rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:2.4rem}
+.card{--c:var(--accent);position:relative;padding:1.5rem 1.4rem 1.4rem;border-radius:22px;background:var(--panel);border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));backdrop-filter:blur(8px);box-shadow:0 0 50px color-mix(in srgb,var(--c) 12%,transparent);overflow:hidden;transition:transform .35s cubic-bezier(.2,.9,.3,1.4),border-color 1s,box-shadow 1s}
+.card:hover{transform:translateY(-4px) rotate(-.6deg)}
+.card.her:hover{transform:translateY(-4px) rotate(.6deg)}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem}
+.city{display:flex;align-items:center;gap:.6rem;font-weight:500;font-size:1.2rem}
+.flag{font-size:1.5rem}
+.local{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--dim);white-space:nowrap}
+
+.emoji{display:block;margin:1.1rem 0 .2rem;font-size:clamp(3.4rem,13vw,4.8rem);line-height:1;background:none;border:0;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 8px 22px color-mix(in srgb,var(--c) 45%,transparent))}
+.emoji:focus-visible{outline:2px dashed var(--c);outline-offset:6px;border-radius:12px}
+.emoji:active{transform:scale(.88)}
+.emoji.spin{animation:sunspin 14s linear infinite}
+.emoji.float{animation:cloud 4s ease-in-out infinite}
+.emoji.drip{animation:drip 1.8s ease-in-out infinite}
+.emoji.fade{animation:fadey 3.4s ease-in-out infinite}
+.emoji.sway{animation:sway 2.8s ease-in-out infinite}
+.emoji.zap{animation:zap 2.2s ease-in-out infinite}
+.emoji.bob{animation:bob 3s ease-in-out infinite}
+.emoji.boing{animation:boing .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes sunspin{to{transform:rotate(360deg)}}
+@keyframes cloud{0%,100%{transform:translateX(-8px)}50%{transform:translateX(8px) translateY(-4px)}}
+@keyframes drip{0%,100%{transform:translateY(0)}50%{transform:translateY(8px) scale(.96,1.04)}}
+@keyframes fadey{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes zap{0%,70%,100%{transform:translateX(0) scale(1)}75%{transform:translateX(-7px) scale(1.1)}85%{transform:translateX(7px) scale(1.1)}95%{transform:translateX(-3px)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes boing{0%{transform:scale(.6) rotate(-14deg)}100%{transform:scale(1) rotate(0)}}
+
+.temp{font-weight:600;font-size:clamp(2.8rem,10vw,4rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.temp small{font-size:.45em;color:var(--dim);font-weight:500;margin-left:.1rem}
+.cond{margin-top:.4rem;font-size:1.2rem;font-weight:500;color:var(--c);transition:color 1s}
+.quip{margin-top:.45rem;min-height:2.6rem;font-size:.98rem;line-height:1.35;color:var(--ink);opacity:.9}
+.stats{display:flex;gap:1.4rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--dim)}
+.stats b{color:var(--ink);font-weight:500}
+.card.err .temp,.card.err .stats{display:none}
+.card.err .cond{color:var(--dim)}
+
+.note{margin-top:2.2rem;text-align:center}
+.note .lead{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.note .msg{margin-top:.6rem;font-weight:600;font-size:clamp(1.5rem,6vw,2.4rem);line-height:1.2;color:var(--accent);text-shadow:0 0 34px color-mix(in srgb,var(--accent) 45%,transparent)}
+.msg.swap{animation:pop .5s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+.status{margin-top:1.6rem;display:flex;justify-content:center;align-items:center;gap:.9rem;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;color:var(--dim)}
+.refresh{font:inherit;color:var(--ink);background:none;border:1px solid var(--line);border-radius:50px;padding:.35rem .9rem;cursor:pointer;transition:border-color .2s,color .2s}
+.refresh:hover,.refresh:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.refresh:disabled{opacity:.5;cursor:default}
+
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="floaters" id="floaters" aria-hidden="true"></div>
+
+<main>
+  <a class="back" href="../">&larr; all projects</a>
+
+  <h1>Weather <span>Twin</span></h1>
+  <p class="sub">Same planet, different skies</p>
+
+  <section class="cards" aria-label="Weather">
+    <article class="card" id="dubai">
+      <div class="head"><div class="city"><span class="flag" aria-hidden="true">🇦🇪</span>Dubai</div><span class="local" data-role="local"></span></div>
+      <button type="button" class="emoji" data-role="emoji" aria-label="Tap for a bounce">⏳</button>
+      <div class="temp" data-role="temp">--<small>°C</small></div>
+      <div class="cond" data-role="cond">Checking the sky…</div>
+      <p class="quip" data-role="quip"></p>
+      <div class="stats"><span>💧 <b data-role="hum">--</b>%</span><span>💨 <b data-role="wind">--</b> km/h</span></div>
+    </article>
+    <article class="card her" id="preston">
+      <div class="head"><div class="city"><span class="flag" aria-hidden="true">🇬🇧</span>Preston</div><span class="local" data-role="local"></span></div>
+      <button type="button" class="emoji" data-role="emoji" aria-label="Tap for a bounce">⏳</button>
+      <div class="temp" data-role="temp">--<small>°C</small></div>
+      <div class="cond" data-role="cond">Checking the sky…</div>
+      <p class="quip" data-role="quip"></p>
+      <div class="stats"><span>💧 <b data-role="hum">--</b>%</span><span>💨 <b data-role="wind">--</b> km/h</span></div>
+    </article>
+  </section>
+
+  <section class="note" aria-live="polite">
+    <p class="lead">Today's note</p>
+    <p class="msg" id="msg">…</p>
+  </section>
+
+  <div class="status">
+    <span id="updated">Loading…</span>
+    <button type="button" class="refresh" id="refresh">Refresh now</button>
+  </div>
+</main>
+
+<script>
+(function () {
+  var CITIES = {
+    dubai:   { lat: 25.2048, lon: 55.2708, zone: 'Asia/Dubai' },
+    preston: { lat: 53.7632, lon: -2.7031, zone: 'Europe/London' }
+  };
+  var REFRESH_MS = 10 * 60 * 1000;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Weather code -> text, emoji, quip group. Night swaps the sun for the moon.
+  function describe(code, isDay) {
+    var d;
+    if (code === 0) d = isDay ? { t: 'Clear sky', e: '☀️', g: 'sun', a: 'spin' } : { t: 'Clear night', e: '🌙', g: 'moon', a: 'bob' };
+    else if (code === 1) d = isDay ? { t: 'Mostly clear', e: '⛅', g: 'sun', a: 'float' } : { t: 'Mostly clear', e: '🌙', g: 'moon', a: 'bob' };
+    else if (code === 2) d = isDay ? { t: 'Partly cloudy', e: '⛅', g: 'cloud', a: 'float' } : { t: 'Partly cloudy', e: '☁️', g: 'cloud', a: 'float' };
+    else if (code === 3) d = { t: 'Overcast', e: isDay ? '⛅' : '☁️', g: 'cloud', a: 'float' };
+    else if (code === 45 || code === 48) d = { t: 'Foggy', e: '🌫️', g: 'fog', a: 'fade' };
+    else if (code >= 51 && code <= 57) d = { t: 'Drizzle', e: '🌧️', g: 'rain', a: 'drip' };
+    else if (code >= 61 && code <= 67) d = { t: code >= 65 ? 'Heavy rain' : 'Rain', e: '🌧️', g: 'rain', a: 'drip' };
+    else if (code >= 71 && code <= 77) d = { t: 'Snow', e: '❄️', g: 'snow', a: 'sway' };
+    else if (code >= 80 && code <= 82) d = { t: 'Rain showers', e: '🌦️', g: 'rain', a: 'drip' };
+    else if (code === 85 || code === 86) d = { t: 'Snow showers', e: '❄️', g: 'snow', a: 'sway' };
+    else if (code >= 95) d = { t: code === 95 ? 'Thunderstorm' : 'Thunderstorm with hail', e: '⛈️', g: 'storm', a: 'zap' };
+    else d = { t: 'Mystery weather', e: '🌍', g: 'cloud', a: 'float' };
+    return d;
+  }
+  function isRaining(code) { return (code >= 51 && code <= 67) || (code >= 80 && code <= 82) || code >= 95; }
+
+  var QUIPS = {
+    sun:   ['Sunglasses: mandatory 😎', 'Free vitamin D, no subscription.', 'The sun showed up. Nice of it.'],
+    moon:  ['The stars are on shift.', 'The moon says hi. 👋', 'Perfect weather for doing nothing.'],
+    cloud: ['Fifty shades of grey.', 'The sun is on a coffee break.', 'Clouds: doing their best.'],
+    fog:   ['Visibility: vibes only.', 'Everything is a mystery today.', 'Fog: the sky is undecided.'],
+    rain:  ['Umbrella: not optional.', 'Free plant-watering service.', 'Puddle jumping is allowed.'],
+    snow:  ['Snowman weather! ⛄', 'Hot chocolate season.', 'Everything is sparkly and cold.'],
+    storm: ['The sky is being dramatic.', 'Thunder is just the clouds clapping.', 'Stay in, stay cosy.'],
+    hot:   ['Hot enough to fry an egg on the pavement.', 'Ice cream is a survival tool.', 'Air conditioning: hero of the day.'],
+    cold:  ['Hats and scarves were invented for this.', 'Cold enough to see your breath.', 'Hot drinks: a medical necessity.']
+  };
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function quipFor(d, temp) {
+    if (temp > 38) return pick(QUIPS.hot);
+    if (temp < 5) return pick(QUIPS.cold);
+    return pick(QUIPS[d.g]);
+  }
+  function tint(temp) {
+    if (temp >= 35) return '#ff7a4d';
+    if (temp >= 28) return '#ff9f5a';
+    if (temp >= 20) return '#ffc24d';
+    if (temp >= 10) return '#4de3ff';
+    if (temp >= 3)  return '#7fb2ff';
+    return '#b8dcff';
+  }
+
+  var state = { dubai: null, preston: null };   // last good data per city
+  var quips = {};
+  var msgEl = document.getElementById('msg'), updatedEl = document.getElementById('updated'), refreshBtn = document.getElementById('refresh');
+  var lastOk = 0, lastMsg = '';
+
+  function url(c) {
+    return 'https://api.open-meteo.com/v1/forecast?latitude=' + c.lat + '&longitude=' + c.lon +
+      '&current_weather=true&hourly=relativehumidity_2m,windspeed_10m&timezone=auto&forecast_days=1';
+  }
+  function load(key) {
+    return fetch(url(CITIES[key])).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      var cw = j.current_weather, h = j.hourly, hourKey = cw.time.slice(0, 13);
+      var i = h.time.findIndex(function (t) { return t.slice(0, 13) === hourKey; });
+      return {
+        temp: Math.round(cw.temperature),
+        code: cw.weathercode,
+        isDay: cw.is_day === 1,
+        wind: Math.round(i >= 0 && h.windspeed_10m[i] != null ? h.windspeed_10m[i] : cw.windspeed),
+        hum: i >= 0 ? h.relativehumidity_2m[i] : null
+      };
+    });
+  }
+
+  function localTime(zone) {
+    return new Intl.DateTimeFormat('en-GB', { timeZone: zone, hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date());
+  }
+
+  function renderCard(key) {
+    var el = document.getElementById(key), d = state[key];
+    el.querySelector('[data-role=local]').textContent = localTime(CITIES[key].zone);
+    if (!d) return;
+    var info = describe(d.code, d.isDay);
+    var em = el.querySelector('[data-role=emoji]');
+    if (em.textContent !== info.e || em.dataset.anim !== info.a) {
+      em.textContent = info.e; em.dataset.anim = info.a; em.className = 'emoji ' + info.a;
+    }
+    el.classList.remove('err');
+    el.style.setProperty('--c', tint(d.temp));
+    el.querySelector('[data-role=temp]').innerHTML = d.temp + '<small>°C</small>';
+    el.querySelector('[data-role=cond]').textContent = info.t;
+    el.querySelector('[data-role=hum]').textContent = d.hum == null ? '--' : d.hum;
+    el.querySelector('[data-role=wind]').textContent = d.wind;
+    if (!quips[key]) quips[key] = quipFor(info, d.temp);
+    el.querySelector('[data-role=quip]').textContent = quips[key];
+  }
+
+  function noteFor(du, pr) {
+    if (!du || !pr) return 'One sky at a time, loading the other… 🌍';
+    if (isRaining(pr.code)) return 'Stay warm Ime ☔';
+    if (pr.temp < 5) return "Hope you're wrapped up warm 🧣";
+    if (du.temp > 38) return 'Surviving the heat over here 🥵';
+    if (!du.isDay && !pr.isDay) return 'Good night from both sides of the world 🌙';
+    var sunny = function (d) { return d.isDay && d.code <= 1; };
+    if (sunny(du) && sunny(pr)) return 'Good day on both sides of the world ☀️';
+    return pick(['Different skies, same planet 🌍', 'Two cities, one very curious sky 👀', 'Weather report: you two are 100% in sync ✅']);
+  }
+  function renderNote(force) {
+    var m = noteFor(state.dubai, state.preston);
+    if (!force && m === lastMsg) return;
+    lastMsg = m;
+    msgEl.textContent = m;
+    msgEl.classList.remove('swap'); void msgEl.offsetWidth; msgEl.classList.add('swap');
+  }
+
+  function renderAll() {
+    renderCard('dubai'); renderCard('preston');
+    // page tint follows Preston, the note is for her
+    if (state.preston) {
+      document.documentElement.style.setProperty('--accent', tint(state.preston.temp));
+      var pi = describe(state.preston.code, state.preston.isDay);
+      document.title = pi.e + ' Weather Twin';
+      startFloaters(pi.g);
+    }
+    renderNote(false);
+  }
+
+  function refresh() {
+    refreshBtn.disabled = true;
+    updatedEl.textContent = 'Checking the sky…';
+    var keys = ['dubai', 'preston'];
+    return Promise.all(keys.map(function (k) {
+      return load(k).then(function (d) { return { k: k, d: d }; }, function () { return { k: k, d: null }; });
+    })).then(function (res) {
+      var okCount = 0;
+      res.forEach(function (r) {
+        if (r.d) { state[r.k] = r.d; quips[r.k] = null; okCount++; }
+        else if (!state[r.k]) {
+          var el = document.getElementById(r.k);
+          el.classList.add('err');
+          el.querySelector('[data-role=emoji]').textContent = '🛰️';
+          el.querySelector('[data-role=emoji]').className = 'emoji float';
+          el.querySelector('[data-role=cond]').textContent = "Couldn't reach the sky";
+          el.querySelector('[data-role=quip]').textContent = 'Trying again in a minute.';
+        }
+      });
+      renderAll();
+      if (okCount) {
+        lastOk = Date.now();
+        var t = new Date().toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' });
+        updatedEl.textContent = 'Updated ' + t + (okCount < 2 ? ' (one city missed)' : '') + ' · refreshes every 10 min';
+      } else {
+        updatedEl.textContent = 'No connection. Retrying soon…';
+        setTimeout(refresh, 60 * 1000);
+      }
+    }).then(function () { refreshBtn.disabled = false; });
+  }
+
+  // ---- fun bits ----
+  var floatKind = '', floatTimer;
+  var FLOATS = {
+    sun: ['✨'], moon: ['⭐', '✨'], cloud: ['☁️'], fog: ['☁️'], rain: ['💧'], snow: ['❄️'], storm: ['💧', '⚡']
+  };
+  function startFloaters(group) {
+    if (reduce || group === floatKind) return;
+    floatKind = group;
+    clearInterval(floatTimer);
+    floatTimer = setInterval(spawn, group === 'rain' || group === 'storm' ? 600 : 1800);
+  }
+  function spawn() {
+    if (document.hidden) return;
+    var set = FLOATS[floatKind] || ['✨'], f = document.createElement('span');
+    var down = floatKind === 'rain' || floatKind === 'snow' || floatKind === 'storm';
+    f.className = 'floater ' + (down ? 'down' : 'up');
+    f.textContent = set[Math.floor(Math.random() * set.length)];
+    f.style.left = Math.random() * 96 + 'vw';
+    f.style.fontSize = (down ? 0.9 + Math.random() : 1.2 + Math.random() * 1.6) + 'rem';
+    f.style.animationDuration = (down ? 5 + Math.random() * 5 : 10 + Math.random() * 8) + 's';
+    f.style.setProperty('--rot', (Math.random() * 50 - 25) + 'deg');
+    document.getElementById('floaters').appendChild(f);
+    f.addEventListener('animationend', function () { f.remove(); });
+  }
+
+  ['dubai', 'preston'].forEach(function (k) {
+    var em = document.getElementById(k).querySelector('[data-role=emoji]');
+    em.addEventListener('click', function () {
+      var d = state[k];
+      if (d) { quips[k] = quipFor(describe(d.code, d.isDay), d.temp); renderCard(k); }
+      em.classList.remove('boing'); void em.offsetWidth; em.classList.add('boing');
+      setTimeout(function () { em.classList.remove('boing'); }, 650);
+    });
+  });
+  refreshBtn.addEventListener('click', refresh);
+
+  // keep the two local clocks ticking without refetching
+  setInterval(function () { ['dubai', 'preston'].forEach(function (k) { document.getElementById(k).querySelector('[data-role=local]').textContent = localTime(CITIES[k].zone); }); }, 15000);
+
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && Date.now() - lastOk > REFRESH_MS) refresh();
+  });
+})();
+</script>
+</body>
+</html>

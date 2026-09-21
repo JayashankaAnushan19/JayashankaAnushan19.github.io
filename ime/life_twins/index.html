@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{if(!(+sessionStorage.getItem("imeOK")>Date.now()))location.replace("../")}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Twins</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Fredoka:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05030e;--line:#2a2140;--ink:#f6eef8;--dim:#b3a6c9;--pink:#ff8fc0;--gold:#ffd9a0;--l:#ff9f5a;--r:#4de3ff;--hand:'Dancing Script',cursive}
+html{background:var(--bg)}
+body{min-height:100vh;font-family:'Fredoka',sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+
+/* the sky behind each half follows that side's real local time */
+.sky{position:fixed;top:0;bottom:0;width:50%;z-index:0;pointer-events:none;background:#0a0e33}
+.sky.l{left:0}.sky.r{right:0}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.shade{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,3,14,.42),rgba(5,3,14,.68) 45%,rgba(5,3,14,.82))}
+.seam{position:fixed;left:50%;top:0;bottom:0;width:1px;z-index:0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,143,192,.55) 25%,rgba(255,143,192,.55) 75%,transparent);box-shadow:0 0 26px rgba(255,143,192,.35)}
+.floaters{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.floater{position:absolute;bottom:-3rem;opacity:0;animation:floatUp linear forwards}
+@keyframes floatUp{0%{transform:translateY(0) translateX(0) rotate(0);opacity:0}12%{opacity:.5}88%{opacity:.32}100%{transform:translateY(-115vh) translateX(var(--sway,20px)) rotate(var(--rot,20deg));opacity:0}}
+
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:3rem 16px 3rem}
+.back{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;margin-bottom:1.4rem;transition:color .2s}
+.back:hover,.back:focus-visible{color:var(--ink);outline:none}
+header{text-align:center}
+h1{font-weight:600;font-size:clamp(2.4rem,9vw,4rem);letter-spacing:-.01em;line-height:1.05;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+h1 .l{color:var(--l)}h1 .r{color:var(--r)}
+h1 .beat{display:inline-block;font-size:.7em;margin:0 .1em;animation:beat 1.3s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,143,192,.8))}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.28)}30%{transform:scale(1)}45%{transform:scale(1.18)}}
+.tagline{margin-top:.5rem;min-height:2rem;font:700 clamp(1.25rem,4.4vw,1.75rem)/1.2 var(--hand);color:var(--pink);text-shadow:0 0 24px rgba(255,143,192,.5);transition:opacity .5s}
+.tagline.out{opacity:0}
+.lead{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+
+/* the thread between the two sides */
+.thread{margin:1.7rem auto 0;max-width:640px}
+.tline{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.9rem}
+.end{display:flex;flex-direction:column;align-items:center;gap:.15rem;font-size:1.9rem;line-height:1;transition:transform .3s}
+.end small{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.end.got{animation:got .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes got{0%{transform:scale(1)}40%{transform:scale(1.4) rotate(-8deg)}100%{transform:scale(1)}}
+.string{position:relative;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--l),var(--pink),var(--r));box-shadow:0 0 14px rgba(255,143,192,.6)}
+.string::after{content:"";position:absolute;inset:-1px 0;background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(5,3,14,.85) 14px 20px);animation:dash 1.6s linear infinite}
+@keyframes dash{to{background-position:20px 0}}
+.km{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;display:flex;align-items:center;gap:.45rem;padding:.35rem .9rem;border-radius:50px;background:#150f24;border:1px solid rgba(255,143,192,.55);font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.05em;white-space:nowrap}
+.km i{font-style:normal;animation:beat 1.3s ease-in-out infinite}
+.caption{margin-top:1.4rem;min-height:2.2rem;text-align:center;font:500 clamp(1.15rem,4vw,1.45rem)/1.25 var(--hand);color:var(--ink);opacity:.95;transition:opacity .5s}
+.caption.out{opacity:0}
+.hugbar{margin-top:.9rem;display:flex;justify-content:center;align-items:center;gap:1rem;flex-wrap:wrap}
+.hug{font:500 .95rem 'Fredoka',sans-serif;color:#2a0d1c;background:linear-gradient(135deg,#ff9fca,#ffc3a0);border:0;border-radius:50px;padding:.65rem 1.5rem;cursor:pointer;box-shadow:0 8px 26px rgba(255,143,192,.4);transition:transform .2s,box-shadow .2s}
+.hug:hover,.hug:focus-visible{transform:translateY(-2px) scale(1.04);box-shadow:0 12px 34px rgba(255,143,192,.6);outline:none}
+.hug:active{transform:scale(.94)}
+.count{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:var(--dim);min-height:1rem}
+.flyer{position:absolute;left:0;top:0;font-size:1.6rem;pointer-events:none;z-index:2;will-change:transform}
+
+.gaps{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin:1.8rem 0 .6rem}
+.gap{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.05em;padding:.4rem .9rem;border-radius:50px;border:1px solid rgba(255,255,255,.16);background:rgba(15,10,30,.6);color:var(--ink);backdrop-filter:blur(6px)}
+
+/* mirrored rows: left cell | label | right cell */
+.row{display:grid;grid-template-columns:1fr 7rem 1fr;align-items:center;gap:0 .6rem;padding:1.15rem 0;border-top:1px solid rgba(255,255,255,.1);opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+.row:nth-child(1){animation-delay:.1s}.row:nth-child(2){animation-delay:.2s}.row:nth-child(3){animation-delay:.3s}.row:nth-child(4){animation-delay:.4s}.row:nth-child(5){animation-delay:.5s}.row:nth-child(6){animation-delay:.6s}.row:nth-child(7){animation-delay:.7s}
+@keyframes rise{to{opacity:1;transform:none}}
+.row.head{border-top:0;padding-bottom:.6rem}
+.lab{text-align:center;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.lab .cmp{display:block;margin-top:.3rem;min-height:1.1rem;font:700 .95rem/1.1 var(--hand);letter-spacing:0;text-transform:none;color:var(--pink)}
+.cell{--c:var(--l);display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.cell.l{--c:var(--l);align-items:flex-end;text-align:right}
+.cell.r{--c:var(--r);align-items:flex-start;text-align:left}
+.city{font-weight:600;font-size:clamp(1.5rem,6vw,2.4rem);display:flex;align-items:center;gap:.5rem;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.tagl{font:700 1.1rem/1 var(--hand);color:var(--c)}
+
+.big{font-weight:600;font-size:clamp(1.7rem,6.4vw,3.2rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.big small{font-size:.5em;color:var(--dim);font-weight:500;letter-spacing:0}
+.small{font-size:.9rem;color:var(--dim);line-height:1.4}
+.small b{color:var(--ink);font-weight:500}
+.lbl{font-weight:600;font-size:clamp(1rem,3.6vw,1.4rem);line-height:1.15;color:var(--c);transition:color .8s}
+.lbl.swap,.quipb.swap,.msg.swap,.mt.swap{animation:pop .5s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+.emoji{background:none;border:0;font-size:clamp(2.4rem,9vw,3.8rem);line-height:1;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 6px 18px color-mix(in srgb,var(--c) 45%,transparent));color:inherit}
+.emoji:focus-visible,.quipb:focus-visible,.mark:focus-visible{outline:2px dashed var(--pink);outline-offset:5px;border-radius:10px}
+.emoji:active{transform:scale(.88)}
+.quipb{background:none;border:0;font:500 1.05rem/1.25 var(--hand);color:var(--ink);opacity:.92;cursor:pointer;padding:0;text-align:inherit;-webkit-tap-highlight-color:transparent}
+.quipb:hover{opacity:1}
+
+.anim-sway{animation:sway 2.6s ease-in-out infinite}.anim-bob{animation:bob 3s ease-in-out infinite}.anim-bounce{animation:bounce 1.1s cubic-bezier(.3,.9,.4,1) infinite}.anim-shrug{animation:shrug 2.4s ease-in-out infinite}.anim-wobble{animation:wobble 2.2s ease-in-out infinite}.anim-hop{animation:hop 1.4s ease-in-out infinite}.anim-pulse{animation:pulse 1.6s ease-in-out infinite}.anim-shake{animation:shake 1.8s ease-in-out infinite}.anim-spin{animation:sunspin 14s linear infinite}.anim-float{animation:cloud 4s ease-in-out infinite}.anim-drip{animation:drip 1.8s ease-in-out infinite}.anim-fade{animation:fadey 3.4s ease-in-out infinite}.anim-zap{animation:zap 2.2s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-9deg) translateX(-5px)}50%{transform:rotate(9deg) translateX(5px)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1,1)}20%{transform:scale(1.1,.88)}55%{transform:translateY(-18px) scale(.95,1.06)}}
+@keyframes shrug{0%,100%{transform:translateY(0)}35%{transform:translateY(-8px) rotate(-6deg)}70%{transform:translateY(-3px) rotate(6deg)}}
+@keyframes wobble{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.08)}}
+@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-16px) rotate(-8deg)}60%{transform:translateY(0)}80%{transform:translateY(-6px) rotate(6deg)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes shake{0%,70%,100%{transform:translateX(0) rotate(0)}75%{transform:translateX(-6px) rotate(-6deg)}85%{transform:translateX(6px) rotate(6deg)}95%{transform:translateX(-3px)}}
+@keyframes sunspin{to{transform:rotate(360deg)}}
+@keyframes cloud{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px) translateY(-3px)}}
+@keyframes drip{0%,100%{transform:translateY(0)}50%{transform:translateY(6px) scale(.96,1.04)}}
+@keyframes fadey{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes zap{0%,70%,100%{transform:translateX(0) scale(1)}75%{transform:translateX(-6px) scale(1.1)}85%{transform:translateX(6px) scale(1.1)}95%{transform:translateX(-3px)}}
+
+/* special days */
+.section{margin-top:2.2rem;padding-top:1.8rem;border-top:1px solid rgba(255,255,255,.1);text-align:center}
+.section h2{margin-top:.5rem;font:700 clamp(1.6rem,6vw,2.3rem)/1.15 var(--hand);color:var(--gold);text-shadow:0 0 26px rgba(255,217,160,.35)}
+.days{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.3rem}
+.day{padding:1.2rem 1rem;border-radius:20px;background:linear-gradient(160deg,rgba(255,217,160,.13),rgba(255,143,192,.09));border:1px solid rgba(255,217,160,.32);box-shadow:0 0 44px rgba(255,217,160,.07);text-align:center;transition:transform .35s cubic-bezier(.2,.9,.3,1.4)}
+.day:hover{transform:translateY(-4px) rotate(-.5deg)}
+.day.next{border-color:rgba(255,143,192,.65);box-shadow:0 0 50px rgba(255,143,192,.22)}
+.day .de{font-size:2.3rem;line-height:1;display:block;animation:bob 3.2s ease-in-out infinite}
+.day .dt{margin-top:.5rem;font-weight:600;font-size:1.15rem;line-height:1.2}
+.day .dd{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-top:.2rem}
+.day .dc{margin-top:.6rem;font:700 1.45rem/1.1 var(--hand);color:var(--pink)}
+.day .dl{margin-top:.4rem;font:500 1.05rem/1.3 var(--hand);color:var(--ink);opacity:.9}
+
+/* memory sky */
+.subl{margin-top:.5rem;font:500 1.15rem/1.3 var(--hand);color:var(--dim)}
+.marks{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem .8rem;margin:1.4rem auto 0;max-width:760px}
+.mark{--dy:0px;display:inline-flex;align-items:center;gap:.4rem;font:500 .95rem 'Fredoka',sans-serif;color:var(--ink);background:rgba(15,10,30,.55);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:.5rem 1rem;cursor:pointer;backdrop-filter:blur(6px);transform:translateY(var(--dy));animation:twinkle 4s ease-in-out infinite;animation-delay:var(--dl,0s);transition:border-color .3s,box-shadow .3s,background .3s;-webkit-tap-highlight-color:transparent}
+.mark:hover,.mark:focus-visible{border-color:var(--pink);box-shadow:0 0 22px rgba(255,143,192,.45)}
+.mark.seen{border-color:rgba(255,217,160,.6);background:rgba(255,217,160,.12);box-shadow:0 0 18px rgba(255,217,160,.25)}
+.mark.on{border-color:var(--pink);background:rgba(255,143,192,.2);box-shadow:0 0 26px rgba(255,143,192,.5)}
+@keyframes twinkle{0%,100%{opacity:.78}50%{opacity:1}}
+.mcard{margin:1.4rem auto 0;max-width:600px;padding:1.4rem 1.3rem;border-radius:22px;background:linear-gradient(160deg,rgba(255,143,192,.13),rgba(139,123,255,.09));border:1px solid rgba(255,143,192,.35);box-shadow:0 0 50px rgba(255,143,192,.12);min-height:8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem}
+.mcard .me{font-size:2.4rem;line-height:1}
+.mcard .mt{font:700 clamp(1.3rem,5vw,1.8rem)/1.3 var(--hand);color:var(--ink)}
+.progress{margin-top:.9rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+.note{margin-top:2.2rem;text-align:center;padding-top:1.8rem;border-top:1px solid rgba(255,255,255,.1)}
+.note .msg{margin-top:.5rem;font:700 clamp(1.7rem,6.5vw,2.6rem)/1.15 var(--hand);background:linear-gradient(100deg,var(--l),var(--pink),var(--r));-webkit-background-clip:text;background-clip:text;color:transparent}
+.status{margin-top:1.6rem;display:flex;justify-content:center;align-items:center;gap:.9rem;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;color:var(--dim)}
+.refresh{font:inherit;color:var(--ink);background:none;border:1px solid var(--line);border-radius:50px;padding:.35rem .9rem;cursor:pointer;transition:border-color .2s}
+.refresh:hover,.refresh:focus-visible{border-color:var(--ink);outline:none}
+.refresh:disabled{opacity:.5;cursor:default}
+footer{margin-top:1.6rem;text-align:center;font:500 1.2rem/1.3 var(--hand);color:var(--dim)}
+
+.bit{position:fixed;z-index:20;pointer-events:none;font-size:1.4rem;animation:burst .95s cubic-bezier(.15,.8,.3,1) forwards}
+@keyframes burst{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--rot)) scale(1);opacity:0}}
+.toast{position:fixed;left:50%;bottom:1.4rem;z-index:30;transform:translate(-50%,30px);opacity:0;padding:.7rem 1.4rem;border-radius:50px;background:rgba(21,15,36,.94);border:1px solid var(--pink);color:var(--ink);font:500 1.15rem/1.2 var(--hand);backdrop-filter:blur(8px);transition:opacity .4s,transform .5s cubic-bezier(.2,.9,.3,1.4);pointer-events:none;text-align:center;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* phones: still two halves, label moves above each row */
+@media (max-width:620px){
+  .row{grid-template-columns:1fr 1fr;gap:.35rem .8rem;padding:1rem 0}
+  .row .lab{grid-column:1/-1;order:-1}
+  .row.head .lab{display:none}
+  .small{font-size:.8rem}
+  .quipb{font-size:.95rem}
+  .km{font-size:.62rem;padding:.3rem .65rem}
+  .end{font-size:1.5rem}
+  .days{grid-template-columns:1fr 1fr;gap:.7rem}
+  .day{padding:1rem .7rem}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}.row{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="sky l" id="skyL" aria-hidden="true"></div>
+<div class="sky r" id="skyR" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="shade" aria-hidden="true"></div>
+<div class="seam" aria-hidden="true"></div>
+<div class="floaters" id="floaters" aria-hidden="true"></div>
+
+<main>
+  <a class="back" href="../">&larr; all projects</a>
+
+  <header>
+    <h1><span class="l">Life</span><span class="beat" aria-hidden="true">💗</span><span class="r">Twins</span></h1>
+    <p class="tagline" id="tagline">Two skies. One quiet thread.</p>
+  </header>
+
+  <section class="thread" aria-label="The thread between the two sides">
+    <div class="tline">
+      <div class="end" id="endL"><span aria-hidden="true">🇦🇪</span><small>me</small></div>
+      <div class="string" id="string"><span class="km"><i aria-hidden="true">💗</i><span id="kmText"></span></span></div>
+      <div class="end" id="endR"><span aria-hidden="true">🇬🇧</span><small>you</small></div>
+    </div>
+    <p class="caption" id="caption"></p>
+    <div class="hugbar">
+      <button type="button" class="hug" id="hug">Send a hug 🤗</button>
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+
+  <div class="gaps" id="gaps" aria-label="Differences"></div>
+
+  <section class="stage" id="stage" aria-label="Two sides, side by side"></section>
+
+  <section class="section" aria-label="Special days">
+    <p class="lead">Circle these</p>
+    <h2>Special days</h2>
+    <div class="days" id="days"></div>
+  </section>
+
+  <section class="section" aria-label="Memory sky">
+    <p class="lead">Memory sky</p>
+    <h2>If you know, you know</h2>
+    <p class="subl">Tap a star. Each one is a small memory that only two people would understand.</p>
+    <div class="marks" id="marks"></div>
+    <div class="mcard" id="mcard" aria-live="polite"><span class="me" id="mcE">✨</span><p class="mt" id="mcT">Tap any star.</p></div>
+    <p class="progress" id="prog"></p>
+  </section>
+
+  <section class="note" aria-live="polite">
+    <p class="lead">Today's note</p>
+    <p class="msg" id="msg">…</p>
+  </section>
+
+  <div class="status">
+    <span id="updated">Loading…</span>
+    <button type="button" class="refresh" id="refresh">Refresh now</button>
+  </div>
+
+  <footer>Made with a big smile. 💗</footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  // Two sides: left is "me", right is "you". No names on this page, on purpose.
+  var SIDES = {
+    l: { who: 'Me',  flag: '🇦🇪', tag: 'where I am',  lat: 25.2048, lon: 55.2708, zone: 'Asia/Dubai' },
+    r: { who: 'You', flag: '🇬🇧', tag: 'where you are', lat: 53.7632, lon: -2.7031, zone: 'Europe/London' }
+  };
+  var ORDER = ['l', 'r'];
+  var ROWS = [['time', 'Time'], ['mode', 'Mode'], ['sky', 'Sky'], ['temp', 'Temp'], ['air', 'Air'], ['sun', 'Sun']];
+  var REFRESH_MS = 10 * 60 * 1000;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // ---------------------------------------------------------------------------
+  // Words on this page. Edit freely.
+  // This page is public. Keep it to hints only: no names, no photos, no places,
+  // no ages, no years. Each word should mean something only to the two of you.
+  // ---------------------------------------------------------------------------
+
+  // Special days: month and day only (no year, no age), counted down as a yearly date.
+  // Leave `d` out for a month-only entry.
+  var SPECIAL_DAYS = [
+    { m: 4, d: 27, emoji: '👋', title: 'Hi', line: 'Two letters that started everything.' },
+    { m: 5, d: 19, emoji: '🗝️', title: 'The honest talk', line: 'Some sentences change the weather for good.' },
+    { m: 5, d: 22, emoji: '📹', title: 'First face on screen', line: 'Just pixels, but the smile was real.' },
+    { m: 5, d: 31, emoji: '🎹', title: 'A melody, just for one', line: 'Played once. Remembered always.' },
+    { m: 6,         emoji: '✈️', title: 'Someday, in June', line: 'A rough plan and a quiet hope.' },
+    { m: 7, d: 31, emoji: '🎓', title: 'The big pass', line: 'Proud, loudly and quietly at once.' },
+    { m: 8, d: 1,  emoji: '🎂', title: 'Birthday', line: 'Circle it on every calendar.' },
+    { m: 10,        emoji: '📚', title: 'A new chapter', line: 'Another semester. Another step.' }
+  ];
+
+  // Memory sky: a word or two that hints at the memory, and a line that reveals it.
+  var MARKS = [
+    { e: '👋', w: 'hi',         t: 'Two letters, and everything after.' },
+    { e: '🍞', w: 'loyal',      t: 'Some recipes stay loyal for life.' },
+    { e: '🍽️', w: 'linner',     t: 'A meal with its very own time zone.' },
+    { e: '🧟', w: 'zombie',     t: 'The most honest state of being, at that hour.' },
+    { e: '🎮', w: 'one more',   t: 'It was never just one more round.' },
+    { e: '🥱', w: 'own time',   t: 'A clock nobody else can read. It works perfectly.' },
+    { e: '📹', w: 'first look', t: 'The first time a screen felt like a window.' },
+    { e: '🎹', w: 'a melody',   t: 'Somewhere there is a tune that was played for just one person.' },
+    { e: '🎶', w: 'a song',     t: 'Some songs are just letters with a tune.' },
+    { e: '🗝️', w: 'honest',     t: 'The bravest sentence is usually the shortest.' },
+    { e: '🧳', w: 'that trip',  t: 'The day that turned an ordinary week into a story.' },
+    { e: '🚗', w: 'the ride',   t: 'A surprise that arrived with wheels and the biggest smile.' },
+    { e: '😊', w: 'that smile', t: 'A smile at the right moment can fix a whole day.' },
+    { e: '💪', w: 'stronger',   t: 'Quietly proud, every single week.' },
+    { e: '🌙', w: 'same moon',  t: 'Different clocks. Same moon.' },
+    { e: '☔', w: 'stay warm',  t: 'Wherever it rains, somebody is hoping you are warm.' },
+    { e: '🌍', w: 'far / close', t: 'Far on the map. Close in every other way.' }
+  ];
+
+  // Her day, in her local time. `from` = minutes since midnight; a block runs until the next one.
+  // quips: funny lines for both sides. warm: sweet lines for the "you" side only.
+  var WIND = { emoji: '📱', label: 'Winding Down', anim: 'pulse', accent: '#c96bff', asleep: false,
+      quips: ['Just one more short…', 'Scrolling: the official bedtime routine.', 'Bedtime is only a suggestion.', 'One short turned into twenty.'],
+      warm:  ['Sleep well when it finally happens. 🌙', 'Sweet dreams.'] };
+  var MODES = [
+    { from: 0, mode: WIND },
+    { from: 60, mode: { emoji: '💤', label: 'Fast Asleep', anim: 'bob', accent: '#8b7bff', asleep: true,
+      quips: ['Shhh. Sleep in progress.', 'Do not disturb. Recharging.', 'Dream loading… 99%.', 'Sleeping late is a lifestyle.'],
+      warm:  ['Sleep tight. Everything else can wait.', 'Sweet dreams. Really.'] } },
+    { from: 360, mode: { emoji: '🌅', label: 'Early Shift (some days)', anim: 'hop', accent: '#3dffa2', asleep: false,
+      quips: ['Up before the sun. Legendary.', 'Early shift: some days only, thankfully.', 'Coffee first, everything else later.', 'Sunrise energy.'],
+      warm:  ['Early starts are hard. Well done. 💗', 'You are already ahead of the day.'] } },
+    { from: 480, mode: { emoji: '😴', label: 'Almost Awake', anim: 'bob', accent: '#7fb2ff', asleep: false,
+      quips: ['Loading… please wait.', 'Eyes: 40% open.', 'Not yet. Ask again in an hour.', 'Snooze has entered the chat.'],
+      warm:  ['Take your time. No rush.', 'Good morning, whenever it starts.'] } },
+    { from: 540, mode: { emoji: '🥱', label: 'Waking Up', anim: 'sway', accent: '#ffc24d', asleep: false,
+      quips: ['Your own time zone. Perfectly valid.', 'Wake-up time: varies. Always worth the wait.', 'The day starts when you say it does.', 'Good morning, on your own clock.'],
+      warm:  ['Good morning! Whenever that happens to be. ☀️', 'Take it slow. The day will wait.'] } },
+    { from: 660, mode: { emoji: '🍞', label: 'Toast Hour', anim: 'bounce', accent: '#ffc24d', asleep: false,
+      quips: ['Toast: the loyal recipe.', 'Same toast, same joy.', 'Butter side up, please.', 'Breakfast, eventually.'],
+      warm:  ['Toast loyalty: 100%. 🍞', 'Breakfast tastes better when someone wishes you good morning. Good morning!'] } },
+    { from: 720, mode: { emoji: '📚', label: 'Brain Time', anim: 'wobble', accent: '#4de3ff', asleep: false,
+      quips: ['Notes: taken. Focus: loading.', 'Brain in progress.', 'Highlighter budget: unlimited.', 'Knowledge is being acquired.'],
+      warm:  ['You are cleverer than any lecture slide. 💗', 'Proud of you for showing up.'] } },
+    { from: 900, mode: { emoji: '🍽️', label: 'Linner Zone', anim: 'wobble', accent: '#ff9f5a', asleep: false,
+      quips: ['Lunch, but make it late.', 'Too late for lunch, too early for dinner.', 'Linner is a lifestyle.', 'Yes, it counts as a meal.'],
+      warm:  ['Linner, undefeated. Also: hi. 👋', 'Enjoy it. You have earned this linner.'] } },
+    { from: 990, mode: { emoji: '💪', label: 'Sweat Session', anim: 'pulse', accent: '#ff7a4d', asleep: false,
+      quips: ['Sweat now, snacks later.', 'Gains loading…', 'Stronger with every rep.', 'Easy. Then a little harder.'],
+      warm:  ['Look after yourself. You deserve it.', 'Proud of you for showing up.'] } },
+    { from: 1080, mode: { emoji: '🎮', label: 'Chill Mode', anim: 'shake', accent: '#c96bff', asleep: false,
+      quips: ['Food first. Block Blast second. Videos third.', 'One more round. Famous last words.', 'Autoplay is winning again.', 'High score to beat: yours.'],
+      warm:  ['Blocks blasted, day nearly done. Well done.', 'Rest up. You have earned it.'] } },
+    { from: 1200, mode: { emoji: '🌇', label: 'Evening Shift', anim: 'hop', accent: '#3dffa2', asleep: false,
+      quips: ['Evening shift: smiles, repeat.', 'Busy hands, kind heart.', 'Almost there. Every shift ends.', 'A smile makes any shift shorter.'],
+      warm:  ["A smile can make someone's whole day. 😊", 'Hang in there. Nearly done.'] } },
+    { from: 1380, mode: WIND }
+  ];
+  function modeFor(minutes) {
+    var m = MODES[0].mode;
+    for (var i = 0; i < MODES.length; i++) if (minutes >= MODES[i].from) m = MODES[i].mode;
+    return m;
+  }
+  // My side: a plain day-shape. Replace with the real routine when there is one.
+  var MODES_L = [
+    { from: 0, mode: { emoji: '💤', label: 'Deep Sleep', anim: 'bob', accent: '#8b7bff', asleep: true, quips: ['Snoring in the background.', 'Do not disturb.', 'Dream loading…'] } },
+    { from: 360, mode: { emoji: '☕', label: 'Morning', anim: 'bounce', accent: '#ffc24d', asleep: false, quips: ['Coffee first. Questions later.', 'The day is loading.', 'Fresh start, fresh cup.'] } },
+    { from: 720, mode: { emoji: '🌤️', label: 'Afternoon', anim: 'float', accent: '#4de3ff', asleep: false, quips: ['Midday. Officially halfway.', "Snack o'clock is approaching.", 'Still going strong.'] } },
+    { from: 1020, mode: { emoji: '🌆', label: 'Evening', anim: 'wobble', accent: '#ff9f5a', asleep: false, quips: ['Golden hour vibes.', 'The day is winding down.', 'Time to relax a little.'] } },
+    { from: 1260, mode: { emoji: '🌙', label: 'Night', anim: 'bob', accent: '#c96bff', asleep: false, quips: ['Quiet hours.', 'The moon is on shift.', 'Almost bedtime.'] } }
+  ];
+  function modeForL(minutes) {
+    var m = MODES_L[0].mode;
+    for (var i = 0; i < MODES_L.length; i++) if (minutes >= MODES_L[i].from) m = MODES_L[i].mode;
+    return m;
+  }
+
+  var TAGLINES = ['Two skies. One quiet thread.', 'Same moon. Different clocks.', 'Far on the map. Close in every other way.', 'Only two people would understand this page. 💗', 'Time zones are just numbers.'];
+  var CAPTIONS = ['Distance is just a number.', 'About 7 hours by plane. 0 seconds by thought.', 'The gap only exists on the map.', 'Far away, but somehow still in sync.', 'Same sky, just at a different hour.'];
+  var HUG_MSGS = { 1: 'Hug delivered. Safe and warm. 📦', 5: 'That is a lot of hugs. Good.', 10: 'The postal service is impressed. 📮', 25: 'Hug reserves: unlimited. ♾️', 50: 'Okay, this is officially a tradition. 🏆' };
+
+  function describe(code, isDay) {
+    if (code === 0) return isDay ? { t: 'Clear sky', e: '☀️', a: 'spin' } : { t: 'Clear night', e: '🌙', a: 'bob' };
+    if (code === 1) return { t: 'Mostly clear', e: isDay ? '⛅' : '🌙', a: isDay ? 'float' : 'bob' };
+    if (code === 2) return { t: 'Partly cloudy', e: isDay ? '⛅' : '☁️', a: 'float' };
+    if (code === 3) return { t: 'Overcast', e: isDay ? '⛅' : '☁️', a: 'float' };
+    if (code === 45 || code === 48) return { t: 'Foggy', e: '🌫️', a: 'fade' };
+    if (code >= 51 && code <= 57) return { t: 'Drizzle', e: '🌧️', a: 'drip' };
+    if (code >= 61 && code <= 67) return { t: code >= 65 ? 'Heavy rain' : 'Rain', e: '🌧️', a: 'drip' };
+    if (code >= 71 && code <= 77) return { t: 'Snow', e: '❄️', a: 'sway' };
+    if (code >= 80 && code <= 82) return { t: 'Rain showers', e: '🌦️', a: 'drip' };
+    if (code === 85 || code === 86) return { t: 'Snow showers', e: '❄️', a: 'sway' };
+    if (code >= 95) return { t: 'Thunderstorm', e: '⛈️', a: 'zap' };
+    return { t: 'Mystery weather', e: '🌍', a: 'float' };
+  }
+  function isRaining(code) { return (code >= 51 && code <= 67) || (code >= 80 && code <= 82) || code >= 95; }
+  function tint(temp) {
+    if (temp >= 35) return '#ff7a4d';
+    if (temp >= 28) return '#ff9f5a';
+    if (temp >= 20) return '#ffc24d';
+    if (temp >= 10) return '#4de3ff';
+    if (temp >= 3)  return '#7fb2ff';
+    return '#b8dcff';
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function $(id) { return document.getElementById(id); }
+  function replay(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+  function safeGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function safeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // ---- build the mirrored rows ----
+  function cellHTML(side, key) {
+    var s = SIDES[side];
+    if (key === 'head') return '<div class="cell ' + side + '"><div class="city">' + (side === 'l' ? s.who + ' ' + s.flag : s.flag + ' ' + s.who) + '</div><div class="tagl">' + s.tag + '</div></div>';
+    if (key === 'time') return '<div class="cell ' + side + '"><div class="big" id="' + side + '-time"></div><div class="small" id="' + side + '-date"></div></div>';
+    if (key === 'mode') return '<div class="cell ' + side + '"><button type="button" class="emoji" id="' + side + '-memoji" aria-label="Tap for a surprise">🕐</button><div class="lbl" id="' + side + '-mlabel"></div><button type="button" class="quipb" id="' + side + '-mquip" aria-label="Show another line"></button></div>';
+    if (key === 'sky') return '<div class="cell ' + side + '"><div class="emoji" id="' + side + '-semoji" style="cursor:default">⏳</div><div class="lbl" id="' + side + '-slabel">Checking…</div></div>';
+    if (key === 'temp') return '<div class="cell ' + side + '"><div class="big" id="' + side + '-temp">--<small>°C</small></div></div>';
+    if (key === 'air') return '<div class="cell ' + side + '"><div class="small">💧 <b id="' + side + '-hum">--</b>% humidity</div><div class="small">💨 <b id="' + side + '-wind">--</b> km/h wind</div></div>';
+    if (key === 'sun') return '<div class="cell ' + side + '"><div class="small">🌅 <b id="' + side + '-rise">--</b></div><div class="small">🌇 <b id="' + side + '-set">--</b></div></div>';
+  }
+  var html = '<div class="row head">' + cellHTML('l', 'head') + '<div class="lab">💗</div>' + cellHTML('r', 'head') + '</div>';
+  ROWS.forEach(function (r) { html += '<div class="row">' + cellHTML('l', r[0]) + '<div class="lab">' + r[1] + '<span class="cmp" id="cmp-' + r[0] + '"></span></div>' + cellHTML('r', r[0]) + '</div>'; });
+  $('stage').innerHTML = html;
+
+  // ---- time helpers ----
+  var partsFmt = {}, dateFmt = {};
+  function parts(zone, now) {
+    var f = partsFmt[zone] || (partsFmt[zone] = new Intl.DateTimeFormat('en-GB', { timeZone: zone, hourCycle: 'h23', hour: 'numeric', minute: '2-digit', second: '2-digit' }));
+    var o = {};
+    f.formatToParts(now).forEach(function (p) { o[p.type] = p.value; });
+    return { h: +o.hour, m: o.minute, s: o.second };
+  }
+  function dateText(zone, now) {
+    var f = dateFmt[zone] || (dateFmt[zone] = new Intl.DateTimeFormat('en-GB', { timeZone: zone, weekday: 'long', day: 'numeric', month: 'long' }));
+    return f.format(now);
+  }
+  function offsetMin(zone, now) {
+    var f = new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+    var o = {};
+    f.formatToParts(now).forEach(function (p) { o[p.type] = +p.value; });
+    return Math.round((Date.UTC(o.year, o.month - 1, o.day, o.hour, o.minute, o.second) - Math.floor(now.getTime() / 1000) * 1000) / 60000);
+  }
+  function twelve(hhmm) { var h = +hhmm.slice(0, 2); return (h % 12 || 12) + ':' + hhmm.slice(3, 5) + ' ' + (h < 12 ? 'am' : 'pm'); }
+  function hm(min) { var h = Math.floor(min / 60), m = min % 60; return h ? (m ? h + 'h ' + m + 'm' : h + 'h') : m + 'm'; }
+  function km() {
+    var a = SIDES.l, b = SIDES.r, R = 6371, rad = Math.PI / 180;
+    var dLat = (b.lat - a.lat) * rad, dLon = (b.lon - a.lon) * rad;
+    var x = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return Math.round(2 * R * Math.asin(Math.sqrt(x)) / 10) * 10;
+  }
+
+  // ---- the sky behind each half: colours follow the real local hour ----
+  var STOPS = [[0, '#050818', '#121846'], [5, '#0a0e33', '#2b2260'], [6.25, '#3a3470', '#ff9a7a'], [7.5, '#5b8fd6', '#ffd2a6'], [10, '#3f86e0', '#a9d8ff'], [14, '#3a80dc', '#9fd2ff'], [17, '#5d8fd0', '#ffd9a0'], [18.75, '#5a3d7d', '#ff7a5a'], [20, '#2a1f5e', '#8a3a6e'], [21.5, '#0d0e35', '#2a1e5a'], [24, '#050818', '#121846']];
+  function rgb(c) { return [1, 3, 5].map(function (i) { return parseInt(c.substr(i, 2), 16); }); }
+  function mix(a, b, t) { var x = rgb(a), y = rgb(b); return 'rgb(' + x.map(function (v, i) { return Math.round(v + (y[i] - v) * t); }).join(',') + ')'; }
+  function skyAt(h) {
+    for (var i = 0; i < STOPS.length - 1; i++) {
+      if (h >= STOPS[i][0] && h < STOPS[i + 1][0]) {
+        var t = (h - STOPS[i][0]) / (STOPS[i + 1][0] - STOPS[i][0]);
+        return [mix(STOPS[i][1], STOPS[i + 1][1], t), mix(STOPS[i][2], STOPS[i + 1][2], t)];
+      }
+    }
+    return [STOPS[0][1], STOPS[0][2]];
+  }
+  function nightAt(h) {          // 1 = full night (stars out), 0 = day
+    if (h < 5 || h >= 21.5) return 1;
+    if (h < 6.5) return 1 - (h - 5) / 1.5;
+    if (h < 19) return 0;
+    return (h - 19) / 2.5;
+  }
+  var skyState = { l: { h: 12, night: 0 }, r: { h: 12, night: 0 } }, skyMin = { l: -1, r: -1 };
+  function updateSky(side, hour, minute) {
+    var h = hour + minute / 60;
+    skyState[side] = { h: h, night: nightAt(h) };
+    if (skyMin[side] === hour * 60 + minute) return;
+    skyMin[side] = hour * 60 + minute;
+    var c = skyAt(h);
+    $(side === 'l' ? 'skyL' : 'skyR').style.background = 'linear-gradient(180deg,' + c[0] + ',' + c[1] + ')';
+  }
+
+  // stars, sun or moon, rain and the odd shooting star, all on one canvas
+  var weather = { l: null, r: null };
+  var cv = $('stars'), cx = cv.getContext('2d'), W = 0, H = 0, stars = [], drops = [], shoot = null;
+  function resize() {
+    W = cv.width = innerWidth; H = cv.height = innerHeight;
+    stars = [];
+    var n = Math.min(240, Math.floor(W * H / 6500));
+    for (var i = 0; i < n; i++) stars.push({ x: Math.random() * W, y: Math.random() * H * .85, r: Math.random() * 1.3 + .3, p: Math.random() * 6.28, s: Math.random() * .03 + .008 });
+    drops = [];
+    for (var j = 0; j < 90; j++) drops.push({ x: Math.random() * W, y: Math.random() * H, v: 6 + Math.random() * 5, l: 8 + Math.random() * 10 });
+    if (reduce) paint();
+  }
+  function orb(side) {
+    var st = skyState[side], h = st.h, sun = h >= 6 && h < 18;
+    var t = sun ? (h - 6) / 12 : (h >= 18 ? (h - 18) / 12 : (h + 6) / 12);
+    var x0 = side === 'l' ? 0 : W / 2, x = x0 + (W / 2) * (.14 + .72 * t), y = H * (.66 - .5 * Math.sin(Math.PI * t)), s = Math.sin(Math.PI * t);
+    var r = sun ? 34 : 26, col = sun ? '255,' + Math.round(190 + 50 * s) + ',' + Math.round(120 + 100 * s) : '235,240,255';
+    var g = cx.createRadialGradient(x, y, 0, x, y, r * 4);
+    g.addColorStop(0, 'rgba(' + col + ',.95)'); g.addColorStop(.25, 'rgba(' + col + ',.35)'); g.addColorStop(1, 'rgba(' + col + ',0)');
+    cx.globalAlpha = 1; cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r * 4, 0, 6.28); cx.fill();
+    cx.fillStyle = 'rgba(' + col + ',1)'; cx.beginPath(); cx.arc(x, y, r * .55, 0, 6.28); cx.fill();
+  }
+  function paint() {
+    cx.clearRect(0, 0, W, H);
+    stars.forEach(function (s) {
+      var side = s.x < W / 2 ? 'l' : 'r', n = skyState[side].night;
+      if (n <= 0.02) return;
+      if (!reduce) s.p += s.s;
+      cx.globalAlpha = n * (.35 + .65 * Math.abs(Math.sin(s.p)));
+      cx.fillStyle = '#fff'; cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 6.28); cx.fill();
+    });
+    ORDER.forEach(orb);
+    if (!reduce) {
+      ORDER.forEach(function (side) {
+        var w = weather[side];
+        if (!w || !isRaining(w.code)) return;
+        var x0 = side === 'l' ? 0 : W / 2;
+        cx.strokeStyle = 'rgba(190,215,255,.35)'; cx.lineWidth = 1; cx.globalAlpha = 1; cx.beginPath();
+        drops.forEach(function (d) {
+          var x = x0 + (d.x % (W / 2));
+          cx.moveTo(x, d.y); cx.lineTo(x - 2, d.y + d.l);
+          d.y += d.v; if (d.y > H) { d.y = -20; d.x = Math.random() * W; }
+        });
+        cx.stroke();
+      });
+      if (!shoot && Math.random() < .0025) shoot = { x: Math.random() * W * .8 + W * .2, y: Math.random() * H * .3, l: 0 };
+      if (shoot) {
+        var g = cx.createLinearGradient(shoot.x, shoot.y, shoot.x + shoot.l, shoot.y - shoot.l * .5);
+        g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        cx.globalAlpha = 1; cx.strokeStyle = g; cx.lineWidth = 1.6;
+        cx.beginPath(); cx.moveTo(shoot.x, shoot.y); cx.lineTo(shoot.x + shoot.l, shoot.y - shoot.l * .5); cx.stroke();
+        shoot.x -= 9; shoot.y += 4.5; shoot.l = Math.min(shoot.l + 4, 90);
+        if (shoot.x < -100 || shoot.y > H) shoot = null;
+      }
+      requestAnimationFrame(paint);
+    }
+  }
+
+  // ---- state ----
+  var mode = { l: null, r: null }, quipIdx = { l: 0, r: 0 };
+  var toastEl = $('toast'), toastTimer, msgEl = $('msg'), lastMsg = '', lastOk = 0;
+
+  function toast(t) {
+    toastEl.textContent = t; toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 3400);
+  }
+  function burstAt(cx0, cy0, set, n) {
+    if (reduce) return;
+    for (var i = 0; i < n; i++) {
+      var b = document.createElement('span'), ang = Math.random() * 6.28, dist = 70 + Math.random() * 130;
+      b.className = 'bit'; b.textContent = set[i % set.length];
+      b.style.left = cx0 + 'px'; b.style.top = cy0 + 'px';
+      b.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      b.style.setProperty('--dy', Math.sin(ang) * dist - 30 + 'px');
+      b.style.setProperty('--rot', (Math.random() * 360 - 180) + 'deg');
+      document.body.appendChild(b);
+      setTimeout((function (el) { return function () { el.remove(); }; })(b), 1000);
+    }
+  }
+  function burst(side) {
+    var r = $(side + '-memoji').getBoundingClientRect();
+    burstAt(r.left + r.width / 2, r.top + r.height / 2, [mode[side].emoji, '✨', '💗', mode[side].emoji, '⭐'], 16);
+  }
+  function quipsFor(side) { return side === 'r' ? mode.r.quips.concat(mode.r.warm) : mode[side].quips; }
+  function showQuip(side) {
+    var q = quipsFor(side), el = $(side + '-mquip');
+    el.textContent = q[quipIdx[side] % q.length];
+    replay(el, 'swap');
+  }
+  function setMode(side, m, announce) {
+    var first = !mode[side];
+    mode[side] = m;
+    quipIdx[side] = Math.floor(Math.random() * quipsFor(side).length);
+    var em = $(side + '-memoji');
+    em.textContent = m.emoji; em.className = 'emoji anim-' + m.anim;
+    $(side + '-mlabel').textContent = m.label; replay($(side + '-mlabel'), 'swap');
+    $(side + '-mlabel').style.setProperty('--c', m.accent);
+    em.style.setProperty('--c', m.accent);
+    showQuip(side);
+    if (!first && announce) { toast(SIDES[side].who + ': ' + m.label + ' ' + m.emoji); burst(side); }
+  }
+
+  // ---- weather ----
+  function url(c) {
+    return 'https://api.open-meteo.com/v1/forecast?latitude=' + c.lat + '&longitude=' + c.lon +
+      '&current_weather=true&hourly=relativehumidity_2m,windspeed_10m&daily=sunrise,sunset&timezone=auto&forecast_days=1';
+  }
+  function load(side) {
+    return fetch(url(SIDES[side])).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      var cw = j.current_weather, h = j.hourly, hk = cw.time.slice(0, 13);
+      var i = h.time.findIndex(function (t) { return t.slice(0, 13) === hk; });
+      return {
+        temp: Math.round(cw.temperature), code: cw.weathercode, isDay: cw.is_day === 1,
+        wind: Math.round(i >= 0 && h.windspeed_10m[i] != null ? h.windspeed_10m[i] : cw.windspeed),
+        hum: i >= 0 ? h.relativehumidity_2m[i] : null,
+        rise: j.daily && j.daily.sunrise ? j.daily.sunrise[0].slice(11, 16) : null,
+        set: j.daily && j.daily.sunset ? j.daily.sunset[0].slice(11, 16) : null
+      };
+    });
+  }
+  function renderWeather(side) {
+    var d = weather[side]; if (!d) return;
+    var info = describe(d.code, d.isDay), em = $(side + '-semoji');
+    em.textContent = info.e; em.className = 'emoji anim-' + info.a; em.style.cursor = 'default';
+    $(side + '-slabel').textContent = info.t;
+    $(side + '-temp').innerHTML = d.temp + '<small>°C</small>';
+    $(side + '-hum').textContent = d.hum == null ? '--' : d.hum;
+    $(side + '-wind').textContent = d.wind;
+    $(side + '-rise').textContent = d.rise ? twelve(d.rise) : '--';
+    $(side + '-set').textContent = d.set ? twelve(d.set) : '--';
+    document.documentElement.style.setProperty('--' + side, tint(d.temp));
+  }
+  function noteFor(me, you) {
+    if (!me || !you) return 'Loading both skies… 🌍';
+    if (isRaining(you.code)) return 'Stay warm ☔';
+    if (you.temp < 5) return "Hope you're wrapped up warm 🧣";
+    if (me.temp > 38) return 'Surviving the heat over here 🥵';
+    if (!me.isDay && !you.isDay) return 'Good night from both sides of the world 🌙';
+    var sunny = function (d) { return d.isDay && d.code <= 1; };
+    if (sunny(me) && sunny(you)) return 'Good day on both sides of the world ☀️';
+    return pick(['Different skies, same planet 🌍', 'Two skies, one very curious thread 👀', 'Weather report: two worlds, one view ✅']);
+  }
+  function renderNote() {
+    var m = noteFor(weather.l, weather.r);
+    if (m === lastMsg) return;
+    lastMsg = m; msgEl.textContent = m; replay(msgEl, 'swap');
+  }
+
+  // ---- the funny "how are we doing" lines between the two halves ----
+  function compare(now) {
+    var diff = (offsetMin(SIDES.l.zone, now) - offsetMin(SIDES.r.zone, now)) / 60;
+    $('cmp-time').textContent = diff === 0 ? 'same time!' : Math.abs(diff) + 'h apart';
+    if (mode.l && mode.r) $('cmp-mode').textContent = (mode.l.asleep && mode.r.asleep) ? 'both asleep 💤' : (mode.l.asleep || mode.r.asleep) ? 'one is asleep 😴' : 'both awake 🌞';
+    var wl = weather.l, wr = weather.r;
+    if (wl && wr) {
+      $('cmp-sky').textContent = describe(wl.code, wl.isDay).e === describe(wr.code, wr.isDay).e ? 'same sky ✨' : 'different skies';
+      var t = Math.abs(wl.temp - wr.temp);
+      $('cmp-temp').textContent = t === 0 ? 'twins! 👯' : t + '° apart';
+      $('cmp-air').textContent = Math.abs(wl.wind - wr.wind) <= 3 ? 'same breeze' : (wl.wind > wr.wind ? 'windier for me' : 'windier for you');
+      if (wl.rise && wr.rise) {
+        var eL = (+wl.rise.slice(0, 2)) * 60 + (+wl.rise.slice(3, 5)) - offsetMin(SIDES.l.zone, now);
+        var eR = (+wr.rise.slice(0, 2)) * 60 + (+wr.rise.slice(3, 5)) - offsetMin(SIDES.r.zone, now);
+        var d = eR - eL;
+        $('cmp-sun').textContent = d === 0 ? 'sunrise twins' : (d > 0 ? 'mine rises ' + hm(d) + ' first' : 'yours rises ' + hm(-d) + ' first');
+      }
+    }
+    var chips = ['🌍 Same planet', '🕐 ' + (diff === 0 ? 'Same time on both sides' : 'Your clock is ' + Math.abs(diff) + (Math.abs(diff) === 1 ? ' hour' : ' hours') + (diff > 0 ? ' behind mine' : ' ahead of mine'))];
+    if (wl && wr) { var tt = wl.temp - wr.temp; chips.push(tt === 0 ? '🌡️ Same temperature. Wow.' : '🌡️ ' + Math.abs(tt) + '° ' + (tt > 0 ? 'warmer' : 'cooler') + ' on my side'); }
+    var g = $('gaps');
+    if (g.children.length !== chips.length) { g.innerHTML = ''; chips.forEach(function () { var s = document.createElement('span'); s.className = 'gap'; g.appendChild(s); }); }
+    chips.forEach(function (c, i) { if (g.children[i].textContent !== c) g.children[i].textContent = c; });
+  }
+
+  var refreshBtn = $('refresh'), updatedEl = $('updated');
+  function refresh() {
+    refreshBtn.disabled = true; updatedEl.textContent = 'Checking both skies…';
+    return Promise.all(ORDER.map(function (s) {
+      return load(s).then(function (d) { return { s: s, d: d }; }, function () { return { s: s, d: null }; });
+    })).then(function (res) {
+      var ok = 0;
+      res.forEach(function (r) {
+        if (r.d) { weather[r.s] = r.d; ok++; renderWeather(r.s); }
+        else if (!weather[r.s]) { $(r.s + '-semoji').textContent = '🛰️'; $(r.s + '-slabel').textContent = "Couldn't reach the sky"; }
+      });
+      compare(new Date()); renderNote();
+      if (ok) {
+        lastOk = Date.now();
+        updatedEl.textContent = 'Updated ' + new Date().toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' }) + (ok < 2 ? ' (one missed)' : '') + ' · refreshes every 10 min';
+      } else { updatedEl.textContent = 'No connection. Retrying soon…'; setTimeout(refresh, 60000); }
+    }).then(function () { refreshBtn.disabled = false; });
+  }
+
+  // ---- clocks tick every second ----
+  function tick() {
+    var now = new Date();
+    ORDER.forEach(function (s) {
+      var p = parts(SIDES[s].zone, now), h12 = p.h % 12 || 12;
+      $(s + '-time').innerHTML = h12 + ':' + p.m + '<small>:' + p.s + ' ' + (p.h < 12 ? 'am' : 'pm') + '</small>';
+      $(s + '-date').textContent = dateText(SIDES[s].zone, now);
+      updateSky(s, p.h, +p.m);
+      var mins = p.h * 60 + (+p.m), m = s === 'r' ? modeFor(mins) : modeForL(mins);
+      if (m !== mode[s]) setMode(s, m, true);
+    });
+    compare(now);
+  }
+
+  // ---- special days: month and day only, counted down as a yearly date, in her time zone ----
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  function daysUntil(s) {
+    var f = new Intl.DateTimeFormat('en-GB', { timeZone: SIDES.r.zone, year: 'numeric', month: 'numeric', day: 'numeric' }), o = {};
+    f.formatToParts(new Date()).forEach(function (p) { o[p.type] = +p.value; });
+    if (!s.d && o.month === s.m) return 0;                      // month-only entry, and it is that month now
+    var today = Date.UTC(o.year, o.month - 1, o.day), next = Date.UTC(o.year, s.m - 1, s.d || 1);
+    if (next < today) next = Date.UTC(o.year + 1, s.m - 1, s.d || 1);
+    return Math.round((next - today) / 86400000);
+  }
+  function countText(s, n) {
+    if (s.d) return n === 0 ? 'Today! 🎉' : n === 1 ? 'Tomorrow' : 'in ' + n + ' days';
+    return n === 0 ? 'This month ✨' : n <= 45 ? 'in about ' + Math.max(1, Math.round(n / 7)) + ' weeks' : 'in about ' + Math.round(n / 30) + ' months';
+  }
+  function renderDays() {
+    var list = SPECIAL_DAYS.map(function (s) { return { s: s, n: daysUntil(s) }; }).sort(function (a, b) { return a.n - b.n; });
+    var box = $('days'); box.innerHTML = '';
+    list.forEach(function (x, i) {
+      var c = document.createElement('div'); c.className = 'day' + (i === 0 ? ' next' : '');
+      [['de', x.s.emoji], ['dt', x.s.title], ['dd', x.s.d ? x.s.d + ' ' + MONTHS[x.s.m - 1] : MONTHS[x.s.m - 1]], ['dc', countText(x.s, x.n)], ['dl', x.s.line]].forEach(function (p) {
+        var e = document.createElement(p[0] === 'de' ? 'span' : 'div'); e.className = p[0]; e.textContent = p[1]; c.appendChild(e);
+      });
+      box.appendChild(c);
+    });
+    if (list.some(function (x) { return x.s.d && x.n === 0; })) setTimeout(function () { burstAt(innerWidth / 2, innerHeight / 3, ['🎉', '🎂', '💗', '✨', '🎈'], 30); }, 1200);
+  }
+
+  // ---- memory sky: tap a star to remember ----
+  var seen = {};
+  try { seen = JSON.parse(safeGet('lifeTwinsSeen') || '{}') || {}; } catch (e) { seen = {}; }
+  function updateProgress() {
+    var n = MARKS.filter(function (m, i) { return seen[i]; }).length;
+    $('prog').textContent = n === 0 ? MARKS.length + ' stars waiting' : n === MARKS.length ? 'All ' + MARKS.length + ' remembered. 💗' : 'remembered ' + n + ' of ' + MARKS.length;
+  }
+  var marksBox = $('marks'), markEls = [];
+  MARKS.forEach(function (m, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'mark' + (seen[i] ? ' seen' : '');
+    b.style.setProperty('--dy', (Math.random() * 10 - 5).toFixed(1) + 'px');
+    b.style.setProperty('--dl', (Math.random() * -4).toFixed(1) + 's');
+    var e = document.createElement('span'); e.textContent = m.e; b.appendChild(e);
+    var w = document.createElement('span'); w.textContent = m.w; b.appendChild(w);
+    b.addEventListener('click', function () {
+      markEls.forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on', 'seen'); seen[i] = 1; safeSet('lifeTwinsSeen', JSON.stringify(seen));
+      $('mcE').textContent = m.e; $('mcT').textContent = m.t; replay($('mcT'), 'swap');
+      var r = b.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, ['✨', '⭐', m.e, '💗'], 8);
+      updateProgress();
+    });
+    markEls.push(b); marksBox.appendChild(b);
+  });
+  updateProgress();
+
+  // ---- the thread: distance, captions and hugs ----
+  $('kmText').textContent = km().toLocaleString('en-GB') + ' km';
+  var capIdx = 0, tagIdx = 0, hugs = parseInt(safeGet('lifeTwinsHugs'), 10) || 0, hugDir = 0;
+  function swapText(el, text) {
+    el.classList.add('out');
+    setTimeout(function () { el.textContent = text; el.classList.remove('out'); }, 500);
+  }
+  $('caption').textContent = CAPTIONS[0];
+  function updateCount() { $('count').textContent = hugs ? 'hugs delivered: ' + hugs : 'no hugs sent yet'; }
+  updateCount();
+
+  $('hug').addEventListener('click', function () {
+    var str = $('string'), w = str.getBoundingClientRect().width, fromLeft = hugDir % 2 === 0, dest = $(fromLeft ? 'endR' : 'endL');
+    hugDir++; hugs++; safeSet('lifeTwinsHugs', String(hugs)); updateCount();
+    var done = function () {
+      replay(dest, 'got');
+      var r = dest.getBoundingClientRect();
+      burstAt(r.left + r.width / 2, r.top + r.height / 2, ['💗', '🤗', '✨'], 10);
+      toast(HUG_MSGS[hugs] || (fromLeft ? 'A hug, from me to you 🤗' : 'A hug, from you to me 🤗'));
+    };
+    if (reduce || !str.animate) { done(); return; }
+    var f = document.createElement('span');
+    f.className = 'flyer'; f.textContent = fromLeft ? '🤗' : '💗';
+    str.appendChild(f);
+    var a = fromLeft ? 0 : w, b = fromLeft ? w : 0, y = -14;
+    var anim = f.animate([
+      { transform: 'translate(' + a + 'px,' + y + 'px) scale(.5)', opacity: 0 },
+      { transform: 'translate(' + (a + (b - a) * .15) + 'px,' + (y - 12) + 'px) scale(1)', opacity: 1, offset: .15 },
+      { transform: 'translate(' + (a + (b - a) * .5) + 'px,' + (y - 30) + 'px) scale(1.3)', opacity: 1, offset: .5 },
+      { transform: 'translate(' + b + 'px,' + y + 'px) scale(.7)', opacity: 0.9 }
+    ], { duration: 1500, easing: 'ease-in-out' });
+    anim.onfinish = function () { f.remove(); done(); };
+  });
+
+  // floating hearts drifting up each half
+  function spawn() {
+    if (document.hidden || reduce) return;
+    var side = Math.random() < .5 ? 'l' : 'r', f = document.createElement('span');
+    f.className = 'floater';
+    f.textContent = pick(side === 'l' ? ['💗', '✨', '🧡', '💛'] : ['💗', '✨', '💙', '🤍']);
+    f.style.left = (side === 'l' ? Math.random() * 46 : 52 + Math.random() * 46) + 'vw';
+    f.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+    f.style.animationDuration = (11 + Math.random() * 9) + 's';
+    f.style.setProperty('--rot', (Math.random() * 50 - 25) + 'deg');
+    f.style.setProperty('--sway', (Math.random() * 80 - 40) + 'px');
+    $('floaters').appendChild(f);
+    f.addEventListener('animationend', function () { f.remove(); });
+  }
+
+  ORDER.forEach(function (s) {
+    $(s + '-memoji').addEventListener('click', function () { burst(s); });
+    $(s + '-mquip').addEventListener('click', function () { quipIdx[s]++; showQuip(s); });
+  });
+  refreshBtn.addEventListener('click', refresh);
+
+  addEventListener('resize', resize);
+  resize();
+  tick();
+  renderDays();
+  if (!reduce) paint();
+  setInterval(tick, 1000);
+  setInterval(function () {
+    ORDER.forEach(function (s) { quipIdx[s]++; showQuip(s); });
+    capIdx++; swapText($('caption'), CAPTIONS[capIdx % CAPTIONS.length]);
+    tagIdx++; swapText($('tagline'), TAGLINES[tagIdx % TAGLINES.length]);
+  }, 8000);
+  setInterval(renderDays, 60 * 60 * 1000);
+  setInterval(spawn, 1600); spawn();
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) { tick(); if (Date.now() - lastOk > REFRESH_MS) refresh(); }
+  });
+})();
+</script>
+</body>
+</html>

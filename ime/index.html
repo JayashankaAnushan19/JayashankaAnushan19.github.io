@@ -24,12 +24,17 @@ h1{font-weight:700;font-size:clamp(2.8rem,12vw,5rem);line-height:.98;letter-spac
 h1 span{background:linear-gradient(100deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
 .meta{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim)}
 .meta b{color:var(--ink);font-weight:500}
+.relock{font:inherit;color:var(--amber);background:none;border:1px solid currentColor;border-radius:4px;padding:.1rem .6rem;cursor:pointer;transition:color .2s}
+.relock:hover,.relock:focus-visible{color:var(--ink);outline:none}
 
 .doors{list-style:none;border-top:1px solid var(--line)}
 .door{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:0 1.4rem;width:100%;text-align:left;font:inherit;color:inherit;text-decoration:none;cursor:pointer;padding:1.5rem .4rem;background:none;border:0;border-bottom:1px solid var(--line);overflow:hidden;transition:padding .3s,background .3s;opacity:0;transform:translateX(-14px);animation:slide .7s cubic-bezier(.2,.7,.2,1) forwards}
 .doors li:nth-child(1) .door{animation-delay:.15s}
 .doors li:nth-child(2) .door{animation-delay:.3s}
 .doors li:nth-child(3) .door{animation-delay:.45s}
+.doors li:nth-child(4) .door{animation-delay:.6s}
+.doors li:nth-child(5) .door{animation-delay:.75s}
+.doors li:nth-child(6) .door{animation-delay:.9s}
 @keyframes slide{to{opacity:1;transform:none}}
 .door::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(77,227,255,.10),transparent 70%);opacity:0;transition:opacity .3s}
 .door::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .45s}
@@ -92,7 +97,7 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
   <header>
     <p class="kicker">// ime / projects</p>
     <h1>Pick a<br><span>project.</span></h1>
-    <p class="meta"><span><b id="count">0</b> entries</span><span>sorted newest first</span></p>
+    <p class="meta"><span><b id="count">0</b> entries</span><span>sorted newest first</span><button type="button" class="relock" id="relock" hidden>lock again</button></p>
   </header>
 
   <!-- Newest first. The "next" teaser stays pinned at the top; new projects go right below it. -->
@@ -108,6 +113,36 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
       </a>
     </li>
     <li>
+      <a class="door" href="life_twins/" data-locked>
+        <span class="idx">05</span>
+        <div class="body">
+          <h2>Life Twins</h2>
+          <p>Two skies, one thread. A small collection that only two people would understand.</p>
+        </div>
+        <span class="side"><span class="chip lock">Locked</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+    </li>
+    <li>
+      <a class="door" href="weather_twin/">
+        <span class="idx">04</span>
+        <div class="body">
+          <h2>Weather Twin</h2>
+          <p>Live weather in Dubai and Preston, side by side.</p>
+        </div>
+        <span class="side"><span class="chip live">Live</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+    </li>
+    <li>
+      <a class="door" href="linner_clock/">
+        <span class="idx">03</span>
+        <div class="body">
+          <h2>Linner Clock</h2>
+          <p>Two clocks, one very personal way of telling the time.</p>
+        </div>
+        <span class="side"><span class="chip live">Live</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+    </li>
+    <li>
       <a class="door" href="quick_stop/">
         <span class="idx">02</span>
         <div class="body">
@@ -118,14 +153,14 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
       </a>
     </li>
     <li>
-      <button type="button" class="door" id="openSpecial">
+      <a class="door" href="special_day/" data-locked>
         <span class="idx">01</span>
         <div class="body">
           <h2>Special Day</h2>
           <p>Expired. Enter the date to get back in.</p>
         </div>
         <span class="side"><span class="chip lock">Locked</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
-      </button>
+      </a>
     </li>
   </ul>
 
@@ -135,8 +170,8 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
 <div class="veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" aria-hidden="true">
   <div class="dialog" id="dialog">
     <span class="chip lock dlg-tag">Locked</span>
-    <h3 id="dlgTitle">This day has passed</h3>
-    <p>Access has expired. Enter the date as <b>ddmmyyyy</b> to open it.</p>
+    <h3 id="dlgTitle">A special date opens this</h3>
+    <p>Enter it as <b>ddmmyyyy</b> to open.</p>
     <input id="code" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="ddmmyyyy" aria-label="Date as ddmmyyyy">
     <div id="msg" role="status" aria-live="polite"></div>
     <div class="btns">
@@ -149,15 +184,44 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
 <script>
 (function () {
   // ---- date lock (a playful gate, not real security) ----
-  var CODE = '01082004';
-  var TARGET = 'special_day/';
+  // Only a hash of the date is kept here, so the date is not readable at a glance.
+  // It does not stop someone who really wants in: there are only so many dates to try.
+  var HASH = "v3uptiuvfy";
+  function h53(str) {
+    var h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (var i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+  }
+  // An unlock is remembered for 30 minutes (per tab), then the doors lock again.
+  var KEEP_MS = 30 * 60 * 1000;
+  function unlocked() { try { return +sessionStorage.getItem('imeOK') > Date.now(); } catch (e) { return false; } }
+  function remember() { try { sessionStorage.setItem('imeOK', String(Date.now() + KEEP_MS)); } catch (e) {} }
+  function forget() { try { sessionStorage.removeItem('imeOK'); } catch (e) {} }
+
+  // the chip on each locked door shows the real state; "lock again" clears the memory
+  var relock = document.getElementById('relock');
+  function showState() {
+    var open = unlocked();
+    document.querySelectorAll('[data-locked]').forEach(function (el) {
+      var chip = el.querySelector('.chip');
+      chip.className = 'chip ' + (open ? 'live' : 'lock');
+      chip.textContent = open ? 'Unlocked' : 'Locked';
+    });
+    relock.hidden = !open;
+  }
+  relock.addEventListener('click', function () { forget(); showState(); });
+  setInterval(showState, 15000);
+
   var veil = document.getElementById('veil');
   var dialog = document.getElementById('dialog');
   var input = document.getElementById('code');
   var msg = document.getElementById('msg');
-  var opener = document.getElementById('openSpecial');
+  var target = '', opener = null;
 
-  function open() {
+  function open(el) {
+    opener = el; target = el.getAttribute('href');
     veil.classList.add('open');
     veil.setAttribute('aria-hidden', 'false');
     input.value = ''; msg.textContent = '';
@@ -167,15 +231,16 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
   function close() {
     veil.classList.remove('open');
     veil.setAttribute('aria-hidden', 'true');
-    opener.focus();
+    if (opener) opener.focus();
   }
   function attempt() {
     var v = input.value.replace(/\D/g, '');
-    if (v === CODE) {
+    if (h53('ime:' + v) === HASH) {
+      remember();
       dialog.classList.add('ok');
       msg.style.color = '#3dffa2';
       msg.textContent = 'Access granted.';
-      setTimeout(function () { window.location.href = TARGET; }, 900);
+      setTimeout(function () { window.location.href = target; }, 900);
       return;
     }
     msg.style.color = '';
@@ -183,7 +248,13 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
     dialog.classList.remove('shake'); void dialog.offsetWidth; dialog.classList.add('shake');
     input.select();
   }
-  opener.addEventListener('click', open);
+  document.querySelectorAll('[data-locked]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      if (unlocked()) return;          // already opened this session: just follow the link
+      e.preventDefault(); open(el);
+    });
+  });
+  showState();
   document.getElementById('cancel').addEventListener('click', close);
   document.getElementById('submit').addEventListener('click', attempt);
   input.addEventListener('input', function () { input.value = input.value.replace(/\D/g, ''); msg.textContent = ''; });
