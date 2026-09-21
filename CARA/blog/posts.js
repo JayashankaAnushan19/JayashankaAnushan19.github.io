@@ -21,9 +21,9 @@ var POSTS = [
     file:    'week-15.html',
     week:    'Week 15',
     date:    '18–24 Sep 2026',
-    title:   'Final Wiring Done — Next Up, Everything Together on the New Battery',
-    excerpt: 'The week opens closing out Week 14\'s motor/encoder wiring — final wiring declared complete, plus a Battery Clip designed to mount the custom pack. Next: connecting everything together on the new battery and starting real integrated testing, not another isolated bench rig. Still in progress.',
-    tags:    [['Hardware','orange'],['In Progress','high']]
+    title:   'First Integrated Tests — Fully Assembled, and the Drive Train Fights Back',
+    excerpt: 'The robot is fully assembled with printed covers fitted and runs its first integrated tests. The first drive attempt failed (hot driver, no movement, cause unknown); encoder speed control and SMS support were written, tracking latency dropped from 710 ms to about 100 ms, and recorded runs exposed a stalling left wheel, a right encoder on pins that cannot count, and serial corruption under motor load. Still in progress.',
+    tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {
     file:    'week-14.html',

@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 15 (in progress) — final wiring on the new 4-motor/encoder setup declared complete, a Battery Clip designed to mount the custom pack, with full integration testing next.">
+<meta name="description" content="CARA Week 15 (in progress) — the robot is fully assembled and runs its first integrated tests: a failed first drive attempt, encoder speed control, SMS support, tracking latency cut from 710 ms to about 100 ms, and recorded runs that expose a stalling wheel and serial corruption under motor load.">
 <title>Week 15 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -33,12 +33,13 @@
       <span class="post-date">18–24 Sep 2026</span>
       <span class="tag tag-blue">Week 15</span>
       <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Software</span>
       <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Final Wiring Done — Next Up, Everything Together on the New Battery</h1>
+    <h1>First Integrated Tests — Fully Assembled, and the Drive Train Fights Back</h1>
 
-    <p class="page-subtitle">The week opens closing out the wiring pass that spilled over from <a href="week-14.html">Week 14</a>'s motor and encoder work: the final wiring on the new 4-motor/encoder setup is declared fixed and complete, and a dedicated mount was designed for the custom battery pack. The next step is the real milestone — connecting everything together on the new battery and starting actual integrated testing, not another isolated bench rig.</p>
+    <p class="page-subtitle">The wiring pass from <a href="week-14.html">Week 14</a> closed out, a mount was designed for the custom battery, and by 20 September the whole robot was assembled and running its first integrated tests. The first drive attempt failed with a hot driver and no movement, encoder speed control and SMS support were written, and tracking latency dropped from 710 ms to about 100 ms — while the recorded runs exposed a stalling left wheel, a right encoder on pins that can't do the job, and serial corruption under motor load.</p>
   </div>
 
   <div class="post-body">
@@ -53,8 +54,50 @@
     <h2>A Battery Clip for the Custom Pack</h2>
     <p>A new mounting part — <code>Battery Clip</code> (<code>All</code>/<code>Bottom</code>/<code>Top</code> — a two-piece clip design) — was designed to physically hold the custom 18650 battery pack from <a href="week-14.html">Week 14</a> in place on the chassis, rather than leaving it loose. The wire-hiding cover's support bar from <a href="week-13.html">Week 13</a> was revised again alongside it, to fit around the final wiring run.</p>
 
+    <h2>Everything Together, Finally — the Robot Assembled</h2>
+    <p>By 20 September the whole robot was physically together for the first time: four new motors and wheels, the custom battery pack zip-tied on top, the Jetson and its LCD stacked on the chassis, the camera tower mounted, and the six-sensor ultrasonic ring around the edge. The 3D-printed camera, LCD, and keypad housings designed back in <a href="week-13.html">Week 13</a> are visibly fitted on the head unit now, which closes the "printed and test-fitted" item that had been open since then. (19 September was a check-in only, with no work done.)</p>
+
+    <figure class="post-image">
+      <img src="images/blog-15-assembled-robot-battery-on-top.jpg" alt="Fully assembled CARA robot on a tile floor: four blue-wheeled motors, the green custom battery pack zip-tied on top, the Jetson and camera tower mounted, ultrasonic sensors around the edge">
+      <figcaption>The assembled robot on its first integrated test day — custom battery on top, Jetson and camera tower mounted, all four wheels on the floor.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-15-robot-front-jetson-lcd.jpg" alt="Front view of the assembled robot showing the Jetson Nano, the LCD, the stacked ultrasonic sensor bracket, and green status lighting under the chassis">
+      <figcaption>Front view — Jetson, LCD, and the ultrasonic bracket, powered up.</figcaption>
+    </figure>
+
+    <figure class="post-image">
+      <img src="images/blog-15-head-unit-camera-lcd-keypad.jpg" alt="Head unit at the top of the camera tower: a Logitech 720p webcam on a printed mount above a printed housing containing the LCD, showing STOPPED and Speed 0, and the 4x4 keypad">
+      <figcaption>The head unit close up: 720p webcam, printed housing, LCD (<code>STOPPED / Speed: 0</code>), and keypad.</figcaption>
+    </figure>
+
+    <h2>The First Integrated Drive Attempt Failed</h2>
+    <p>The first real drive attempt — four motors, the new battery, driven from the Jetson's web dashboard over a remote login — failed: the motors jittered briefly, then nothing moved at all, and raising the speed made the motor driver get very hot with still no movement. No root cause was confirmed that day, only symptoms. Four working hypotheses were written down so the next session wouldn't start from zero, none of them confirmed: two motors paralleled on each L298N channel with one reversed, so the pair fights itself and stalls; stall-level current on a paralleled channel (up to about 2.4A against an L298N's roughly 2A-per-channel rating, with only a small heatsink); the new pack's protection circuit or wiring current-limiting or sagging under motor startup load, the same symptom family as the old pack's dead cell; and mix-ups from the colour-swapped extension wiring, including the risk of motor power reaching an encoder signal line. The planned first step is bench-supply isolation — one motor, then one pair, current-limited — the same method that isolated the spare driver's dead channel in Week 14.</p>
+
+    <h2>Finding Which Wheel Is Which — and a Direction Fix</h2>
+    <p>A new serial-driven Mega sketch, <code>TwentyFirstTest_MotorSideFinder</code>, pulses each driver channel and direction and reports encoder counts, to work out which wheels sit on which side and which way each one turns, with a stall guard that aborts early if a driven side's encoder doesn't count. Result: with no inversion, "both forward" turned the robot <em>right</em> — the left side went forward and the right side backward. Defaulting the sketch to a right-side inversion fixed it, so forward now drives forward and reverse drives backward (confirmed on the real robot). A matching pin swap was briefly made in the three main Mega firmwares and then reverted the same day at the user's request — troubleshooting stays in the single test sketch until it's all confirmed, main firmware untouched. That direction fix does <em>not</em> explain the earlier hot-driver, no-movement failure, which is still undiagnosed.</p>
+
+    <h2>Encoder Speed Control, and a Correction to the Pin Plan</h2>
+    <p>The Jetson-facing firmware gained per-side PI wheel-speed control from the encoders (pin-change interrupts plus a 20 Hz Timer3 control loop), new-chassis motor polarity, a soft stall guard with cooldown, an opt-in dead-man watchdog for hold-to-move, and an <code>ENC:</code> telemetry line — with a companion bench sketch, <code>TwentySecondTest_EncoderSpeedDrive</code>, showing live RPM and counts. It didn't link at first: the Servo library already owns the Timer3 compare-A interrupt vector, so the control loop moved to compare-B.</p>
+
+    <div class="post-callout amber">
+      <p><strong>Correction to the Week 14 pin plan:</strong> the right-side encoder pins chosen on 17 September (D6/D44) turned out to have no pin-change interrupt support, so the right encoder counts nothing there — it has to move to A8/A9. The rewire is deferred, so a temporary workaround makes the right side mirror the left side's PWM (<code>ENC_MIRROR</code>, to be turned off after the rewire). Only the left encoder actually closes a loop for now.</p>
+    </div>
+
+    <h2>SMS Support Added — but the GSM Module Won't Answer</h2>
+    <p>SMS sending was added for the A7670C: a non-blocking state machine that probes with AT commands, never blind-pulses the power key, and re-probes every 90 seconds when the module is absent, sending one SMS per new alert with a 5-minute cooldown, wired to both <code>FALL_DETECTED</code> and the keypad's <code>#</code> panic key. It hasn't sent a real message: the module didn't respond at all during testing (state <code>ABSENT</code>) and appears to need its own power supply, so all of this was exercised only up to the point of finding it silent. A <code>TILT_STEP</code> command for vertical face-centering was added as well.</p>
+
+    <h2>Tracking Latency Cut From 710 ms to About 100 ms</h2>
+    <p>On the perception side, camera-to-tracker latency dropped from roughly 710 ms to about 101 ms median. The cause was DDS queueing up to 10 stale frames; the image subscriptions are now depth-1 best-effort. The motion controller now turns in short pulses in the fine zone (0.2 s on, 0.6 s off) because the wheels can only spin at full power, tracks the face vertically for the tilt servo, and remembers the left-encoder count at the start of a turn so it can pulse back to that "home" heading if the person is lost within 1.5 seconds — simulated offline only, not yet seen live. The centre band was widened to 30% of the frame width, fall detection now looks at up to three poses and only checks the one linked to the tracked face, the debug viewer shows both the tracking and skeleton panels, and a new <code>run_logger.py</code> records every run (wheel RPM against target, PWM, encoder counts, latency, commands, sensors, fall status) to CSV for tuning and a later PID.</p>
+
+    <h2>What the Recorded Runs Showed</h2>
+    <p>Three armed trials and one tilt test were recorded. In trial 2, the left wheel stalled at full power (about −7 RPM at PWM 255), so each turn only rotated the wheel about 0.3 of a revolution; the left ultrasonic sensor read 11.75 then 6.9 cm in the small room and triggered an emergency stop; and the face lock was lost 1.4 seconds after the first turn. Trial 3 never moved at all — the user stood at the edge of the frame, the face never registered, and the new heading-memory return remains unverified live. Two other findings: about 60% of serial status lines came through corrupted once the motors were running (0% while stationary, and not the dashboard's doing), pointing at motor noise or power sag on the USB link; and a bedsheet produced a false wristband lock, so the minimum band area was raised to 2500 at runtime — not yet saved in the config file, so it's lost on a tracker restart. One practical rule surfaced too: only one process can hold the serial port and camera at a time, so the dashboard service and the ROS2 stack are mutually exclusive.</p>
+
+    <p>The day ended with the pipeline left running disarmed — the robot can't move in that state — and the project's dissertation deadline (15 September) already behind it, with live testing carrying on.</p>
+
     <h2>What Did Not Go Well (So Far)</h2>
-    <p>Nothing broken this session, but nothing physically integration-tested yet either — the final wiring and the new battery clip are both declared done on the hardware side, not proven by actually running the robot on them together. Everything carried in from <a href="week-14.html">Week 14</a> is still open: the new 4WD encoder wiring has no firmware behind it, the RTC driver remains completely unverified, the LCD+RTC shared-bus assumption hasn't been bench-tested with both live at once, the dashboard's admin password is still the unchanged default, and the custom battery pack itself hasn't been run under real load.</p>
+    <p>The first integrated drive attempt failed and its root cause — hot driver, no movement — is still unknown. The left wheel stalls in spins, the drive motors still look underpowered under load, the right encoder counts nothing and needs rewiring, the tilt servo doesn't physically move the camera (likely power again), the GSM module doesn't respond and needs its own supply, and serial garbling under motor load points at a real power or noise problem that the new battery hasn't solved. The heading-memory return and the wider centre band have only been checked offline. Older items are still open too: the RTC driver is unverified, the dashboard's admin password is still the default, and the custom pack has only been run in these first tests, not characterized under sustained load.</p>
 
     <h2>Week 15 Checklist (So Far)</h2>
     <div class="table-wrap">
@@ -63,9 +106,20 @@
           <tr><td>Final 4-motor/encoder wiring fixed and declared complete</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Battery Clip designed to mount the custom pack</td><td class="yes">✓ Complete</td></tr>
           <tr><td>Wire-hiding cover support bar revised for final wiring</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Everything connected together on the new battery</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Full integrated testing (not an isolated bench rig)</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Encoder firmware written for the new 4WD wiring</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Robot fully assembled with printed covers fitted</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Wheel side/direction mapped (MotorSideFinder); direction fixed in the test sketch</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Encoder speed-control firmware written and flashed</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>SMS state machine written (A7670C)</td><td class="yes">✓ Complete — never sent a real SMS</td></tr>
+          <tr><td>Camera-to-tracker latency cut 710 ms → ~101 ms</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Run logger + 3 armed trials + tilt test recorded</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>First integrated drive test</td><td class="no">✗ Failed — cause undiagnosed</td></tr>
+          <tr><td>Left wheel stall / underpowered drive motors</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Right encoder moved to A8/A9 (pin-change capable pins)</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>GSM module powered from its own supply and answering</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Tilt servo physically moving the camera</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Serial garbling under motor load explained and fixed</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Heading-memory return verified live</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td><code>band_min_area</code> saved into the tracker's YAML config</td><td class="no">⏳ In Progress</td></tr>
         </tbody>
       </table>
     </div>
@@ -78,7 +132,7 @@
     <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
     <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
-      <input type="hidden" name="subject"    value="CARA Feedback: Week 15 — Final Wiring Done">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 15 — First Integrated Tests">
       <input type="hidden" name="redirect"   value="false">
       <div class="form-row">
         <input type="text"  name="name"  placeholder="Your name (optional)">

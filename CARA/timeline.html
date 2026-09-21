@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Project Timeline — 12-week academic Gantt chart with WBS task hierarchy and automatic current week highlighting.">
+<meta name="description" content="CARA Project Timeline — Gantt chart of the real build, matching the weekly blog dates, with the original plan available as an overlay.">
 <title>Timeline — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -19,14 +19,14 @@
 /* ── Gantt chart overrides ─────────────────────────────────────────────── */
 .gantt-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-lg); margin: 1.5rem 0 2.5rem; }
 
-.gtbl { border-collapse: collapse; min-width: 960px; width: 100%; font-size: .8rem; }
+.gtbl { border-collapse: collapse; min-width: 1180px; width: 100%; font-size: .8rem; }
 
 /* ── Column widths ── */
 .gtbl .c-no   { width: 38px;  min-width: 38px; }
 .gtbl .c-name { width: 210px; min-width: 180px; }
-.gtbl .c-dur  { width: 34px;  min-width: 34px; }
-.gtbl .c-sd   { width: 60px;  min-width: 56px; }
-.gtbl .c-ed   { width: 60px;  min-width: 56px; }
+.gtbl .c-dur  { width: 44px;  min-width: 40px; }
+.gtbl .c-sd   { width: 72px;  min-width: 66px; }
+.gtbl .c-ed   { width: 72px;  min-width: 66px; }
 .gtbl .c-wk   { width: 46px;  min-width: 42px; }
 
 /* ── Month header row ── */
@@ -145,6 +145,53 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
 .gantt-legend .dot {
   width: 13px; height: 13px; border-radius: 3px; display: inline-block; flex-shrink: 0;
 }
+
+/* ── Real vs planned ───────────────────────────────────────────────────────
+   Real bar = the coloured ::before (rules above). Planned = a thin hatched
+   ::after on the same cell, shown only when the "show planned" box is ticked;
+   the real bar then drops lower so both fit in one row. */
+.gtbl:not(.show-plan) .gc.pbar::after { display: none; }
+.gtbl.show-plan .gc.bar::before { top: 64%; }
+.gtbl .gc.pbar::after {
+  content: '';
+  position: absolute;
+  top: 5px; height: 6px;
+  left: 0; right: 0;
+  background: repeating-linear-gradient(45deg, rgba(148,163,184,.85) 0 3px, rgba(148,163,184,.25) 3px 6px);
+  border-top: 1px solid rgba(148,163,184,.9);
+  border-bottom: 1px solid rgba(148,163,184,.9);
+}
+.gtbl .gc.ps::after { left: 5px;  border-left: 1px solid rgba(148,163,184,.9);  border-radius: 3px 0 0 3px; }
+.gtbl .gc.pe::after { right: 5px; border-right: 1px solid rgba(148,163,184,.9); border-radius: 0 3px 3px 0; }
+.gtbl .gc.px::after { left: 5px; right: 5px; border-left: 1px solid rgba(148,163,184,.9); border-right: 1px solid rgba(148,163,184,.9); border-radius: 3px; }
+html.light .gtbl .gc.pbar::after {
+  background: repeating-linear-gradient(45deg, rgba(80,90,110,.7) 0 3px, rgba(80,90,110,.2) 3px 6px);
+  border-color: rgba(80,90,110,.8);
+}
+
+/* Real bars for weeks that haven't happened yet (targets) */
+.gtbl .gc.bar.fut::before { opacity: .42; }
+
+/* Plan values inside the info cells, only with the overlay on */
+.gtbl:not(.show-plan) .pv { display: none; }
+.gtbl .pv { color: var(--muted); font-size: .62rem; line-height: 1.1; }
+.gtbl:not(.show-plan) .newpill { display: none; }
+.gtbl .newpill {
+  display: inline-block; margin-left: .35rem; padding: 0 .35rem;
+  font-size: .58rem; border-radius: 3px; vertical-align: middle;
+  border: 1px solid var(--border); color: var(--muted);
+}
+.gtbl .whdr th a { color: inherit; text-decoration: none; }
+.gtbl .whdr th a:hover { text-decoration: underline; }
+
+.plan-toggle {
+  display: inline-flex; align-items: center; gap: .55rem;
+  margin: .2rem 0 1rem; padding: .5rem .8rem;
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--surface); font-size: .85rem; color: var(--text); cursor: pointer;
+}
+.plan-toggle input { accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+.chart-note { font-size: .78rem; color: var(--muted); margin: -1.6rem 0 2rem; }
 </style>
 </head>
 <body>
@@ -177,13 +224,15 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
   <div class="page-header">
     <div class="page-label">Project Schedule</div>
     <h1 class="page-title">Project Timeline</h1>
-    <p class="page-subtitle">12-week implementation schedule — PDE4445 Dissertation, Middlesex University Dubai. Current project week is highlighted automatically.</p>
+    <p class="page-subtitle">PDE4445 Dissertation, Middlesex University Dubai. The chart follows the dates in the <a href="blog/">weekly blog</a>; each week header links to its post. Tick "Original plan" to overlay the planned schedule.</p>
   </div>
 
   <div class="wk-badge" id="wk-badge">
     <span class="wk-dot"></span>
     <span id="wk-status">Loading…</span>
   </div>
+
+  <label class="plan-toggle"><input type="checkbox" id="show-plan"> Original plan</label>
 
   <!-- Legend -->
   <div class="gantt-legend">
@@ -194,6 +243,8 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
     <span><span class="dot" style="background:rgba(251,191,36,.65)"></span> Testing</span>
     <span><span class="dot" style="background:rgba(148,163,184,.55)"></span> Thesis</span>
     <span><span class="dot" style="border:2px solid var(--primary);background:rgba(0,212,255,.12)"></span> Current week</span>
+    <span><span class="dot" style="background:rgba(148,163,184,.85);opacity:.42"></span> Upcoming target (faded)</span>
+    <span><span class="dot" style="background:repeating-linear-gradient(45deg,rgba(148,163,184,.85) 0 3px,rgba(148,163,184,.25) 3px 6px);border:1px solid rgba(148,163,184,.9)"></span> Original plan (when ticked)</span>
   </div>
 
   <!-- Gantt chart -->
@@ -212,6 +263,8 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
     </table>
   </div>
 
+  <p class="chart-note">Real bars come from the weekly blog posts, so a row can have gaps where work paused and later returned (e.g. drive motors in W2–3, then again in W14–15). Rows tagged <em>added</em> (visible with the plan overlay) were not in the original plan. Weeks after the current one are targets, shown faded.</p>
+
   <hr>
 
   <!-- Milestones -->
@@ -219,15 +272,15 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>Milestone</th><th>Target</th><th>Deliverable</th></tr>
+        <tr><th>Milestone</th><th>Planned</th><th>Actual / current target</th><th>Deliverable</th></tr>
       </thead>
       <tbody>
-        <tr><td>M1 — Requirements &amp; Literature</td><td>Week 2 end</td><td>Literature review (53 sources), 5 research objectives, requirements document</td></tr>
-        <tr><td>M2 — Architecture Complete</td><td>Week 3 end</td><td>System, software (ROS nodes) and hardware architecture signed off</td></tr>
-        <tr><td>M3 — Hardware Ready</td><td>Week 5 end</td><td>Chassis assembled, motors working, sensors integrated, state machine running</td></tr>
-        <tr><td>M4 — Core Features Live</td><td>Week 9 end</td><td>Fall detection, GSM alerts, person following, medication, navigation — all operational</td></tr>
-        <tr><td>M5 — Testing Complete</td><td>Week 12 end</td><td>All features tested against FR pass/fail criteria, performance data collected</td></tr>
-        <tr><td>M6 — Thesis Submission</td><td>Week 12</td><td>Full thesis submitted to Middlesex University Dubai</td></tr>
+        <tr><td>M1 — Requirements &amp; Literature</td><td>Week 2 end (25 Jun)</td><td><span class="tag tag-green">Met</span> Week 1 (12–18 Jun)</td><td>Literature review (53 sources), 5 research objectives, requirements document</td></tr>
+        <tr><td>M2 — Architecture Complete</td><td>Week 3 end (2 Jul)</td><td><span class="tag tag-green">Met</span> Week 2 (19–25 Jun)</td><td>System, software (ROS nodes) and hardware architecture signed off</td></tr>
+        <tr><td>M3 — Hardware Ready</td><td>Week 5 end (16 Jul)</td><td><span class="tag tag-green">Met</span> Week 5 (10–16 Jul), on schedule — drive motors later replaced (W14)</td><td>Chassis assembled, motors working, sensors integrated, state machine running</td></tr>
+        <tr><td>M4 — Core Features Live</td><td>Week 9 end (13 Aug)</td><td><span class="tag tag-amber">Moved</span> Weeks 11–12 (to 3 Sep): full pipeline live in W11, medication reminders in W12; autonomous driving still being tuned in W15</td><td>Fall detection, GSM alerts, person following, medication, navigation — all operational</td></tr>
+        <tr><td>M5 — Testing Complete</td><td>Week 12 end (3 Sep)</td><td><span class="tag tag-blue">Target</span> Week 16 (25 Sep–1 Oct) — final integrated testing</td><td>All features tested against FR pass/fail criteria, performance data collected</td></tr>
+        <tr><td>M6 — Thesis Submission</td><td>Week 12 (28 Aug–3 Sep)</td><td><span class="tag tag-blue">Target</span> Week 16 (25 Sep–1 Oct) — final review and submission</td><td>Full thesis submitted to Middlesex University Dubai</td></tr>
       </tbody>
     </table>
   </div>
@@ -246,11 +299,14 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
 </footer>
 
 <script src="assets/js/main.js"></script>
+<script src="blog/posts.js"></script>
 <script>
 (function () {
 
+  // W1 = 12 Jun 2026 and each week is 7 days, which reproduces the blog's
+  // week ranges exactly (Week 16 = 25 Sep–1 Oct, the last blog week).
   const PROJECT_START = new Date('2026-06-12T00:00:00');
-  const TOTAL_WEEKS   = 12;
+  const TOTAL_WEEKS   = 16;
   const MS_PER_WEEK   = 7 * 24 * 60 * 60 * 1000;
 
   const today       = new Date();
@@ -258,65 +314,88 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
   const currentWeek = Math.max(1, Math.min(TOTAL_WEEKS, rawWeek));
   const inProgress  = rawWeek >= 1 && rawWeek <= TOTAL_WEEKS;
 
-  // Week start dates (W1 = Jun 12, W2 = Jun 19, …)
   const wkDate = w => new Date(PROJECT_START.getTime() + (w - 1) * MS_PER_WEEK);
+  const wkEnd  = w => new Date(wkDate(w).getTime() + 6 * 24 * 60 * 60 * 1000);
   const fmt = (d, opts) => d.toLocaleDateString('en-GB', opts);
   const sd  = d => fmt(d, { day: 'numeric', month: 'short' });
   const sdl = d => fmt(d, { day: 'numeric', month: 'short', year: 'numeric' });
 
-  // ── WBS Task definitions ──────────────────────────────────────────────────
-  // { no, name, cat, s (start week), e (end week), main (phase row?) }
-  // cat codes: p=planning, h=hardware, sw=software, ai=AI, t=testing, th=thesis
+  // Blog post titles (blog/posts.js), used for the week-header tooltips.
+  const BLOG = {};
+  if (typeof POSTS !== 'undefined') POSTS.forEach(p => { BLOG[p.file] = p.title; });
+  const wkFile = w => 'week-' + String(w).padStart(2, '0') + '.html';
+
+  // ── WBS task definitions ──────────────────────────────────────────────────
+  // plan : [startWeek, endWeek] from the original plan (null = not in the plan)
+  // real : list of [startWeek, endWeek] segments, taken from the weekly blog posts
+  //        ('auto' on a phase row = span of its sub-tasks)
+  // cat  : p=planning, h=hardware, sw=software, ai=AI, t=testing, th=thesis
+  // Segments after the current week are targets (drawn faded).
   const TASKS = [
-    { no:'1',   name:'Planning & Research',                   cat:'p',  s:1,  e:2,  main:true  },
-    { no:'1.1', name:'Literature Review (53 sources)',         cat:'p',  s:1,  e:2,  main:false },
-    { no:'1.2', name:'Requirements Analysis (FR & NFR)',       cat:'p',  s:1,  e:2,  main:false },
-    { no:'1.3', name:'Research Objectives & Gap Identification',cat:'p', s:2,  e:2,  main:false },
+    { no:'1',   name:'Planning & Research',                          cat:'p',  main:true, plan:[1,2],  real:'auto' },
+    { no:'1.1', name:'Literature Review (53 sources)',               cat:'p',  plan:[1,2],  real:[[1,1]] },
+    { no:'1.2', name:'Requirements Analysis (FR & NFR)',             cat:'p',  plan:[1,2],  real:[[1,1]] },
+    { no:'1.3', name:'Research Objectives & Gap Identification',     cat:'p',  plan:[2,2],  real:[[1,1]] },
 
-    { no:'2',   name:'Architecture & Design',                  cat:'p',  s:2,  e:3,  main:true  },
-    { no:'2.1', name:'System Architecture Block Diagram',      cat:'p',  s:2,  e:3,  main:false },
-    { no:'2.2', name:'Software Architecture — ROS Node Map',   cat:'sw', s:2,  e:3,  main:false },
-    { no:'2.3', name:'Hardware Architecture & 5-State Machine',cat:'h',  s:3,  e:3,  main:false },
-    { no:'2.4', name:'Physical Robot Design Sketch',           cat:'p',  s:3,  e:3,  main:false },
+    { no:'2',   name:'Architecture & Design',                        cat:'p',  main:true, plan:[2,3],  real:'auto' },
+    { no:'2.1', name:'System Architecture Block Diagram',            cat:'p',  plan:[2,3],  real:[[2,2]] },
+    { no:'2.2', name:'Software Architecture — ROS Node Map',         cat:'sw', plan:[2,3],  real:[[2,2]] },
+    { no:'2.3', name:'Hardware Architecture & 5-State Machine',      cat:'h',  plan:[3,3],  real:[[2,2]] },
+    { no:'2.4', name:'Physical Robot Design Sketch',                 cat:'p',  plan:[3,3],  real:[[2,2]] },
 
-    { no:'3',   name:'Hardware Build & Integration',           cat:'h',  s:3,  e:5,  main:true  },
-    { no:'3.1', name:'Component Procurement (BOM)',            cat:'h',  s:3,  e:4,  main:false },
-    { no:'3.2', name:'Chassis Assembly & Motor Replacement',   cat:'h',  s:3,  e:5,  main:false },
-    { no:'3.3', name:'Power System & L298N Wiring',            cat:'h',  s:3,  e:5,  main:false },
-    { no:'3.4', name:'Arduino 5-State Machine Firmware',       cat:'sw', s:3,  e:5,  main:false },
-    { no:'3.5', name:'Sensor Integration (HC-SR04, PIR, LCD)', cat:'h',  s:4,  e:5,  main:false },
+    { no:'3',   name:'Hardware Build & Integration',                 cat:'h',  main:true, plan:[3,5],  real:'auto' },
+    { no:'3.1', name:'Component Procurement (BOM)',                  cat:'h',  plan:[3,4],  real:[[3,4],[6,6],[14,14]] },
+    { no:'3.2', name:'Chassis Assembly & Motor Replacement',         cat:'h',  plan:[3,5],  real:[[2,3],[14,15]] },
+    { no:'3.3', name:'Power System & L298N Wiring',                  cat:'h',  plan:[3,5],  real:[[3,3],[12,15]] },
+    { no:'3.4', name:'Arduino State-Machine Firmware',               cat:'sw', plan:[3,5],  real:[[3,5],[9,9],[11,11]] },
+    { no:'3.5', name:'Sensor Integration (HC-SR04, PIR, LCD, RFID)', cat:'h',  plan:[4,5],  real:[[3,5],[7,7],[9,10],[13,13]] },
+    { no:'3.6', name:'Camera Tower, Covers & Finishing (CAD + print)', cat:'h', plan:null, added:true, real:[[4,4],[7,8],[13,13],[15,15]] },
 
-    { no:'4',   name:'Software Development',                   cat:'sw', s:4,  e:9,  main:true  },
-    { no:'4.1', name:'MediaPipe Fall Detection (Laptop→Jetson)',cat:'ai', s:4,  e:6,  main:false },
-    { no:'4.2', name:'Flask Remote Control Web Interface',     cat:'sw', s:4,  e:7,  main:false },
-    { no:'4.3', name:'GSM SIM7600 Integration (4G/LTE)',       cat:'h',  s:5,  e:7,  main:false },
-    { no:'4.4', name:'ROS Jazzy Setup on Jetson Nano',         cat:'sw', s:5,  e:7,  main:false },
-    { no:'4.5', name:'Person Following (HSV Tracking + RFID)', cat:'sw', s:6,  e:8,  main:false },
-    { no:'4.6', name:'Medication Management (DS3231 + SMS)',   cat:'sw', s:7,  e:9,  main:false },
-    { no:'4.7', name:'Navigation & Obstacle Avoidance',        cat:'sw', s:7,  e:9,  main:false },
+    { no:'4',   name:'Software Development',                         cat:'sw', main:true, plan:[4,9],  real:'auto' },
+    { no:'4.1', name:'MediaPipe Fall Detection',                     cat:'ai', plan:[4,6],  real:[[4,4]] },
+    { no:'4.2', name:'Flask Remote Control Web Interface',           cat:'sw', plan:[4,7],  real:[[4,4],[10,10],[14,14]] },
+    { no:'4.3', name:'GSM Integration (SIM800L → A7670C 4G/LTE)',    cat:'h',  plan:[5,7],  real:[[4,4],[6,7],[15,15]] },
+    { no:'4.4', name:'ROS Jazzy Setup on Jetson Nano',               cat:'sw', plan:[5,7],  real:[[5,6]] },
+    { no:'4.5', name:'Person Following (Face + HSV Band Tracking)',  cat:'sw', plan:[6,8],  real:[[9,9],[11,15]] },
+    { no:'4.6', name:'Medication Management (RTC + RFID/keypad ack)', cat:'sw', plan:[7,9],  real:[[12,12]] },
+    { no:'4.7', name:'Navigation & Obstacle Avoidance',              cat:'sw', plan:[7,9],  real:[[11,12],[15,15]] },
+    { no:'4.8', name:'Admin Dashboard & Bench Diagnostics Tools',    cat:'sw', plan:null, added:true, real:[[13,14]] },
 
-    { no:'5',   name:'Testing & Evaluation',                   cat:'t',  s:9,  e:12, main:true  },
-    { no:'5.1', name:'Individual Feature Testing (FR criteria)',cat:'t',  s:9,  e:11, main:false },
-    { no:'5.2', name:'Integration & System Testing',           cat:'t',  s:10, e:11, main:false },
-    { no:'5.3', name:'Performance Evaluation & Data Collection',cat:'t', s:11, e:12, main:false },
+    { no:'5',   name:'Testing & Evaluation',                         cat:'t',  main:true, plan:[9,12], real:'auto' },
+    { no:'5.1', name:'Individual Feature Testing (FR criteria)',     cat:'t',  plan:[9,11], real:[[3,3],[9,9],[14,14]] },
+    { no:'5.2', name:'Integration & System Testing',                 cat:'t',  plan:[10,11],real:[[9,9],[11,12],[15,16]] },
+    { no:'5.3', name:'Performance Evaluation & Data Collection',     cat:'t',  plan:[11,12],real:[[15,16]] },
 
-    { no:'6',   name:'Thesis Documentation',                   cat:'th', s:8,  e:12, main:true  },
-    { no:'6.1', name:'Thesis Writing — Chapters 4–6 & Appendices',cat:'th',s:8,e:12,main:false },
-    { no:'6.2', name:'Final Review, Formatting & Submission',  cat:'th', s:12, e:12, main:false },
+    { no:'6',   name:'Thesis Documentation',                         cat:'th', main:true, plan:[8,12], real:'auto' },
+    { no:'6.1', name:'Thesis Writing — Chapters 4–6 & Appendices',   cat:'th', plan:[8,12], real:[[12,13],[16,16]] },
+    { no:'6.2', name:'Final Review, Formatting & Submission',        cat:'th', plan:[12,12],real:[[16,16]] },
+    { no:'6.3', name:'Standalone Research Paper (LaTeX / IEEEtran)', cat:'th', plan:null, added:true, real:[[12,13]] },
   ];
 
-  // ── Month groupings for top header row ───────────────────────────────────
-  // W1=12Jun, W2=19Jun, W3=26Jun | W4=3Jul … W8=31Jul | W9=7Aug … W12=28Aug
-  const MONTHS = [
-    { label: 'June 2026',   cols: 3 },
-    { label: 'July 2026',   cols: 5 },
-    { label: 'August 2026', cols: 4 },
-  ];
+  // Phase rows: real span = earliest start .. latest end of their sub-tasks.
+  TASKS.forEach(t => {
+    if (t.real !== 'auto') return;
+    const kids = TASKS.filter(k => !k.main && k.no.indexOf(t.no + '.') === 0);
+    t.real = [[
+      Math.min.apply(null, kids.map(k => k.real[0][0])),
+      Math.max.apply(null, kids.map(k => k.real[k.real.length - 1][1]))
+    ]];
+  });
+
+  const weeksIn = segs => segs.reduce((n, sg) => n + (sg[1] - sg[0] + 1), 0);
+  const segAt   = (segs, w) => segs.find(sg => w >= sg[0] && w <= sg[1]);
+
+  // ── Month groupings for the top header row (from the week start dates) ───
+  const MONTHS = [];
+  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+    const label = fmt(wkDate(w), { month: 'long', year: 'numeric' });
+    const last = MONTHS[MONTHS.length - 1];
+    if (last && last.label === label) last.cols++; else MONTHS.push({ label, cols: 1 });
+  }
 
   const thead = document.getElementById('gantt-head');
   const tbody = document.getElementById('gantt-body');
 
-  // Add week <col> elements
   const colgroup = document.querySelector('.gtbl colgroup');
   for (let w = 1; w <= TOTAL_WEEKS; w++) {
     const c = document.createElement('col');
@@ -341,7 +420,7 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
   });
   thead.appendChild(mrow);
 
-  // ── Week header row ───────────────────────────────────────────────────────
+  // ── Week header row (each week links to its blog post) ───────────────────
   const wrow = document.createElement('tr');
   wrow.className = 'whdr';
 
@@ -354,10 +433,10 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
 
   for (let w = 1; w <= TOTAL_WEEKS; w++) {
     const d   = wkDate(w);
-    const day = d.getDate();
-    const mon = d.toLocaleDateString('en-GB', { month: 'short' });
     const th  = document.createElement('th');
-    th.innerHTML = `W${w}<br><span style="font-size:.58rem;font-weight:400;opacity:.85">${day} ${mon}</span>`;
+    const tip = (BLOG[wkFile(w)] ? BLOG[wkFile(w)] + ' — ' : '') + sd(d) + ' – ' + sd(wkEnd(w));
+    th.innerHTML = '<a href="blog/' + wkFile(w) + '" title="' + tip.replace(/"/g, '&quot;') + '">W' + w +
+      '<br><span style="font-size:.58rem;font-weight:400;opacity:.85">' + d.getDate() + ' ' + fmt(d, { month: 'short' }) + '</span></a>';
     if (w === currentWeek) th.classList.add('wk-cur');
     wrow.appendChild(th);
   }
@@ -368,57 +447,68 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
     const tr = document.createElement('tr');
     tr.className = task.main ? 'mrow' : 'srow';
 
-    const dur       = task.e - task.s + 1;
-    const startDate = wkDate(task.s);
-    const endDate   = new Date(wkDate(task.e).getTime() + 6 * 24 * 60 * 60 * 1000);
+    const real      = task.real;
+    const realStart = wkDate(real[0][0]);
+    const realEnd   = wkEnd(real[real.length - 1][1]);
 
-    // ── Info cells ──
-    // No.
     const tdNo = document.createElement('td');
     tdNo.className = 'ic mono ctr c-no';
     tdNo.textContent = task.no;
     tr.appendChild(tdNo);
 
-    // Task name
     const tdName = document.createElement('td');
     tdName.className = 'ic name c-name' + (task.main ? '' : ' sub');
     tdName.textContent = task.name;
+    if (task.added) {
+      const pill = document.createElement('span');
+      pill.className = 'newpill';
+      pill.textContent = 'added';
+      tdName.appendChild(pill);
+    }
+    tdName.title = 'Real: ' + sd(realStart) + ' – ' + sd(realEnd) +
+      (task.plan ? '  |  Plan: ' + sd(wkDate(task.plan[0])) + ' – ' + sd(wkEnd(task.plan[1])) : '  |  not in the original plan');
     tr.appendChild(tdName);
 
-    // Duration
+    // Real active weeks; plan values appear underneath when the overlay is on
     const tdDur = document.createElement('td');
     tdDur.className = 'ic ctr muted c-dur';
-    tdDur.textContent = dur + 'w';
+    tdDur.innerHTML = weeksIn(real) + 'w' +
+      '<span class="pv"><br>' + (task.plan ? 'plan ' + (task.plan[1] - task.plan[0] + 1) + 'w' : '—') + '</span>';
     tr.appendChild(tdDur);
 
-    // Start
     const tdSd = document.createElement('td');
     tdSd.className = 'ic muted c-sd';
-    tdSd.textContent = sd(startDate);
+    tdSd.innerHTML = sd(realStart) +
+      '<span class="pv"><br>' + (task.plan ? 'plan ' + sd(wkDate(task.plan[0])) : 'added') + '</span>';
     tr.appendChild(tdSd);
 
-    // End
     const tdEd = document.createElement('td');
     tdEd.className = 'ic muted c-ed';
-    tdEd.textContent = sd(endDate);
+    tdEd.innerHTML = sd(realEnd) +
+      '<span class="pv"><br>' + (task.plan ? 'plan ' + sd(wkEnd(task.plan[1])) : 'added') + '</span>';
     tr.appendChild(tdEd);
 
-    // ── Chart cells ──
+    // Chart cells: real bar (::before) + planned bar (::after)
     for (let w = 1; w <= TOTAL_WEEKS; w++) {
       const td = document.createElement('td');
       td.className = 'gc';
-
       if (w === currentWeek) td.classList.add('now-col');
 
-      if (w >= task.s && w <= task.e) {
+      const sg = segAt(real, w);
+      if (sg) {
         td.classList.add('bar');
-        td.classList.add('c' + task.cat); // cp, ch, csw, cai, ct, cth
+        td.classList.add('c' + task.cat);
+        if      (sg[0] === sg[1]) td.classList.add('bx');
+        else if (w === sg[0])     td.classList.add('bs');
+        else if (w === sg[1])     td.classList.add('be');
+        if (w > currentWeek) td.classList.add('fut');
+      }
 
-        const solo = task.s === task.e;
-        if      (solo)          td.classList.add('bx');
-        else if (w === task.s)  td.classList.add('bs');
-        else if (w === task.e)  td.classList.add('be');
-        // middle (bm): no extra class — base .bar styles apply
+      if (task.plan && w >= task.plan[0] && w <= task.plan[1]) {
+        td.classList.add('pbar');
+        if      (task.plan[0] === task.plan[1]) td.classList.add('px');
+        else if (w === task.plan[0])            td.classList.add('ps');
+        else if (w === task.plan[1])            td.classList.add('pe');
       }
 
       tr.appendChild(td);
@@ -427,17 +517,16 @@ html.light .gtbl .gc.cth::before { background: rgba(80,90,110,.28); }
     tbody.appendChild(tr);
   });
 
+  // ── Planned-timeline toggle ───────────────────────────────────────────────
+  const gantt = document.getElementById('gantt');
+  const cb    = document.getElementById('show-plan');
+  const apply = () => gantt.classList.toggle('show-plan', cb.checked);
+  cb.addEventListener('change', apply);
+  apply();
+
   // ── Current week badge ────────────────────────────────────────────────────
   const badge = document.getElementById('wk-status');
-  if (!inProgress) {
-    badge.innerHTML = rawWeek < 1
-      ? 'Project has not yet started.'
-      : 'Project complete — all 12 weeks elapsed. Thesis submitted.';
-  } else {
-    const ws = wkDate(currentWeek);
-    const we = new Date(ws.getTime() + 6 * 24 * 60 * 60 * 1000);
-    badge.innerHTML = `Currently in <strong>Week ${currentWeek} of ${TOTAL_WEEKS}</strong> &nbsp;·&nbsp; ${sdl(ws)} – ${sdl(we)}`;
-  }
+  badge.innerHTML = 'Timeline: <strong>' + sdl(wkDate(1)) + ' – ' + sdl(wkEnd(TOTAL_WEEKS)) + '</strong>';
 
 })();
 </script>
