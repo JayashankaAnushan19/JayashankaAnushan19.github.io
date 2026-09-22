@@ -71,37 +71,37 @@
           <td style="font-size:1.3rem;">🤸</td>
           <td>AI Fall Detection</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>MediaPipe Pose Estimation running on NVIDIA Jetson Nano at 12–15 fps. Monitors 33 body landmarks; triggers on hip-below-threshold + shoulder-low posture sustained for 2 seconds to eliminate false positives from bending or sitting.</td>
+          <td>MediaPipe Pose extracts 33 body landmarks per frame, from which 69 features are derived and scored by a trained RandomForestClassifier (200 estimators). A two-layer confirmation — a 0.35 confidence entry threshold, then 3 consecutive rising-angle/hip checks over ~2.7s — filters out momentary pose misreads before a fall is confirmed. Evaluated at 87.6% test accuracy, 89.6% cross-validated (see Docs).</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">📱</td>
           <td>GSM Fall Alert SMS</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>Confirmed fall event triggers the GSM module (A7670C; SIM800L in a Sri Lanka deployment) to send SMS to registered family members within 30 seconds. Uses AT command set over the Arduino's hardware Serial1 (not SoftwareSerial) — no internet required. Includes 30-second cooldown to prevent SMS flooding.</td>
+          <td>Confirmed fall event triggers the GSM module (A7670C; SIM800L in a Sri Lanka deployment) to send SMS to registered family members within 30 seconds. Uses AT command set over the Arduino's hardware Serial1 (not SoftwareSerial) — no internet required. Includes 30-second cooldown to prevent SMS flooding. <strong>Status:</strong> two-way SMS round-trip confirmed on a bench setup (breadboard + Arduino); the module has not yet responded once wired into the assembled robot and needs its own dedicated power supply — not yet confirmed working end-to-end on the real chassis.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">🚗</td>
           <td>Obstacle Avoidance Navigation</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>6 × HC-SR04 ultrasonic sensors provide 360° coverage. Emergency stop at 20 cm threshold — non-overridable even during remote drive commands. The fundamental safety invariant of the platform. <strong>Terrain limitation:</strong> flat, level indoor floors only — the wheeled chassis has no mechanism for climbing or descending stairs, curbs, or steep inclines. This is a hardware limitation of the platform, not a software gap to be tuned away.</td>
+          <td>6 × HC-SR04 ultrasonic sensors provide 360° coverage. Emergency stop at 20 cm threshold — non-overridable even during remote drive commands. The fundamental safety invariant of the platform. <strong>Status:</strong> logic-complete and bench-validated; formal collision-free trial statistics against the 80% target have not yet been completed, pending the drive-motor replacement (see Testing &amp; Evaluation). <strong>Terrain limitation:</strong> flat, level indoor floors only — the wheeled chassis has no mechanism for climbing or descending stairs, curbs, or steep inclines. This is a hardware limitation of the platform, not a software gap to be tuned away.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">👤</td>
           <td>Person Following</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>Two-layer identity lock: RFID UID confirmation at session start (Layer 1) + continuous HSV orange-band wristband tracking via OpenCV (Layer 2). Publishes TARGET_LOST and returns to IDLE if band absent for 10 seconds.</td>
+          <td>Face recognition (LBPH) is the primary identity lock; a colour-band HSV fallback takes over when the face can't be reliably seen, with band-anchored re-acquisition of the face once it's visible again. RFID and keypad are used for medication confirmation and enrolment, not for tracking. Publishes TARGET_LOST if neither the face nor the band is held.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">💊</td>
           <td>Medication Reminders</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily. User confirms by tapping RFID tag to reader. No button presses required — the RFID is embedded in the medication box lid.</td>
+          <td>Design target: DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily, confirmed by RFID tap or keypad acknowledge. <strong>Status:</strong> RFID/keypad confirmation is implemented and working; the DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling isn't running yet — assessed as partially achieved (see Testing &amp; Evaluation).</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">⚠️</td>
           <td>Missed-Dose SMS Alert</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>If medication RFID confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members.</td>
+          <td>Design target: if medication RFID confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members. <strong>Status:</strong> not yet confirmed working end-to-end — depends on both the RTC-based scheduling and GSM alerting above.</td>
         </tr>
       </tbody>
     </table>

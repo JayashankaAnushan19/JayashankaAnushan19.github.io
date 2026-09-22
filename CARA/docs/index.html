@@ -169,10 +169,10 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>fall_detection</td><td>Camera frame received</td><td>MediaPipe pose at 12–15fps · hip/shoulder threshold check for 2s · publishes /fall_detected · outputs nose X for pan_tilt</td></tr>
           <tr><td>serial_bridge</td><td>/fall_detected topic</td><td>Sends command stream to Arduino via USB serial: FALL_DETECTED · STEER_LEFT/RIGHT · MOVE_FORWARD · STOP · TARGET_LOST · PAN_LEFT/RIGHT</td></tr>
           <tr><td>camera_stream</td><td>HTTP request from browser</td><td>Flask MJPEG server on port 5000 · /video_feed endpoint · daemon thread · streams /dev/video0</td></tr>
-          <tr><td>person_lock</td><td>Camera frame received</td><td>OpenCV HSV filter detects orange band (Layer 2) · RFID UID target identity (Layer 1) · publishes /target_visible</td></tr>
+          <tr><td>person_lock</td><td>Camera frame received</td><td>Face recognition (LBPH) primary lock · OpenCV HSV colour-band fallback with band-anchored face re-acquisition · publishes /target_visible</td></tr>
           <tr><td>pan_tilt</td><td>Nose X + PIR direction</td><td>Calculates chassis rotation direction vs 320px frame center (left/right aiming via chassis rotation, not a pan servo) · sends PAN_LEFT/RIGHT via serial · Pin 10 tilt servo</td></tr>
           <tr><td>remote_control</td><td>HTTP POST from phone</td><td>Receives movement commands · forwards to Arduino · obstacle override always active</td></tr>
-          <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Medication reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · RFID confirm · 15min no-confirm → sendSMS() · 12:00pm daily check-in</td></tr>
+          <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Design target: reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · RFID/keypad confirm · 15min no-confirm → sendSMS(). Status: confirmation path works; RTC currently disabled after a hardware fault, so live scheduling and missed-dose SMS aren't running yet — partially achieved.</td></tr>
         </tbody>
       </table>
     </div>
@@ -192,7 +192,7 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>GSM Module</td><td>A7670C</td><td>Multi-band LTE, AT commands, ~3.4–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free. SIM800L (2G) remains valid for a Sri Lanka deployment where 2G is still active.</td><td>$15–35</td></tr>
           <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 2 &amp; Pin 3</td><td>Person presence detection, triggers chassis/head direction toward the person</td><td>$1–3 each</td></tr>
           <tr><td>Ultrasonic ×6</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 26/27, 28/29, 30/31, 32/33, 34/35, 36/37</td><td>360° obstacle-detection ring: front-left, front-right, back-left, back-right, left, right</td><td>$2–5 each</td></tr>
-          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td><td>Medication confirmation, target identity Layer 1 lock</td><td>$2–5</td></tr>
+          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td><td>Medication-reminder confirmation and patient enrolment (not used for person-tracking — see person_lock)</td><td>$2–5</td></tr>
           <tr><td>RTC Module</td><td>DS3231</td><td>I2C addr 0x68, ±2ppm, battery backup</td><td>Medication timing without network sync</td><td>$2–5</td></tr>
           <tr><td>Keypad</td><td>4×4 Matrix Membrane</td><td>GPIO, momentary contact · Rows=38,39,40,41; Cols=42,43,4,5</td><td>Manual input — panic alert (#), acknowledge/silence (*), enrolment (A/B/D). Reuses existing hardware, no dedicated panic button needed</td><td>$2–4</td></tr>
           <tr><td>LCD Display</td><td>16×2 with I2C</td><td>16 char × 2 lines, I2C addr 0x27</td><td>State messages and greeting display</td><td>$2–5</td></tr>

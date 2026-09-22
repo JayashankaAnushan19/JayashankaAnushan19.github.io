@@ -61,10 +61,10 @@
 
     <span class="c"># TODO: main capture loop — 12-15 fps, per architecture.html</span>
     <span class="k">def</span> process_frame(self, frame):
-        <span class="c"># TODO: run MediaPipe Pose, extract 33 landmarks</span>
-        <span class="c"># TODO: check LEFT_HIP.y &gt; 0.77, RIGHT_HIP.y &gt; 0.77, LEFT_SHOULDER.y &gt; 0.55</span>
-        <span class="c"># TODO: require condition to persist 2s before publishing /fall_detected</span>
-        <span class="c"># TODO: publish nose_x for the pan_tilt node</span>
+        <span class="c"># TODO: run MediaPipe Pose, extract 33 landmarks → 69 derived features</span>
+        <span class="c"># TODO: score with trained RandomForestClassifier (200 estimators, 0.35 entry threshold)</span>
+        <span class="c"># TODO: require 3 consecutive rising-angle/hip checks (~2.7s) before publishing /fall_detected</span>
+        <span class="c"># TODO: this is a placeholder skeleton — real logic lives in fall_detection.py, not yet supplied for this appendix</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> run(self):

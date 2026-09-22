@@ -149,7 +149,7 @@ footer a{color:var(--cyan);text-decoration:none}
     <p><strong>Wearable accelerometers</strong> provide accurate fall detection (95%+ sensitivity) but depend on continuous user compliance — a critical issue for cognitively impaired elderly users.</p>
     <p><strong>Vision-based systems</strong> using pose estimation achieve detection rates around 92% but raise privacy concerns and struggle with occlusions in real home environments. Systems using MediaPipe Pose Estimation have demonstrated ~95.8% accuracy extracting 33 key points from standard video streams without additional sensors.</p>
     <p><strong>Floor sensor networks</strong> can detect falls unobtrusively without wearables but require installation infrastructure and have limited spatial coverage.</p>
-    <p>CARA uses <strong>MediaPipe Pose on NVIDIA Jetson Nano</strong> — checking LEFT_HIP y &gt;0.77, RIGHT_HIP y &gt;0.77, and LEFT_SHOULDER y &gt;0.55 simultaneously for 2 seconds before confirming a fall, minimising false positives while achieving high detection rates.</p>
+    <p>CARA uses <strong>MediaPipe Pose on NVIDIA Jetson</strong> — 33 body landmarks feed a trained RandomForestClassifier that scores fall confidence per frame, confirmed by three consecutive rising-angle/hip checks over roughly 2.7 seconds before an alert fires, minimising false positives while keeping detection rates high (87.6% test accuracy, 89.6% cross-validated).</p>
   </section>
 
   <hr class="divider">

@@ -91,7 +91,7 @@
         <tr>
           <td>fall_detection</td>
           <td>Camera frame</td>
-          <td>MediaPipe Pose at 12–15 fps. Checks: LEFT_HIP y &gt;0.77, RIGHT_HIP y &gt;0.77, LEFT_SHOULDER y &gt;0.55. All three must persist for 2 seconds before fall is confirmed.</td>
+          <td>MediaPipe Pose at 12–15 fps extracts 33 landmarks → 69 derived features, scored by a trained RandomForestClassifier (0.35 entry threshold). Three consecutive rising-angle/hip checks over ~2.7s confirm a fall.</td>
           <td>Publishes /fall_detected · Outputs nose_x for pan_tilt</td>
         </tr>
         <tr>
@@ -109,7 +109,7 @@
         <tr>
           <td>person_lock</td>
           <td>Camera frame</td>
-          <td>Layer 1: RFID UID registered at session start. Layer 2: OpenCV HSV filter tracks orange wristband (user wears it). Publishes TARGET_LOST if band absent for 10s.</td>
+          <td>Face recognition (LBPH) is the primary lock; OpenCV HSV colour-band tracking (user wears it) is the fallback when the face can't be reliably seen, with band-anchored re-acquisition of the face. Publishes TARGET_LOST if neither is held.</td>
           <td>/target_visible topic</td>
         </tr>
         <tr>
@@ -127,7 +127,7 @@
         <tr>
           <td>health_management</td>
           <td>DS3231 time match</td>
-          <td>Polls RTC time via serial. Medication reminders at 08:00, 13:00, 18:00, 22:00. 15-min RFID confirm window. Missed → sendSMS(). Daily check-in at 12:00. Heatstroke alert at 38°C — postponed to v1.1, not implemented in the current build.</td>
+          <td>Design target: polls RTC time via serial for medication reminders at 08:00, 13:00, 18:00, 22:00, with a 15-min RFID/keypad confirm window and missed-dose SMS. Heatstroke alert at 38°C — postponed to v1.1, not implemented. <strong>Status:</strong> RFID/keypad confirmation works; the DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling and the missed-dose SMS path are not yet running — partially achieved.</td>
           <td>Medication trigger · SMS alerts</td>
         </tr>
       </tbody>

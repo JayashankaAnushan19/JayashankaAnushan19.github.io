@@ -152,7 +152,7 @@
 
   <p><strong>Floor-pressure sensor networks</strong> detect falls unobtrusively but require invasive installation, have limited spatial coverage, and are impractical for rental or shared housing.</p>
 
-  <p>CARA adopts a <strong>vision-based MediaPipe Pose Estimation</strong> approach as the best balance of accuracy, cost, and unobtrusiveness. MediaPipe extracts 33 body landmarks from standard video input. Fall is determined by three simultaneous conditions: both hip y-coordinates exceeding 0.77 (hips near floor level) AND left shoulder y-coordinate exceeding 0.55 (person not simply bending). A 2-second confirmation window eliminates single-frame false positives.</p>
+  <p>CARA adopts a <strong>vision-based MediaPipe Pose Estimation</strong> approach as the best balance of accuracy, cost, and unobtrusiveness. MediaPipe extracts 33 body landmarks from standard video input; 69 features derived from those landmarks (normalised joint positions, body angle, aspect ratio, mean visibility) feed a trained RandomForestClassifier that scores fall confidence per frame. A two-layer confirmation — a 0.35 confidence entry threshold, then three consecutive rising-angle/hip checks over roughly 2.7 seconds — eliminates single-frame false positives while keeping alert latency low.</p>
 
   <blockquote>"Systems using MediaPipe Pose Estimation have demonstrated approximately 95.8% accuracy in fall detection from standard RGB video streams, without depth cameras or wearable sensors." — Saraswat &amp; Malathi, 2024</blockquote>
 
