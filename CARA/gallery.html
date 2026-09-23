@@ -280,10 +280,10 @@
     -->
 
     <div class="gallery-card">
-      <img src="assets/images/power-topology.png" alt="Power System Design block diagram: 3S LiPo battery feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct 11.1V line to the L298N motor driver">
+      <img src="assets/images/power-topology.png" alt="Power System Design block diagram: custom 18650 battery pack feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct ~12V line to the L298N motor driver">
       <div class="gallery-info">
         <h4>Power System Topology</h4>
-        <p>3S LiPo → buck converters (5V Arduino rail, 6.6V A7670C GSM rail) → boost converter (19V Jetson Nano rail) → L298N motor driver direct 11.1V.</p>
+        <p>Custom 18650 pack (~12V, up to 12A) → buck converters (5V Arduino rail, 6.6V A7670C GSM rail) → boost converter (19V Jetson Nano rail) → L298N motor driver direct ~12V. Replaces the original 3S LiPo pack after one cell failed.</p>
         <span class="fig-ref">Figure 3-6 · Thesis Chapter 3</span>
       </div>
     </div>

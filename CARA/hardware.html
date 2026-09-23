@@ -265,16 +265,16 @@
       <tbody>
         <tr>
           <td>Main Battery</td>
-          <td>3S LiPo 11.1V 3000mAh</td>
-          <td>11.1V nominal · 30C discharge · T-connector · integrated protection PCB</td>
-          <td>Primary power source for all subsystems. 90+ minute runtime under full load</td>
-          <td>$15–30</td>
+          <td>Custom 18650 Pack (Samsung INR18650-32E cells)</td>
+          <td>~12V nominal · up to 12A output · dedicated Li-ion charger (100–240V AC in, 12V/2A out)</td>
+          <td>Primary power source for all subsystems. Replaces the original 3S LiPo pack (one cell failed). Runtime under full load not yet measured (battery-runtime test pending)</td>
+          <td>Custom-built</td>
         </tr>
         <tr>
           <td>Buck Converter 1</td>
           <td>LM2596 Step-Down</td>
           <td>Input 4.5–40V · Output adjustable · 3A max</td>
-          <td>Converts 11.1V → 5V regulated for Arduino Mega 2560</td>
+          <td>Converts ~12V → 5V regulated for Arduino Mega 2560</td>
           <td>$1–3</td>
         </tr>
         <tr>
@@ -288,7 +288,7 @@
           <td>Boost Converter</td>
           <td>XL6009 Step-Up</td>
           <td>Input 5–32V · Output adjustable · up to 4A</td>
-          <td>Converts 11.1V → 19V for the Jetson Nano, with a 2A inline fuse</td>
+          <td>Converts ~12V → 19V for the Jetson Nano, with a 2A inline fuse</td>
           <td>$1–3</td>
         </tr>
         <tr>
@@ -306,7 +306,7 @@
   <div class="code-block">
 <span class="c">// Power distribution diagram</span>
 
-<span class="k">3S LiPo 11.1V</span>
+<span class="k">Custom 18650 Pack ~12V</span> <span class="c">(Samsung INR18650-32E, up to 12A)</span>
     │
     ├── <span class="v">Buck Conv 1 → 5V</span> ─── Arduino Mega 2560
     │                              ├── PIR sensors × 2

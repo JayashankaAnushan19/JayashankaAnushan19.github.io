@@ -35,13 +35,14 @@
   </div>
 
   <h2 style="margin-top:0;">Formal Test Log — Live Robot Testing <span class="tag tag-amber" style="margin-left:.5rem; vertical-align:middle;">In progress</span></h2>
-  <p>The final testing stage follows a 115-test plan covering hardware, perception, motion, fall detection, GSM alerting and the integrated system. Each test has a written procedure and a measurable pass criterion, and is recorded with its actual result and evidence. This page lists only the tests carried out so far; results are transcribed as recorded in the test sheet (updated 22 September 2026), and more are added as testing continues.</p>
+  <p>The final testing stage follows a 115-test plan covering hardware, perception, motion, fall detection, GSM alerting and the integrated system. Each test has a written procedure and a measurable pass criterion, and is recorded with its actual result and evidence. This page lists only the tests carried out so far; results are transcribed as recorded in the test sheet (updated 23 September 2026), and more are added as testing continues.</p>
 
-  <div class="grid-4" style="margin-top:1.25rem;">
+  <div class="grid-4" style="margin-top:1.25rem; grid-template-columns:repeat(5,1fr);">
     <div class="card"><h4>Planned</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">115</p></div>
-    <div class="card"><h4>Pass</h4><p style="font-size:1.4rem; font-weight:700; color:var(--green); margin:0;">5</p></div>
-    <div class="card"><h4>Partial</h4><p style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0;">4</p></div>
-    <div class="card"><h4>Not yet run</h4><p style="font-size:1.4rem; font-weight:700; color:var(--muted); margin:0;">106</p></div>
+    <div class="card"><h4>Pass</h4><p style="font-size:1.4rem; font-weight:700; color:var(--green); margin:0;">9</p></div>
+    <div class="card"><h4>Partial</h4><p style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0;">5</p></div>
+    <div class="card"><h4>Fail</h4><p style="font-size:1.4rem; font-weight:700; color:#ef4444; margin:0;">2</p></div>
+    <div class="card"><h4>Not yet run</h4><p style="font-size:1.4rem; font-weight:700; color:var(--muted); margin:0;">99</p></div>
   </div>
 
   <h3>Stage 1 — Hardware &amp; Component Verification</h3>
@@ -56,6 +57,7 @@
         <tr><td>H-03</td><td>Camera operation</td><td><span class="tag tag-green">Pass</span></td><td><a href="#h-03">Screenshot</a></td></tr>
         <tr><td>H-04</td><td>16×2 LCD operation</td><td><span class="tag tag-green">Pass</span></td><td><a href="#h-04">Photo</a></td></tr>
         <tr><td>H-05</td><td>4×4 keypad operation</td><td><span class="tag tag-amber">Partial</span></td><td><a href="#h-05">5 photos</a></td></tr>
+        <tr><td>H-11</td><td>Motor operation</td><td><span class="tag tag-green">Pass</span></td><td><a href="#h-11">See M-01/M-02</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -129,6 +131,13 @@
     </div>
   </div>
 
+  <div id="h-11" class="card" style="margin-top:1rem;">
+    <h4>H-11 — Motor operation <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> all 4 wheels turn in the commanded direction; both sides drive "forward" together (no fighting pair).</p>
+    <p><strong>Recorded result:</strong> confirmed via the M-01 (forward) and M-02 (reverse) motion trials below — all four wheels drove in the commanded direction on every trial, with both L298N channels driven at matching PWM throughout.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Evidence: same runs as M-01/M-02 (22 Sep 2026) — see below.</p>
+  </div>
+
   <hr style="margin:2.5rem 0;">
 
   <h3>Stage 2 — Motion &amp; Obstacle Verification</h3>
@@ -143,6 +152,8 @@
         <tr><td>M-02</td><td>Reverse movement</td><td><span class="tag tag-amber">Partial</span></td><td><a href="#m-02">CSV + 5 videos</a></td></tr>
         <tr><td>N-02</td><td>Rear obstacle detection <span style="color:var(--muted);">(incidental)</span></td><td><span class="tag tag-amber">Partial</span></td><td><a href="#n-02">CSV rows</a></td></tr>
         <tr><td>N-04</td><td>Emergency stop mid-motion <span style="color:var(--muted);">(incidental)</span></td><td><span class="tag tag-amber">Partial</span></td><td><a href="#n-04">CSV rows</a></td></tr>
+        <tr><td>M-03</td><td>Left/right turning</td><td><span class="tag tag-green">Pass</span></td><td><a href="#m-03">CSV + 6 videos</a></td></tr>
+        <tr><td>M-04</td><td>Speed control</td><td><span class="tag tag-amber">Partial</span></td><td><a href="#m-04">CSV + 9 videos</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -156,7 +167,7 @@
     <h4>M-01 — Forward movement <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
     <p><strong>Pass criterion:</strong> drives forward 5/5 times; <code>ENC:</code> line shows both sides near the target rpm; lateral drift within 15 cm over 3 m.</p>
     <p><strong>Recorded result:</strong> 5 of 5 trials drove forward correctly. Lateral drift 14–17 cm over the ~1 m test space (mean ~15.4 cm, ~15 cm/m). Settled left-wheel speed 80–86 rpm against a 78 rpm target (peak 86–88 rpm), settled PWM 103–112. In 2 of the 5 trials the ultrasonic obstacle guard auto-halted the robot mid-run before the manual STOP, because of the confined test space; the other 3 completed on manual STOP.</p>
-    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M01_1_20260922_182615.csv</code> to <code>M01_5_20260922_183059.csv</code> (22 Sep 2026).</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M01/M01_1_20260922_182615.csv</code> to <code>M01_5_20260922_183059.csv</code> (22 Sep 2026).</p>
     <div class="post-image-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); margin-top:1rem;">
       <div>
         <button type="button" class="yt-facade" data-yt="Njm1YsJ4Eo8" data-title="M-01 trial 1" aria-label="Play video: M-01 trial 1"
@@ -191,7 +202,7 @@
     <p><strong>Pass criterion:</strong> drives backward 5/5 times; lateral drift within 15 cm over 3 m.</p>
     <p><strong>Recorded result:</strong> all 5 trials eventually completed the reverse move. Lateral drift 15–17 cm over the ~1 m space (mean ~16.6 cm, ~17 cm/m). Reversing in the confined space repeatedly triggered the rear obstacle guard in every trial, needing 1–18 repeated backward commands per trial to complete (trial 4 was cleanest — 1 command, 0 blocks). Only trial 4 gave a stable settled-speed reading (89 rpm against an 86 rpm target); the others stopped too early or too often for a stable reading.</p>
     <p><strong>Why Partial, not Fail:</strong> this is the obstacle-safety system working as designed in a space too small for a clean reverse run, not a control fault. A repeat in open space (≥ 2 m clear behind) is recommended for an uninterrupted reading.</p>
-    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M02_1_20260922_185125.csv</code> to <code>M02_5_20260922_190014.csv</code> (22 Sep 2026).</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M02/M02_1_20260922_185125.csv</code> to <code>M02_5_20260922_190014.csv</code> (22 Sep 2026).</p>
     <div class="post-image-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); margin-top:1rem;">
       <div>
         <button type="button" class="yt-facade" data-yt="PeskV9NpKOc" data-title="M-02 trial 1" aria-label="Play video: M-02 trial 1"
@@ -228,7 +239,7 @@
       <img src="e-evidence/m01-m02-drift-summary.png" alt="Fan diagram showing the net lateral drift for all 10 M-01/M-02 trials, plotted from a common start point">
       <figcaption>Net drift for all 10 trials, each drawn as a straight line from the start point to the tape-measured end position.</figcaption>
     </figure>
-    <p style="margin-top:.8rem;"><strong>What this diagram is, and isn't:</strong> the vertical axis is the intended ~1 m test distance for every trial, not a distance computed from the encoder — the right wheel encoder isn't wired yet (still on D6/D44, no pin-change interrupt on the Mega), and a single working encoder can't resolve heading change, so the diagram shows net drift at the end of each trial, not the shape of the path actually driven between those two points.</p>
+    <p style="margin-top:.8rem;"><strong>What this diagram is, and isn't:</strong> the vertical axis is the intended ~1 m test distance for every trial, not a reconstructed trajectory — it shows net drift at the end of each trial, not the shape of the path actually driven between those two points.</p>
     <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Drift values (cm): M-01 — 15, 14, 16, 15, 17. M-02 — 15, 17, 17, 17, 17.</p>
   </div>
 
@@ -244,6 +255,99 @@
     <p><strong>Pass criterion:</strong> emergency stop triggers mid-motion, stopping ≥ 15 cm from the obstacle.</p>
     <p><strong>Recorded result:</strong> the mid-motion emergency stop fired in 4 of 5 M-02 trials and 2 of 5 M-01 trials while driving in the confined test space, confirming the live obstacle check halts an in-progress move, not just a pre-move refusal. The exact triggering distance wasn't cleanly isolated per event — logged readings around the stop are mixed, some above 20 cm, likely a reading taken between samples — so the stopping <em>behaviour</em> is confirmed but the precise stopping distance is not. A dedicated run (drive at a fixed obstacle, tape-measure the actual stop distance) is recommended for a clean number.</p>
     <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Incidental evidence from the M-01/M-02 logs above; no separate evidence file.</p>
+  </div>
+
+  <div id="m-03" class="card" style="margin-top:1rem;">
+    <h4>M-03 — Left/right turning <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> both directions turn the right way; angle achieved and any stall recorded.</p>
+    <p><strong>Recorded result:</strong> 3 of the planned 5 trials per direction were run (6 total), each held until the robot visually completed a 45° turn rather than for a fixed duration. All 6 trials turned the commanded direction, confirmed by encoder sign (negative on every left trial, positive on every right trial). Wheel RPM stayed in the 14–24 rpm range throughout every trial — low by design (the spin target is deliberately unreachable, so spins run at full PWM) but with no stall to 0 this time, an improvement on the −7 rpm stall seen in Week 15. One right-turn trial was interrupted mid-turn by the ultrasonic obstacle guard in the confined test space; the command was re-sent and the turn completed to 45° afterward.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M03/M03_L1/L2/L3</code>, <code>M03_R1/R2/R3</code> (23 Sep 2026).</p>
+    <div class="video-pending"><span class="vp-icon">🎬</span> 6 trial videos recorded (3 left-turn, 3 right-turn) — pending upload to YouTube. See the HTML comment below this block once the links are ready.</div>
+    <!--
+      VIDEO LINKS PENDING — M-03 (6 trial videos, not in this repo).
+      Once uploaded to YouTube, replace the .video-pending div above with a
+      .post-image-grid of six .yt-facade buttons, same pattern as M-01/M-02
+      above (data-yt="VIDEO_ID", thumbnail from i.ytimg.com/vi/VIDEO_ID/hqdefault.jpg).
+      Source files: Evidence/M03 Tests/Left Turn/20260923_090034.mp4,
+      _090243.mp4, _090441.mp4; Evidence/M03 Tests/Right Turn/20260923_085521.mp4,
+      _085802.mp4, _085910.mp4. The .yt-facade CSS/JS already exists on this page.
+    -->
+  </div>
+
+  <div id="m-04" class="card" style="margin-top:1rem;">
+    <h4>M-04 — Speed control <span class="tag tag-amber" style="margin-left:.4rem;">Partial</span></h4>
+    <p><strong>Pass criterion:</strong> measured rpm within ±15% of target after settling; overshoot &lt; 30%.</p>
+    <p><strong>Recorded result:</strong> 3 trials each at 3 commanded speeds (PWM 120, 187, 255), held ~3s. The commanded wheel speed tracked the ramp with no oscillation, but the ~3s hold was too short for the target to fully settle at the higher speeds, so the ±15% settled-error criterion couldn't be cleanly evaluated from this run. All 3 PWM-120 trials were also cut short early by the ultrasonic obstacle guard in the confined test space, same pattern as M-01/M-02.</p>
+    <p><strong>Why Partial, not Fail:</strong> no instability or runaway was observed at any speed — the shortfall is in dwell time, not control behaviour. A longer hold (5–6s) is recommended for a clean settled reading.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/M04/M04_120/187/255_1/2/3</code> (23 Sep 2026).</p>
+    <div class="video-pending"><span class="vp-icon">🎬</span> 9 trial videos recorded (3 per speed level) — pending upload to YouTube. See the HTML comment below this block once the links are ready.</div>
+    <!--
+      VIDEO LINKS PENDING — M-04 (9 trial videos, not in this repo).
+      Same pattern as M-01/M-02/M-03 above once uploaded.
+      Source files: Evidence/M04/120/20260923_092718.mp4, _092939.mp4, _093029.mp4;
+      Evidence/M04/187/20260923_093245.mp4, _093433.mp4, _093531.mp4;
+      Evidence/M04/255/20260923_094423.mp4, _094532.mp4, _094623.mp4.
+    -->
+  </div>
+
+  <hr style="margin:2.5rem 0;">
+
+  <h3>Stage 2/3 — Person &amp; Band Tracking</h3>
+  <p style="font-size:.85rem; color:var(--muted); margin-top:-.5rem;">Both run stationary, motors off.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Test</th><th>Status</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>P-01</td><td>Single-person detection</td><td><span class="tag tag-crit">Fail</span></td><td><a href="#p-01">CSV + screenshots</a></td></tr>
+        <tr><td>B-01</td><td>Close-distance band detection</td><td><span class="tag tag-crit">Fail</span></td><td><a href="#b-01">CSV + screenshots</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="p-01" class="card" style="margin-top:1.5rem;">
+    <h4>P-01 — Single-person detection <span class="tag tag-crit" style="margin-left:.4rem;">Fail</span></h4>
+    <p><strong>Pass criterion:</strong> person detected in ≥ 95% of frames over 60s.</p>
+    <p><strong>Recorded result:</strong> 2 of the planned 3 trials run. Mid light: 79.1% lock over 65.8s. Low light: 32.4% lock over 72.3s, with one 31.7s total dropout (16.6s–48.3s) that recovered once brightness was raised — confirmed visually (no face box during the dropout, locked afterward). Neither trial reached the 95% target.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/P01/</code> (23 Sep 2026); screenshots in <code>Evidence/P01/mid-light/</code> and <code>/low-light/</code>.</p>
+    <p style="font-size:.82rem; color:var(--muted); margin-top:.6rem;">Third trial (bright light) still pending.</p>
+  </div>
+
+  <div id="b-01" class="card" style="margin-top:1rem;">
+    <h4>B-01 — Close-distance band detection <span class="tag tag-crit" style="margin-left:.4rem;">Fail</span></h4>
+    <p><strong>Pass criterion:</strong> band detected ≥ 95% of frames at ~1 m.</p>
+    <p><strong>Recorded result:</strong> 0% band lock at 100cm (the row's ~1m target distance) over 32.8s — never detected once, confirmed visually (no band box in the screenshots at that distance). Also tested at 50cm (65.9% lock, well below target too) and 150cm (0%) — the usable range appears to be under 1m.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/B01/</code> (23 Sep 2026); screenshots in <code>Evidence/B01/</code>.</p>
+  </div>
+
+  <hr style="margin:2.5rem 0;">
+
+  <h3>Stage 15 — Safety &amp; Alert Verification</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Test</th><th>Status</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>X-01</td><td>Panic button triggers an alert</td><td><span class="tag tag-green">Pass</span></td><td><a href="#x-01">—</a></td></tr>
+        <tr><td>X-02</td><td>Acknowledge an alert</td><td><span class="tag tag-green">Pass</span></td><td><a href="#x-02">—</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="x-01" class="card" style="margin-top:1.5rem;">
+    <h4>X-01 — Panic button triggers an alert <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> alert starts within 2s, 5/5.</p>
+    <p><strong>Recorded result:</strong> pressing <code>#</code> reliably triggers the alert (buzzer + "HELP IS COMING" LCD message) within ~2s, confirmed repeatedly during bench testing.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">No evidence file captured this session (a video is planned for the next session).</p>
+  </div>
+
+  <div id="x-02" class="card" style="margin-top:1rem;">
+    <h4>X-02 — Acknowledge an alert <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> alert clears within 2s on both methods, 5/5.</p>
+    <p><strong>Recorded result:</strong> pressing <code>*</code> silences the alert within ~2s, confirmed repeatedly during the same bench session.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">No evidence file captured this session (a video is planned for the next session).</p>
   </div>
 
   <hr style="margin:2.5rem 0;">
