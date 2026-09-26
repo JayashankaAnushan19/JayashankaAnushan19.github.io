@@ -39,10 +39,10 @@
 
   <div class="grid-4" style="margin-top:1.25rem; grid-template-columns:repeat(5,1fr);">
     <div class="card"><h4>Planned</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">115</p></div>
-    <div class="card"><h4>Pass</h4><p style="font-size:1.4rem; font-weight:700; color:var(--green); margin:0;">9</p></div>
-    <div class="card"><h4>Partial</h4><p style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0;">5</p></div>
+    <div class="card"><h4>Pass</h4><p style="font-size:1.4rem; font-weight:700; color:var(--green); margin:0;">17</p></div>
+    <div class="card"><h4>Partial</h4><p style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0;">19</p></div>
     <div class="card"><h4>Fail</h4><p style="font-size:1.4rem; font-weight:700; color:#ef4444; margin:0;">2</p></div>
-    <div class="card"><h4>Not yet run</h4><p style="font-size:1.4rem; font-weight:700; color:var(--muted); margin:0;">99</p></div>
+    <div class="card"><h4>Not yet run</h4><p style="font-size:1.4rem; font-weight:700; color:var(--muted); margin:0;">77</p></div>
   </div>
 
   <h3>Stage 1 — Hardware &amp; Component Verification</h3>
@@ -302,6 +302,7 @@
       <tbody>
         <tr><td>P-01</td><td>Single-person detection</td><td><span class="tag tag-crit">Fail</span></td><td><a href="#p-01">CSV + screenshots</a></td></tr>
         <tr><td>B-01</td><td>Close-distance band detection</td><td><span class="tag tag-crit">Fail</span></td><td><a href="#b-01">CSV + screenshots</a></td></tr>
+        <tr><td>B-02/B-04</td><td>Band distance variation (mid &amp; bright light)</td><td><span class="tag tag-amber">Partial</span></td><td><a href="#b-02-b-04">CSV + screenshots</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -309,9 +310,8 @@
   <div id="p-01" class="card" style="margin-top:1.5rem;">
     <h4>P-01 — Single-person detection <span class="tag tag-crit" style="margin-left:.4rem;">Fail</span></h4>
     <p><strong>Pass criterion:</strong> person detected in ≥ 95% of frames over 60s.</p>
-    <p><strong>Recorded result:</strong> 2 of the planned 3 trials run. Mid light: 79.1% lock over 65.8s. Low light: 32.4% lock over 72.3s, with one 31.7s total dropout (16.6s–48.3s) that recovered once brightness was raised — confirmed visually (no face box during the dropout, locked afterward). Neither trial reached the 95% target.</p>
-    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/P01/</code> (23 Sep 2026); screenshots in <code>Evidence/P01/mid-light/</code> and <code>/low-light/</code>.</p>
-    <p style="font-size:.82rem; color:var(--muted); margin-top:.6rem;">Third trial (bright light) still pending.</p>
+    <p><strong>Recorded result:</strong> all 3 lighting conditions tested. Mid light: 79.1% lock over 65.8s. Low light: 32.4% lock over 72.3s, with one 31.7s total dropout (16.6s–48.3s) that recovered once brightness was raised — confirmed visually (no face box during the dropout, locked afterward). Bright light: 78.5% lock over 70.8s. None reached the 95% target — bright and mid light perform almost identically, so lighting alone doesn't explain the shortfall.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/P01/</code> (23–24 Sep 2026); screenshots in <code>Evidence/P01/</code>.</p>
   </div>
 
   <div id="b-01" class="card" style="margin-top:1rem;">
@@ -319,6 +319,13 @@
     <p><strong>Pass criterion:</strong> band detected ≥ 95% of frames at ~1 m.</p>
     <p><strong>Recorded result:</strong> 0% band lock at 100cm (the row's ~1m target distance) over 32.8s — never detected once, confirmed visually (no band box in the screenshots at that distance). Also tested at 50cm (65.9% lock, well below target too) and 150cm (0%) — the usable range appears to be under 1m.</p>
     <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/B01/</code> (23 Sep 2026); screenshots in <code>Evidence/B01/</code>.</p>
+  </div>
+
+  <div id="b-02-b-04" class="card" style="margin-top:1rem;">
+    <h4>B-02 / B-04 — Band distance variation <span class="tag tag-amber" style="margin-left:.4rem;">Partial</span></h4>
+    <p><strong>Pass criterion:</strong> range where detection ≥ 90%.</p>
+    <p><strong>Recorded result:</strong> tested at 50/100/150cm under both mid and bright light. Mid light: 65.9% / 0% / 0%. Bright light: 51.1% / 82.7% / 0%. Not a simple "brighter is better" — bright light <em>hurts</em> at 50cm (likely overexposure washing out the colour patch, confirmed visually) but <em>substantially helps</em> at 100cm (0% → 82.7%); 150cm fails in both conditions. No distance in either condition reaches the 90% target.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/B01/</code> (mid light, 23 Sep) and <code>run_logs/B04/</code> (bright light, 24 Sep); screenshots in <code>Evidence/B01/</code> and snapshot folders.</p>
   </div>
 
   <hr style="margin:2.5rem 0;">
@@ -352,7 +359,85 @@
 
   <hr style="margin:2.5rem 0;">
 
+  <h3>Stage 12 — Medication Reminder Verification</h3>
+  <p style="font-size:.85rem; color:var(--muted); margin-top:-.5rem;">Creation, trigger and acknowledgement, all confirmed live in one screen recording.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Test</th><th>Status</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MR-01</td><td>Reminder creation</td><td><span class="tag tag-green">Pass</span></td><td><a href="#mr-1-2-3">Video</a></td></tr>
+        <tr><td>MR-02</td><td>Reminder trigger</td><td><span class="tag tag-green">Pass</span></td><td><a href="#mr-1-2-3">Video</a></td></tr>
+        <tr><td>MR-03</td><td>Reminder acknowledgement</td><td><span class="tag tag-green">Pass</span></td><td><a href="#mr-1-2-3">Video</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="mr-1-2-3" class="card" style="margin-top:1rem;">
+    <h4>MR-01 / MR-02 / MR-03 — Medication reminder cycle <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criteria:</strong> MR-01 — reminder stored and listed, survives a restart. MR-02 — LCD shows "MEDICINE TIME!" and buzzer sounds at the set time (±30s). MR-03 — keypad <code>*</code> or the registered RFID tag stops the reminder within 2s.</p>
+    <p><strong>Recorded result:</strong> a reminder was created via the web dashboard (time + label "Med Rmnd Test-01") roughly 2 minutes ahead of the current time — it appeared in the reminder list immediately. At the scheduled time the LCD showed <code>MEDICINE TIME! / Med Rmnd Test-01</code>, well within tolerance. Pressing <code>*</code> while the alert was active cleared it immediately, confirmed by the LCD returning to <code>STOPPED / Speed: 0</code> — all three captured in one continuous recording.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Video: <code>Evidence/MR-1-2-3/20260924_152510.mp4</code> (24 Sep 2026).</p>
+  </div>
+
+  <hr style="margin:2.5rem 0;">
+
+  <h3>Stage 18 — Cost Verification</h3>
+  <div class="card" style="margin-top:1rem;">
+    <h4>C-01 — Final prototype cost <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> total prototype cost ≤ USD 500.</p>
+    <p><strong>Recorded result:</strong> a full 32-item parts list, priced at typical market rates, gives an estimated total of <strong>$409.10</strong> — a $90.90 margin under the $500 target. Not yet reconciled against real receipts; the custom 18650 pack's cell count is estimated at 6, pending confirmation against the physical pack.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Source: <code>reports/CARA_Sensor_Cost_List.xlsx</code>.</p>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <h4>C-02 — Actual development expenditure <span class="tag tag-amber" style="margin-left:.4rem;">Partial</span></h4>
+    <p><strong>Pass criterion:</strong> actual total spend reported separately from the prototype cost.</p>
+    <p><strong>Recorded result:</strong> no receipts collected, so built the same way as C-01 (market-rate estimates) plus the parts that were bought, failed or underperformed and had to be replaced: the original 3S LiPo pack (dead cell, ~$20), the SIM800L GSM module (~$4, 2G-incompatible locally), the original underpowered drive motors (~$10), and the first, unresponsive RFID module (~$3.50) — estimated total <strong>~$446.60</strong>.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Source: <code>reports/CARA_Sensor_Cost_List.xlsx</code>. Estimate only, not receipts.</p>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <h4>C-03 / C-05 — Battery runtime &amp; voltage log <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> runtime ≥ 90 min (NFR4); voltage vs. time recorded.</p>
+    <p><strong>Recorded result:</strong> tracked from a full charge. Voltage stayed above 9.6V through at least 3h35m of operation, then dropped to 0V by roughly 3h55m — well over double the 90-minute target. The exact shutdown minute wasn't pinned down more precisely than that final 20-minute window.</p>
+    <div class="table-wrap" style="max-width:360px; margin-top:.8rem;">
+      <table>
+        <thead><tr><th>Elapsed</th><th>Voltage</th></tr></thead>
+        <tbody>
+          <tr><td>0:00</td><td>10.81V</td></tr>
+          <tr><td>0:21</td><td>10.81V</td></tr>
+          <tr><td>0:56</td><td>10.68V</td></tr>
+          <tr><td>1:44</td><td>10.50V</td></tr>
+          <tr><td>3:35</td><td>9.60V</td></tr>
+          <tr><td>3:55</td><td>0.00V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:.6rem 0 0;">Evidence: <code>Evidence/Cara Btry life/</code> (6 timestamped multimeter photos, 24 Sep 2026).</p>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <h4>C-04 — Alternative low-cost platform <span class="tag tag-green" style="margin-left:.4rem;">Pass</span></h4>
+    <p><strong>Pass criterion:</strong> Raspberry Pi alternative clearly labelled as not validated.</p>
+    <p><strong>Recorded result:</strong> a Raspberry Pi (4 or 5) could replace the Jetson Nano (currently ~$124.50, the largest single line item), potentially cutting $40–90 off the prototype total and drawing less power. Trade-off: CARA's MediaPipe Pose + RandomForestClassifier pipeline currently uses the Jetson's CUDA GPU; on a Pi it would run CPU-only, likely at a lower frame rate unless the model/resolution is scaled down. <strong>Not tested on the actual CARA hardware or software</strong> — a paper comparison from published specs only.</p>
+  </div>
+
+  <hr style="margin:2.5rem 0;">
+
+  <h3>Stage 8 — Live Fall Detection Verification (FD-04)</h3>
+  <div class="card" style="margin-top:1rem;">
+    <h4>FD-04 — Standardised fall trials <span class="tag tag-amber" style="margin-left:.4rem;">Partial</span></h4>
+    <p><strong>Pass criterion:</strong> accuracy ≥ 80% over 20 fall trials + 20 non-fall trials.</p>
+    <p><strong>Recorded result:</strong> 5 of the planned 20 falls tested so far, mid light, all sideways-fall attempts: 4 of 5 correctly triggered <code>FALL_DETECTED</code> (confidence 98.9–100%). The 5th, where the body was side-on to the camera rather than front-facing, only reached 50.7% confidence (<code>POSSIBLE_FALL</code>, never escalated) — a possible early sign the model is weaker on side-on poses, though one trial isn't enough to conclude this confidently. No forward/backward falls or non-fall (ADL) trials logged under this row yet.</p>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin:0;">Logged: <code>run_logs/FALL/</code> (5 CSVs); videos in <code>Evidence/FallTests/</code> (one bandicam recording per trial, 24 Sep 2026, 17:21–17:42).</p>
+  </div>
+
+  <hr style="margin:2.5rem 0;">
+
   <h2>Fall Detection Results</h2>
+  <p style="font-size:.85rem; color:var(--muted); margin-top:-.5rem;">The offline classifier evaluation below is separate from FD-04's live-robot test above.</p>
   <p>Fall-detection evaluation: 129 labelled trials, 61 real falls and 68 non-falls.</p>
 
   <style>

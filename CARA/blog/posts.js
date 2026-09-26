@@ -13,9 +13,9 @@ var POSTS = [
     file:    'week-16.html',
     week:    'Week 16',
     date:    '25 Sep–1 Oct 2026',
-    title:   'Week 16 — Coming Soon',
-    excerpt: 'This week\'s write-up is still being put together. Check back soon for the next update on the CARA build.',
-    tags:    [['Coming Soon','amber']]
+    title:   'Report Submitted, and the GSM Mystery Finally Cracked',
+    excerpt: 'The thesis report went in on submission day, with a full rewrite of the raw-results appendix. Then the GSM module\'s long-standing silence on the assembled robot got a real answer: bench-isolated on its own rig, the module and SIM turned out fully functional, and the actual fault was pinned to a voltage margin — clean at 6.5V, degrading below it. Still in progress.',
+    tags:    [['Hardware','orange'],['Software','green'],['In Progress','high']]
   },
   {
     file:    'week-15.html',

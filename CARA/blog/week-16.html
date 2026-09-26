@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 16 — Coming soon.">
+<meta name="description" content="CARA Week 16 (in progress) — the thesis report is submitted, and the GSM module's long-standing silence on the assembled robot is finally root-caused: the module and SIM are confirmed fully functional on their own, isolated to a real voltage-margin fault, not a dead part.">
 <title>Week 16 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,21 +32,100 @@
     <div class="post-meta">
       <span class="post-date">25 Sep–1 Oct 2026</span>
       <span class="tag tag-blue">Week 16</span>
-      <span class="tag tag-amber">Coming Soon</span>
+      <span class="tag tag-orange">Hardware</span>
+      <span class="tag tag-green">Software</span>
+      <span class="tag tag-amber">In Progress</span>
     </div>
 
-    <h1>Week 16 — Coming Soon</h1>
+    <h1>Report Submitted, and the GSM Mystery Finally Cracked</h1>
 
-    <p class="page-subtitle">This week's write-up is still being put together. Check back soon for the next update on the CARA build.</p>
+    <p class="page-subtitle">The thesis report went in on submission day, with a full rewrite of the raw-results appendix to match everything measured through <a href="week-15.html">Week 15</a>. Then the one open question left hanging since then — why the GSM module goes silent once it's part of the assembled robot — got a real answer: pulled off onto its own bench rig, the module and SIM turned out to be completely fine. The actual fault is a voltage margin, found and measured directly.</p>
   </div>
 
   <div class="post-body">
 
-    <div class="post-callout">
-      <p><strong>Coming soon:</strong> This post hasn't been published yet. It will go live once Week 16's work is complete and written up.</p>
+    <div class="post-callout amber">
+      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    </div>
+
+    <h2>Report Submission</h2>
+    <p>The Thesis Report was brought up to date and submitted against the deadline: seven table fixes (hardware spec, motor count, battery pack, the wiring appendix's encoder pins and its stale RTC row) plus a full rewrite of the Raw Test Results appendix — replacing four placeholder numbers with a real structured summary citing actual measured results across hardware, motion, fall detection, medication reminders, cost and battery runtime.</p>
+    <p>One explicit ground rule was set for this pass and held to throughout: genuine Fail and Partial results (person detection, band detection, and others) stay exactly as measured. Nothing gets softened into a false Pass — the same honest, hedged framing already used elsewhere in the report (the keypad's dead row, the band's range limit) covers these too. The remaining open items — GSM live trials, person-following, the full integrated-scenario tests — are stated as planned ahead of the oral presentation, which is graded separately about a month later, not claimed as already done.</p>
+
+    <h2>GSM, Finally Isolated</h2>
+    <p>The A7670C module going silent once wired into the full robot has been an open question since <a href="week-15.html">Week 15</a>. This week it got pulled off the main chassis entirely and put on its own bench rig — a separate Arduino Uno, a bench power supply, and a direct pyserial connection to the module rather than the Arduino IDE's own serial monitor, to rule out anything monitor-side. PWRKEY on pin 9, the module on SoftwareSerial pins 10/11 — but only once the baud rate was corrected. 9600 baud gave total silence; the module's fixed rate turned out to be 115200, confirming a baud mismatch, not a dead module.</p>
+    <p>Once talking to it correctly, the results were clean: the module identifies itself as a SIMCOM A7670C-LANS, the SIM reports <code>+CPIN: READY</code>, and it registers on the home network (<code>+CREG: 0,1</code>, confirmed twice). A test SMS was sent and received — the first attempt returned a network timeout during the transmit burst (matching this project's own documented capacitor-stabilisation finding from earlier in the build), and a retry went through cleanly.</p>
+
+    <h2>The Real Fault: a Voltage Margin, Not a Dead Part</h2>
+    <p>With the module and SIM confirmed working, the next step was a proper voltage sweep on the bench supply, sending batches of test SMS at each level and tracking success directly over the pyserial connection:</p>
+    <ul>
+      <li><strong>6.4V</strong> — a real reliability problem: an AT command itself arrived corrupted in transit, one send errored, and the module fell badly behind under repeated load.</li>
+      <li><strong>6.5V</strong> — clean. All 6 sent, all 6 confirmed received on the test phone. Roughly 0.1V above 6.4V is enough to fix it.</li>
+      <li><strong>6.2–6.3V</strong> (AT-command only, no SMS — conserving SIM balance after it ran low) — consistent response corruption, with one brief, recoverable deregistration event. Never went fully silent even down here, so the true floor is somewhere below 6.2V and wasn't pinned down this session.</li>
+    </ul>
+    <p>One result had to be thrown out honestly rather than misread: readings at 6.6V and 6.7V also failed to deliver, but the network reported "Your balance is low" twice during that stretch, after roughly 30 test messages sent that session. That's SIM balance depletion, not a voltage finding — those two data points are excluded from the conclusion rather than treated as evidence that higher voltage is somehow worse.</p>
+    <p><strong>Standing conclusion:</strong> the module and SIM are fully functional. Reliability is clean at 6.5V and degrades progressively below that, without a hard cutoff found down to 6.2V. Any further GSM failure on the actual robot is now known to be a Mega-side supply or wiring issue — capacitor placement, the 6.6V rail's current capacity under the transmit spike, or a marginal PWRKEY/TX/RX connection — not the module or the SIM. The next step is back on the real robot: measure the GSM rail's actual voltage at the module's own power pins <em>while it's transmitting</em>, not at idle, to see whether it sags into this now-known degraded range under real load.</p>
+
+    <h2>What Did Not Go Well (So Far)</h2>
+    <p>The true lower voltage floor wasn't found — testing stopped at 6.2V without reaching full failure, so the degraded range could extend lower than measured. Two data points (6.6V, 6.7V) were lost to SIM balance running out mid-session rather than a clean test design that reserved balance for the full sweep. The bench isolation confirms the module works in principle, but live GSM alerting on the fully assembled robot itself is still not confirmed — that retest, on the real Mega and Jetson together, is the immediate next step.</p>
+
+    <h2>Week 16 Checklist (So Far)</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td>Thesis Report finalised and submitted</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>Raw Test Results appendix rewritten with real cited results</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>GSM module + SIM isolated and bench-confirmed working</td><td class="yes">✓ Complete</td></tr>
+          <tr><td>GSM voltage-margin sweep (6.2V–6.7V)</td><td class="yes">✓ Complete — clean at 6.5V, degraded below</td></tr>
+          <tr><td>True lower voltage floor identified</td><td class="no">⏳ In Progress — below 6.2V, not pinned down</td></tr>
+          <tr><td>GSM rail voltage measured under transmit load, on the real robot</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>Live GSM alerting confirmed on the fully assembled robot</td><td class="no">⏳ In Progress</td></tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <div class="post-feedback">
+    <div class="pf-icon">✉</div>
+    <h3>Have thoughts on this?</h3>
+    <p class="pf-desc">Share a question or comment — message goes straight to the inbox, no email app opens.</p>
+    <form class="feedback-form" id="post-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="d5cebabb-29dc-4d3a-92fd-b680832968b7">
+      <input type="hidden" name="subject"    value="CARA Feedback: Week 16 — Report Submitted, GSM Root-Caused">
+      <input type="hidden" name="redirect"   value="false">
+      <div class="form-row">
+        <input type="text"  name="name"  placeholder="Your name (optional)">
+        <input type="email" name="email" placeholder="Reply email (optional)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Your thought or question…" required></textarea>
+      <button type="submit" class="btn btn-primary">Send →</button>
+    </form>
+    <div class="form-success" id="post-ok" style="display:none;">
+      <p>Sent — thank you!</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('post-form');
+    var s = document.getElementById('post-ok');
+    if (!f) return;
+    f.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' }
+        });
+        var data = await res.json();
+        if (data.success) { f.style.display = 'none'; s.style.display = 'block'; }
+        else { btn.textContent = orig; btn.disabled = false; }
+      } catch(err) { btn.textContent = orig; btn.disabled = false; }
+    });
+  })();
+  </script>
 
   <hr>
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">

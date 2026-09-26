@@ -97,7 +97,7 @@
     <p>The day ended with the pipeline left running disarmed — the robot can't move in that state — and the project's dissertation deadline (15 September) already behind it, with live testing carrying on.</p>
 
     <h2>Formal Testing Started</h2>
-    <p>The formal test plan began on 21 September with the hardware checks, continued on the 22nd with the first motion tests — forward and reverse driving, run in a tighter space than planned, which also caught the obstacle guard stopping the robot mid-move — and through the 23rd with turning, speed control, motor operation, person and band tracking, and the panic-button alert path. Person detection and band detection both came out below their pass targets — a real finding, not a data problem — and the evaluation chapter of the thesis was updated with all of it. Full results and evidence for every test run so far are in <a href="../appendix/e-raw-test-results.html">Appendix E — Raw Test Results</a>.</p>
+    <p>The formal test plan began on 21 September with the hardware checks, continued on the 22nd with the first motion tests — forward and reverse driving, run in a tighter space than planned, which also caught the obstacle guard stopping the robot mid-move — and ran through the 23rd and 24th with turning, speed control, motor operation, person and band tracking across all three lighting conditions, the panic-button alert path, live fall trials, the medication reminder cycle, and a full cost and battery-runtime breakdown. Person detection and band detection both came out below their pass targets in every lighting condition tried — a real finding, not a data problem — while the estimated prototype cost landed under budget at $409.10 against the $500 target and the battery ran over 3h35m on a full charge, well past the 90-minute requirement. The evaluation chapter of the thesis was updated with all of it. Full results and evidence for every test run so far are in <a href="../appendix/e-raw-test-results.html">Appendix E — Raw Test Results</a>.</p>
 
     <h2>What Did Not Go Well (So Far)</h2>
     <p>The first integrated drive attempt failed and its root cause — hot driver, no movement — is still unknown. The left wheel stalls in spins, the drive motors still look underpowered under load, the right encoder counts nothing and needs rewiring, the tilt servo doesn't physically move the camera (likely power again), keys 7, 8, 9 and C on the keypad are dead (so reminder times like 08:00 can't be typed in),the GSM module doesn't respond and needs its own supply, and serial garbling under motor load points at a real power or noise problem that the new battery hasn't solved. The heading-memory return and the wider centre band have only been checked offline. Older items are still open too: the RTC driver is unverified, the dashboard's admin password is still the default, and the custom pack has only been run in these first tests, not characterized under sustained load.</p>
@@ -119,7 +119,10 @@
           <tr><td>Formal motion tests M-01 forward / M-02 reverse (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ M-01 pass, M-02 partial (obstacle guard in confined space)</td></tr>
           <tr><td>Formal tests M-03 turning / M-04 speed control (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ M-03 pass, M-04 partial (short hold time)</td></tr>
           <tr><td>Formal tests H-11 motor operation / X-01, X-02 panic-alert path (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ all pass</td></tr>
-          <tr><td>Formal tests P-01 person detection / B-01 band detection (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="no">✗ both below their pass targets</td></tr>
+          <tr><td>Formal tests P-01 person detection / B-01, B-02, B-04 band detection, all 3 lighting conditions (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="no">✗ all below their pass targets</td></tr>
+          <tr><td>Formal test C-01 prototype cost (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ $409.10 estimated, under the $500 target</td></tr>
+          <tr><td>Formal tests C-03/C-05 battery runtime, MR-01/02/03 medication reminder cycle (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 3h35m+ runtime, full reminder cycle confirmed</td></tr>
+          <tr><td>Formal test FD-04 live fall trials (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 4/5 sideways falls detected — more types still needed</td></tr>
           <tr><td>First integrated drive test</td><td class="no">✗ Failed — cause undiagnosed</td></tr>
           <tr><td>Left wheel stall / underpowered drive motors</td><td class="no">⏳ In Progress</td></tr>
           <tr><td>Right encoder moved to A8/A9 (pin-change capable pins)</td><td class="no">⏳ In Progress</td></tr>
@@ -179,7 +182,7 @@
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-14.html" style="color:var(--primary);">← Previous: Week 14 — New Motors Bench-Tested</a>
     <a href="./">All Posts</a>
-    <a href="week-16.html" style="color:var(--primary);">Next: Week 16 — Coming Soon →</a>
+    <a href="week-16.html" style="color:var(--primary);">Next: Week 16 — Report Submitted, GSM Root-Caused →</a>
   </div>
 
 </main>
