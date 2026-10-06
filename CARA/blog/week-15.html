@@ -102,39 +102,6 @@
     <h2>What Did Not Go Well (So Far)</h2>
     <p>The first integrated drive attempt failed and its root cause — hot driver, no movement — is still unknown. The left wheel stalls in spins, the drive motors still look underpowered under load, the right encoder counts nothing and needs rewiring, the tilt servo doesn't physically move the camera (likely power again), keys 7, 8, 9 and C on the keypad are dead (so reminder times like 08:00 can't be typed in),the GSM module doesn't respond and needs its own supply, and serial garbling under motor load points at a real power or noise problem that the new battery hasn't solved. The heading-memory return and the wider centre band have only been checked offline. Older items are still open too: the RTC driver is unverified, the dashboard's admin password is still the default, and the custom pack has only been run in these first tests, not characterized under sustained load.</p>
 
-    <h2>Week 15 Checklist (So Far)</h2>
-    <div class="table-wrap">
-      <table>
-        <tbody>
-          <tr><td>Final 4-motor/encoder wiring fixed and declared complete</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Battery Clip designed to mount the custom pack</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Wire-hiding cover support bar revised for final wiring</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Robot fully assembled with printed covers fitted</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Wheel side/direction mapped (MotorSideFinder); direction fixed in the test sketch</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Encoder speed-control firmware written and flashed</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>SMS state machine written (A7670C)</td><td class="yes">✓ Complete — never sent a real SMS</td></tr>
-          <tr><td>Camera-to-tracker latency cut 710 ms → ~101 ms</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Run logger + 3 armed trials + tilt test recorded</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Formal testing started — hardware checks H-01 to H-05 (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 4 pass, 1 partial (keys 7/8/9/C dead)</td></tr>
-          <tr><td>Formal motion tests M-01 forward / M-02 reverse (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ M-01 pass, M-02 partial (obstacle guard in confined space)</td></tr>
-          <tr><td>Formal tests M-03 turning / M-04 speed control (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ M-03 pass, M-04 partial (short hold time)</td></tr>
-          <tr><td>Formal tests H-11 motor operation / X-01, X-02 panic-alert path (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ all pass</td></tr>
-          <tr><td>Formal tests P-01 person detection / B-01, B-02, B-04 band detection, all 3 lighting conditions (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="no">✗ all below their pass targets</td></tr>
-          <tr><td>Formal test C-01 prototype cost (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ $409.10 estimated, under the $500 target</td></tr>
-          <tr><td>Formal tests C-03/C-05 battery runtime, MR-01/02/03 medication reminder cycle (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 3h35m+ runtime, full reminder cycle confirmed</td></tr>
-          <tr><td>Formal test FD-04 live fall trials (<a href="../appendix/e-raw-test-results.html">Appendix E</a>)</td><td class="yes">✓ 4/5 sideways falls detected — more types still needed</td></tr>
-          <tr><td>First integrated drive test</td><td class="no">✗ Failed — cause undiagnosed</td></tr>
-          <tr><td>Left wheel stall / underpowered drive motors</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Right encoder moved to A8/A9 (pin-change capable pins)</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>GSM module powered from its own supply and answering</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Tilt servo physically moving the camera</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Serial garbling under motor load explained and fixed</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Heading-memory return verified live</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td><code>band_min_area</code> saved into the tracker's YAML config</td><td class="no">⏳ In Progress</td></tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
 
   <div class="post-feedback">

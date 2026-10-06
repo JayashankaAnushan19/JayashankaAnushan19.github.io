@@ -245,63 +245,6 @@
     <h2>What Did Not Go Well (So Far)</h2>
     <p>The spare bench L298N's dead Channel B was never actually root-caused — it was avoided by switching to Channel A rather than diagnosed as dead-chip vs. broken-signal-path; that's a fault in the standalone bench driver board, not the robot's own motor driver, which this bench testing never touched. The early closed-loop attempts included a real runaway to -9124 counts before the timeout caught it; bench-only and not dangerous in itself, but a genuine reminder of why the safety cutoff and live tracing were added rather than optional. The spare keypad turned out to be genuinely defective and needs replacing before this line of testing can continue. The wristband fallback drops out entirely beyond a few feet — an accepted limitation, not a solved problem. The RTC driver is still completely unverified — no compile check, let alone a bench test, and now a second unverified assumption sits on top of it (LCD+RTC bus-sharing in practice). The dashboard's admin password is still the unchanged default. The new 4WD encoder wiring has no firmware behind it yet — hardware only. The new custom battery pack hasn't been run under load with the rest of the robot attached, so it's a promising replacement, not a confirmed fix, until it is. Everything carried in from <a href="week-13.html">Week 13</a> is still open too: the shared-power fix for RFID/tilt/ultrasonic is in progress but not retested, obstacle sensors remain unsafe for live movement until that's done, and this week's new covers/holders are still just design files.</p>
 
-    <h2>Week 14 Checklist (So Far)</h2>
-    <div class="table-wrap">
-      <table>
-        <tbody>
-          <tr><td>New motors' torque margin verified against datasheet + estimated weight</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Motor spins correctly on bench supply, isolated from driver/Arduino</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Spare bench L298N Channel A bring-up (after Channel B found dead on that board)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Spare bench L298N's Channel B fault actually root-caused</td><td class="no">⏳ Avoided, not diagnosed</td></tr>
-          <tr><td>Encoder wiring verified (pulse count matches datasheet math)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Closed-loop position-control sketch built and debugged</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Sign-inversion bug found live and fixed</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>3-revolution closed-loop run confirmed accurate (988/984 counts)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>4-motor scaling constraint mapped (Mega interrupt pins)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>New motors integrated into cara_main_mega.ino / main robot</td><td class="no">⏳ Deliberately not started</td></tr>
-          <tr><td>Shared-power fix for RFID/tilt/ultrasonic retested</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Wristband HSV calibration run against the real printed band</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>New covers/holders printed and test-fitted</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Spare keypad bench-tested, board-reset bug fixed (D8→D10)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Full pin sweep D2–D11, dead pin found and swapped (D2→D11)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Root cause isolated to the keypad membrane itself</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Replacement keypad obtained and re-tested</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Real physical wristband built (4cm paper strip)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>hsv_band_calibrator.py: multi-camera probing + live switch hotkey</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>hsv_calibration_result.txt: append-only history (was overwrite)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Real HSV values wired into person_tracker_node via YAML</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Band shape+size filter added (3:2 aspect, min/max area)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>band_shape_test.py standalone validator built</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Sliver-split failure mode found and fixed (morphological close)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Same-color-paper confusion found and fixed (max-area bound)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Band confirmed as single solid blob across a 51-capture batch</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Wristband fallback usable beyond a few feet</td><td class="no">⏳ Accepted limitation, not solved</td></tr>
-          <tr><td>Silent DSHOW camera-driver crash fixed (settle delay)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>SoftI2C_RTC driver written for cara_main_mega.ino</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>SoftI2C_RTC driver compiled/bench-tested</td><td class="no">⏳ Not possible today — no tooling/hardware</td></tr>
-          <tr><td>LaTeX report Evaluation/Conclusion synced to motor progress</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Real submission photos added (cara_robot.jpg, test_setup.jpg)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>DAILY_LOG.md / TODO_DEMO_READINESS.md moved to .gitignore</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>New "CARA Care" admin dashboard built (real settings + 3 rolling logs)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Import-crash bug found and fixed (before_request registered pre-app)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Live end-to-end verification (auth, logs, reminder round-trip, IP tracking)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Dashboard promoted to site root, old UI kept at /legacy</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>ROBOT vs YOU local-time chip added to reminder card</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>2 real mobile-layout bugs found and fixed (nav wrap, dead grid CSS)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Admin default password changed from 1234</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Dashboard work committed</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>4 new motors (LF/LR/RF/RR) on hand, Mega pin plan worked out</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>2 wiring mistakes caught before connecting anything (D4/D5, D13)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>All 4 motors + 2 encoders physically wired, colors mapped</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Encoder firmware written for the new 4WD wiring</td><td class="no">⏳ Not started</td></tr>
-          <tr><td>LCD+RTC shared-bus assumption bench-verified with both live at once</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Custom 12V/12A battery pack built (Samsung 18650 cells)</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Custom battery pack tested under real load</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Chassis physically assembled with all 4 new motors + wheels</td><td class="yes">✓ Complete</td></tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
 
   <div class="post-feedback">

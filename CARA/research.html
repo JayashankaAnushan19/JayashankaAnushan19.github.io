@@ -16,11 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
-  .lock-card{ max-width:420px; margin:2rem auto; text-align:center; padding:2.5rem 2rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); }
-  .lock-icon{ font-size:2.5rem; margin-bottom:1rem; }
-  .lock-card input{ width:100%; padding:.7rem .9rem; margin:1rem 0 .5rem; border:1px solid var(--border); border-radius:var(--r); background:var(--bg); color:var(--text); font-family:var(--font-mono); font-size:.95rem; box-sizing:border-box; }
-  .lock-error{ color:#ef4444; font-size:.82rem; min-height:1.2em; margin-bottom:.5rem; }
-  #report-frame{ width:100%; height:85vh; min-height:500px; border:1px solid var(--border); border-radius:var(--r-lg); display:none; }
+  #report-frame{ width:100%; height:85vh; min-height:500px; border:1px solid var(--border); border-radius:var(--r-lg); display:block; }
 </style>
 </head>
 <body>
@@ -56,60 +52,16 @@
     <p class="page-subtitle">A structured review of the existing body of work in elderly care robotics, fall detection, GSM alerting, indoor navigation, and human-robot interaction — leading to the research gap CARA addresses.</p>
   </div>
 
-  <!-- FULL THESIS REPORT (password-gated) -->
-  <h2 style="margin-top:0">Full Thesis Report</h2>
-  <p style="color:var(--muted); font-size:.9rem; margin-top:-.5rem;">The complete dissertation document, updated as the project progresses. Password-protected while the thesis is in progress.</p>
+  <!-- FULL RESEARCH PAPER -->
+  <h2 style="margin-top:0">Full Research Paper</h2>
+  <p style="color:var(--muted); font-size:.9rem; margin-top:-.5rem;">The standalone IEEE-format research paper — condensed from the full dissertation, kept in sync with the project's actual current status.</p>
 
-  <div id="report-lock-view" class="lock-card">
-    <div class="lock-icon">🔒</div>
-    <h3 style="margin-bottom:.5rem;">Password required</h3>
-    <p style="color:var(--muted); font-size:.85rem;">This document is locked until submission. Enter the password to view the full thesis report.</p>
-    <input type="password" id="report-lock-input" placeholder="Password" autocomplete="off">
-    <div class="lock-error" id="report-lock-error"></div>
-    <button class="btn btn-primary" id="report-lock-submit" style="width:100%;">Unlock</button>
-  </div>
-
-  <div id="report-view" style="display:none;">
-    <div class="info-box amber" style="margin-bottom:1.25rem;">
-      <p><strong>Note:</strong> this is a client-side lock for casual access only — not real security. Anyone who inspects the page source can still recover the file path. Treat it as "not meant to be browsed openly," not as confidential.</p>
-    </div>
-    <iframe id="report-frame" src="reports/Thesis Report.pdf" title="CARA Full Thesis Report"></iframe>
+  <div id="report-view">
+    <iframe id="report-frame" src="reports/Jayashanka_PDE4439.pdf" title="CARA Research Paper"></iframe>
     <p style="margin-top:.75rem; font-size:.82rem; color:var(--muted);">
-      Viewer not loading? <a href="reports/Thesis Report.pdf" target="_blank">Open the PDF directly →</a>
+      Viewer not loading? <a href="reports/Jayashanka_PDE4439.pdf" target="_blank">Open the PDF directly →</a>
     </p>
   </div>
-
-  <script>
-  /* ─────────────────────────────────────────────────────────────
-     FULL THESIS REPORT — password-gated view
-     Same password as CARA/appendix/b-firmware-listing.html and
-     CARA/fieldbooks.html. Client-side lock for casual access only,
-     not real security.
-  ───────────────────────────────────────────────────────────── */
-  (function(){
-    const PASSWORD = 'm01037028';
-    const input  = document.getElementById('report-lock-input');
-    const error  = document.getElementById('report-lock-error');
-    const lock   = document.getElementById('report-lock-view');
-    const view   = document.getElementById('report-view');
-    const frame  = document.getElementById('report-frame');
-
-    function unlock() {
-      if (input.value === PASSWORD) {
-        lock.style.display = 'none';
-        view.style.display = 'block';
-        frame.style.display = 'block';
-      } else {
-        error.textContent = 'Incorrect password.';
-        input.value = '';
-        input.focus();
-      }
-    }
-
-    document.getElementById('report-lock-submit').addEventListener('click', unlock);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
-  })();
-  </script>
 
   <hr class="divider" style="margin:2.5rem 0; border:none; border-top:1px solid var(--border);">
 

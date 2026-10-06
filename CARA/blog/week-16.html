@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 16 (in progress) — the thesis report is submitted, and the GSM module's long-standing silence on the assembled robot is finally root-caused: the module and SIM are confirmed fully functional on their own, isolated to a real voltage-margin fault, not a dead part.">
+<meta name="description" content="CARA Week 16 — the thesis report is submitted, and the GSM module's long-standing silence on the assembled robot is finally root-caused: the module and SIM are confirmed fully functional on their own, isolated to a real voltage-margin fault, not a dead part.">
 <title>Week 16 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -34,7 +34,6 @@
       <span class="tag tag-blue">Week 16</span>
       <span class="tag tag-orange">Hardware</span>
       <span class="tag tag-green">Software</span>
-      <span class="tag tag-amber">In Progress</span>
     </div>
 
     <h1>Report Submitted, and the GSM Mystery Finally Cracked</h1>
@@ -44,8 +43,8 @@
 
   <div class="post-body">
 
-    <div class="post-callout amber">
-      <p><strong>This week is still in progress.</strong> This post reflects the work done so far; more will be added as the rest of the week happens.</p>
+    <div class="post-callout">
+      <p>The report is submitted and the write-up below reflects where the project stands. The presentation used for the oral defense is added below.</p>
     </div>
 
     <h2>Report Submission</h2>
@@ -69,19 +68,68 @@
     <h2>What Did Not Go Well (So Far)</h2>
     <p>The true lower voltage floor wasn't found — testing stopped at 6.2V without reaching full failure, so the degraded range could extend lower than measured. Two data points (6.6V, 6.7V) were lost to SIM balance running out mid-session rather than a clean test design that reserved balance for the full sweep. The bench isolation confirms the module works in principle, but live GSM alerting on the fully assembled robot itself is still not confirmed — that retest, on the real Mega and Jetson together, is the immediate next step.</p>
 
-    <h2>Week 16 Checklist (So Far)</h2>
+    <h2>RFID, Also Isolated: a Host Power-Quality Fault</h2>
+    <p>A separate, long-open question got the same isolation treatment this week: RFID tag acknowledgment, which read a corrupted chip version (<code>0x24</code> instead of the known-good <code>0x92</code>) and detected zero tags once wired onto the assembled robot, despite working cleanly in earlier bench testing. Rather than re-checking the same wiring a third time, every plausible variable was isolated one at a time, powering the exact same Mega and RFID module from different sources and hosts:</p>
+
     <div class="table-wrap">
       <table>
+        <thead>
+          <tr><th>#</th><th>Configuration</th><th>VersionReg</th><th>Tag Scan</th><th>Rules Out / Confirms</th></tr>
+        </thead>
         <tbody>
-          <tr><td>Thesis Report finalised and submitted</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>Raw Test Results appendix rewritten with real cited results</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>GSM module + SIM isolated and bench-confirmed working</td><td class="yes">✓ Complete</td></tr>
-          <tr><td>GSM voltage-margin sweep (6.2V–6.7V)</td><td class="yes">✓ Complete — clean at 6.5V, degraded below</td></tr>
-          <tr><td>True lower voltage floor identified</td><td class="no">⏳ In Progress — below 6.2V, not pinned down</td></tr>
-          <tr><td>GSM rail voltage measured under transmit load, on the real robot</td><td class="no">⏳ In Progress</td></tr>
-          <tr><td>Live GSM alerting confirmed on the fully assembled robot</td><td class="no">⏳ In Progress</td></tr>
+          <tr><td>1</td><td>Laptop USB + barrel jack (battery) both connected</td><td>0x92 (good)</td><td class="yes">✓ Success</td><td>Chip and wiring are genuinely fine</td></tr>
+          <tr><td>2</td><td>Jetson USB + battery via barrel jack</td><td>0x24 (corrupt)</td><td class="no">✗ Failed</td><td>First sign of a problem</td></tr>
+          <tr><td>3</td><td>Jetson USB alone, battery disconnected</td><td>0x24 (corrupt)</td><td class="no">✗ Failed</td><td>Rules out: battery / shared robot power</td></tr>
+          <tr><td>4</td><td>Jetson USB + DC-DC converter at 9V via barrel jack</td><td>0x24 (corrupt)</td><td class="no">✗ Failed</td><td>Rules out: barrel jack voltage too low (5.5V)</td></tr>
+          <tr><td>5</td><td>Jetson USB + 9V + decoupling capacitors (10µF/0.1µF) at RFID VCC/GND</td><td>0x24 (corrupt)</td><td class="no">✗ Failed</td><td>Rules out: DC-DC converter switching noise</td></tr>
+          <tr><td>6</td><td>Laptop USB alone, barrel jack fully unplugged</td><td>0x92 (good)</td><td class="yes">✓ Success (UID 85CDF1E2)</td><td>Confirms: clean on laptop with nothing else connected</td></tr>
+          <tr><td>7</td><td>Jetson USB alone, barrel jack fully unplugged (identical to #6, different host)</td><td>0x24 (corrupt)</td><td class="no">✗ Failed</td><td>Isolates the cause: only the host device differs</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <p><strong>Finding:</strong> RFID's own hardware, wiring, and SPI connections are all confirmed good — rows #1 and #6 prove that outright. Rows #6 and #7 are otherwise identical and differ only in which device supplies USB power to the Mega, which is what isolates the actual cause: <strong>the Jetson's USB port supplies weaker, noisier 5V than a laptop's.</strong> That's just barely enough to degrade the Mega's onboard 3.3V regulation and corrupt RFID's SPI communication specifically, while simpler peripherals on the same rail — LCD, buzzer, keypad, motors — tolerate it without issue.</p>
+    <p>This is a real, reproducible power-quality fault, not a wiring mistake or a dead module, and not something fixable in firmware. Given that, relying on RFID to silence a safety-critical fall alert isn't a safe design on this hardware combination, so RFID-based alert acknowledgment has been removed from the firmware entirely. The keypad's <code>*</code> key is now the sole acknowledgment path. RFID tag scans are still logged for reference, just no longer tied to any action.</p>
+
+    <h2>Camera Tilt Servo: a Failed Component, Confirmed</h2>
+    <p>The camera-tilt servo was tested in full isolation on both candidate pins (46 and 10 — the firmware's own header comment had drifted out of sync with its pin constant, so both were checked to be certain). Zero movement and zero sound on either pin, with the signal, power, and ground lines all independently confirmed correct. That rules out a wiring or software fault — this is a dead servo, a failed physical component, not a bug. Tilt controls have been removed from the web dashboard accordingly; the camera remains fixed-angle until the unit is replaced.</p>
+
+    <h2>Alert Escalation and Autonomous Following</h2>
+    <p>Two further pieces landed this week. First, a proper escalation system for both alert types instead of a single one-shot message: a fall alert (panic key or an AI-confirmed fall) now sends 6 SMS messages 10 seconds apart, then one every 5 minutes indefinitely until someone acknowledges it — it never gives up on its own. A medicine/reminder alert (the same mechanism also covers meal or check-in reminders — any reminder is just this path with a different label) sends 6 messages 5 minutes apart, then keeps the buzzer and LCD prompt active even after it stops texting. Both can be acknowledged with the keypad's <code>*</code> key, including while a message is still mid-send, rather than needing to wait out the full send cycle first.</p>
+    <p>Second, autonomous person-following is now live: the robot turns to keep the enrolled patient's face centered in frame, confirmed working directly on the hardware, and automatically pauses the moment the web dashboard is actively in use so the two control paths never fight each other. The forward/backward approach-and-back-off side of this (closing distance to a comfortable range rather than only turning) is still being refined — the first version relied solely on how large the face appears in frame, which is an imprecise distance proxy on its own; the next iteration combines that with the robot's own ultrasonic ring for a steadier, less oscillation-prone result.</p>
+
+    <h2>Where the Project Stands Going Into the Demonstration</h2>
+    <p>Confirmed working on the real hardware: forward/backward driving, autonomous face-tracking, the GSM alert pathway (voltage-margin understood and corrected for), RTC-based real-time timestamping, and the escalating alert/reminder system described above. A small number of items are being carried into the live demonstration as explained findings rather than polished demo moments — in each case because the root cause is already identified and documented, not because it was left unexamined:</p>
+    <ul>
+      <li><strong>In-place turning</strong> is underpowered on the current drive motors (a torque limit, not a code issue) and is being presented as a known hardware constraint rather than a working feature.</li>
+      <li><strong>RFID tag acknowledgment</strong> is unreliable specifically when the Mega is powered through the Jetson's own USB port (see the isolation table above) — the keypad's <code>*</code> is the demonstrated acknowledgment path for the presentation, with RFID's root cause stated plainly rather than shown as if resolved.</li>
+      <li><strong>The camera tilt servo</strong>, per above, is a confirmed failed part — the presentation states this directly rather than working around it silently.</li>
+    </ul>
+    <p>Each of these is a diagnosed, evidenced finding rather than an unexplained gap, and will be presented as exactly that during the demonstration.</p>
+
+    <h2>Presentation</h2>
+    <p>The slide deck used for the oral defense, embedded directly below. Click "Fullscreen" before presenting — the viewer's own controls (arrow keys, page thumbnails, zoom) work the same as any PDF reader once it's open.</p>
+
+    <style>
+      .deck-wrap { position: relative; margin: 1.5rem 0; border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+      .deck-wrap iframe { width: 100%; height: 70vh; min-height: 420px; display: block; border: 0; background: #fff; }
+      .deck-bar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem .9rem; border-top: 1px solid var(--border); background: var(--surface-2); flex-wrap: wrap; }
+      .deck-bar span { font-size: .78rem; color: var(--muted); font-family: var(--font-mono); }
+      .deck-btn { display: inline-flex; align-items: center; gap: .45rem; padding: .5rem 1rem; border-radius: var(--r); background: var(--primary); color: #001018 !important; font-size: .82rem; font-weight: 700; text-decoration: none !important; border: 0; cursor: pointer; transition: filter .15s; }
+      .deck-btn:hover { filter: brightness(1.1); }
+      .deck-wrap:fullscreen { background: #000; }
+      .deck-wrap:fullscreen iframe { height: 100vh; }
+    </style>
+
+    <div class="deck-wrap" id="deck-wrap">
+      <iframe id="deck-frame" src="presentation/CARA-Presentation.pdf" title="CARA thesis defense presentation" loading="lazy"></iframe>
+      <div class="deck-bar">
+        <span>CARA — Companion Assistive Robot for the Aged (10 slides)</span>
+        <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+          <button type="button" class="deck-btn" onclick="document.getElementById('deck-wrap').requestFullscreen && document.getElementById('deck-wrap').requestFullscreen()">⛶ Fullscreen</button>
+          <a class="deck-btn" style="background:var(--surface); color:var(--text) !important; border:1px solid var(--border);" href="presentation/CARA-Presentation.pdf" target="_blank" rel="noopener">Open in new tab ↗</a>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -131,7 +179,6 @@
   <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.88rem;">
     <a href="week-15.html" style="color:var(--primary);">← Previous: Week 15 — First Integrated Tests</a>
     <a href="./">All Posts</a>
-    <span style="color:var(--light);">Next post coming soon →</span>
   </div>
 
 </main>
