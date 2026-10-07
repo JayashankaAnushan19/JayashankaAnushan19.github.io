@@ -16,6 +16,29 @@
 <title>CARA — Companion Assistive Robot for the Aged</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -160,7 +183,7 @@ document.getElementById('hero-img').addEventListener('error', function() {
         <div class="cap-icon">💊</div>
         <div class="cap-body">
           <h4>Manages Medication Timing</h4>
-          <p>A real-time clock triggers audible reminders at four set times daily. The user confirms by tapping an RFID tag — embedded in the medication box lid — to the robot. If no confirmation arrives in 15 minutes, a GSM alert is sent automatically.</p>
+          <p>A real-time clock triggers audible reminders at four set times daily. The user acknowledges with the keypad (RFID-tap acknowledgement was tried and removed after testing found it unreliable on this hardware). If no confirmation arrives in 15 minutes, an escalating GSM alert is sent automatically.</p>
         </div>
       </div>
     </div>
@@ -244,19 +267,19 @@ document.getElementById('hero-img').addEventListener('error', function() {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     LATEST FROM THE BLOG
+     FINAL UPDATE FROM THE BLOG
      ══════════════════════════════════════════════════════════ -->
 <section>
   <div class="doc-section">
     <span class="doc-chapter">From the Build Log</span>
-    <h2>Latest Update</h2>
-    <p>The development blog tracks weekly progress as CARA moves from design to a working prototype.</p>
+    <h2>Final Update — v1.0 Development Complete</h2>
+    <p>The development blog tracked weekly progress as CARA moved from design to a working, tested prototype. Week 16 closes out v1.0: the thesis is submitted, the final test log is in, and the oral defense presentation is live.</p>
 
-    <a href="blog/week-05.html" class="latest-post">
+    <a href="blog/week-16.html" class="latest-post">
       <div style="flex:1; min-width:0;">
-        <div class="lp-label">Week 05 · 09 Jun 2026</div>
-        <div class="lp-title">Person Following — Tuning the Two-Layer Identity System</div>
-        <p class="lp-excerpt">Implementing HSV orange-band tracking for Layer 2 of the person-lock system. Challenges with indoor lighting variation and the tuning approach that achieved reliable tracking across different room conditions.</p>
+        <div class="lp-label">Week 16 · 25 Sep–1 Oct 2026</div>
+        <div class="lp-title">Report Submitted, and the GSM Mystery Finally Cracked</div>
+        <p class="lp-excerpt">The thesis report went in on submission day, with a full rewrite of the raw-results appendix. Then the GSM module's long-standing silence on the assembled robot got a real answer: bench-isolated on its own rig, the module and SIM turned out fully functional, and the actual fault was pinned to a voltage margin — clean at 6.5V, degrading below it.</p>
       </div>
       <div style="flex-shrink:0; color:var(--primary); font-size:1.25rem; padding-top:.25rem;">→</div>
     </a>
@@ -267,12 +290,21 @@ document.getElementById('hero-img').addEventListener('error', function() {
   </div>
 </section>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
+    <a href="index.html">Home</a>
     <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="appendix/">Appendices</a>
     <a href="fieldbooks.html">Field Books</a>
     <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
     <a href="blog/">Blog</a>
+    <a href="contact.html">Contact</a>
     <a href="../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

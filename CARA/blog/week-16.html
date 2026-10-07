@@ -15,6 +15,29 @@
 <title>Week 16 — CARA Blog</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -98,10 +121,43 @@
     <p>Two further pieces landed this week. First, a proper escalation system for both alert types instead of a single one-shot message: a fall alert (panic key or an AI-confirmed fall) now sends 6 SMS messages 10 seconds apart, then one every 5 minutes indefinitely until someone acknowledges it — it never gives up on its own. A medicine/reminder alert (the same mechanism also covers meal or check-in reminders — any reminder is just this path with a different label) sends 6 messages 5 minutes apart, then keeps the buzzer and LCD prompt active even after it stops texting. Both can be acknowledged with the keypad's <code>*</code> key, including while a message is still mid-send, rather than needing to wait out the full send cycle first.</p>
     <p>Second, autonomous person-following is now live: the robot turns to keep the enrolled patient's face centered in frame, confirmed working directly on the hardware, and automatically pauses the moment the web dashboard is actively in use so the two control paths never fight each other. The forward/backward approach-and-back-off side of this (closing distance to a comfortable range rather than only turning) is still being refined — the first version relied solely on how large the face appears in frame, which is an imprecise distance proxy on its own; the next iteration combines that with the robot's own ultrasonic ring for a steadier, less oscillation-prone result.</p>
 
+    <h2>Measured Results: Person and Band Detection</h2>
+    <p>Face tracking was run back-to-back under two lighting conditions — mid-light/average room, and low-light/minimum room with unbalanced lighting — and held a clean lock in both, which is what the autonomous-following result above is actually built on.</p>
+    <p>The HSV colour-band fallback got a proper distance sweep for the first time, rather than the general "works close-up, drops out further away" note carried since <a href="week-14.html">Week 14</a>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Distance</th><th>Trials</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>50cm</td><td>3</td><td>2 of 3 detected — intermittent, not reliable</td></tr>
+          <tr><td>100cm</td><td>3</td><td>0 of 3 detected</td></tr>
+          <tr><td>150cm</td><td>2</td><td>0 of 2 detected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="post-image-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); margin:1.25rem 0;">
+      <figure class="post-image" style="margin:0;">
+        <img src="images/blog-16-band-50cm-detected.jpg" alt="band_shape_test.py live view at 50cm — green circle locked onto the wristband, status line reads BAND: LOCKED">
+        <figcaption>50cm — locked (one of 2/3 detected trials).</figcaption>
+      </figure>
+      <figure class="post-image" style="margin:0;">
+        <img src="images/blog-16-band-100cm-notdetected.jpg" alt="band_shape_test.py live view at 100cm — no detection circle, status line reads BAND: none">
+        <figcaption>100cm — no lock (0/3 detected).</figcaption>
+      </figure>
+      <figure class="post-image" style="margin:0;">
+        <img src="images/blog-16-band-150cm-notdetected.jpg" alt="band_shape_test.py live view at 150cm — no detection circle, status line reads BAND: none">
+        <figcaption>150cm — no lock (0/2 detected).</figcaption>
+      </figure>
+    </div>
+
+    <p>That puts a real number on the band's effective range: usable, but inconsistently, only at close range (around 50cm), and not a dependable fallback beyond arm's length. It's documented as exactly that — a known limitation of the fallback mode, not a reason to distrust the primary face-recognition path, which is what's actually carrying autonomous following today.</p>
+
     <h2>Where the Project Stands Going Into the Demonstration</h2>
     <p>Confirmed working on the real hardware: forward/backward driving, autonomous face-tracking, the GSM alert pathway (voltage-margin understood and corrected for), RTC-based real-time timestamping, and the escalating alert/reminder system described above. A small number of items are being carried into the live demonstration as explained findings rather than polished demo moments — in each case because the root cause is already identified and documented, not because it was left unexamined:</p>
     <ul>
-      <li><strong>In-place turning</strong> is underpowered on the current drive motors (a torque limit, not a code issue) and is being presented as a known hardware constraint rather than a working feature.</li>
+      <li><strong>In-place turning</strong> stalls on one drive side under load — refined this week from a general motor-torque limit to a more specific root cause, floor friction combined with the robot's own weight imbalance, found while preparing the presentation below. It's a known hardware constraint either way, presented as such rather than as a working feature.</li>
       <li><strong>RFID tag acknowledgment</strong> is unreliable specifically when the Mega is powered through the Jetson's own USB port (see the isolation table above) — the keypad's <code>*</code> is the demonstrated acknowledgment path for the presentation, with RFID's root cause stated plainly rather than shown as if resolved.</li>
       <li><strong>The camera tilt servo</strong>, per above, is a confirmed failed part — the presentation states this directly rather than working around it silently.</li>
     </ul>
@@ -124,13 +180,27 @@
     <div class="deck-wrap" id="deck-wrap">
       <iframe id="deck-frame" src="presentation/CARA-Presentation.pdf" title="CARA thesis defense presentation" loading="lazy"></iframe>
       <div class="deck-bar">
-        <span>CARA — Companion Assistive Robot for the Aged (10 slides)</span>
+        <span>CARA — Companion Assistive Robot for the Aged (15 slides, updated)</span>
         <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
           <button type="button" class="deck-btn" onclick="document.getElementById('deck-wrap').requestFullscreen && document.getElementById('deck-wrap').requestFullscreen()">⛶ Fullscreen</button>
           <a class="deck-btn" style="background:var(--surface); color:var(--text) !important; border:1px solid var(--border);" href="presentation/CARA-Presentation.pdf" target="_blank" rel="noopener">Open in new tab ↗</a>
         </div>
       </div>
     </div>
+
+    <h2>The End of v1.0 Development</h2>
+    <p>This post closes out v1.0 development. The thesis is submitted, the test log in <a href="../appendix/e-raw-test-results.html">Appendix E</a> is final, and the presentation above is what was actually delivered at the oral defense. Everything from here — camera tilt, the turning stall, GSM re-verification on the assembled robot, the full 115-test suite — is real, documented, unfinished work, not something glossed over to call the project "done." v1.0 is a research prototype that proved the core ideas (GSM-independent alerting, on-device fall detection, face-and-band person tracking, a sub-$500 build).</p>
+
+    <div class="post-video">
+      <iframe src="https://www.youtube.com/embed/QSuTvxfGph4" title="CARA — final v1.0 testing video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p style="font-size:.78rem; color:var(--muted); font-family:var(--font-mono); margin-top:-1rem;">The final v1.0 testing video — the robot as it stood for the test log above and the oral defense.</p>
+
+    <h2>What Comes After v1.0</h2>
+    <p>Two different directions were discussed for what a v2 would actually need, and they're not the same project:</p>
+    <p><strong>Continuing as research</strong> — closing the gaps already named throughout this blog: the in-place turning fix (replacement motors or the asymmetric-drive approach raised in the <a href="week-13.html">Week 13</a> supervisor meeting), a working tilt servo, GSM confirmed live on the assembled robot rather than only on the isolated bench rig, and — the actual validation this whole project has been working toward — ethical clearance and real trials with elderly participants outside the lab.</p>
+    <p><strong>Moving toward something closer to commercial</strong> — a different kind of work, less about adding features and more about making the existing ones survive daily handling. The clearest starting point, named explicitly rather than left vague: <strong>the camera tower needs a full mechanical redesign for stability while the robot is actually moving</strong>, not just standing still. The current build is a single pole mounted at one point on the chassis, carrying the camera, LCD, keypad, and RFID reader at the top — a tall, top-heavy cantilever with no bracing. It was never stress-tested under real driving loads, since most of this project's testing happened with the robot stationary or moving slowly in a confined space. A tower that wobbles or flexes during a turn is a direct risk to the camera's aim (and by extension face-tracking accuracy), and plausibly contributed to the kind of mechanical stress that a single point-of-failure part like the tilt servo doesn't tolerate well. Solving this properly — a wider base, bracing back down to the chassis, or a shorter/lower-mounted head — is the first piece of architecture that would need rethinking before anything else gets layered on top, commercial or otherwise.</p>
+    <p>Both directions share the same starting point: this project's own honestly-documented limitations, not a wishlist. Nothing here is proposed as quick or assumed to work — each is exactly the kind of claim this project has tried not to make without testing it first.</p>
 
   </div>
 
@@ -183,11 +253,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="../index.html">Home</a>
-    <a href="./">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../objectives.html">Objectives</a>
+    <a href="../features.html">Features</a>
+    <a href="../hardware.html">Hardware</a>
+    <a href="../architecture.html">Architecture</a>
+    <a href="../research.html">Research</a>
+    <a href="../docs.html">Docs</a>
+    <a href="../appendix/">Appendices</a>
+    <a href="../fieldbooks.html">Field Books</a>
     <a href="../timeline.html">Timeline</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="../blog/">Blog</a>
+    <a href="../contact.html">Contact</a>
     <a href="../../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

@@ -51,6 +51,16 @@
 .range-stats .range-stat-val { display: block; font-family: var(--font-mono); font-weight: 700; font-size: .9rem; color: var(--primary); }
 .range-stats .range-stat-lbl { display: block; font-size: .6rem; color: var(--muted); margin-top: .1rem; }
 
+/* Test-plan tally (status grid) */
+.tally-chart { padding: 1.1rem 1.1rem .9rem; background: var(--surface-2); }
+.tally-chart-title { font-family: var(--font-mono); font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
+.tally-bar { display: flex; width: 100%; height: 14px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 1rem; }
+.tally-bar div { height: 100%; }
+.tally-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+.tally-grid div { text-align: center; }
+.tally-grid .t-val { display: block; font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; }
+.tally-grid .t-lbl { display: block; font-size: .6rem; color: var(--muted); margin-top: .1rem; }
+
 /* Project journey map (full width, single item) */
 .journey-map-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.5rem 1.5rem 0; overflow-x: auto; }
 .journey-map-svg { display: block; min-width: 840px; width: 100%; height: auto; }
@@ -112,6 +122,29 @@
 .gallery-info p  { font-size: .78rem; color: var(--muted); margin-bottom: .4rem; }
 .gallery-info .fig-ref { font-family: var(--font-mono); font-size: .65rem; color: var(--light); }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -294,11 +327,11 @@
   <div class="gallery-grid">
 
     <div class="gallery-card">
-      <img src="assets/images/cara-full-assembly.jpeg" alt="Assembled aluminium chassis with battery, wiring harness, and ultrasonic sensors mounted, during the full-system integration test">
+      <img src="assets/images/cara-final-assembly.jpg" alt="The final assembled CARA robot — 4-wheel chassis with encoder motors, custom battery pack, Jetson and Arduino stack, ultrasonic ring, and camera tower, on tile flooring">
       <div class="gallery-info">
-        <h4>CARA v1.0 — Full Assembly</h4>
-        <p>Complete robot with chassis, tilt camera head, ultrasonic sensor ring, and all mounted electronics.</p>
-        <span class="fig-ref">Full integration test · Week 9</span>
+        <h4>CARA — Final Assembly</h4>
+        <p>The robot as it stood for the oral defense: 4-motor drive with encoder feedback, custom 18650 battery pack, full sensor ring, and camera tower — superseding the 2-motor Week 9 build shown in earlier photos.</p>
+        <span class="fig-ref">Final assembly · Week 16</span>
       </div>
     </div>
 
@@ -314,8 +347,8 @@
     <div class="gallery-card">
       <img src="assets/images/camera-tower.jpeg" alt="Camera tower head unit with USB webcam, lit 16x2 LCD, 4x4 keypad, and RC522 RFID reader mounted on the 3D-printed housing">
       <div class="gallery-info">
-        <h4>Camera Tower &amp; Greeting Servo</h4>
-        <p>USB webcam on the fixed camera tower, alongside the MG90S servo used for a one-shot greeting wave gesture. No pan-tilt hardware — camera aiming (left/right) is done by rotating the chassis itself, and there is no vertical/tilt axis at all.</p>
+        <h4>Camera Tower</h4>
+        <p>USB webcam on the camera tower. The single MG90S servo here did a one-shot greeting wave, then was repurposed for camera tilt (Week 12) — isolation testing on both candidate pins later confirmed it a failed component (Week 16), so it's been removed from the dashboard; the camera is fixed-angle. Left/right aiming is done by rotating the chassis itself, not a pan servo.</p>
         <span class="fig-ref">Tower head unit · Week 10</span>
       </div>
     </div>
@@ -619,42 +652,78 @@
       </div>
     </div>
 
-    <!-- Not yet ready — no real trial data exists for these two yet, commented out rather than shown as an empty placeholder:
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">📈</div>
-        <div class="ph-label">SMS DELIVERY<br>TIME CHART</div>
+      <div class="range-chart">
+        <div class="range-chart-title">GSM Voltage Reliability · Live Bench Sweep</div>
+        <div class="range-track-wrap">
+          <div class="range-marker" style="left:62.5%;">6.5V</div>
+          <div class="range-track">
+            <div class="range-seg dead" style="width:50%;">
+              <span class="range-seg-label">6.0–6.4V<br>corrupted / unreliable</span>
+            </div>
+            <div class="range-seg dead" style="width:12.5%;">
+              <span class="range-seg-label">6.4V<br>fail</span>
+            </div>
+            <div class="range-seg usable" style="width:37.5%;">
+              <span class="range-seg-label">6.5V+<br>clean — 6/6 sent &amp; confirmed</span>
+            </div>
+          </div>
+        </div>
+        <div class="range-stats">
+          <div><span class="range-stat-val">6.5V</span><span class="range-stat-lbl">Clean threshold</span></div>
+          <div><span class="range-stat-val">6.4V</span><span class="range-stat-lbl">Confirmed fail point</span></div>
+          <div><span class="range-stat-val">&lt;6.2V</span><span class="range-stat-lbl">True floor not reached</span></div>
+        </div>
       </div>
       <div class="gallery-info">
-        <h4>GSM SMS Delivery Times</h4>
-        <p>Distribution of alert delivery timestamps across 15 triggered test events. Target: &lt;30s.</p>
-        <span class="fig-ref">Chapter 5 · Available Week 9+</span>
+        <h4>GSM Voltage Reliability</h4>
+        <p>A live bench voltage sweep on the A7670C module found reliability is clean at 6.5V and degrades progressively below that, with no hard cutoff found down to 6.2V. Module and SIM both confirmed fully functional — any further GSM failure on the real robot is a Mega-side supply/wiring issue, not the module.</p>
+        <span class="fig-ref">Blog Week 16 · Live bench sweep</span>
       </div>
     </div>
 
     <div class="gallery-card">
-      <div class="gallery-placeholder">
-        <div class="ph-icon">📉</div>
-        <div class="ph-label">FEATURE EVALUATION<br>SUMMARY CHART</div>
+      <div class="tally-chart">
+        <div class="tally-chart-title">Final v1.0 Test Plan · 115 Tests</div>
+        <div class="tally-bar">
+          <div style="width:14.8%; background:var(--green);" title="17 Pass"></div>
+          <div style="width:16.5%; background:var(--amber);" title="19 Partial"></div>
+          <div style="width:1.7%; background:var(--accent);" title="2 Fail"></div>
+          <div style="width:67.0%; background:var(--surface-3);" title="77 Not run"></div>
+        </div>
+        <div class="tally-grid">
+          <div><span class="t-val" style="color:var(--green);">17</span><span class="t-lbl">Pass</span></div>
+          <div><span class="t-val" style="color:var(--amber);">19</span><span class="t-lbl">Partial</span></div>
+          <div><span class="t-val" style="color:var(--accent);">2</span><span class="t-lbl">Fail</span></div>
+          <div><span class="t-val" style="color:var(--muted);">77</span><span class="t-lbl">Not run</span></div>
+        </div>
       </div>
       <div class="gallery-info">
         <h4>Overall Feature Evaluation Results</h4>
-        <p>Pass/fail summary across all 15 features with measured vs target performance metrics.</p>
-        <span class="fig-ref">Chapter 5 · Available Week 11+</span>
+        <p>The final tally against the 115-test v1.0 plan covering hardware, motion, perception, fall detection, GSM and the integrated system — recorded honestly, including the 77 tests not reached before the deadline, not assumed passing.</p>
+        <span class="fig-ref">Appendix E · Final test log</span>
       </div>
     </div>
-    -->
 
   </div>
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
     <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
+    <a href="docs.html">Docs</a>
+    <a href="appendix/">Appendices</a>
+    <a href="fieldbooks.html">Field Books</a>
     <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
     <a href="blog/">Blog</a>
+    <a href="contact.html">Contact</a>
     <a href="../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

@@ -15,6 +15,29 @@
 <title>Appendices — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -41,10 +64,10 @@
       </thead>
       <tbody>
         <tr><td><a href="a-wiring-diagram.html">Appendix A — Wiring Diagram</a></td><td>Full Circuit Wiring Diagram — all Arduino pin assignments, power rails, and bus connections</td><td><span class="tag tag-blue">Confirmed</span></td></tr>
-        <tr><td><a href="b-firmware-listing.html">Appendix B — Firmware Listing</a></td><td>Arduino Firmware Listing — complete 5-state machine code with all peripheral drivers (password-protected)</td><td><span class="tag tag-amber">In progress</span></td></tr>
-        <tr><td><a href="c-fall-detection-node.html">Appendix C — Fall Detection Node</a></td><td>Python Fall Detection Node — full MediaPipe ROS node source code</td><td><span class="tag tag-amber">In progress</span></td></tr>
+        <tr><td><a href="b-firmware-listing.html">Appendix B — Firmware Listing</a></td><td>Arduino Firmware — complete 5-state machine code with all peripheral drivers, linked from GitHub</td><td><span class="tag tag-blue">Confirmed</span></td></tr>
+        <tr><td><a href="c-fall-detection-node.html">Appendix C — Fall Detection Node</a></td><td>Python Fall Detection Node — full MediaPipe ROS2 node source code, linked from GitHub</td><td><span class="tag tag-blue">Confirmed</span></td></tr>
         <tr><td><a href="d-ethics-approval.html">Appendix D — Proposal Form &amp; Ethics Approval</a></td><td>PDE4445 project proposal submission (includes ethics approval sign-off)</td><td><span class="tag tag-blue">Submitted</span></td></tr>
-        <tr><td><a href="e-raw-test-results.html">Appendix E — Raw Test Results</a></td><td>Live robot test log with evidence (in progress), plus fall detection confusion matrix and accuracy metrics</td><td><span class="tag tag-amber">In progress</span></td></tr>
+        <tr><td><a href="e-raw-test-results.html">Appendix E — Raw Test Results</a></td><td>Final v1.0 robot test log with evidence, plus fall detection confusion matrix and accuracy metrics</td><td><span class="tag tag-blue">Complete</span></td></tr>
         <tr><td><a href="f-ai-usage-statement.html">Appendix F — AI Usage Statement</a></td><td>AI Usage Statement — disclosure of generative AI tools used in this project</td><td><span class="tag tag-blue">Confirmed</span></td></tr>
       </tbody>
     </table>
@@ -56,11 +79,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="../index.html">Home</a>
+    <a href="../about.html">About</a>
+    <a href="../objectives.html">Objectives</a>
+    <a href="../features.html">Features</a>
+    <a href="../hardware.html">Hardware</a>
+    <a href="../architecture.html">Architecture</a>
+    <a href="../research.html">Research</a>
     <a href="../docs.html">Docs</a>
+    <a href="../appendix/">Appendices</a>
+    <a href="../fieldbooks.html">Field Books</a>
     <a href="../timeline.html">Timeline</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="../blog/">Blog</a>
+    <a href="../contact.html">Contact</a>
     <a href="../../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

@@ -15,6 +15,29 @@
 <title>Architecture — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -46,18 +69,18 @@
   <div class="page-header">
     <div class="page-label">Software Design</div>
     <h1 class="page-title">System Architecture</h1>
-    <p class="page-subtitle">CARA's software is split between two controllers: the Jetson Nano handles AI and ROS, while the Arduino Mega manages all real-time peripherals through a 5-state machine.</p>
+    <p class="page-subtitle">CARA's software is split between two controllers: the Jetson Orin Nano handles AI and ROS2, while the Arduino Mega manages all real-time peripherals through a 5-state machine.</p>
   </div>
 
   <h2 style="margin-top:0">Dual-Controller Design</h2>
-  <p>The architecture separates intelligence from execution. The <strong>NVIDIA Jetson Nano</strong> runs ROS Noetic on Ubuntu 18.04, handling all computationally intensive tasks — computer vision, camera streaming, person tracking, and web interfaces. It communicates decisions to the <strong>Arduino Mega 2560</strong> via UART serial at 9600 baud. The Arduino executes those decisions through its 5-state machine, directly controlling motors, sensors, GSM, RFID, LCD, buzzers, and LEDs.</p>
+  <p>The architecture separates intelligence from execution. The <strong>NVIDIA Jetson Orin Nano</strong> (swapped in for the originally-specified Jetson Nano due to availability) runs ROS2 (Jazzy) on Ubuntu 22.04, handling all computationally intensive tasks — computer vision, camera streaming, person tracking, and web interfaces. It communicates decisions to the <strong>Arduino Mega 2560</strong> via UART serial at 9600 baud. The Arduino executes those decisions through its 5-state machine, directly controlling motors, sensors, GSM, RFID, LCD, buzzers, and LEDs.</p>
 
   <p>This split was a deliberate design decision: the Arduino's real-time loop runs non-blocking polling cycles at ~50ms, which would be impossible to guarantee in ROS's executor model. Conversely, MediaPipe Pose Estimation and Flask streaming require the GPU and Linux stack available only on Jetson.</p>
 
   <div class="code-block">
 <span class="c">// CARA System Communication Flow</span>
 
-<span class="k">USB Webcam</span> ─── /dev/video0 ──→ <span class="k">Jetson Nano</span> (ROS Noetic · Ubuntu 18.04)
+<span class="k">USB Webcam</span> ─── /dev/video0 ──→ <span class="k">Jetson Orin Nano</span> (ROS2 Jazzy · Ubuntu 22.04)
                                         │
             ┌───────────────────────────┴─────────────────────────────┐
             │                    ROS Node Space                        │
@@ -127,7 +150,7 @@
         <tr>
           <td>health_management</td>
           <td>DS3231 time match</td>
-          <td>Design target: polls RTC time via serial for medication reminders at 08:00, 13:00, 18:00, 22:00, with a 15-min RFID/keypad confirm window and missed-dose SMS. Heatstroke alert at 38°C — postponed to v1.1, not implemented. <strong>Status:</strong> RFID/keypad confirmation works; the DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling and the missed-dose SMS path are not yet running — partially achieved.</td>
+          <td>Design target: polls RTC time via serial for medication reminders at 08:00, 13:00, 18:00, 22:00, with a 15-min confirm window and missed-dose SMS. Heatstroke alert at 38°C — postponed to v1.1, not implemented. <strong>Status:</strong> keypad acknowledgement works, with an escalating SMS/buzzer alert if unacknowledged; RFID acknowledgement was tried and removed after it proved unreliable on this hardware (power-quality fault, see Blog Week 16). The DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling isn't running yet — partially achieved.</td>
           <td>Medication trigger · SMS alerts</td>
         </tr>
       </tbody>
@@ -151,7 +174,7 @@
         <tr>
           <td style="font-size:1.3rem;">🚶</td>
           <td>Active</td>
-          <td>PIR triggered, RFID confirmed. Robot moves toward target. Person_lock tracking begins. Obstacle avoidance enforced. Amber LED pulsing.</td>
+          <td>PIR triggered. Robot moves toward target. Person_lock tracking begins (face recognition, colour-band fallback). Obstacle avoidance enforced. Amber LED pulsing.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">👁️</td>
@@ -205,12 +228,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
     <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
     <a href="docs.html">Docs</a>
+    <a href="appendix/">Appendices</a>
+    <a href="fieldbooks.html">Field Books</a>
     <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+    <a href="contact.html">Contact</a>
     <a href="../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

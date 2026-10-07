@@ -11,10 +11,33 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Appendix E — Raw Test Results. Raw Test Results — live robot test log with evidence (in progress) and fall detection results.">
+<meta name="description" content="CARA Appendix E — Raw Test Results. Raw Test Results — final v1.0 robot test log with evidence and fall detection results.">
 <title>Appendix E — Raw Test Results — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -29,13 +52,13 @@
   </div>
 
   <div class="page-header">
-    <div class="page-label">Appendix E</div>
+    <div class="page-label">Appendix E <span class="tag tag-blue" style="margin-left:.5rem;">Complete</span></div>
     <h1 class="page-title">Raw Test Results</h1>
-    <p class="page-subtitle">Results and evidence from live robot testing (in progress), plus the fall detection confusion matrix and accuracy metrics (labelled Appendix D in the thesis document).</p>
+    <p class="page-subtitle">Results and evidence from live robot testing, plus the fall detection confusion matrix and accuracy metrics (labelled Appendix D in the thesis document). This is the final v1.0 test log — see Objectives Achievement for which of the 115 planned tests were and weren't reached before the development deadline.</p>
   </div>
 
-  <h2 style="margin-top:0;">Formal Test Log — Live Robot Testing <span class="tag tag-amber" style="margin-left:.5rem; vertical-align:middle;">In progress</span></h2>
-  <p>The final testing stage follows a 115-test plan covering hardware, perception, motion, fall detection, GSM alerting and the integrated system. Each test has a written procedure and a measurable pass criterion, and is recorded with its actual result and evidence. This page lists only the tests carried out so far; results are transcribed as recorded in the test sheet (updated 23 September 2026), and more are added as testing continues.</p>
+  <h2 style="margin-top:0;">Formal Test Log — Live Robot Testing <span class="tag tag-blue" style="margin-left:.5rem; vertical-align:middle;">Final — v1.0</span></h2>
+  <p>The final testing stage followed a 115-test plan covering hardware, perception, motion, fall detection, GSM alerting and the integrated system. Each test has a written procedure and a measurable pass criterion, and is recorded with its actual result and evidence. This is the complete, final set of tests actually carried out for v1.0 — results are transcribed as recorded in the test sheet (23–24 September 2026). The 77 tests not reached are recorded honestly as not run, not as failed or assumed passing.</p>
 
   <div class="grid-4" style="margin-top:1.25rem; grid-template-columns:repeat(5,1fr);">
     <div class="card"><h4>Planned</h4><p style="font-size:1.4rem; font-weight:700; color:var(--primary); margin:0;">115</p></div>
@@ -484,8 +507,8 @@
     <div class="card"><h4>Cross-validated</h4><p class="v">89.6%</p><p class="s">±4.8%</p></div>
   </div>
 
-  <div class="info-box amber" style="margin-top:1.5rem;">
-    <p><strong>Note:</strong> across 129 total trials, this result (87.6% accuracy) is higher than the ≥80%-across-20-trials figure quoted elsewhere on this site and in the thesis Abstract — that figure was the original target/earlier-draft result and hasn't been reconciled with this more complete run yet. Pulled directly from the thesis document (Appendix D there) — treat as accurate but not yet the final submitted version, and not yet cross-checked against the raw per-trial data for all 15 features.</p>
+  <div class="info-box" style="margin-top:1.5rem;">
+    <p><strong>Note:</strong> across 129 total trials, this result (87.6% accuracy) exceeds the ≥80%-across-20-trials figure quoted elsewhere on this site and in the thesis Abstract — that earlier figure was the original target, superseded by this larger, more complete evaluation. This is the final result used for Objective 2.</p>
   </div>
 
   <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
@@ -495,11 +518,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="../index.html">Home</a>
+    <a href="../about.html">About</a>
+    <a href="../objectives.html">Objectives</a>
+    <a href="../features.html">Features</a>
+    <a href="../hardware.html">Hardware</a>
+    <a href="../architecture.html">Architecture</a>
+    <a href="../research.html">Research</a>
     <a href="../docs.html">Docs</a>
-    <a href="./">Appendices</a>
+    <a href="../appendix/">Appendices</a>
+    <a href="../fieldbooks.html">Field Books</a>
+    <a href="../timeline.html">Timeline</a>
+    <a href="../gallery.html">Gallery</a>
+    <a href="../blog/">Blog</a>
+    <a href="../contact.html">Contact</a>
     <a href="../../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

@@ -15,6 +15,29 @@
 <title>Features — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -89,19 +112,19 @@
           <td style="font-size:1.3rem;">👤</td>
           <td>Person Following</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>Face recognition (LBPH) is the primary identity lock; a colour-band HSV fallback takes over when the face can't be reliably seen, with band-anchored re-acquisition of the face once it's visible again. RFID and keypad are used for medication confirmation and enrolment, not for tracking. Publishes TARGET_LOST if neither the face nor the band is held.</td>
+          <td>Face recognition (LBPH) is the primary identity lock; a colour-band HSV fallback takes over when the face can't be reliably seen, with band-anchored re-acquisition of the face once it's visible again. Confirmed live on real hardware across two lighting conditions. The keypad is used for enrolment and medication acknowledgement; RFID logs tag scans but no longer confirms anything (see Medication Reminders). Publishes TARGET_LOST if neither the face nor the band is held. The HSV band fallback is reliable only at close range (~50cm; see Testing &amp; Evaluation).</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">💊</td>
           <td>Medication Reminders</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>Design target: DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily, confirmed by RFID tap or keypad acknowledge. <strong>Status:</strong> RFID/keypad confirmation is implemented and working; the DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling isn't running yet — assessed as partially achieved (see Testing &amp; Evaluation).</td>
+          <td>Design target: DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily, confirmed by keypad acknowledge. <strong>Status:</strong> keypad acknowledgement works, now with an escalating alert (6 messages 5 minutes apart, then buzzer/LCD held active) rather than a single notification. RFID acknowledgement was implemented, then removed after testing found it unreliable specifically when the Mega is powered through the Jetson's USB port — a real power-quality fault, not a wiring issue (see Blog Week 16). The DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling isn't running yet — assessed as partially achieved.</td>
         </tr>
         <tr>
           <td style="font-size:1.3rem;">⚠️</td>
           <td>Missed-Dose SMS Alert</td>
           <td><span class="tag tag-crit">Critical</span></td>
-          <td>Design target: if medication RFID confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members. <strong>Status:</strong> not yet confirmed working end-to-end — depends on both the RTC-based scheduling and GSM alerting above.</td>
+          <td>Design target: if medication confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members. <strong>Status:</strong> the escalating alert mechanism itself works (keypad-acknowledged, GSM module confirmed functional with its voltage requirement understood); the full chain hasn't been confirmed end-to-end on the assembled robot yet, since it also depends on the RTC-based scheduling above.</td>
         </tr>
       </tbody>
     </table>
@@ -201,12 +224,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="index.html">Home</a>
+    <a href="about.html">About</a>
     <a href="objectives.html">Objectives</a>
+    <a href="features.html">Features</a>
     <a href="hardware.html">Hardware</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
     <a href="docs.html">Docs</a>
+    <a href="appendix/">Appendices</a>
+    <a href="fieldbooks.html">Field Books</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+    <a href="contact.html">Contact</a>
     <a href="../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

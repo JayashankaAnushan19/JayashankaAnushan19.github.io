@@ -15,6 +15,29 @@
 <title>Hardware — CARA Project</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA — Companion Assistive Robot for the Aged",
+  "alternateName": "CARA",
+  "description": "A low-cost, GSM-based companion assistive robot for elderly care in developing countries. Combines an NVIDIA Jetson Orin Nano running MediaPipe pose estimation and a trained RandomForestClassifier for AI-based fall detection (87.6% test accuracy, 89.6% cross-validated) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. Alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Estimated prototype cost $409.10, under the $500 target.",
+  "url": "https://jayashankaanushan19.github.io/CARA/",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "Jayashanka Anushan",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Middlesex University Dubai"
+    }
+  },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-",
+  "keywords": "assistive robotics, elderly care, fall detection, GSM alerting, MediaPipe, RandomForestClassifier, developing countries, ambient assisted living, Jetson Orin Nano, Arduino Mega",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-10-08"
+}
+</script>
 </head>
 <body>
 
@@ -46,17 +69,17 @@
   <div class="page-header">
     <div class="page-label">Bill of Materials</div>
     <h1 class="page-title">Hardware Components</h1>
-    <p class="page-subtitle">All components are selected for availability, cost-efficiency, and compatibility with ROS Noetic on Jetson Nano. Total target cost is under $500 USD.</p>
+    <p class="page-subtitle">All components are selected for availability, cost-efficiency, and compatibility with ROS2 (Jazzy) on the Jetson Orin Nano. Measured prototype cost: $409.10 — $90.90 under the $500 target (NFR1), market-rate estimate rather than reconciled receipts.</p>
   </div>
 
   <!-- OVERVIEW CARDS -->
   <div class="grid-4" style="margin-bottom:2rem;">
     <div class="card" style="text-align:center;">
-      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">&lt;$500</div>
-      <div style="font-size:.8rem; color:var(--muted);">Total cost target</div>
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">$409.10</div>
+      <div style="font-size:.8rem; color:var(--muted);">Est. cost — $90.90 under target</div>
     </div>
     <div class="card" style="text-align:center;">
-      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">17</div>
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">22</div>
       <div style="font-size:.8rem; color:var(--muted);">Component types</div>
     </div>
     <div class="card" style="text-align:center;">
@@ -64,8 +87,8 @@
       <div style="font-size:.8rem; color:var(--muted);">Main controllers</div>
     </div>
     <div class="card" style="text-align:center;">
-      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">90+min</div>
-      <div style="font-size:.8rem; color:var(--muted);">Battery runtime</div>
+      <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--primary);">3h35m+</div>
+      <div style="font-size:.8rem; color:var(--muted);">Measured runtime (target: 90min)</div>
     </div>
   </div>
 
@@ -79,10 +102,10 @@
       <tbody>
         <tr>
           <td>AI Processor</td>
-          <td>NVIDIA Jetson Nano 4GB</td>
-          <td>4-core ARM Cortex-A57 · 128 Maxwell CUDA cores · Ubuntu 18.04 · ROS Noetic</td>
-          <td>MediaPipe fall detection, camera streaming, Flask web server, all ROS nodes, person tracking</td>
-          <td>$99–150</td>
+          <td>NVIDIA Jetson Orin Nano 8GB Developer Kit</td>
+          <td>6-core ARM Cortex-A78AE · 1024-core Ampere GPU, 32 Tensor Cores · Ubuntu 22.04 · ROS2 (Jazzy)</td>
+          <td>MediaPipe fall detection, camera streaming, Flask web server, all ROS2 nodes, person tracking</td>
+          <td>~$124.50</td>
         </tr>
         <tr>
           <td>Microcontroller</td>
@@ -267,7 +290,7 @@
           <td>Main Battery</td>
           <td>Custom 18650 Pack (Samsung INR18650-32E cells)</td>
           <td>~12V nominal · up to 12A output · dedicated Li-ion charger (100–240V AC in, 12V/2A out)</td>
-          <td>Primary power source for all subsystems. Replaces the original 3S LiPo pack (one cell failed). Runtime under full load not yet measured (battery-runtime test pending)</td>
+          <td>Primary power source for all subsystems. Replaces the original 3S LiPo pack (one cell failed). Measured: held above 9.6V for 3h35m under representative load (Jetson running, intermittent driving), then dropped to 0V by ~3h55m — comfortably over the 90-minute target (NFR4)</td>
           <td>Custom-built</td>
         </tr>
         <tr>
@@ -329,12 +352,21 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-links">
+<footer class="site-footer">  <div class="footer-links">
     <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="objectives.html">Objectives</a>
     <a href="features.html">Features</a>
+    <a href="hardware.html">Hardware</a>
     <a href="architecture.html">Architecture</a>
+    <a href="research.html">Research</a>
     <a href="docs.html">Docs</a>
+    <a href="appendix/">Appendices</a>
+    <a href="fieldbooks.html">Field Books</a>
+    <a href="timeline.html">Timeline</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="blog/">Blog</a>
+    <a href="contact.html">Contact</a>
     <a href="../">Portfolio</a>
   </div>
   <p>CARA Project · Jayashanka Anushan · 2026</p>

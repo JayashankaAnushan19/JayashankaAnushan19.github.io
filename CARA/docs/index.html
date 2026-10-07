@@ -119,7 +119,7 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>FR1</td><td>Detect fall posture using computer vision with minimum 80% accuracy across 20 standardized trials</td><td>Objective 2</td><td><span class="tag tag-critical">Critical</span></td></tr>
           <tr><td>FR2</td><td>Deliver SMS alerts to registered family members within 30 seconds of fall confirmation, without Wi-Fi</td><td>Objective 3</td><td><span class="tag tag-critical">Critical</span></td></tr>
           <tr><td>FR3</td><td>Avoid obstacles during navigation, stopping at minimum 20cm from any obstacle</td><td>Objective 1</td><td><span class="tag tag-critical">Critical</span></td></tr>
-          <tr><td>FR4</td><td>Trigger medication reminders at 4 programmed daily times with RFID confirmation</td><td>Objective 4</td><td><span class="tag tag-high">High</span></td></tr>
+          <tr><td>FR4</td><td>Trigger medication reminders at 4 programmed daily times with confirmation (design: RFID; actual: keypad, after RFID proved unreliable on this hardware — see Blog Week 16)</td><td>Objective 4</td><td><span class="tag tag-high">High</span></td></tr>
           <tr><td>FR5</td><td>Send SMS alerts to family if medication is not confirmed within 15 minutes of reminder</td><td>Objective 4</td><td><span class="tag tag-high">High</span></td></tr>
           <tr><td>FR6</td><td>Allow family members to view live camera feed via phone browser</td><td>User need</td><td><span class="tag tag-medium">Medium</span></td></tr>
           <tr><td>FR7</td><td>Allow family members to drive CARA remotely via phone browser</td><td>User need</td><td><span class="tag tag-medium">Medium</span></td></tr>
@@ -172,7 +172,7 @@ footer a{color:var(--cyan);text-decoration:none}
           <tr><td>person_lock</td><td>Camera frame received</td><td>Face recognition (LBPH) primary lock · OpenCV HSV colour-band fallback with band-anchored face re-acquisition · publishes /target_visible</td></tr>
           <tr><td>pan_tilt</td><td>Nose X + PIR direction</td><td>Calculates chassis rotation direction vs 320px frame center (left/right aiming via chassis rotation, not a pan servo) · sends PAN_LEFT/RIGHT via serial · Pin 10 tilt servo</td></tr>
           <tr><td>remote_control</td><td>HTTP POST from phone</td><td>Receives movement commands · forwards to Arduino · obstacle override always active</td></tr>
-          <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Design target: reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · RFID/keypad confirm · 15min no-confirm → sendSMS(). Status: confirmation path works; RTC currently disabled after a hardware fault, so live scheduling and missed-dose SMS aren't running yet — partially achieved.</td></tr>
+          <tr><td>health_management</td><td>DS3231 RTC time match</td><td>Design target: reminders ×4/day at 08:00, 13:00, 18:00, 22:00 · keypad confirm · 15min no-confirm → sendSMS(). Status: keypad acknowledgement works with escalating SMS/buzzer; RFID acknowledgement removed after a power-quality fault (Week 16). RTC currently disabled after a hardware fault, so live scheduling isn't running yet — partially achieved.</td></tr>
         </tbody>
       </table>
     </div>
@@ -186,13 +186,13 @@ footer a{color:var(--cyan);text-decoration:none}
       <table>
         <thead><tr><th>Component</th><th>Model</th><th>Specification</th><th>Purpose</th><th>Cost (USD)</th></tr></thead>
         <tbody>
-          <tr><td>AI Processor</td><td>NVIDIA Jetson Nano 4GB</td><td>4-core ARM, 128 CUDA cores, Ubuntu 18.04</td><td>MediaPipe fall detection, camera streaming, ROS</td><td>$99–150</td></tr>
+          <tr><td>AI Processor</td><td>NVIDIA Jetson Orin Nano 8GB (swapped from the originally-specified Jetson Nano)</td><td>6-core ARM Cortex-A78AE, 1024-core Ampere GPU, Ubuntu 22.04, ROS2</td><td>MediaPipe fall detection, camera streaming, ROS2</td><td>~$124.50</td></tr>
           <tr><td>Microcontroller</td><td>Arduino Mega 2560</td><td>ATmega2560, 54 digital I/O, 16 analog, 256KB flash, 16MHz</td><td>Peripheral control, sensor polling, GSM, state machine</td><td>$10–25</td></tr>
           <tr><td>Camera</td><td>USB Webcam 720p</td><td>720p 30fps, USB 2.0, UVC compatible</td><td>MediaPipe pose input, family feed, fall detection</td><td>$15–30</td></tr>
           <tr><td>GSM Module</td><td>A7670C</td><td>Multi-band LTE, AT commands, ~3.4–4.2V supply</td><td>SMS emergency alerts — Wi-Fi-free. SIM800L (2G) remains valid for a Sri Lanka deployment where 2G is still active.</td><td>$15–35</td></tr>
           <tr><td>PIR Sensor ×2</td><td>HC-SR501</td><td>3–7m range, adjustable sensitivity, Pin 2 &amp; Pin 3</td><td>Person presence detection, triggers chassis/head direction toward the person</td><td>$1–3 each</td></tr>
           <tr><td>Ultrasonic ×6</td><td>HC-SR04</td><td>2–400cm range, 15° beam · Trig/Echo pairs: 26/27, 28/29, 30/31, 32/33, 34/35, 36/37</td><td>360° obstacle-detection ring: front-left, front-right, back-left, back-right, left, right</td><td>$2–5 each</td></tr>
-          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td><td>Medication-reminder confirmation and patient enrolment (not used for person-tracking — see person_lock)</td><td>$2–5</td></tr>
+          <tr><td>RFID Reader</td><td>MFRC522</td><td>13.56MHz, SPI interface, 3–5cm read range · SS=53, RST=49 (SCK=52, MOSI=51, MISO=50 fixed)</td><td>Patient enrolment and tag logging. No longer used for alert/medication acknowledgement — removed after a Jetson-USB power-quality fault corrupted its SPI reads (Week 16); the keypad is the sole acknowledgement path. Also not used for person-tracking (see person_lock).</td><td>$2–5</td></tr>
           <tr><td>RTC Module</td><td>DS3231</td><td>I2C addr 0x68, ±2ppm, battery backup</td><td>Medication timing without network sync</td><td>$2–5</td></tr>
           <tr><td>Keypad</td><td>4×4 Matrix Membrane</td><td>GPIO, momentary contact · Rows=38,39,40,41; Cols=42,43,4,5</td><td>Manual input — panic alert (#), acknowledge/silence (*), enrolment (A/B/D). Reuses existing hardware, no dedicated panic button needed</td><td>$2–4</td></tr>
           <tr><td>LCD Display</td><td>16×2 with I2C</td><td>16 char × 2 lines, I2C addr 0x27</td><td>State messages and greeting display</td><td>$2–5</td></tr>
