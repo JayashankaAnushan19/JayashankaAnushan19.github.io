@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-09 · A reusable fault-diagnosis protocol for low-cost robots · CARA²</title>
+<meta name="description" content="EXP-09: Can the systematic-elimination method used throughout V1 be formalised into a protocol that measurably shortens time-to-root-cause?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-09">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-09</div>
+    <div class="print-head">CARA² Experiment Register · EXP-09</div>
+    <div class="kicker">Experiment · Methodology</div>
+    <h1>A reusable fault-diagnosis protocol for low-cost robots</h1>
+    <div class="entry-meta"><span class="mono">EXP-09</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">Can the systematic-elimination method used throughout V1 be formalised into a protocol that measurably shortens time-to-root-cause?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>Much of V1’s value was in how faults were found, not just fixed. Written down and measured, that method is a contribution in its own right.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>V1 root-caused a defective RFID reader, a damaged I²C SCL pin (moved to a software I²C bus), RFID power sensitivity, unresponsive Serial1 pins and a PIR stuck HIGH — each by isolation testing.</li>
+      <li>A web-based diagnostics tool (flash a test sketch and watch live serial, port 5050) was built for exactly this work (6 Sep 2026).</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>Write the protocol down; apply it to every new fault in V2.</li>
+      <li>Record hypotheses tested and time to root cause for each fault.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>Time to root cause</li>
+      <li>Hypotheses tested per fault</li>
+      <li>Faults resolved vs. documented as limitations</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+  CARA² DAILY NOTE TEMPLATE
+  1. Copy to  daily/YYYY-MM-DD.html  (second note the same day: YYYY-MM-DD-2.html).
+  2. Replace every [[…]] placeholder (date appears in data-note, crumbs,
+     print-head, kicker, ID).
+  3. Add the note to data/daily.js (date, title, summary, tags, experiments,
+     media). Photos/videos are listed there, not here — they appear in the
+     "Media" section below and in the Gallery automatically.
+  4. Delete sections you don't need. Callouts: <div class="callout finding">,
+     <div class="callout warn">, <div class="callout">.
+  Underscore-prefixed files are not published by GitHub Pages.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DN-[[YYYYMMDD]] · [[Short title]] · CARA²</title>
+<meta name="description" content="Daily note, [[d Month YYYY]]: [[one-line summary]]">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="daily">
+<main id="main">
+<div class="wrap" data-note="[[YYYY-MM-DD]]">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Daily Notes</a> / DN-[[YYYYMMDD]]</div>
+    <div class="print-head">CARA² Lab Notebook · Daily Note DN-[[YYYYMMDD]] · [[d Month YYYY]]</div>
+    <div class="kicker">Daily note · [[Weekday d Month YYYY]]</div>
+    <h1>[[Title — what happened, in one line]]</h1>
+    <div class="entry-meta"><span class="mono">DN-[[YYYYMMDD]]</span><span>Jayashanka Anushan</span></div>
+    <div class="chips" id="note-chips"></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print this note</button></div>
+  </header>
+
+  <div class="entry-body">
+    <p>[[Context: what you set out to do today and why.]]</p>
+
+    <h2>Setup</h2>
+    <ul><li>[[Firmware/software version or commit, hardware configuration, conditions.]]</li></ul>
+
+    <h2>What was done</h2>
+    <ul><li>[[Steps, tests, measurements — with numbers.]]</li></ul>
+
+    <h2>Results</h2>
+    <div class="callout finding"><b>Finding</b>[[What you learned.]]</div>
+
+    <h2>Media</h2>
+    <div id="note-media"></div>
+
+    <h2>Next</h2>
+    <ul><li>[[What follows from this.]]</li></ul>
+  </div>
+
+  <nav class="pager" id="note-pager" aria-label="Other notes"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

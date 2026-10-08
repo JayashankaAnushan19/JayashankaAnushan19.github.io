@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About · CARA²</title>
+<meta name="description" content="About CARA V2.0 — the problem, the two users it serves, and the aims of independent V2.0 development.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+</head>
+<body data-root="" data-page="about">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="kicker">Project</div>
+      <h1>About CARA</h1>
+      <p class="lede">CARA — the Companion Assistive Robot for the Aged — is a low-cost mobile robot for older people who live alone, and for the family members who worry about them from far away.</p>
+    </div>
+  </section>
+
+  <div class="wrap doc">
+
+    <h2>The problem</h2>
+    <p>Sri Lanka is ageing quickly: more than 12 % of the population is now 60 or older, and that share is projected to pass 25 % by 2041 (Department of Census and Statistics, 2023). At the same time, large numbers of working-age adults move abroad for work, often leaving their parents to live alone in the family home.</p>
+    <p>Older people living alone face daily risks — falls, missed medication, isolation — and often hide pain or fear so as not to worry their children. Their children, in turn, live with the anxiety of not being able to check on them. The same pattern exists across South and Southeast Asia, Sub-Saharan Africa and Latin America, wherever family structures are changing faster than care services.</p>
+    <p>Existing assistive and companion robots are designed for wealthy households or care institutions, typically cost well over $2,000, and assume reliable Wi-Fi. None are designed around the constraints of a modest home in a developing region.</p>
+
+    <h2>Two users, one robot</h2>
+    <div class="two-col">
+      <div>
+        <h3>The person at home</h3>
+        <ul>
+          <li>Safety: fall detection and an emergency button</li>
+          <li>Health: medication reminders with confirmation</li>
+          <li>Company: a familiar presence that greets and follows</li>
+        </ul>
+      </div>
+      <div>
+        <h3>The family abroad</h3>
+        <ul>
+          <li>Emergency SMS alerts that work without Wi-Fi</li>
+          <li>Escalating reminders if medication isn’t confirmed</li>
+          <li>Live video and remote driving from a phone</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Versions</h2>
+    <div class="note-box">
+      <p style="margin:0"><b>V1 (June – October 2026)</b> was completed as a university project. It produced the working prototype, a full test campaign and a week-by-week <a href="../CARA/">documentary</a>.</p>
+      <p style="margin:.6rem 0 0"><b>V2.0 (from 8 October 2026)</b> is my personal, independent development of the same robot. Everything on this site belongs to V2.0.</p>
+    </div>
+
+    <h2>What V2.0 sets out to do</h2>
+    <ul>
+      <li><b>Make the platform reproducible</b> — the repository should rebuild exactly the robot that is being tested.</li>
+      <li><b>Measure, not just demonstrate</b> — run the evaluations V1 did not get to: timed alert delivery, fall detection in real conditions, following with several people present.</li>
+      <li><b>Fix the known limits</b> — peripheral power distribution, in-place turning, and the split between two software stacks.</li>
+      <li><b>Reach the family abroad</b> — secure remote access without fixed IP addresses or paid services.</li>
+      <li><b>Publish what is learned</b> — as journal entries that can grow into research papers.</li>
+    </ul>
+    <p>The full list, with the experiment behind each goal, is on the <a href="objectives.html">Objectives</a> page.</p>
+
+    <h2>How results are reported</h2>
+    <ul>
+      <li><b>Failures are results.</b> Failed and partial tests are reported with the measurement, the target and the reason.</li>
+      <li><b>Corrections are appended, not hidden.</b> Journal entries carry a revision history; later corrections are dated.</li>
+      <li><b>Claims trace to evidence.</b> Numbers cite a log, a file or a test record. Reconstructed information is labelled as reconstructed.</li>
+      <li><b>Open by default.</b> Source code is public; data and video are published where size and privacy allow. No enrolled person’s face images are ever published.</li>
+    </ul>
+
+    <h2>Author</h2>
+    <p><b>Jayashanka Anushan</b> — robotics engineer and independent researcher. Source code: <a href="https://github.com/JayashankaAnushan19/CARA-Companion-Assistive-Robot-for-the-Aged-V2.0">CARA V2.0 on GitHub</a>.</p>
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Features · CARA²</title>
+<meta name="description" content="Every designed CARA feature and its current status, with evidence and the experiment that covers it.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+</head>
+<body data-root="" data-page="features">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="kicker">System · baseline 8 October 2026</div>
+      <h1>Features</h1>
+      <p class="lede">Every feature CARA was designed to have, and what it actually does today with the current firmware and dashboard. Status changes are logged in <a href="daily/">daily notes</a>.</p>
+      <p class="small muted"><span class="pill ok">Working</span> runs on the robot · <span class="pill warn">Limited</span> works with a known gap · <span class="pill bad">Not working</span> failed, disabled or missing</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="section-head"><h2>Safety</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Status</th><th>Current behaviour / evidence</th><th>Experiment</th></tr></thead>
+      <tbody>
+        <tr><td>AI fall detection</td><td><span class="pill warn">Limited</span></td><td>Runs continuously. Trained classifier: 87.6 % test accuracy offline, but the dashboard path in use logged “No trained ML classifier found” and runs a rule-based fallback.</td><td><a class="tag exp" href="experiments/exp-04.html">EXP-04</a></td></tr>
+        <tr><td>Emergency SMS to family</td><td><span class="pill ok">Working</span></td><td>Delivered from the assembled robot; up to 3 attempts per message. Delivery time not yet measured.</td><td><a class="tag exp" href="experiments/exp-03.html">EXP-03</a></td></tr>
+        <tr><td>Following the enrolled person</td><td><span class="pill warn">Limited</span></td><td>Turns, approaches and backs off using face size; tuned live on 7 Oct 2026. No formal trials yet; turning is torque-limited.</td><td><a class="tag exp" href="experiments/exp-05.html">EXP-05</a></td></tr>
+        <tr><td>Obstacle avoidance</td><td><span class="pill ok">Working</span></td><td>Refuses movement within 30 cm; slows from 70 cm. Sensor dropouts possible on a shared supply.</td><td><a class="tag exp" href="experiments/exp-02.html">EXP-02</a></td></tr>
+        <tr><td>Manual panic button (<code>#</code>)</td><td><span class="pill ok">Working</span></td><td>Triggers the same never-ending SMS escalation as a fall.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-head"><h2>Health management</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Status</th><th>Current behaviour / evidence</th><th>Experiment</th></tr></thead>
+      <tbody>
+        <tr><td>Scheduled medication reminders</td><td><span class="pill warn">Limited</span></td><td>Daily times set from the dashboard fire on the robot with buzzer and SMS. The LCD shows the fall message (“HELP IS COMING!”) rather than a reminder message.</td><td>—</td></tr>
+        <tr><td>Confirmation by keypad / RFID</td><td><span class="pill warn">Limited</span></td><td>Keypad <code>*</code> works. Any RFID tag acknowledges (not only the patient’s), and RFID needs clean direct power.</td><td><a class="tag exp" href="experiments/exp-02.html">EXP-02</a></td></tr>
+        <tr><td>SMS escalation if unconfirmed</td><td><span class="pill warn">Limited</span></td><td>Implemented (6 messages, 5 min apart); never tested end to end.</td><td><a class="tag exp" href="experiments/exp-03.html">EXP-03</a></td></tr>
+        <tr><td>Setting reminders from the keypad</td><td><span class="pill bad">Not working</span></td><td>Existed in an earlier firmware variant; not in the current firmware. Use the dashboard.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-head"><h2>Family connection</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Status</th><th>Current behaviour / evidence</th><th>Experiment</th></tr></thead>
+      <tbody>
+        <tr><td>Live camera in a phone browser</td><td><span class="pill ok">Working</span></td><td>Same home network only.</td><td><a class="tag exp" href="experiments/exp-07.html">EXP-07</a></td></tr>
+        <tr><td>Remote driving from the dashboard</td><td><span class="pill ok">Working</span></td><td>Used live during final V1 testing (6–7 Oct 2026). Obstacle limits still apply.</td><td>—</td></tr>
+        <tr><td>Access from abroad</td><td><span class="pill bad">Not working</span></td><td>Password login exists; internet tunnel and SMS-on-link-change not built.</td><td><a class="tag exp" href="experiments/exp-07.html">EXP-07</a></td></tr>
+        <tr><td>Patient enrolment</td><td><span class="pill warn">Limited</span></td><td>Works from the dashboard (capture, train, reset). Keypad keys A/B/D are not handled by the current firmware.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-head"><h2>Companion interaction</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Status</th><th>Current behaviour / evidence</th><th>Experiment</th></tr></thead>
+      <tbody>
+        <tr><td>Tilting camera head</td><td><span class="pill bad">Not working</span></td><td>Firmware and dashboard controls exist; the servo unit has failed.</td><td>—</td></tr>
+        <tr><td>Rotating greeting messages</td><td><span class="pill bad">Not working</span></td><td>Greetings are triggered by the presence sensors, which are disabled — so they are never shown.</td><td>—</td></tr>
+        <tr><td>LED status feedback</td><td><span class="pill warn">Limited</span></td><td>Blinks during the boot self-test. The idle “breathing” pulse only runs in the idle state, which the robot no longer enters.</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="doc" style="margin-top:2rem">
+      <p class="small muted">Status reflects the repository firmware <code>cara_main_mega_gsm.ino</code> and dashboard <code>remote_control.py</code> as of 8 October 2026. If the robot turns out to run different firmware (<a href="experiments/exp-01.html">EXP-01</a>), this table will be re-checked.</p>
+    </div>
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

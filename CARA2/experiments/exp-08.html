@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-08 · Single-owner software architecture · CARA²</title>
+<meta name="description" content="EXP-08: Does giving the serial port and camera a single owning process remove the contention faults seen in V1?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-08">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-08</div>
+    <div class="print-head">CARA² Experiment Register · EXP-08</div>
+    <div class="kicker">Experiment · Software architecture</div>
+    <h1>Single-owner software architecture</h1>
+    <div class="entry-meta"><span class="mono">EXP-08</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">Does giving the serial port and camera a single owning process remove the contention faults seen in V1?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>V1 ended with two software stacks that cannot run together. Consolidating them is a prerequisite for running all features at once for long periods.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>A <code>Restart=always</code> dashboard service fought the ROS2 camera node for <code>/dev/video0</code> and corrupted the capture (25 Sep 2026).</li>
+      <li>The ROS2 serial bridge and the web dashboard cannot run together on <code>/dev/ttyACM0</code>.</li>
+      <li>Camera-to-tracker latency fell from 710 ms to ~101 ms median once image topics used depth-1 best-effort QoS (20 Sep 2026).</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>Route all hardware access through one owner (ROS2 topics or one service).</li>
+      <li>24-hour soak test with dashboard, tracking and fall detection running together.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>End-to-end latency</li>
+      <li>Device conflicts</li>
+      <li>Crashes / restarts per day</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

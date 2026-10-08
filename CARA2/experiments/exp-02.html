@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-02 · Peripheral power architecture · CARA²</title>
+<meta name="description" content="EXP-02: How does supply topology — Arduino 5 V rail, dedicated regulator, or the Jetson’s USB port — affect RFID, servo and ultrasonic reliability?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-02">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-02</div>
+    <div class="print-head">CARA² Experiment Register · EXP-02</div>
+    <div class="kicker">Experiment · Power & embedded</div>
+    <h1>Peripheral power architecture</h1>
+    <div class="entry-meta"><span class="mono">EXP-02</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">How does supply topology — Arduino 5 V rail, dedicated regulator, or the Jetson’s USB port — affect RFID, servo and ultrasonic reliability?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>Several V1 faults appeared only when the whole robot was running and disappeared on the bench. A single, measured account of how supply topology affects each peripheral would turn a string of individual fixes into a design rule.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>The MFRC522 read a corrupted VersionReg (0x24) and detected no tags inside the full firmware, but read 0x92 and detected tags in isolation (4 Oct 2026).</li>
+      <li>A seven-configuration isolation test in V1 traced RFID tag-detection failure to powering the Mega through the Jetson’s USB port — a power requirement rather than a component fault.</li>
+      <li>Five of six ultrasonic sensors read a constant 0.00 cm while sharing the Arduino 5 V rail (6 Sep 2026).</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>Fixed test matrix of supply configurations, everything else held constant.</li>
+      <li>Per configuration: repeated tag presentations, ultrasonic dropout count, rail voltage under load.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>Tag detection rate</li>
+      <li>VersionReg integrity</li>
+      <li>Ultrasonic zero-reading rate</li>
+      <li>Rail sag (V) under load</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

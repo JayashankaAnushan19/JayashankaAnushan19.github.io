@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JE-001 · CARA V2.0 Baseline · CARA²</title>
+<meta name="description" content="Technical report: the CARA assistive-robot platform at the start of independent V2.0 development — hardware, software, verified capabilities, characterised faults, corrections to the V1 record, and the research agenda.">
+<meta name="citation_title" content="CARA V2.0 Baseline: State of a Low-Cost Assistive Robot Platform at the Start of Independent Development">
+<meta name="citation_author" content="Anushan, Jayashanka">
+<meta name="citation_publication_date" content="2026/10/08">
+<meta name="citation_journal_title" content="CARA Research Journal">
+<meta name="citation_technical_report_number" content="JE-001">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="journal">
+<main id="main">
+<div class="wrap" style="max-width:900px">
+
+  <div class="paper-tools">
+    <a class="btn ghost sm" href="./">← All entries</a>
+    <span class="spacer"></span>
+    <a class="btn ghost sm" href="#cite">Cite</a>
+    <button class="btn sm" data-action="print">Print / Save PDF</button>
+  </div>
+
+  <article class="paper">
+    <div class="paper-banner" data-entry="CARA² · JE-001 (2026)">
+      <span><b>CARA Research Journal</b> · Volume 2 (2026)</span>
+      <span>Entry JE-001 · Version 1.0</span>
+    </div>
+
+    <div class="paper-type">Technical Report</div>
+    <h1>CARA V2.0 Baseline: State of a Low-Cost Assistive Robot Platform at the Start of Independent Development</h1>
+    <p class="authors">Jayashanka Anushan<sup>1</sup></p>
+    <p class="affil"><sup>1</sup> Independent researcher. Correspondence via the project repository.</p>
+    <p class="dates"><span><b>Received</b> 8 October 2026</span><span><b>Published</b> 8 October 2026</span><span><b>Linked threads</b> EXP-01, EXP-04</span></p>
+
+    <section class="abstract">
+      <h2 class="h">Abstract</h2>
+      <p>CARA (Companion Assistive Robot for the Aged) is a sub-$500 mobile robot that monitors an older person living alone and alerts family by GSM SMS without depending on Wi-Fi. Its first version (V1) was built and evaluated in 2026; it is now continued as the author’s independent research platform (V2.0). This report fixes the starting baseline. It describes the two-tier hardware and software architecture (Arduino Mega 2560 for real-time control and alerting, NVIDIA Jetson Nano for perception), summarises the capabilities verified in V1 with their evidence, and characterises the faults found during integration — damaged microcontroller I/O, supply-dependent peripheral behaviour, a GSM supply margin of about 6.5 V, a locomotion torque limit, and process contention on shared devices. An audit of the inherited record also yields three corrections: the reported fall-detection accuracy (87.6 % test, 89.6 % cross-validated) belongs to the deployed 644-sample model, not to an older 95.7 % model trained on fewer samples; the final demonstration ran fall detection without the trained classifier; and the repository firmware may not match what is flashed on the robot. Nine research threads for V2.0 are registered, each with its motivating evidence.</p>
+    </section>
+    <p class="keywords"><b>Keywords</b> — assistive robotics; elderly care; fall detection; GSM alerting; low-cost robots; embedded reliability; research baseline</p>
+
+    <div class="paper-body">
+
+      <h2>Introduction</h2>
+      <p>Falls are a leading cause of injury in older adults [3], and older people living alone in developing regions often have family working abroad who cannot check on them directly. Commercial companion and assistive robots are typically priced and designed for well-connected households [12]. CARA was designed against the opposite constraints: a component budget under $500, no dependence on Wi-Fi for the safety function, and operation by a non-technical user [1].</p>
+      <p>V1 produced a working, tested prototype and a public build record [2]. V2.0 continues the same robot as a self-directed research programme. Before new experiments change anything, this report records the platform exactly as inherited, so that every later result can be compared against a documented starting point. It also records problems found while auditing the V1 material, because a baseline that silently carries forward errors would undermine everything built on it.</p>
+      <p>Section 2 describes the platform; Section 3 lists verified capabilities; Section 4 characterises faults and deployment findings; Section 5 sets out corrections to the V1 record; Section 6 states the limitations of this baseline; Section 7 registers the V2.0 research agenda.</p>
+
+      <h2>Platform Description</h2>
+      <figure>
+        <img src="../../CARA/assets/images/cara-final-assembly.jpg" alt="The assembled CARA robot">
+        <figcaption>The CARA platform at the end of V1. Camera tower on top, LCD and keypad at the front, ultrasonic ring around the chassis.</figcaption>
+      </figure>
+
+      <h3>Architecture</h3>
+      <p>CARA splits responsibilities across two computers. The <b>Arduino Mega 2560</b> owns everything that must keep working if the AI computer fails: motor drive with obstacle checks, the keypad panic button, the buzzer and LCD, and SMS alerting through a SIMCom A7670C LTE Cat-1 module. The <b>NVIDIA Jetson Nano</b> runs perception and user-facing services and sends text commands (for example <code>FALL_DETECTED</code>, <code>MOVE_FORWARD</code>, <code>MED_REMINDER:&lt;label&gt;</code>) to the Mega over USB serial at 9600 baud.</p>
+      <figure class="wide">
+        <img src="../../CARA/assets/images/System Architecture Block Diagram.drawio.png" alt="CARA system architecture block diagram" style="background:#fff">
+        <figcaption>System architecture from V1: safety-critical control and alerting on the Mega; perception, dashboard and scheduling on the Jetson; power from a custom 18650 pack (Samsung INR18650-32E cells, ~12 V). The diagram predates two later changes: the GSM module now uses Serial2 (pins 16/17), and the RTC shares the LCD’s software I²C bus.</figcaption>
+      </figure>
+
+      <h3>Hardware</h3>
+      <p>Table 1 summarises the hardware. A full pin map is maintained on the site’s <a href="../hardware.html">Hardware page</a>. Two hardware details shape much of what follows: the Mega’s hardware I²C clock pin is physically damaged, so the LCD and real-time clock share a software (bit-banged) I²C bus on pins 20 and A0; and the GSM module runs on hardware Serial2 because Serial1 was unresponsive on this board.</p>
+      <p class="tab-cap wide">Hardware summary at baseline.</p>
+      <div class="table-wrap wide">
+        <table>
+          <thead><tr><th>Subsystem</th><th>Component</th><th>Baseline status</th></tr></thead>
+          <tbody>
+            <tr><td>Control</td><td>Arduino Mega 2560</td><td>Working; I²C SCL pin damaged; Serial1 suspected dead</td></tr>
+            <tr><td>Perception</td><td>Jetson Nano 4 GB, USB webcam</td><td>Working</td></tr>
+            <tr><td>Drive</td><td>L298N, 2 DC gear motors with quadrature encoders</td><td>Straight driving works; in-place turning limited</td></tr>
+            <tr><td>Obstacle sensing</td><td>6 × HC-SR04 ultrasonic ring</td><td>Working; dropouts on a shared 5 V rail</td></tr>
+            <tr><td>Presence</td><td>2 × PIR</td><td>Disabled in firmware (rear unit stuck HIGH)</td></tr>
+            <tr><td>Interaction</td><td>16×2 LCD, 4×4 keypad, buzzer, LED</td><td>Working</td></tr>
+            <tr><td>Identity / ack</td><td>MFRC522 RFID</td><td>Working only with clean, direct power</td></tr>
+            <tr><td>Time</td><td>DS3231 RTC</td><td>Unconfirmed (working 29 Sep, not detected 6 Oct)</td></tr>
+            <tr><td>Alerting</td><td>SIMCom A7670C LTE Cat-1</td><td>Working on Serial2</td></tr>
+            <tr><td>Camera tilt</td><td>Micro servo (MG90S)</td><td>Failed unit</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Perception and control software</h3>
+      <p>Camera-based fall detection is well studied in fixed-camera and smart-home settings [4]–[6]; CARA runs it on board a low-cost mobile robot. Fall detection uses MediaPipe pose estimation [7], [8] to extract 33 body landmarks per frame. A RandomForest classifier [9] with 200 trees, trained on 69 features (normalised landmark coordinates, body angle, aspect ratio and mean visibility) from 644 labelled images, scores each pose; a temporal tracker confirms a fall only after the score rises over consecutive checks. Patient identification uses a Haar cascade detector [10] and an LBPH face recogniser [11] trained on photos captured through the keypad or dashboard; a coloured wrist band serves as a fallback target when the face is not visible.</p>
+      <p>Two software paths exist on the Jetson. A ROS2 package runs camera, tracker, fall-detection, motion-control and serial-bridge nodes. A Flask web dashboard provides live video, remote driving, enrolment, medication reminders and logs. The two cannot run together because each needs exclusive use of the serial port and camera; the final V1 configuration used the dashboard, into which autonomous following and fall detection were moved.</p>
+
+      <h3>Alert logic</h3>
+      <p>A confirmed fall (from the Jetson) or the keypad <code>#</code> button puts the Mega into an alert state: motors stop, the buzzer sounds, and SMS messages go to the family number — six messages ten seconds apart, then one every five minutes until someone acknowledges with the keypad <code>*</code> or an RFID tap. A medication reminder uses the same alert state but stops sending SMS after six messages five minutes apart while continuing to alert locally. In the current firmware a reminder shows the same LCD text as a fall, which is a known usability gap.</p>
+
+      <h2>Verified Capabilities</h2>
+      <p>Table 2 lists what V1 verified, with its source. Results obtained with an earlier firmware variant are marked as such; they show the capability exists but have not been repeated on the current firmware.</p>
+      <p class="tab-cap wide">Capabilities verified in V1 and their evidence.</p>
+      <div class="table-wrap wide">
+        <table>
+          <thead><tr><th>Capability</th><th>Result</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Fall classification (offline)</td><td>87.6 % test accuracy; 89.6 ± 4.8 % 5-fold CV; precision 84.6 %, recall 90.2 %, false-positive rate 14.7 %</td><td>Model training report, 6 May 2026</td></tr>
+            <tr><td>Fall alert reaches the Mega (live)</td><td><code>FALL_DETECTED</code> delivered; classifier 95–100 % confident on labelled test images</td><td>Engineering log, 25 Sep 2026 (ROS2 path)</td></tr>
+            <tr><td>Fall confirmation time</td><td>~20 s → ~0.3–0.6 s with one confirming check instead of three</td><td>Engineering log, 25 Sep 2026 (ROS2 path)</td></tr>
+            <tr><td>Patient face lock</td><td>232/232 frames facing the camera; 101/110 after threshold correction</td><td>Engineering log, 25 &amp; 31 Aug 2026</td></tr>
+            <tr><td>Perception latency</td><td>Camera → tracker median 710 ms → ~101 ms after QoS change</td><td>Engineering log, 20 Sep 2026</td></tr>
+            <tr><td>Mid-motion obstacle stop</td><td>Emergency stop within one control loop of an obstacle appearing; full speed to stop in ~1 s</td><td>Engineering log, 3 Sep 2026 (earlier firmware variant)</td></tr>
+            <tr><td>SMS from the assembled robot</td><td>Delivered; delivered again with all peripherals running together</td><td>Engineering log, 27 &amp; 29 Sep 2026</td></tr>
+            <tr><td>Medication reminder chain</td><td>Schedule → trigger → robot alert → acknowledge → cleared</td><td>Engineering log, 3 Sep 2026</td></tr>
+            <tr><td>Remote driving from a phone</td><td>Used live during final testing</td><td>Dashboard action log, 6–7 Oct 2026</td></tr>
+            <tr><td>Cost</td><td>$409.10 prototype; ~$446.60 including replaced modules</td><td>V1 evaluation [1]</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>At the end of V1, 39 of 115 planned tests had been completed. The largest gaps were timed GSM delivery trials, formal person-following trials, integrated end-to-end scenarios, and fall trials beyond a partial run of 5 of 20 falls (engineering log, 25 Sep 2026).</p>
+
+      <h2>Characterised Faults and Deployment Findings</h2>
+
+      <h3>Damaged microcontroller I/O</h3>
+      <p>Raw pin testing showed the Mega’s hardware I²C clock line (pin 21) stuck permanently low. Because the hardware I²C peripheral cannot be moved to other pins, the LCD driver was rewritten as a bit-banged I²C implementation on pins 20 and A0, and the real-time clock was later moved onto the same software bus at its own address. Hardware Serial1 (pins 18/19) gave no response to the GSM module after repeated reseating, while Serial2 worked immediately; Serial1 is treated as suspect rather than confirmed dead until it is retested in isolation.</p>
+
+      <h3>Supply-dependent peripheral behaviour</h3>
+      <p>Several peripherals behaved correctly in isolated bench tests and failed once the full system was running. Five of six ultrasonic sensors read a constant 0.00 cm while sharing the Arduino’s 5 V rail. The MFRC522 RFID reader returned its correct version register (0x92) and read tags in isolation, but returned 0x24 and detected nothing inside the full firmware. A seven-configuration isolation test traced RFID tag detection to the supply path: it fails when the Mega is powered through the Jetson’s USB port and works on a clean direct supply. This is recorded as a <i>power-architecture requirement</i> of the design rather than a component fault [13]. The firmware also re-initialises the reader whenever its version register looks wrong, as a software mitigation.</p>
+
+      <h3>GSM supply margin</h3>
+      <p>With the A7670C isolated on a bench supply, SMS reliability depended sharply on supply voltage (Table 3). Below about 6.5 V, AT commands arrived corrupted and the module occasionally lost network registration; at 6.5 V all six test messages were delivered. Results at 6.6–6.7 V are excluded because the SIM ran out of credit during that batch. On the assembled robot, intermittent single-byte corruption caused occasional send failures, which the firmware now handles by re-asserting text mode before every send and retrying up to three times.</p>
+      <p class="tab-cap">Bench SMS reliability against module supply voltage (25 Sep 2026).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th class="num">Supply (V)</th><th class="num">Sent</th><th class="num">Received</th><th>Observation</th></tr></thead>
+          <tbody>
+            <tr><td class="num">6.2–6.3</td><td class="num">—</td><td class="num">—</td><td>AT only: corruption throughout; brief deregistration</td></tr>
+            <tr><td class="num">6.4</td><td class="num">6</td><td class="num">1</td><td>Mode command corrupted; heavily delayed responses</td></tr>
+            <tr><td class="num">6.5</td><td class="num">6</td><td class="num">6</td><td>Clean</td></tr>
+            <tr><td class="num">6.6–6.7</td><td class="num">9</td><td class="num">0</td><td>Excluded: SIM credit exhausted</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Locomotion</h3>
+      <p>The drive motors move the robot straight at 150 PWM but need about 220 PWM to turn in place, and one side stalls during turns under both open-loop and encoder-based closed-loop control. Because closed-loop control did not remove the stall, it is attributed to motor torque rather than control. With the motors running, about 60 % of serial status lines were corrupted in one trial, compared with none while stationary, which points to electrical noise or supply sag on the USB link.</p>
+
+      <h3>Process contention and latency</h3>
+      <p>Only one process can own the Arduino serial port and the camera. A dashboard service configured to restart automatically repeatedly reclaimed the camera from the ROS2 camera node, which corrupted its capture until the whole pipeline was restarted. Separately, the ROS2 middleware queued stale frames by default; limiting image subscriptions to the latest frame cut median camera-to-tracker latency from 710 ms to about 101 ms.</p>
+
+      <h3>Presence sensing and an unsafe interaction</h3>
+      <p>The rear PIR sensor was observed stuck HIGH for over 24 seconds with nobody present, so presence sensing was disabled and the robot now starts directly in its monitoring state. During the same period, a real safety fault was found: an autonomous approach behaviour resumed whenever a remote-control button was released, so the robot could drive off with no command given. It was fixed by latching manual control for the rest of the session once anyone drives from the web view.</p>
+
+      <h2>Corrections to the V1 Record</h2>
+      <p>Auditing the inherited material produced three points that change how V1 results should be read.</p>
+
+      <h3>Which classifier the accuracy figures describe</h3>
+      <p>The model directory holds two classifiers. The deployed model (644 samples) reports 87.6 % test and 89.6 % cross-validated accuracy; these are the figures reported for V1. An older file trained on 461 samples reports 95.7 % test and 90.0 % cross-validated accuracy, and is still loaded by two standalone test scripts. The higher figure comes from a smaller dataset and a different test split and should not be attributed to the deployed system.</p>
+
+      <h3>The detection path used in the final demonstration</h3>
+      <p>From 3 October 2026, fall detection ran inside the web dashboard process rather than the ROS2 node. That process logged that no trained classifier was found and fell back to a rule-based detector that judges a fall from hip and shoulder height in the frame. An attempt to crop detection to the patient’s region was reverted the same day because the fallback misread a cropped standing person as lying down. The classifier figures in Table 2 therefore describe the offline and ROS2 paths, not the final demonstration configuration.</p>
+
+      <h3>Repository and robot may differ</h3>
+      <p>Dashboard code comments dated 6 October 2026 describe a firmware software-clock fallback and an encoder-based stall guard, neither of which is present in the repository firmware. The firmware header also places the LED and servo on pins that contradict the 29 September wiring log. Until the flashed firmware is read back and compared (EXP-01), the repository cannot be assumed to reproduce the robot.</p>
+
+      <div class="callout"><b>Consequence for V2.0</b>No firmware is changed until robot and repository agree, and every V2.0 fall-detection result will state which detection path and which model produced it.</div>
+
+      <h2>Limitations of this Baseline</h2>
+      <ul>
+        <li>The engineering record for 30 September – 7 October 2026 was reconstructed after the fact from dated code comments, file timestamps and dashboard logs, because no version-control history exists for those days.</li>
+        <li>Most V1 measurements come from a single indoor environment, one enrolled person and short trials; they show feasibility, not generalisable performance.</li>
+        <li>Several results (Table 2) were obtained on firmware variants that have since been consolidated and have not been repeated on the current firmware.</li>
+        <li>The battery pack’s composition is documented (custom 18650 pack, Samsung INR18650-32E cells, ~12 V), but its endurance under the current configuration has not been measured.</li>
+      </ul>
+
+      <h2>Research Agenda for V2.0</h2>
+      <p>Table 4 registers nine research threads. Each is grounded in a finding above and is tracked publicly in the Experiment Register, so results — including negative ones — can be traced back to the question that motivated them.</p>
+      <p class="tab-cap wide">Registered V2.0 research threads.</p>
+      <div class="table-wrap wide">
+        <table>
+          <thead><tr><th>ID</th><th>Thread</th><th>Question</th></tr></thead>
+          <tbody>
+            <tr><td>EXP-01</td><td>Platform state reconciliation</td><td>Does the repository reproduce the robot exactly?</td></tr>
+            <tr><td>EXP-02</td><td>Peripheral power architecture</td><td>How does supply topology affect RFID, servo and ultrasonic reliability?</td></tr>
+            <tr><td>EXP-03</td><td>GSM alert delivery</td><td>What supply margin and retry policy give delivery within 30 s?</td></tr>
+            <tr><td>EXP-04</td><td>Fall detection in realistic conditions</td><td>How accurate and fast is detection on the robot across lighting and occupancy?</td></tr>
+            <tr><td>EXP-05</td><td>Identification and following</td><td>Can one low-cost camera keep the right person framed at a comfortable distance?</td></tr>
+            <tr><td>EXP-06</td><td>Drive train and turning</td><td>What limits in-place turning, and can it be fixed?</td></tr>
+            <tr><td>EXP-07</td><td>Secure remote access</td><td>Can family abroad reach the robot securely without fixed IP or paid services?</td></tr>
+            <tr><td>EXP-08</td><td>Single-owner architecture</td><td>Does one owning process for serial and camera remove contention faults?</td></tr>
+            <tr><td>EXP-09</td><td>Fault-diagnosis protocol</td><td>Can V1’s elimination method be formalised to shorten time-to-root-cause?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Conclusion</h2>
+      <p>CARA enters V2.0 as a working but imperfect platform: fall alerts, SMS escalation, remote driving, reminders and following all run on the assembled robot, while power distribution, locomotion torque, damaged microcontroller I/O and process contention set clear limits. The audit behind this report also corrected how two headline V1 results should be read and found that the code repository may not exactly match the robot. Fixing that last point is the first V2.0 task, because every later experiment depends on knowing precisely what is being tested.</p>
+
+      <h2 class="nonum">Data and Code Availability</h2>
+      <p>Source code, firmware, test sketches, run logs and classifier reports: <a href="https://github.com/JayashankaAnushan19/CARA-Companion-Assistive-Robot-for-the-Aged-V2.0">github.com/JayashankaAnushan19/CARA-Companion-Assistive-Robot-for-the-Aged-V2.0</a>. V1 commit history: <a href="https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-">original repository</a>. Raw test videos are held by the author and published selectively; enrolled face images are never published.</p>
+
+      <h2 class="nonum">Declaration</h2>
+      <p>AI coding assistance was used for software development and for drafting documentation; all measurements and claims were checked against the project’s own logs and records.</p>
+
+      <h2 class="nonum refs-head">References</h2>
+      <ol class="refs">
+        <li>J. Anushan, “CARA: A Low-Cost GSM-Based Companion Assistive Robot for the Aged,” V1 project report, 2026.</li>
+        <li>J. Anushan, “CARA — Companion Assistive Robot for the Aged: project documentary, Weeks 01–16,” 2026. [Online]. Available: <a href="https://jayashankaanushan19.github.io/CARA/">jayashankaanushan19.github.io/CARA</a></li>
+        <li>World Health Organization, <i>WHO Global Report on Falls Prevention in Older Age</i>. Geneva: WHO, 2007.</li>
+        <li>C. Rougier, J. Meunier, A. St-Arnaud and J. Rousseau, “Robust video surveillance for fall detection based on human shape deformation,” <i>IEEE Trans. Circuits Syst. Video Technol.</i>, vol. 21, no. 5, pp. 611–622, 2011.</li>
+        <li>M. E. Karar, H. I. Shehata and O. Reyad, “A survey of IoT-based fall detection for aiding elderly care: Sensors, methods, challenges and future trends,” <i>Applied Sciences</i>, vol. 12, no. 7, p. 3276, 2022.</li>
+        <li>P. Gorce and J. Jacquier-Bret, “Fall detection in elderly people: A systematic review of ambient assisted living and smart home-related technology performance,” <i>Sensors</i>, vol. 25, no. 21, p. 6540, 2025.</li>
+        <li>C. Lugaresi <i>et al.</i>, “MediaPipe: A framework for building perception pipelines,” arXiv:1906.08172, 2019.</li>
+        <li>V. Bazarevsky, I. Grishchenko, K. Raveendran, T. Zhu, F. Zhang and M. Grundmann, “BlazePose: On-device real-time body pose tracking,” arXiv:2006.10204, 2020.</li>
+        <li>L. Breiman, “Random forests,” <i>Machine Learning</i>, vol. 45, no. 1, pp. 5–32, 2001.</li>
+        <li>P. Viola and M. Jones, “Rapid object detection using a boosted cascade of simple features,” in <i>Proc. IEEE CVPR</i>, 2001, pp. I-511–I-518.</li>
+        <li>T. Ahonen, A. Hadid and M. Pietikäinen, “Face description with local binary patterns: Application to face recognition,” <i>IEEE Trans. Pattern Anal. Mach. Intell.</i>, vol. 28, no. 12, pp. 2037–2041, 2006.</li>
+        <li>E. Broadbent, R. Stafford and B. MacDonald, “Acceptance of healthcare robots for the older population: Review and future directions,” <i>Int. J. Social Robotics</i>, vol. 1, no. 4, pp. 319–330, 2009.</li>
+        <li>NXP Semiconductors, “MFRC522 Standard performance MIFARE and NTAG frontend,” product data sheet.</li>
+      </ol>
+    </div>
+
+    <section class="cite-box" id="cite">
+      <b>Cite this entry</b>
+      <p style="margin:.4rem 0 0" id="cite-text">Anushan, J. (2026). CARA V2.0 Baseline: State of a Low-Cost Assistive Robot Platform at the Start of Independent Development. <i>CARA Research Journal</i>, Vol. 2, Entry JE-001. https://jayashankaanushan19.github.io/CARA2/journal/je-001-v2-baseline.html</p>
+      <pre id="cite-bib">@techreport{anushan2026cara2baseline,
+  author      = {Anushan, Jayashanka},
+  title       = {{CARA} {V2.0} Baseline: State of a Low-Cost Assistive Robot Platform at the Start of Independent Development},
+  institution = {CARA Research Journal},
+  number      = {JE-001},
+  year        = {2026},
+  month       = oct,
+  url         = {https://jayashankaanushan19.github.io/CARA2/journal/je-001-v2-baseline.html}
+}</pre>
+      <div class="no-print" style="display:flex;gap:.4rem;margin-top:.6rem">
+        <button class="btn ghost sm" data-copy="cite-text">Copy citation</button>
+        <button class="btn ghost sm" data-copy="cite-bib">Copy BibTeX</button>
+      </div>
+    </section>
+
+    <section class="rev-log" style="margin-top:1.5rem">
+      <b class="small">Revision history</b>
+      <ul class="small muted" style="margin:.3rem 0 0;padding-left:1.1rem">
+        <li>v1.0 — 8 Oct 2026 — First publication.</li>
+      </ul>
+    </section>
+    <p class="end-mark">◆ ◆ ◆</p>
+  </article>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture · CARA²</title>
+<meta name="description" content="CARA V2.0 system architecture — two-tier design, software components, serial command protocol, state machine and alert logic.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+</head>
+<body data-root="" data-page="architecture">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="kicker">System · baseline 8 October 2026</div>
+      <h1>Architecture</h1>
+      <p class="lede">How CARA is put together: what runs where, how the two computers talk, and what happens when an alert fires. Changes made during V2.0 are recorded in <a href="daily/">daily notes</a> and reflected here.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="doc">
+      <h2>Two-tier design</h2>
+      <p>An <b>Arduino Mega 2560</b> owns everything safety-critical and real-time: motor drive with obstacle checks, the keypad panic button, buzzer and LCD, and SMS alerting through a SIMCom A7670C LTE module. An alert can still go out if the AI computer crashes.</p>
+      <p>An <b>NVIDIA Jetson Nano</b> runs perception (camera, face recognition, pose-based fall detection), autonomous following, medication scheduling and the web dashboard. It sends short text commands to the Mega over USB serial at 9600 baud and reads back a status line about five times a second.</p>
+    </div>
+    <figure style="margin:1.5rem 0">
+      <img src="../CARA/assets/images/System Architecture Block Diagram.drawio.png" alt="CARA system architecture block diagram" data-zoom style="border:1px solid var(--rule);border-radius:6px;background:#fff;max-width:900px;width:100%">
+      <figcaption>System architecture as built in V1. Click to enlarge. The diagram predates two changes: GSM now uses Serial2 (pins 16/17), and the RTC shares the LCD’s software I²C bus.</figcaption>
+    </figure>
+
+    <div class="section-head"><h2>Software components</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Runs on</th><th>Role</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Main firmware</td><td>Mega</td><td>State machine, obstacle-checked drive commands, SMS escalation, keypad and RFID acknowledge.</td><td><code>experiments/Main_Codes/Arduino/cara_main_mega_gsm/</code></td></tr>
+          <tr><td>Web dashboard</td><td>Jetson, port 5001</td><td>Live video, remote driving, enrolment, reminders, logs, settings. Also hosts fall detection and autonomous follow-me in the current configuration.</td><td><code>web_interface_for_remote_control/remote_control.py</code></td></tr>
+          <tr><td>ROS2 package <code>cara_jetson</code></td><td>Jetson</td><td>Camera, person tracker (face + colour-band fallback), fall detection, motion controller, serial bridge, viewers. Cannot share the serial port or camera with the dashboard.</td><td><code>experiments/cara_jetson/</code></td></tr>
+          <tr><td>Fall classifier</td><td>Jetson</td><td>RandomForest (200 trees) on 69 pose-landmark features, 644 training samples.</td><td><code>models/final/fall_classifier_20260506_233830.pkl</code></td></tr>
+          <tr><td>Hardware diagnostics</td><td>Jetson, port 5050</td><td>Flash bench-test sketches and watch live serial from a browser.</td><td><code>web_interface_for_remote_control/hardware_diagnostics.py</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="max-width:820px"><b>Known architecture issue</b>The dashboard and the ROS2 stack each need exclusive use of the serial port and camera, so only one can run at a time. Consolidating them is <a href="experiments/exp-08.html">EXP-08</a>.</div>
+
+    <div class="section-head"><h2>Serial protocol (Jetson → Mega)</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Command</th><th>Effect on the Mega</th></tr></thead>
+        <tbody>
+          <tr><td><code>FALL_DETECTED</code></td><td>Start a fall alert (see below). Repeats while already alerting just extend it.</td></tr>
+          <tr><td><code>MED_REMINDER:&lt;label&gt;</code></td><td>Start a reminder alert, unless a fall alert is already active.</td></tr>
+          <tr><td><code>RESET</code></td><td>Clear any alert; return to monitoring.</td></tr>
+          <tr><td><code>MOVE_FORWARD</code> · <code>MOVE_BACKWARD</code> · <code>TURN_LEFT</code> · <code>TURN_RIGHT</code> · <code>STOP</code></td><td>Manual driving. Refused if an ultrasonic sensor in that direction reads ≤ 30 cm; forward speed ramps down from 70 cm.</td></tr>
+          <tr><td><code>MOVE_BACKWARD_SLOW</code> · <code>TURN_LEFT_SLOW</code> · <code>TURN_RIGHT_SLOW</code></td><td>Half-speed variants used only by autonomous following.</td></tr>
+          <tr><td><code>TILT_UP</code> · <code>TILT_DOWN</code> · <code>TILT_CENTER</code></td><td>Camera tilt, 110–150° (servo unit currently failed).</td></tr>
+          <tr><td><code>SETTIME YYYY MM DD HH MM SS</code></td><td>Set the real-time clock; the dashboard sends this after the GSM search finishes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="max-width:820px">The dashboard also sends <code>SET_SPEED:</code> and <code>SET_IPS:</code>, which the current firmware ignores. Commands sent during the ~50–70 s GSM search at boot are discarded on purpose so they can’t all fire at once afterwards.</p>
+
+    <div class="section-head"><h2>Status lines (Mega → Jetson)</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Line</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>STATE:&lt;n&gt; | FL: FR: BL: BR: L: R: | PIR: | GSM: | TIME:</code></td><td>Every 200 ms: state, six ultrasonic distances (cm, 0 = no echo), GSM readiness, clock.</td></tr>
+          <tr><td><code>GSM:CONNECTING</code> → <code>GSM:READY</code> / <code>NOT REGISTERED YET</code> / <code>NOT RESPONDING</code></td><td>Boot-time network search.</td></tr>
+          <tr><td><code>SMS:SENDING</code> · <code>SMS:SENT</code> · <code>SMS:FAILED</code> · <code>SMS:GAVE UP</code></td><td>Each alert message, up to 3 attempts.</td></tr>
+          <tr><td><code>KEYPAD:&lt;key&gt;</code> · <code>RFID_UID:&lt;hex&gt;</code> · <code>RFID:ACKNOWLEDGED ALERT</code></td><td>User input.</td></tr>
+          <tr><td><code>RTC:FOUND</code> / <code>RTC:NOT FOUND</code> · <code>RFID:REINIT VersionReg=…</code> · <code>CARA BOOT OK</code></td><td>Boot diagnostics.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-head"><h2>State machine and alert logic</h2></div>
+    <div class="doc">
+      <p>The firmware has five states: idle, active, monitoring, alert and reset. Because the presence (PIR) sensors are disabled, the robot boots straight into <b>monitoring</b> and returns there after every alert; idle and active are currently never entered.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Trigger</th><th>Robot</th><th>SMS schedule</th><th>Cleared by</th></tr></thead>
+        <tbody>
+          <tr><td>Fall detected (from the Jetson) or keypad <code>#</code></td><td>Stops, buzzer pattern, LCD “HELP IS COMING!”</td><td>6 messages 10 s apart, then every 5 min — never gives up</td><td>Keypad <code>*</code> or any RFID tag</td></tr>
+          <tr><td>Medication reminder due</td><td>Same display as a fall — the firmware does not yet show a reminder-specific message</td><td>6 messages 5 min apart, then stops sending but keeps alerting locally</td><td>Keypad <code>*</code>, RFID tag, or dashboard acknowledge</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

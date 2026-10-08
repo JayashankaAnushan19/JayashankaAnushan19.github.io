@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware · CARA²</title>
+<meta name="description" content="CARA V2.0 hardware — components, pin map, power, cost and the current status of each part.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+</head>
+<body data-root="" data-page="hardware">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="kicker">System · baseline 8 October 2026</div>
+      <h1>Hardware</h1>
+      <p class="lede">Every component, where it connects, and whether it works today. This is the living reference: hardware changes made during V2.0 are recorded in a <a href="daily/">daily note</a> and updated here.</p>
+      <div class="callout warn" style="max-width:820px"><b>Baseline caveat</b>The pin map comes from the repository firmware. Its LED and servo pins contradict the 29 September 2026 wiring log, and the robot may be running firmware that isn’t in the repository — being resolved in <a href="experiments/exp-01.html">EXP-01</a>.</div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="section-head"><h2>Components and pin map</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Subsystem</th><th>Component</th><th>Interface / pins (Mega)</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Control</td><td>Arduino Mega 2560</td><td>USB serial to Jetson, 9600 baud</td><td><span class="pill warn">Partly damaged</span></td><td>Hardware I²C SCL (pin 21) physically damaged; Serial1 (18/19) suspected dead.</td></tr>
+          <tr><td>Perception</td><td>NVIDIA Jetson Nano 4 GB + USB webcam</td><td>—</td><td><span class="pill ok">Working</span></td><td>MediaPipe pose, Haar + LBPH face recognition, Flask dashboard.</td></tr>
+          <tr><td>Drive</td><td>L298N dual H-bridge, 2 DC gear motors</td><td>IN1–IN4 = 22–25, ENA = 11, ENB = 12</td><td><span class="pill warn">Limitation</span></td><td>Straight at 150 PWM; in-place turns need ~220 PWM and one side stalls under load.</td></tr>
+          <tr><td>Odometry</td><td>Quadrature wheel encoders</td><td>L = A8/A9, R = 14/15</td><td><span class="pill ok">Wired</span></td><td>Read by test sketches; not used by the main firmware.</td></tr>
+          <tr><td>Obstacles</td><td>6 × HC-SR04 ultrasonic</td><td>FL 26/27 · FR 28/29 · BL 30/31 · BR 32/33 · L 34/35 · R 36/37</td><td><span class="pill warn">Supply-sensitive</span></td><td>Stop at 30 cm, proportional slow-down from 70 cm. Dropouts seen on a shared 5 V rail.</td></tr>
+          <tr><td>Presence</td><td>2 × PIR</td><td>Front 2, Rear 3</td><td><span class="pill bad">Disabled</span></td><td>Rear PIR stuck HIGH for 24 s+ with nobody present (3 Oct 2026); readings ignored in firmware.</td></tr>
+          <tr><td>Display</td><td>16×2 LCD, PCF8574 backpack (0x27)</td><td>Software I²C, SDA = 20, SCL = A0</td><td><span class="pill ok">Working</span></td><td>Moved off the damaged hardware I²C bus.</td></tr>
+          <tr><td>Clock</td><td>DS3231 RTC (0x68)</td><td>Same software I²C bus as the LCD</td><td><span class="pill warn">Unconfirmed</span></td><td>Confirmed 29 Sep; reported not detected 6 Oct.</td></tr>
+          <tr><td>Identity</td><td>MFRC522 RFID (13.56 MHz)</td><td>SPI: SS 53, RST 49, SCK 52, MOSI 51, MISO 50</td><td><span class="pill warn">Power requirement</span></td><td>Needs clean, direct power — not via the Jetson’s USB port (seven-configuration isolation test).</td></tr>
+          <tr><td>Input</td><td>4×4 membrane keypad</td><td>Rows 38–41, cols 42, 43, 4, 5</td><td><span class="pill ok">Working</span></td><td><code>#</code> panic alert, <code>*</code> acknowledge. Row 7-8-9-C did not register in V1 testing.</td></tr>
+          <tr><td>Alerting</td><td>SIMCom A7670C LTE Cat-1</td><td>Serial2 (16/17) @ 115200, PWRKEY 9</td><td><span class="pill ok">Working</span></td><td>Reliable at ≥ 6.5 V module supply on the bench; corruption below. Registers once at boot (~50–70 s).</td></tr>
+          <tr><td>Feedback</td><td>Buzzer · LED</td><td>Buzzer 8 · LED 10 (PWM)</td><td><span class="pill ok">Working</span></td><td>LED pin per repository firmware — see caveat above.</td></tr>
+          <tr><td>Camera tilt</td><td>Micro servo (MG90S)</td><td>46 in firmware; 10 per 29 Sep log</td><td><span class="pill bad">Failed unit</span></td><td>No response on two different pins in isolated tests.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-head"><h2>Power</h2></div>
+    <div class="doc">
+      <p>A custom 18650 battery pack (Samsung INR18650-32E cells, about 12 V) feeds the Arduino, sensors, motor driver and GSM module through buck/boost converters; the Jetson has its own adapter. Runtime under the current configuration has not been measured yet.</p>
+      <p>Most of V1’s hardest faults traced back to power distribution — peripherals that worked alone and failed when everything ran together. Characterising this properly is <a href="experiments/exp-02.html">EXP-02</a>.</p>
+    </div>
+
+    <div class="section-head"><h2>Cost</h2></div>
+    <div class="doc">
+      <p>Prototype bill of materials: <b>$409.10</b> against a $500 ceiling; about <b>$446.60</b> including modules bought and later replaced during V1.</p>
+    </div>
+
+    <div class="section-head"><h2>Mechanical</h2></div>
+    <div class="doc">
+      <p>The chassis covers, camera tower, sensor mounts and wire-management parts were designed in SolidWorks; the source files are in <code>Hardware_Creation/</code> in the code repository.</p>
+    </div>
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+  CARA² JOURNAL ENTRY TEMPLATE
+  1. Copy this file to  journal/je-NNN-short-slug.html  (next free number).
+  2. Replace every [[…]] placeholder. Delete sections you don't need,
+     but keep: banner, type, title, authors, dates, abstract, keywords,
+     body, references, cite box, revision history.
+  3. Add the entry to data/journal.js (id, file, type, title, published,
+     summary, keywords, experiments).
+  4. Figures: put images in media/journal/je-NNN/ and reference them as
+     ../media/journal/je-NNN/name.jpg . Add class="wide" to a figure or
+     table (and its .tab-cap) to span both columns in the printed version.
+  5. Videos: use a YouTube facade —
+       <figure><button class="yt" data-yt="VIDEO_ID" style="background-image:url(https://i.ytimg.com/vi/VIDEO_ID/hqdefault.jpg)" aria-label="Play video"></button>
+       <p class="print-video-note">Video: https://youtu.be/VIDEO_ID</p>
+       <figcaption>…</figcaption></figure>
+  6. Corrections after publication: never silently edit results — bump the
+     version, add a line to the revision history, and add a dated
+     <div class="callout warn"><b>Correction (date)</b>…</div> where relevant.
+  See ../AUTHORING.md for the full guide.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[[JE-NNN]] · [[Short title]] · CARA²</title>
+<meta name="description" content="[[One-sentence summary]]">
+<meta name="citation_title" content="[[Full title]]">
+<meta name="citation_author" content="Anushan, Jayashanka">
+<meta name="citation_publication_date" content="[[YYYY/MM/DD]]">
+<meta name="citation_journal_title" content="CARA Research Journal">
+<meta name="citation_technical_report_number" content="[[JE-NNN]]">
+<meta name="robots" content="noindex">  <!-- remove this line in real entries -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="journal">
+<main id="main">
+<div class="wrap" style="max-width:900px">
+
+  <div class="paper-tools">
+    <a class="btn ghost sm" href="./">← All entries</a>
+    <span class="spacer"></span>
+    <a class="btn ghost sm" href="#cite">Cite</a>
+    <button class="btn sm" data-action="print">Print / Save PDF</button>
+  </div>
+
+  <article class="paper">
+    <div class="paper-banner" data-entry="CARA² · [[JE-NNN]] ([[YYYY]])">
+      <span><b>CARA Research Journal</b> · Volume 2 ([[YYYY]])</span>
+      <span>Entry [[JE-NNN]] · Version 1.0</span>
+    </div>
+
+    <div class="paper-type">[[Research Article | Technical Report | Short Communication | Negative Result | Method Note]]</div>
+    <h1>[[Full title — states the finding, not just the topic]]</h1>
+    <p class="authors">Jayashanka Anushan<sup>1</sup></p>
+    <p class="affil"><sup>1</sup> Independent researcher. Correspondence via the project repository.</p>
+    <p class="dates"><span><b>Received</b> [[d Month YYYY]]</span><span><b>Published</b> [[d Month YYYY]]</span><span><b>Linked threads</b> [[EXP-NN]]</span></p>
+
+    <section class="abstract">
+      <h2 class="h">Abstract</h2>
+      <p>[[150–250 words: context, aim, method, key quantitative results, conclusion.]]</p>
+    </section>
+    <p class="keywords"><b>Keywords</b> — [[four to six keywords; separated by semicolons]]</p>
+
+    <div class="paper-body">
+      <h2>Introduction</h2>
+      <p>[[Problem, why it matters for CARA, what was unknown, what this entry contributes.]]</p>
+
+      <h2>Method</h2>
+      <h3>Setup</h3>
+      <p>[[Hardware/firmware/software versions (commit hash), environment, conditions.]]</p>
+      <h3>Procedure</h3>
+      <p>[[Exact steps, number of trials, what was held constant, how outcomes were scored.]]</p>
+
+      <h2>Results</h2>
+      <p class="tab-cap">[[Table caption.]]</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>[[Condition]]</th><th class="num">[[n]]</th><th class="num">[[Metric]]</th></tr></thead>
+          <tbody><tr><td>[[…]]</td><td class="num">[[…]]</td><td class="num">[[…]]</td></tr></tbody>
+        </table>
+      </div>
+      <figure>
+        <img src="../media/journal/[[je-nnn]]/[[figure.jpg]]" alt="[[Describe the image]]">
+        <figcaption>[[What the figure shows and what to notice.]]</figcaption>
+      </figure>
+
+      <h2>Discussion</h2>
+      <p>[[What the results mean, alternative explanations, comparison with prior work [n].]]</p>
+
+      <h2>Limitations</h2>
+      <ul><li>[[Sample size, single environment, uncontrolled variables…]]</li></ul>
+
+      <h2>Conclusion</h2>
+      <p>[[One paragraph. What is now known; what happens next.]]</p>
+
+      <h2 class="nonum">Data and Code Availability</h2>
+      <p>[[Commit hash, run-log file names, video links.]]</p>
+
+      <h2 class="nonum refs-head">References</h2>
+      <ol class="refs">
+        <li>[[A. Author, “Title,” <i>Journal</i>, vol. X, no. Y, pp. a–b, Year.]]</li>
+      </ol>
+    </div>
+
+    <section class="cite-box" id="cite">
+      <b>Cite this entry</b>
+      <p style="margin:.4rem 0 0" id="cite-text">Anushan, J. ([[YYYY]]). [[Full title]]. <i>CARA Research Journal</i>, Vol. 2, Entry [[JE-NNN]]. https://jayashankaanushan19.github.io/CARA2/journal/[[je-nnn-slug]].html</p>
+      <pre id="cite-bib">@techreport{anushan[[YYYY]][[key]],
+  author      = {Anushan, Jayashanka},
+  title       = {[[Full title]]},
+  institution = {CARA Research Journal},
+  number      = {[[JE-NNN]]},
+  year        = {[[YYYY]]},
+  url         = {https://jayashankaanushan19.github.io/CARA2/journal/[[je-nnn-slug]].html}
+}</pre>
+      <div class="no-print" style="display:flex;gap:.4rem;margin-top:.6rem">
+        <button class="btn ghost sm" data-copy="cite-text">Copy citation</button>
+        <button class="btn ghost sm" data-copy="cite-bib">Copy BibTeX</button>
+      </div>
+    </section>
+
+    <section class="rev-log" style="margin-top:1.5rem">
+      <b class="small">Revision history</b>
+      <ul class="small muted" style="margin:.3rem 0 0;padding-left:1.1rem">
+        <li>v1.0 — [[d Mon YYYY]] — First publication.</li>
+      </ul>
+    </section>
+    <p class="end-mark">◆ ◆ ◆</p>
+  </article>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

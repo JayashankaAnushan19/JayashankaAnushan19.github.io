@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-05 · Patient identification and following · CARA²</title>
+<meta name="description" content="EXP-05: Can a low-cost single-camera pipeline keep the right person framed and at a comfortable distance in a shared home?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-05">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-05</div>
+    <div class="print-head">CARA² Experiment Register · EXP-05</div>
+    <div class="kicker">Experiment · Perception & HRI</div>
+    <h1>Patient identification and following</h1>
+    <div class="entry-meta"><span class="mono">EXP-05</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">Can a low-cost single-camera pipeline keep the right person framed and at a comfortable distance in a shared home?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>Following only the enrolled person — not visitors — is what makes CARA a companion rather than a camera on wheels. V1 got it working; V2 needs to measure it.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>A correct LBPH match scored 78.66 against a 70 threshold; raising it to 85 lifted face lock to 101 of 110 frames (31 Aug 2026).</li>
+      <li>Face-lock rate: 79.1 % in mid light, 32.4 % in low light with a 31.7 s dropout (23 Sep 2026).</li>
+      <li>Follow-me uses face area (8–20 % of the frame) as a distance proxy; Haar detection fails when a face fills the frame (7 Oct 2026).</li>
+      <li>Multi-person discrimination was never formally tested in V1.</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>Scripted following trials and multi-person sessions.</li>
+      <li>Compare LBPH with a modern lightweight face-embedding model on the same footage.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>Lock percentage</li>
+      <li>Wrong-person locks</li>
+      <li>Distance error</li>
+      <li>Recoveries after loss</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

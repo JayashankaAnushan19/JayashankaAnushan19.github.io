@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objectives · CARA²</title>
+<meta name="description" content="CARA V2.0 objectives, design constraints and the experiments behind each goal.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+</head>
+<body data-root="" data-page="objectives">
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="kicker">Project</div>
+      <h1>Objectives</h1>
+      <p class="lede">What V2.0 is trying to achieve, the constraints that don’t change, and the experiment that will show whether each goal was met.</p>
+    </div>
+  </section>
+
+  <div class="wrap doc">
+
+    <h2>Design constraints (unchanged from V1)</h2>
+    <ul>
+      <li><b>Cost:</b> component budget under $500. The V1 prototype came to $409.10.</li>
+      <li><b>No Wi-Fi dependence for safety:</b> emergency alerts must go out over the mobile network even if the home internet is down.</li>
+      <li><b>Safety logic survives an AI crash:</b> alerting, the panic button and obstacle stops run on the microcontroller, independent of the AI computer.</li>
+      <li><b>Usable by a non-technical person:</b> a keypad, a card tap and a phone browser — no computer needed.</li>
+    </ul>
+
+    <h2>V2.0 objectives</h2>
+
+    <div class="obj">
+      <h3>O1 · A reproducible platform</h3>
+      <p>The repository rebuilds exactly the robot being tested: firmware, software and a verified pin map, tagged as a baseline.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-01.html">EXP-01</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O2 · Dependable alerting</h3>
+      <p>SMS alerts delivered within 30 s of a confirmed event, measured over repeated timed trials, with the supply margin the GSM module needs written down as a design rule.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-03.html">EXP-03</a><a class="tag exp" href="experiments/exp-02.html">EXP-02</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O3 · Fall detection measured where it matters</h3>
+      <p>Accuracy, false alarms per hour and fall-to-alert time measured on the robot itself, across lighting and occupancy — not only on offline images.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-04.html">EXP-04</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O4 · Follow the right person</h3>
+      <p>Keep the enrolled person framed at a comfortable distance with visitors present, and turn reliably to do so.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-05.html">EXP-05</a><a class="tag exp" href="experiments/exp-06.html">EXP-06</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O5 · Reach the family abroad securely</h3>
+      <p>Remote access to the dashboard over the internet, protected by proper authentication, with the family told by SMS whenever the link changes.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-07.html">EXP-07</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O6 · One system that runs all day</h3>
+      <p>All features running together for 24 hours without device conflicts or restarts.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-08.html">EXP-08</a></div>
+    </div>
+
+    <div class="obj">
+      <h3>O7 · Publishable knowledge</h3>
+      <p>Turn results — including the fault-finding method — into journal entries that can become research papers.</p>
+      <div class="chips"><a class="tag exp" href="experiments/exp-09.html">EXP-09</a><a class="tag" href="journal/">Journal</a></div>
+    </div>
+
+    <h2>Out of scope for now</h2>
+    <ul>
+      <li>Mapping and room-to-room navigation (SLAM).</li>
+      <li>Speech interaction.</li>
+      <li>Trials with older adults outside the developer’s own home — these would need proper ethical safeguards first.</li>
+    </ul>
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

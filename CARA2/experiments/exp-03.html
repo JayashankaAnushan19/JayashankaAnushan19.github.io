@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-03 · GSM alert delivery under a constrained supply · CARA²</title>
+<meta name="description" content="EXP-03: What supply margin and retry policy give reliable SMS alert delivery within 30 seconds of a confirmed event?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-03">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-03</div>
+    <div class="print-head">CARA² Experiment Register · EXP-03</div>
+    <div class="kicker">Experiment · Low-connectivity alerting</div>
+    <h1>GSM alert delivery under a constrained supply</h1>
+    <div class="entry-meta"><span class="mono">EXP-03</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">What supply margin and retry policy give reliable SMS alert delivery within 30 seconds of a confirmed event?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>SMS is CARA’s safety channel — the reason it doesn’t need Wi-Fi. V1 showed it works, but never measured how reliably or how fast.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>Bench sweep (25 Sep 2026): 6/6 SMS delivered at 6.5 V; AT-command corruption at 6.4 V; corruption and brief network deregistration at 6.2–6.3 V.</li>
+      <li>On the assembled robot, hardware Serial1 (pins 18/19) was silent while Serial2 (16/17) worked (27 Sep 2026).</li>
+      <li>Timed delivery trials (test IDs G-01 to G-05) were never run in V1.</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>At least 15 timed trials from event confirmation to SMS arrival, with voltage logged at the module pins during transmission.</li>
+      <li>Compare single-attempt sending with the firmware’s 3-attempt retry policy.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>Delivery rate</li>
+      <li>Latency median / max</li>
+      <li>Share delivered under 30 s</li>
+      <li>Supply sag during transmit</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

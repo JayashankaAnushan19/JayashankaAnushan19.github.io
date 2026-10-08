@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+  CARA² EXPERIMENT TEMPLATE
+  1. Copy to experiments/exp-NN.html (next free number; ids are never reused).
+  2. Replace every [[…]] placeholder; data-exp must match the id.
+  3. Add the experiment to data/experiments.js (id, title, area, status, opened, question).
+  4. Status changes: update data/experiments.js AND add a dated line to "Status history".
+  Linked daily notes and journal entries appear automatically.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[[EXP-NN]] · [[Title]] · CARA²</title>
+<meta name="description" content="[[EXP-NN]]: [[The research question, one sentence.]]">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="[[EXP-NN]]">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / [[EXP-NN]]</div>
+    <div class="print-head">CARA² Experiment Register · [[EXP-NN]]</div>
+    <div class="kicker">Experiment · [[Area]]</div>
+    <h1>[[Title]]</h1>
+    <div class="entry-meta"><span class="mono">[[EXP-NN]]</span><span id="exp-status"></span><span>Registered [[d Month YYYY]]</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">[[The research question, one sentence.]]</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>[[Why this matters for CARA.]]</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>[[Evidence line citing a log date, file or test ID.]]</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>[[Planned method step.]]</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>[[What will be measured.]]</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>[[d Month YYYY]] — Registered as proposed.</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

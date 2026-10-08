@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DN-20261008 · V2.0 opens · CARA²</title>
+<meta name="description" content="Daily note, 8 October 2026: first V2.0 session — audit of the inherited platform, repository made safe to publish, three findings about the V1 record.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="daily">
+<main id="main">
+<div class="wrap" data-note="2026-10-08">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Daily Notes</a> / DN-20261008</div>
+    <div class="print-head">CARA² Lab Notebook · Daily Note DN-20261008 · 8 October 2026</div>
+    <div class="kicker">Daily note · Thursday 8 October 2026</div>
+    <h1>V2.0 opens: inheriting the platform and auditing the record</h1>
+    <div class="entry-meta"><span class="mono">DN-20261008</span><span>Jayashanka Anushan</span></div>
+    <div class="chips" id="note-chips"></div>
+    <div class="entry-tools">
+      <button class="btn ghost sm" data-action="print">Print this note</button>
+    </div>
+  </header>
+
+  <div class="entry-body">
+    <p>CARA V2.0 starts today as my own independent continuation of the V1 robot. The code moved to a new repository with a fresh history; the V1 history stays in the original repository. This notebook, the experiment register and the journal open with it.</p>
+
+    <h2>What was done</h2>
+    <ul>
+      <li>Read through everything inherited: both V1 daily logs, the canonical firmware (<code>cara_main_mega_gsm.ino</code>), the web dashboard (<code>remote_control.py</code>), the ROS2 launch setup, test records and the classifier reports.</li>
+      <li>Made the repository safe for its first push: the ~600 MB presentation deck and ~2 GB of raw test video are kept local (GitHub rejects files over 100 MB); dashboard runtime files — which hold the admin password in plain text and client IP logs — are excluded; Git LFS configuration cleaned and extended to Office, CAD and model files.</li>
+      <li>Backfilled the engineering log for 30 Sep – 7 Oct from dated code comments and the dashboard’s own logs (no git history exists for those days), and archived the second, Jetson-side V1 log.</li>
+      <li>Opened this documentation site and research journal: documentation pages, Daily Notes, Journal entries and an Experiment Register of nine research threads.</li>
+    </ul>
+
+    <h2>Findings from the audit</h2>
+    <div class="callout finding"><b>Finding 1 — two classifiers, one reported</b>The V1 figures of 87.6 % test / 89.6 % cross-validated fall-detection accuracy belong to the 644-sample model that the code actually loads. A second, older file (<code>fall_classifier.pkl</code>, 461 samples) reports 95.7 % test accuracy and is still used by two test scripts. The smaller dataset’s higher score should not be quoted for the deployed system.</div>
+    <div class="callout finding"><b>Finding 2 — the final demo path did not use the classifier</b>From 3 October fall detection ran inside the dashboard process, which logged “No trained ML classifier found” and used the rule-based fallback. The classifier figures describe the offline / ROS2 path, not the final demonstration configuration.</div>
+    <div class="callout finding"><b>Finding 3 — the repository may not match the robot</b>Dashboard comments dated 6 October describe a firmware software-clock fallback and an encoder stall guard that are absent from the repository firmware, and the firmware header’s LED/servo pins contradict the 29 September wiring log. Opened as EXP-01; no firmware changes until the robot and repository agree.</div>
+
+    <h2>Decisions</h2>
+    <ul>
+      <li>Negative and inconvenient results are recorded as findings, not removed.</li>
+      <li>Raw videos stay local; public copies go to YouTube and are embedded here.</li>
+      <li>Formal write-ups go to the Journal only when there is a real result; this notebook carries the day-to-day.</li>
+    </ul>
+
+    <h2>Media</h2>
+    <div id="note-media"></div>
+
+    <h2>Next</h2>
+    <ul>
+      <li>EXP-01: read back what is flashed on the Mega and running on the Jetson; produce a verified pin map.</li>
+      <li>First commits of both repositories.</li>
+    </ul>
+    <p class="small muted">Related: <a href="../journal/je-001-v2-baseline.html">JE-001 — CARA V2.0 Baseline</a>.</p>
+  </div>
+
+  <nav class="pager" id="note-pager" aria-label="Other notes"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>

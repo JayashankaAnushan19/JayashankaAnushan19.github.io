@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARA² — Documentation &amp; Research Journal</title>
+<meta name="description" content="CARA V2.0 — documentation and open research journal for an independent, low-cost assistive robot for elderly care: system documentation, daily notes, journal entries and experiments.">
+<meta property="og:title" content="CARA² — Documentation &amp; Research Journal">
+<meta property="og:description" content="Independent V2.0 development of CARA, a low-cost GSM-connected assistive robot for elderly care.">
+<meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-final-assembly.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="assets/css/cara2.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  "name": "CARA V2.0 — Companion Assistive Robot for the Aged",
+  "description": "Independent research and development of CARA, a low-cost GSM-connected assistive robot for elderly care: experiments in perception, power, low-connectivity alerting, embedded reliability and human–robot interaction.",
+  "url": "https://jayashankaanushan19.github.io/CARA2/",
+  "author": { "@type": "Person", "name": "Jayashanka Anushan" },
+  "codeRepository": "https://github.com/JayashankaAnushan19/CARA-Companion-Assistive-Robot-for-the-Aged-V2.0",
+  "startDate": "2026-10-08"
+}
+</script>
+</head>
+<body data-root="" data-page="home">
+<main id="main">
+
+  <section class="masthead">
+    <div class="wrap">
+      <div class="issn"><span>CARA² · VERSION 2.0 · 2026–</span><span>DOCUMENTATION · DAILY NOTES · JOURNAL</span></div>
+      <div class="grid">
+        <div>
+          <div class="kicker">Companion Assistive Robot for the Aged · V2.0</div>
+          <h1>A low-cost assistive robot, developed in the open</h1>
+          <p class="lede">CARA is a sub-$500, GSM-connected robot that watches over an elderly person living alone and alerts family abroad without relying on Wi-Fi. V2.0 is its independent continuation: the system is documented here, and every experiment, finding and dead end is recorded as it happens.</p>
+          <div class="btn-row">
+            <a class="btn" href="about.html">Start reading</a>
+            <a class="btn ghost" href="daily/">Daily notes</a>
+            <a class="btn ghost" href="journal/">Journal</a>
+          </div>
+        </div>
+        <figure>
+          <img src="../CARA/assets/images/cara-final-assembly.jpg" alt="The CARA robot, fully assembled" data-zoom>
+          <figcaption>CARA at the start of V2.0 (October 2026).</figcaption>
+        </figure>
+      </div>
+      <div class="stats" id="stats" aria-label="Site statistics"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <div class="section-head"><h2>Documentation</h2></div>
+    <div class="cards">
+      <div class="card"><div class="meta">Project</div><h3><a href="about.html">About CARA</a></h3><p>The problem, who the robot is for, and what V2.0 sets out to do.</p></div>
+      <div class="card"><div class="meta">Project</div><h3><a href="objectives.html">Objectives</a></h3><p>V2.0 goals, design constraints, and how each goal maps to experiments.</p></div>
+      <div class="card"><div class="meta">System</div><h3><a href="architecture.html">Architecture</a></h3><p>Two-tier design, software components, command protocol and alert logic.</p></div>
+      <div class="card"><div class="meta">System</div><h3><a href="hardware.html">Hardware</a></h3><p>Components, pin map, power and cost — with the current status of each part.</p></div>
+      <div class="card"><div class="meta">System</div><h3><a href="features.html">Features</a></h3><p>Every designed feature and whether it works today, with evidence.</p></div>
+      <div class="card"><div class="meta">Media</div><h3><a href="gallery.html">Gallery</a></h3><p>All photos and videos from the daily notes in one place.</p></div>
+    </div>
+
+    <div class="section-head"><h2>Latest journal entries</h2><a href="journal/">All entries →</a></div>
+    <div id="journal-list" data-limit="3"></div>
+
+    <div class="section-head"><h2>Recent daily notes</h2><a href="daily/">All notes →</a></div>
+    <div class="cards" id="recent-notes" data-limit="3"></div>
+
+    <div class="section-head"><h2>Experiments</h2><a href="experiments/">All experiments →</a></div>
+    <div class="cards" id="exp-cards" data-limit="6"></div>
+
+    <div class="section-head"><h2>How V2.0 is documented</h2></div>
+    <div class="layers">
+      <div class="layer">
+        <h3>Daily Notes</h3>
+        <p>The lab notebook. Written on the days something was built, measured, broken or understood — each on its own page with photos, videos and raw numbers. Dated and never rewritten afterwards.</p>
+        <a href="daily/">Daily Notes →</a>
+      </div>
+      <div class="layer">
+        <h3>Experiments</h3>
+        <p>Every line of investigation has its own page with its question, the evidence that motivated it, the planned method and what will be measured. Notes and entries link back to it automatically.</p>
+        <a href="experiments/">Experiments →</a>
+      </div>
+      <div class="layer">
+        <h3>Journal Entries</h3>
+        <p>Formal write-ups, published when an experiment produces a real result — positive or negative. Structured like research papers and printable in journal format.</p>
+        <a href="journal/">Journal →</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+<script src="data/experiments.js"></script>
+<script src="data/daily.js"></script>
+<script src="data/journal.js"></script>
+<script src="assets/js/cara2.js"></script>
+</body>
+</html>

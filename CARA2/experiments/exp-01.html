@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXP-01 · Platform state reconciliation · CARA²</title>
+<meta name="description" content="EXP-01: What firmware and software is actually running on the robot, and does the repository reproduce it exactly?">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+<link rel="stylesheet" href="../assets/css/cara2.css">
+</head>
+<body data-root="../" data-page="experiments">
+<main id="main">
+<div class="wrap" data-exp="EXP-01">
+
+  <header class="entry-head">
+    <div class="crumbs"><a href="./">Experiments</a> / EXP-01</div>
+    <div class="print-head">CARA² Experiment Register · EXP-01</div>
+    <div class="kicker">Experiment · Systems integration</div>
+    <h1>Platform state reconciliation</h1>
+    <div class="entry-meta"><span class="mono">EXP-01</span><span id="exp-status"></span><span>Registered 8 October 2026</span></div>
+    <div class="entry-tools"><button class="btn ghost sm" data-action="print">Print</button></div>
+  </header>
+
+  <p class="question">What firmware and software is actually running on the robot, and does the repository reproduce it exactly?</p>
+
+  <div class="entry-body">
+    <h2>Why this matters</h2>
+    <p>Every V2.0 experiment changes something and measures the effect. That only means something if the starting point is known exactly. The V1 audit found signs that the code in the repository and the code on the robot have drifted apart.</p>
+
+    <h2>Evidence so far</h2>
+    <ul>
+      <li>Dashboard comments dated 6 Oct 2026 refer to a firmware software-clock fallback and an encoder PI stall guard (<code>MOTOR:</code> lines) that do not exist in the repository firmware <code>cara_main_mega_gsm.ino</code>.</li>
+      <li>The firmware header lists LED = pin 10 / servo = pin 46; the 29 Sep 2026 log records the servo physically moved to pin 10.</li>
+      <li>The RTC reported “not detected” on 6 Oct 2026, after being confirmed working on 29 Sep 2026.</li>
+    </ul>
+
+    <h2>Planned method</h2>
+    <ul>
+      <li>Probe the flashed firmware (boot banner, command responses) and compare its behaviour with the repository source.</li>
+      <li>Continuity-test every connector and publish a verified pin map on the Hardware page.</li>
+      <li>Tag a reproducible V2 baseline commit once robot and repository agree.</li>
+    </ul>
+
+    <h2>Measures</h2>
+    <ul>
+      <li>Number of discrepancies found and resolved</li>
+      <li>Verified pin map (yes/no per pin)</li>
+    </ul>
+
+    <h2>Status history</h2>
+    <ul>
+      <li>8 October 2026 — Registered and opened as active (first V2.0 task).</li>
+    </ul>
+
+    <h2>Linked notes &amp; entries</h2>
+    <div id="exp-records"></div>
+  </div>
+
+  <nav class="pager" id="exp-pager" aria-label="Other experiments"></nav>
+</div>
+</main>
+<script src="../data/experiments.js"></script>
+<script src="../data/daily.js"></script>
+<script src="../data/journal.js"></script>
+<script src="../assets/js/cara2.js"></script>
+</body>
+</html>
