@@ -1,0 +1,62 @@
+# Jayashanka Anushan
+
+> Jayashanka Anushan is an automation-focused Robotics Engineer and MSc Robotics researcher (Middlesex University Dubai) based in Dubai, UAE, working on ROS2, humanoid robotics, human-robot interaction (HRI), embedded systems and cloud robotics. He is the founder of RoboJain, a robotics engineering studio in Dubai, and the author of CARA, a low-cost assistive robot for elderly care built as his MSc thesis.
+
+This site has three parts:
+
+- **Portfolio** (`/`): professional profile, skills, experience, research interests, GitHub projects, videos and contact details.
+- **CARA** (`/CARA/`): full documentation and weekly research journal of CARA (Companion Assistive Robot for the Aged), an MSc Robotics thesis project at Middlesex University Dubai, 2026.
+- **RoboJain** (`/robojain/`): Jayashanka's robotics engineering studio in Dubai, UAE. It builds DIY-to-medium-scale robotic systems, embedded engineering and automation for real-world conditions, with RJ-Life software products and RJ-Robot hardware products.
+
+Key facts:
+
+- Name: Jayashanka Anushan
+- Role: Robotics Engineer & MSc Researcher; founder of RoboJain
+- Location: Dubai, UAE
+- Education: Middlesex University (MSc Robotics, Dubai); London Metropolitan University
+- Research focus: assistive robotics for elderly care, humanoid robot perception, multimodal emotion recognition, robot vision and sensor fusion, auditory perception, cloud robotics (AWS + ROSBridge)
+- Contact: jayasankaanushan199@gmail.com · RoboJain: robojain.robotics@gmail.com
+- Profiles: [GitHub](https://github.com/JayashankaAnushan19) · [LinkedIn](https://www.linkedin.com/in/jayashanka-anushan) · [YouTube](https://www.youtube.com/@jayashankaanushan1336) · [Medium](https://medium.com/@jayasankaanushan199) · [Stack Overflow](https://stackoverflow.com/users/11253065/jayashanka-anushan) · [RoboJain on LinkedIn](https://www.linkedin.com/company/robotjain/)
+
+## Portfolio
+
+- [Jayashanka Anushan — Robotics Engineer](https://jayashankaanushan19.github.io/): Profile, skills (ROS2, Python, C++, AWS, computer vision, SLAM, sensor fusion, embedded systems), experience, research areas and contact.
+- [Blog & Posts](https://jayashankaanushan19.github.io/posts.html): LinkedIn updates on robotics, automation and engineering work from Dubai, UAE.
+- [Résumé (PDF)](https://jayashankaanushan19.github.io/assets/Jayashanka-Anushan-Resume.pdf): Downloadable CV.
+
+## CARA — Companion Assistive Robot for the Aged
+
+CARA is a low-cost, GSM-based companion assistive robot for elderly care in developing countries. It pairs an NVIDIA Jetson Orin Nano (MediaPipe pose estimation and a trained RandomForestClassifier for AI fall detection) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. It alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Source code: [GitHub repository](https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-).
+
+- [CARA overview](https://jayashankaanushan19.github.io/CARA/): Project home and summary.
+- [About](https://jayashankaanushan19.github.io/CARA/about.html): Background, motivation and context of the MSc Robotics thesis.
+- [Objectives](https://jayashankaanushan19.github.io/CARA/objectives.html): Research objectives and research questions.
+- [Architecture](https://jayashankaanushan19.github.io/CARA/architecture.html): ROS node graph, 5-state machine and communication protocols.
+- [Hardware](https://jayashankaanushan19.github.io/CARA/hardware.html): Full bill of materials, specifications and cost breakdown.
+- [Features](https://jayashankaanushan19.github.io/CARA/features.html): The 15 integrated features across priority tiers.
+- [Research](https://jayashankaanushan19.github.io/CARA/research.html): Literature review covering ageing demographics, assistive robots, fall detection, GSM alerting and the research gap.
+- [Documentation](https://jayashankaanushan19.github.io/CARA/docs.html): Functional and non-functional requirements, safety design and system specifications.
+- [Timeline](https://jayashankaanushan19.github.io/CARA/timeline.html): Gantt chart of the real build.
+- [Development blog](https://jayashankaanushan19.github.io/CARA/blog/): Weekly build logs (Weeks 01–16), implementation notes and lessons learned.
+- [Appendices](https://jayashankaanushan19.github.io/CARA/appendix/): Wiring diagram, firmware listing, fall detection node, ethics approval, raw test results and AI usage statement.
+- [Gallery](https://jayashankaanushan19.github.io/CARA/gallery.html): System diagrams, circuit schematics and build photos.
+- [Contact](https://jayashankaanushan19.github.io/CARA/contact.html): Contact the CARA researcher.
+
+## RoboJain
+
+- [RoboJain — Where Code Meets Creation](https://jayashankaanushan19.github.io/robojain/): Studio overview, services and contact.
+- [Products](https://jayashankaanushan19.github.io/robojain/products/): RJ-Life software solutions and RJ-Robot hardware developments.
+- [LoanMaster (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/loanmaster.html): Microfinance management software for lending institutions.
+- [RobotSC (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/robotsc.html): Real-time robotics monitoring and control dashboard over WebSockets.
+- [BlindTalk (RJ-Robot)](https://jayashankaanushan19.github.io/robojain/products/blindtalk.html): Braille-based communication hardware for the visually impaired.
+- [CARA (RJ-Robot)](https://jayashankaanushan19.github.io/robojain/products/cara.html): Autonomous elderly monitoring and care robot, in development.
+- [Posts & Updates](https://jayashankaanushan19.github.io/robojain/posts.html): RoboJain updates from LinkedIn, Instagram and TikTok.
+
+## Optional
+
+- [CARA weekly blog, Week 01](https://jayashankaanushan19.github.io/CARA/blog/week-01.html) through [Week 16](https://jayashankaanushan19.github.io/CARA/blog/week-16.html): Week-by-week engineering record of the CARA build.
+- [CARA technical documentation (detailed)](https://jayashankaanushan19.github.io/CARA/docs/): System requirements, hardware specs, communication design and safety architecture.
+- [CARA research & literature review (detailed)](https://jayashankaanushan19.github.io/CARA/research/): Literature review and comparison with existing assistive robots.
+- [CARA image gallery](https://jayashankaanushan19.github.io/CARA/images/): Architecture diagrams, circuit diagrams and build photos.
+- [CARA field books](https://jayashankaanushan19.github.io/CARA/fieldbooks.html): Lab notes and research documents.
+- [Jay Gallery](https://jayashankaanushan19.github.io/gallery/): Illustrated albums of dragons and mythological bestiaries.
