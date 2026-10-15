@@ -26,7 +26,7 @@ Key facts:
 
 ## CARA — Companion Assistive Robot for the Aged
 
-CARA is a low-cost, GSM-based companion assistive robot for elderly care in developing countries. It pairs an NVIDIA Jetson Orin Nano (MediaPipe pose estimation and a trained RandomForestClassifier for AI fall detection) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. It alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency. Source code: [GitHub repository](https://github.com/JayashankaAnushan19/CARA---Companion-Assistive-Robot-for-the-Aged-).
+CARA is a low-cost, GSM-based companion assistive robot for elderly care in developing countries. It pairs an NVIDIA Jetson Orin Nano (MediaPipe pose estimation and a trained RandomForestClassifier for AI fall detection) with an Arduino Mega 2560 for real-time motor control and obstacle avoidance. It alerts registered family members by GSM/LTE SMS with no Wi-Fi dependency.
 
 - [CARA overview](https://jayashankaanushan19.github.io/CARA/): Project home and summary.
 - [About](https://jayashankaanushan19.github.io/CARA/about.html): Background, motivation and context of the MSc Robotics thesis.
