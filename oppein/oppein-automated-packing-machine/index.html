@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automated Packing Machine — Coming Soon | OPPEIN</title>
-<meta name="description" content="OPPEIN Automated Packing Machine project — documentation coming soon.">
+<title>Automated Packing Machine — Cancelled | OPPEIN</title>
+<meta name="description" content="OPPEIN Automated Packing Machine project — cancelled.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/webp" href="../assets/oppein-logo.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,8 @@
     --amber:       #D98A3D;
     --amber-dim:   #7A4E20;
     --amber-glow:  rgba(217,138,61,0.14);
+    --red:         #C95A4A;
+    --red-glow:    rgba(201,90,74,0.12);
   }
   *{ margin:0; padding:0; box-sizing:border-box; }
   body{
@@ -47,7 +49,7 @@
   main::before{
     content:''; position:absolute; top:50%; left:50%;
     width:640px; height:640px; transform:translate(-50%,-50%);
-    background:radial-gradient(circle,var(--amber-glow) 0%,transparent 70%);
+    background:radial-gradient(circle,var(--red-glow) 0%,transparent 70%);
     pointer-events:none;
   }
   .content{ position:relative; z-index:1; text-align:center; max-width:600px; }
@@ -62,17 +64,15 @@
 
   .eyebrow{
     font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.2em;
-    text-transform:uppercase; color:var(--amber);
+    text-transform:uppercase; color:var(--red);
     display:inline-flex; align-items:center; gap:8px; margin-bottom:24px;
   }
   .eyebrow .led{
-    width:6px; height:6px; border-radius:50%; background:var(--amber);
-    animation:pulse 2s ease-in-out infinite;
+    width:6px; height:6px; border-radius:50%; background:var(--red);
   }
-  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
 
   h1{ font-size:clamp(30px,5vw,46px); line-height:1.15; margin-bottom:18px; }
-  h1 span{ color:var(--amber); }
+  h1 span{ color:var(--red); }
 
   p.lead{ font-size:16px; color:var(--ink-dim); margin-bottom:36px; }
 
@@ -100,9 +100,9 @@
     <div class="mark">
       <img src="../assets/oppein-logo.webp" alt="OPPEIN">
     </div>
-    <div class="eyebrow"><span class="led"></span>Under development</div>
-    <h1>Automated Packing<br>Machine — <span>coming soon</span>.</h1>
-    <p class="lead">This project is in progress. Documentation, specs, and build details will be published here once ready.</p>
+    <div class="eyebrow"><span class="led"></span>Project cancelled</div>
+    <h1>Automated Packing<br>Machine — <span>cancelled</span>.</h1>
+    <p class="lead">This project has been cancelled. After the initial idea stage there was no further effective discussion, so it did not move forward. No documentation or build details will be published.</p>
     <a class="btn" href="../">&larr; Back to Project Hub</a>
   </div>
 </main>

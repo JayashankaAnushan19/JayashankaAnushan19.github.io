@@ -122,6 +122,10 @@
   }
   .status-pill.planning{ background:var(--amber-glow); color:var(--amber); border:1px solid var(--amber-dim); }
   .status-pill.soon{ background:rgba(169,156,140,0.1); color:var(--ink-dim); border:1px solid var(--border); }
+  .status-pill.cancelled{ background:rgba(201,90,74,0.1); color:#C95A4A; border:1px solid rgba(201,90,74,0.3); }
+  .project-card.cancelled{ opacity:0.6; }
+  .project-card.cancelled .card-stripe{ background:var(--ink-faint); }
+  .project-card.cancelled .card-name{ text-decoration:line-through; text-decoration-color:var(--ink-faint); }
   .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
   .card-name{ font-size:20px; }
   .card-desc{ font-size:13.5px; color:var(--ink-dim); }
@@ -164,7 +168,7 @@
 <header class="hero">
   <div class="wrap hero-inner">
     <div class="hero-text">
-      <div class="eyebrow"><span class="led"></span>Oppein · <span id="projectCount">3</span> projects indexed</div>
+      <div class="eyebrow"><span class="led"></span>Oppein · <span id="projectCount">4</span> projects indexed</div>
       <h1>All Oppein work,<br>in <span>one place</span>.</h1>
       <p class="lead">A running index of Oppein-related builds and documentation. Each project below lives in its own folder — pick one to open it.</p>
     </div>
@@ -208,13 +212,25 @@
         </div>
       </a>
 
-      <a class="project-card reveal" href="oppein-automated-packing-machine/index.html">
+      <a class="project-card reveal" href="oppein-network-plan-PyramidCentre/oppein-pyramid-centre-network/index.html">
         <div class="card-stripe"></div>
         <div class="card-body">
-          <span class="status-pill soon"><span class="status-dot"></span>Coming Soon</span>
+          <span class="status-pill planning"><span class="status-dot"></span>Rev A · Draft</span>
+          <div>
+            <h3 class="card-name">Office 114 Pyramid Centre</h3>
+            <p class="card-desc">Structured Cat6 cabling &amp; network plan — Office 114, Pyramid Centre.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="project-card cancelled reveal" href="oppein-automated-packing-machine/index.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill cancelled"><span class="status-dot"></span>Cancelled</span>
           <div>
             <h3 class="card-name">Automated Packing Machine</h3>
-            <p class="card-desc">Automated packing machine build — details in progress.</p>
+            <p class="card-desc">Cancelled — no effective discussion followed after the initial idea stage.</p>
           </div>
           <div class="card-cta">Open project <span class="arrow">→</span></div>
         </div>
