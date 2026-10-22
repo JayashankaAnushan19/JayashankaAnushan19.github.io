@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOQ & estimate — Office 14 Network · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. BOQ &amp; estimate.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="boq-page">
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
+    <span class="nav-tag">Rev A · Draft — for review</span>
+  </div>
+</nav>
+<div class="shell wide">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">Office 14 · Pyramid Centre</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="floor-plan.html"><span class="num">01</span>Floor plan & routes</a><a href="topology.html"><span class="num">02</span>Topology & ports</a><a href="rack.html"><span class="num">03</span>Rack layout</a><a href="cable-schedule.html"><span class="num">04</span>Cable schedule</a><a href="materials.html" aria-current="page"><span class="num">05</span>BOQ & estimate</a><a href="equipment.html"><span class="num">06</span>Equipment & buying guide</a><a href="device-lab.html"><span class="num">07</span>Device lab</a><a href="installation.html"><span class="num">08</span>Installation method</a><a href="testing.html"><span class="num">09</span>Testing & handover</a><a href="open-items.html"><span class="num">10</span>Open items</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 05 · BOQ &AMP; ESTIMATE</div>
+      <h1>BOQ & estimate</h1>
+      <p class="lead">A bill of quantities for the whole job: cabling, cabinet, active equipment, patching and labour, with estimated UAE rates. Quantities come from the cable schedule. You can edit every quantity and rate, and print the result as an estimate on the OPPEIN letterhead.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev A · 2026-10-16</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+    <section class="sec no-print" id="summary">
+      <div class="module-label">BOQ-01</div>
+      <h2>Estimate at a glance</h2>
+      <p class="sub">Figures update live from the BOQ below.</p>
+      <div class="tiles">
+      <div class="tile"><div class="tv" data-live="base">—</div><div class="tl">Subtotal A–E</div><div class="ts">excl. contingency &amp; VAT</div></div>
+      <div class="tile"><div class="tv" data-live="grand">—</div><div class="tl">Grand total</div><div class="ts">incl. contingency + 5 % VAT</div></div>
+      <div class="tile"><div class="tv" data-live="perpt">—</div><div class="tl">Per cable point</div><div class="ts">grand total ÷ 12 points</div></div>
+    </div><div id="boq-bars"></div>
+    </section>
+    <section class="sec boq-sec" id="boq-sec">
+      <div class="module-label no-print">BOQ-02</div>
+      <h2 class="no-print">Bill of quantities</h2>
+      <div class="boq-tools no-print">
+      <button class="btn solid" id="boq-print">Print / save as PDF</button>
+      <button class="btn" id="boq-reset">Reset to estimate</button>
+      <span class="hint">Click any quantity, rate or header field to edit it. Totals update as you type. Changed values are highlighted. Edits are saved in this browser only.</span>
+    </div>
+    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="12">
+      <header class="lh">
+        <div class="lh-brand">
+          <img src="../../assets/oppein-logo.webp" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
+          <div class="lh-id"><input class="lh-name" data-f="co" value="OPPEIN" aria-label="Company name"><input class="lh-tag" data-f="tag" value="IT Department · Projects &amp; Infrastructure" aria-label="Department"></div>
+        </div>
+        <div class="lh-contact">
+          <input data-f="addr" placeholder="Office address, Dubai, UAE" aria-label="Address">
+          <input data-f="tel" placeholder="Tel: +971 …" aria-label="Telephone">
+          <input data-f="mail" placeholder="Email" aria-label="Email">
+          <input data-f="trn" placeholder="TRN: …" aria-label="Tax registration number">
+        </div>
+      </header>
+      <div class="lh-rule"></div>
+      <div class="doc-title"><h2>Estimate — Bill of Quantities</h2><span class="stamp">Budget estimate · not a quotation</span></div>
+      <div class="doc-meta">
+        <label>Estimate no.<input data-f="ref" value="OPP-IT-EST-O14-001"></label>
+        <label>Date<input data-f="date" type="date" value="2026-10-16"></label>
+        <label>Valid for<input data-f="valid" value="30 days"></label>
+        <label>Revision<input data-f="rev" value="Rev A"></label>
+        <label class="w2">Prepared for<input data-f="to" placeholder="Client / management name"></label>
+        <label class="w2">Project<input data-f="proj" value="Office 14 — Structured cabling &amp; network"></label>
+        <label class="w2">Site<input data-f="site" value="Pyramid Centre · Office 14"></label>
+        <label class="w2">Currency<input data-f="cur" value="AED · rates excl. VAT"></label>
+      </div>
+      <div class="tw-paper"><table class="boq">
+        <colgroup><col style="width:8%"><col><col style="width:7%"><col style="width:9%"><col style="width:12%"><col style="width:14%"></colgroup>
+        <thead><tr><th>No.</th><th>Description &amp; function</th><th>Unit</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
+        <tbody><tr class="grp"><td class="m">A</td><td colspan="5">Cabling & containment</td></tr><tr class="it" data-key="A.1" data-sec="A">
+        <td class="m">A.1</td>
+        <td><span class="d">Cat6 U/UTP cable, 23 AWG solid bare copper, LSZH — 305 m box</span><div class="fn">Carries data (and PoE power) from the cabinet to every outlet. 229 m needed.</div><div class="rmk no-print">Rate basis: Amazon.ae / noon: AED 342 – 480 for bare-copper boxes · <a href="equipment.html#cable">Function &amp; where to buy →</a></div></td>
+        <td class="u">box</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="480.00" data-def="480.00" aria-label="Unit rate A.1"></td>
+        <td class="n amt">480.00</td></tr><tr class="it" data-key="A.2" data-sec="A">
+        <td class="m">A.2</td>
+        <td><span class="d">Cat6 keystone jack</span><div class="fn">Terminates the cable at each outlet and gives the RJ45 socket.</div><div class="rmk no-print">Rate basis: CableCreation 10-pack on Amazon.ae · <a href="equipment.html#outlets">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="11" data-def="11" aria-label="Quantity A.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate A.2"></td>
+        <td class="n amt">165.00</td></tr><tr class="it" data-key="A.3" data-sec="A">
+        <td class="m">A.3</td>
+        <td><span class="d">Single-gang faceplate 1× RJ45 (wall)</span><div class="fn">Holds the keystone in the wall box at desks.</div><div class="rmk no-print">Rate basis: Amazon.ae single plates AED 25 – 70 retail; trade lower · <a href="equipment.html#outlets">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="9" data-def="9" aria-label="Quantity A.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="12.00" data-def="12.00" aria-label="Unit rate A.3"></td>
+        <td class="n amt">108.00</td></tr><tr class="it" data-key="A.4" data-sec="A">
+        <td class="m">A.4</td>
+        <td><span class="d">Surface mount box 1× RJ45 (ceiling, AP)</span><div class="fn">Outlet above the ceiling next to each access point.</div><div class="rmk no-print">Rate basis: Trade price · <a href="equipment.html#outlets">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="2" data-def="2" aria-label="Quantity A.4"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate A.4"></td>
+        <td class="n amt">30.00</td></tr><tr class="it" data-key="A.5" data-sec="A">
+        <td class="m">A.5</td>
+        <td><span class="d">Ceiling cable tray / J-hooks incl. fixings</span><div class="fn">Supports the bundle across the ceiling so cables never lie on tiles.</div><div class="rmk no-print">Rate basis: Trade price · <a href="equipment.html#containment">Function &amp; where to buy →</a></div></td>
+        <td class="u">m</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="15" data-def="15" aria-label="Quantity A.5"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="35.00" data-def="35.00" aria-label="Unit rate A.5"></td>
+        <td class="n amt">525.00</td></tr><tr class="it" data-key="A.6" data-sec="A">
+        <td class="m">A.6</td>
+        <td><span class="d">PVC trunking / conduit for wall drops</span><div class="fn">Protects and hides the vertical drop from ceiling to outlet.</div><div class="rmk no-print">Rate basis: ≈ 3 m per wall outlet · <a href="equipment.html#containment">Function &amp; where to buy →</a></div></td>
+        <td class="u">m</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="27" data-def="27" aria-label="Quantity A.6"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="8.00" data-def="8.00" aria-label="Unit rate A.6"></td>
+        <td class="n amt">216.00</td></tr><tr class="it" data-key="A.7" data-sec="A">
+        <td class="m">A.7</td>
+        <td><span class="d">Cable labels, printed, both ends</span><div class="fn">Identifies every cable (C-01 … C-12) for fault-finding.</div><div class="rmk no-print"><a href="equipment.html#containment">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="24" data-def="24" aria-label="Quantity A.7"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="2.00" data-def="2.00" aria-label="Unit rate A.7"></td>
+        <td class="n amt">48.00</td></tr><tr class="it" data-key="A.8" data-sec="A">
+        <td class="m">A.8</td>
+        <td><span class="d">Velcro ties &amp; sundries</span><div class="fn">Bundling without crushing the cable pairs.</div><div class="rmk no-print"><a href="equipment.html#containment">Function &amp; where to buy →</a></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.8"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="80.00" data-def="80.00" aria-label="Unit rate A.8"></td>
+        <td class="n amt">80.00</td></tr><tr class="subt"><td></td><td colspan="4">Subtotal A — Cabling & containment</td><td class="n" data-subamt="A">—</td></tr><tr class="grp"><td class="m">B</td><td colspan="5">Cabinet & passive</td></tr><tr class="it" data-key="B.1" data-sec="B">
+        <td class="m">B.1</td>
+        <td><span class="d">19″ 16U wall-mount cabinet, glass door, lock, fan</span><div class="fn">Secure, ventilated home for the switch, patch panel, router and ONT.</div><div class="rmk no-print">Rate basis: Digitus 16U AED 234 (450 deep) on Amazon.ae; 600 deep + fan higher · <a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate B.1"></td>
+        <td class="n amt">450.00</td></tr><tr class="it" data-key="B.2" data-sec="B">
+        <td class="m">B.2</td>
+        <td><span class="d">24-port Cat6 patch panel, loaded, 1U</span><div class="fn">Fixed termination point for all 12 home runs; patch cords connect it to the switch.</div><div class="rmk no-print">Rate basis: D-Link loaded panel AED 141.55 on noon · <a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate B.2"></td>
+        <td class="n amt">150.00</td></tr><tr class="it" data-key="B.3" data-sec="B">
+        <td class="m">B.3</td>
+        <td><span class="d">1U horizontal cable manager</span><div class="fn">Keeps the short patch cords tidy between panel and switch.</div><div class="rmk no-print"><a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="2" data-def="2" aria-label="Quantity B.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="40.00" data-def="40.00" aria-label="Unit rate B.3"></td>
+        <td class="n amt">80.00</td></tr><tr class="it" data-key="B.4" data-sec="B">
+        <td class="m">B.4</td>
+        <td><span class="d">1U cantilever shelf</span><div class="fn">Holds the non-rackmount ONT and router.</div><div class="rmk no-print"><a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.4"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="45.00" data-def="45.00" aria-label="Unit rate B.4"></td>
+        <td class="n amt">45.00</td></tr><tr class="it" data-key="B.5" data-sec="B">
+        <td class="m">B.5</td>
+        <td><span class="d">PDU 8-way 230 V, 1U</span><div class="fn">Distributes power to everything in the cabinet.</div><div class="rmk no-print"><a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.5"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="90.00" data-def="90.00" aria-label="Unit rate B.5"></td>
+        <td class="n amt">90.00</td></tr><tr class="it" data-key="B.6" data-sec="B">
+        <td class="m">B.6</td>
+        <td><span class="d">Brush cable-entry panel 1U</span><div class="fn">Lets cables in at the top while keeping dust out.</div><div class="rmk no-print"><a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.6"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="45.00" data-def="45.00" aria-label="Unit rate B.6"></td>
+        <td class="n amt">45.00</td></tr><tr class="it" data-key="B.7" data-sec="B">
+        <td class="m">B.7</td>
+        <td><span class="d">Blank panel 1U</span><div class="fn">Closes empty slots so the fan airflow works.</div><div class="rmk no-print"><a href="equipment.html#cabinet">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity B.7"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate B.7"></td>
+        <td class="n amt">60.00</td></tr><tr class="subt"><td></td><td colspan="4">Subtotal B — Cabinet & passive</td><td class="n" data-subamt="B">—</td></tr><tr class="grp"><td class="m">C</td><td colspan="5">Active equipment</td></tr><tr class="it" data-key="C.1" data-sec="C">
+        <td class="m">C.1</td>
+        <td><span class="d">16-port Gigabit PoE+ switch, rackmount, smart-managed (e.g. TP-Link TL-SG1218MPE)</span><div class="fn">Connects every device and powers the 3 PoE devices over the cable. VLAN support for guest Wi-Fi.</div><div class="rmk no-print">Rate basis: Amazon.ae AED 469 – 505 · <a href="equipment.html#switch">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="500.00" data-def="500.00" aria-label="Unit rate C.1"></td>
+        <td class="n amt">500.00</td></tr><tr class="it" data-key="C.2" data-sec="C">
+        <td class="m">C.2</td>
+        <td><span class="d">Wi-Fi 6 ceiling access point, PoE (e.g. UniFi U6 Lite / U6+)</span><div class="fn">Wireless coverage for laptops and phones in Showroom (AP1) and Design (AP2).</div><div class="rmk no-print">Rate basis: Amazon.ae U6 Lite AED 400 – 555 · <a href="equipment.html#ap">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="2" data-def="2" aria-label="Quantity C.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate C.2"></td>
+        <td class="n amt">900.00</td></tr><tr class="subt"><td></td><td colspan="4">Subtotal C — Active equipment</td><td class="n" data-subamt="C">—</td></tr><tr class="grp"><td class="m">D</td><td colspan="5">Patching</td></tr><tr class="it" data-key="D.1" data-sec="D">
+        <td class="m">D.1</td>
+        <td><span class="d">Cat6 patch cord 0.5 m (cabinet)</span><div class="fn">Links each patch-panel port to the same switch port (incl. router uplink).</div><div class="rmk no-print">Rate basis: D-Link 0.5 m AED 19.90 on Amazon.ae · <a href="equipment.html#patch">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="13" data-def="13" aria-label="Quantity D.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate D.1"></td>
+        <td class="n amt">195.00</td></tr><tr class="it" data-key="D.2" data-sec="D">
+        <td class="m">D.2</td>
+        <td><span class="d">Cat6 patch cord 2 m (desk)</span><div class="fn">Links the wall outlet to the PC, printer or phone.</div><div class="rmk no-print"><a href="equipment.html#patch">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="9" data-def="9" aria-label="Quantity D.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="20.00" data-def="20.00" aria-label="Unit rate D.2"></td>
+        <td class="n amt">180.00</td></tr><tr class="it" data-key="D.3" data-sec="D">
+        <td class="m">D.3</td>
+        <td><span class="d">Cat6 patch cord 0.5 m — spares</span><div class="fn">For moves and fault-finding.</div><div class="rmk no-print"><a href="equipment.html#patch">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity D.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate D.3"></td>
+        <td class="n amt">60.00</td></tr><tr class="subt"><td></td><td colspan="4">Subtotal D — Patching</td><td class="n" data-subamt="D">—</td></tr><tr class="grp"><td class="m">E</td><td colspan="5">Labour & services</td></tr><tr class="it" data-key="E.1" data-sec="E">
+        <td class="m">E.1</td>
+        <td><span class="d">Install, pull, terminate &amp; label Cat6 point (both ends)</span><div class="fn">Installer labour per home run.</div><div class="rmk no-print">Rate basis: Typical small-office contractor rate · <a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">point</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="12" data-def="12" aria-label="Quantity E.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="120.00" data-def="120.00" aria-label="Unit rate E.1"></td>
+        <td class="n amt">1,440.00</td></tr><tr class="it" data-key="E.2" data-sec="E">
+        <td class="m">E.2</td>
+        <td><span class="d">Install ceiling tray / J-hooks and wall trunking</span><div class="fn">Containment labour.</div><div class="rmk no-print"><a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">m</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="42" data-def="42" aria-label="Quantity E.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="20.00" data-def="20.00" aria-label="Unit rate E.2"></td>
+        <td class="n amt">840.00</td></tr><tr class="it" data-key="E.3" data-sec="E">
+        <td class="m">E.3</td>
+        <td><span class="d">Mount cabinet, dress cables, fit panels &amp; PDU</span><div class="fn">Cabinet build and cable dressing.</div><div class="rmk no-print"><a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity E.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="400.00" data-def="400.00" aria-label="Unit rate E.3"></td>
+        <td class="n amt">400.00</td></tr><tr class="it" data-key="E.4" data-sec="E">
+        <td class="m">E.4</td>
+        <td><span class="d">Test every link + test report</span><div class="fn">Wire map and length test with a written record (DOC 09).</div><div class="rmk no-print">Rate basis: Certification is item F.2 · <a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">point</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="12" data-def="12" aria-label="Quantity E.4"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="30.00" data-def="30.00" aria-label="Unit rate E.4"></td>
+        <td class="n amt">360.00</td></tr><tr class="it" data-key="E.5" data-sec="E">
+        <td class="m">E.5</td>
+        <td><span class="d">Configure router, switch &amp; Wi-Fi; commissioning</span><div class="fn">IP plan, VLANs, SSIDs, firmware, passwords.</div><div class="rmk no-print"><a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity E.5"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="600.00" data-def="600.00" aria-label="Unit rate E.5"></td>
+        <td class="n amt">600.00</td></tr><tr class="it" data-key="E.6" data-sec="E">
+        <td class="m">E.6</td>
+        <td><span class="d">As-built documentation &amp; handover</span><div class="fn">Updates this pack with real positions and measured lengths.</div><div class="rmk no-print"><a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity E.6"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="250.00" data-def="250.00" aria-label="Unit rate E.6"></td>
+        <td class="n amt">250.00</td></tr><tr class="subt"><td></td><td colspan="4">Subtotal E — Labour & services</td><td class="n" data-subamt="E">—</td></tr><tr class="grp optgrp"><td class="m">F</td><td colspan="5">Optional items <span class="optnote no-print">— tick an item to include it in the total</span></td></tr><tr class="it opt excluded" data-key="F.1" data-sec="F">
+        <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.1"> F.1</td>
+        <td><span class="d">UPS 1000 VA line-interactive, pure sine (e.g. APC SMC1000I)</span><div class="fn">Keeps internet, switch and Wi-Fi running through short power cuts.</div><div class="rmk no-print">Rate basis: Amazon.ae AED 1,340. Decision D-05 · <a href="equipment.html#ups">Function &amp; where to buy →</a></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="1340.00" data-def="1340.00" aria-label="Unit rate F.1"></td>
+        <td class="n amt">1,340.00</td></tr><tr class="it opt excluded" data-key="F.2" data-sec="F">
+        <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.2"> F.2</td>
+        <td><span class="d">Cat6 certification test (Fluke DSX) per link</span><div class="fn">Certified Cat6 report, needed for a manufacturer warranty.</div><div class="rmk no-print"><a href="equipment.html#labour">Function &amp; where to buy →</a></div></td>
+        <td class="u">point</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="12" data-def="12" aria-label="Quantity F.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="25.00" data-def="25.00" aria-label="Unit rate F.2"></td>
+        <td class="n amt">300.00</td></tr><tr class="subt optsub"><td></td><td colspan="4">Subtotal F — Optional items (included items)</td><td class="n" data-subamt="F">—</td></tr></tbody>
+      </table></div>
+      <div class="totals">
+        <div class="words"><small>Grand total in words</small><p id="t-words">—</p></div>
+        <dl>
+          <dt>Subtotal A–E</dt><dd id="t-base">—</dd>
+          <dt>Optional items (F, ticked)</dt><dd id="t-opt">—</dd>
+          <dt>Contingency <input id="t-contp" type="number" min="0" max="50" step="1" value="10" aria-label="Contingency percent"> %</dt><dd id="t-cont">—</dd>
+          <dt>Total before VAT</dt><dd id="t-net">—</dd>
+          <dt>VAT 5 %</dt><dd id="t-vat">—</dd>
+          <dt class="gt">Grand total (AED)</dt><dd class="gt" id="t-grand">—</dd>
+        </dl>
+      </div>
+      <div class="terms">
+        <h3>Notes &amp; conditions</h3>
+        <ol>
+          <li>Budget estimate for planning and approval. Rates are UAE market estimates (17 Oct 2026) and are replaced by supplier quotations before ordering.</li>
+          <li>Quantities follow the Office 14 cable schedule: 12 Cat6 home runs, 229 m, 11 outlets. To be confirmed after the site survey.</li>
+          <li>Excluded: ISP fibre and ONT, electrical works and sockets, ceiling repair or painting, PCs, printers and software licences.</li>
+          <li>Optional items (section F) are included only where ticked. Contingency covers site variations.</li>
+          <li>All cable and termination to be Cat6 solid bare copper; CCA cable is not accepted.</li>
+        </ol>
+      </div>
+      <div class="sign">
+        <div><span>Prepared by</span><input data-f="by" value="Jayashanka · OPPEIN IT"><i>Signature &amp; date</i></div>
+        <div><span>Reviewed by</span><input data-f="rev_by" placeholder="Name"><i>Signature &amp; date</i></div>
+        <div><span>Approved by</span><input data-f="appr" placeholder="Name"><i>Signature &amp; date</i></div>
+      </div>
+      <footer class="pf"><span>OPPEIN · Office 14 Network · Estimate BOQ</span><span>Generated from the project documentation</span></footer>
+    </article></div>
+    </section>
+    <section class="sec no-print" id="basis">
+      <div class="module-label">BOQ-03</div>
+      <h2>Basis of rates</h2>
+      <p class="sub">Web search, prices excl. 5 % VAT unless stated.</p>
+      <div class="tw"><table><thead><tr><th>Item</th><th>Market reference found</th><th>Source</th></tr></thead><tbody><tr><td><b>Cat6 305 m box</b></td><td>OPTERNET bare copper AED 342 (Amazon.ae); D-Link AED 479.99 and Schneider AED 934.32 (noon)</td><td class="m"><a href="https://www.amazon.ae/OPTERNET-CABLE-0-56MM-COPPER-CAT6LSZH23AWGUTPBC3903/dp/B0DCG5MYVD" target="_blank" rel="noopener">amazon.ae ↗</a></td></tr><tr><td><b>24-port patch panel</b></td><td>D-Link loaded AED 141.55 (noon); Araneae Dubai AED 159 excl. VAT</td><td class="m"><a href="https://www.noon.com/uae-en/24-port-cat-6-utp-loaded-patch-panel-black/N44149082A/p/" target="_blank" rel="noopener">noon.com ↗</a></td></tr><tr><td><b>PoE+ switch</b></td><td>TP-Link TL-SG1218MP AED 469; TL-SG1218MPE AED 475 – 505 (Amazon.ae)</td><td class="m"><a href="https://www.amazon.ae/TP-Link-TL-SG1218MPE-16-Port-Gigabit-Rackmount/dp/B07YL7C6HP" target="_blank" rel="noopener">amazon.ae ↗</a></td></tr><tr><td><b>16U cabinet</b></td><td>Digitus 16U 450 deep AED 234.17 (Amazon.ae); add fan / 600 mm depth</td><td class="m"><a href="https://www.amazon.ae/mounting-cabinet-Dynamic-789x600x450-color/dp/B001HZBR4A" target="_blank" rel="noopener">amazon.ae ↗</a></td></tr><tr><td><b>Access point</b></td><td>UniFi 6 Lite AED 400 – 555 (Amazon.ae)</td><td class="m"><a href="https://www.amazon.ae/Ubiquiti-Networks-Adapter-Included-U6-Lite/dp/B08T6CKG5B" target="_blank" rel="noopener">amazon.ae ↗</a></td></tr><tr><td><b>UPS</b></td><td>APC SMC1000I AED 1,340 (Amazon.ae)</td><td class="m"><a href="https://www.amazon.ae/APC-Smart-UPS-1000VA-230V-SMC1000I/dp/B07N6PGXBR" target="_blank" rel="noopener">amazon.ae ↗</a></td></tr><tr><td><b>Labour per point</b></td><td>USD 100 – 350 per point incl. materials (generic guide); UK £60 – £150 supplied &amp; installed</td><td class="m"><a href="https://latestcost.com/network-cabling-cost-per-point/" target="_blank" rel="noopener">latestcost.com ↗</a></td></tr></tbody></table></div><div class="callout info"><b>How the rates were set.</b> Product rates come from UAE listings on Amazon.ae, noon and Dubai suppliers seen on 17 Oct 2026, rounded to a typical trade price. Labour is a typical small-office contractor rate. Treat every figure as ±20 % until written quotations arrive. Specific products are compared in <a href="equipment.html">DOC 06 · Equipment & buying guide</a>.</div>
+    </section>
+    <section class="sec no-print" id="spare">
+      <div class="module-label">BOQ-04</div>
+      <h2>Spare capacity bought with this BOQ</h2>
+      
+      <div class="tiles"><div class="tile"><div class="tv">12</div><div class="tl">Patch-panel ports free</div><div class="ts">of 24</div></div><div class="tile"><div class="tv">3</div><div class="tl">Switch ports free</div><div class="ts">P14, P15, P16</div></div><div class="tile"><div class="tv">76 m</div><div class="tl">Cable left on the box</div><div class="ts">for later moves and adds</div></div></div>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="cable-schedule.html"><small>← DOC 04</small>Cable schedule</a>
+      <a class="next" href="equipment.html"><small>DOC 06 →</small>Equipment & buying guide</a>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev A</p>
+  </main>
+</div>
+<script src="assets/boq.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testing & handover — Office 14 Network · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. Testing &amp; handover.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
+    <span class="nav-tag">Rev A · Draft — for review</span>
+  </div>
+</nav>
+<div class="shell">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">Office 14 · Pyramid Centre</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="floor-plan.html"><span class="num">01</span>Floor plan & routes</a><a href="topology.html"><span class="num">02</span>Topology & ports</a><a href="rack.html"><span class="num">03</span>Rack layout</a><a href="cable-schedule.html"><span class="num">04</span>Cable schedule</a><a href="materials.html"><span class="num">05</span>BOQ & estimate</a><a href="equipment.html"><span class="num">06</span>Equipment & buying guide</a><a href="device-lab.html"><span class="num">07</span>Device lab</a><a href="installation.html"><span class="num">08</span>Installation method</a><a href="testing.html" aria-current="page"><span class="num">09</span>Testing & handover</a><a href="open-items.html"><span class="num">10</span>Open items</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 09 · TESTING &AMP; HANDOVER</div>
+      <h1>Testing & handover</h1>
+      <p class="lead">What "done" means. Every link is tested and recorded, every device is checked on the network, and the client receives a handover pack.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev A · 2026-10-16</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+    <section class="sec" id="accept">
+      <div class="module-label">TST-01</div>
+      <h2>Acceptance criteria</h2>
+      
+      <div class="tw"><table><thead><tr><th>Test</th><th>Pass</th><th>Tool</th></tr></thead><tbody><tr><td><b>Wire map</b></td><td>All 8 conductors correct, T568B, no splits, opens or shorts</td><td class="muted">Cable tester</td></tr><tr><td><b>Length</b></td><td>≤ 90 m, and close to the scheduled length</td><td class="muted">Cable tester (TDR)</td></tr><tr><td><b>Cat6 performance</b></td><td>Permanent link passes Cat6 limits (preferred)</td><td class="muted">Certification tester, e.g. Fluke DSX</td></tr><tr><td><b>Link speed</b></td><td>Device links up at 1 Gbps full duplex</td><td class="muted">Switch port status</td></tr><tr><td><b>PoE</b></td><td>AP / mobile point powers up from the switch</td><td class="muted">Switch PoE status</td></tr><tr><td><b>Wi-Fi</b></td><td>Usable signal (about −67 dBm or better) in the Showroom and Design areas</td><td class="muted">Wi-Fi analyser app</td></tr></tbody></table></div>
+    </section>
+    <section class="sec" id="log">
+      <div class="module-label">TST-02</div>
+      <h2>Test log</h2>
+      
+      <p class="sub">Print this page and fill it in on site. <button class="btn" onclick="window.print()">Print</button></p><div class="tw"><table class="log"><thead><tr><th>Cable</th><th>Device</th><th class="n">Sched. m</th><th class="n">Measured m</th><th>Wire map</th><th>Speed</th><th>Result</th><th>Initials / date</th></tr></thead><tbody><tr><td class="m"><span class="sw" style="background:var(--c-ap)"></span>C-01</td><td>AP1</td><td class="n">17</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-ap)"></span>C-02</td><td>AP2</td><td class="n">19</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-03</td><td>PC1</td><td class="n">23</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-04</td><td>PC2</td><td class="n">24</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-05</td><td>PC3</td><td class="n">21</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-06</td><td>PC4</td><td class="n">22</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-07</td><td>PC5</td><td class="n">22</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-prn)"></span>C-08</td><td>PRN</td><td class="n">23</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-ph)"></span>C-09</td><td>MOB</td><td class="n">23</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-10</td><td>PC6</td><td class="n">16</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-srv)"></span>C-11</td><td>PC7</td><td class="n">4</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr><tr><td class="m"><span class="sw" style="background:var(--c-pc)"></span>C-12</td><td>PC8</td><td class="n">15</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank">Pass / Fail</td><td class="blank"></td></tr></tbody></table></div>
+    </section>
+    <section class="sec" id="commission">
+      <div class="module-label">TST-03</div>
+      <h2>Commissioning checklist</h2>
+      
+      <ul class="checks">
+      <li><label><input type="checkbox"> Internet up through the ONT and router</label></li><li><label><input type="checkbox"> Switch reachable on its management address; firmware updated; admin password changed</label></li><li><label><input type="checkbox"> Every patch cord matches the port map (port n → PP-n)</label></li><li><label><input type="checkbox"> AP1 and AP2 online and powered by PoE</label></li><li><label><input type="checkbox"> Staff and guest SSIDs broadcast; guest cannot reach office devices</label></li><li><label><input type="checkbox"> Printer reachable on its reserved address and prints from a PC</label></li><li><label><input type="checkbox"> PC 1–PC 8 get an address and reach the internet</label></li><li><label><input type="checkbox"> Server PC 7 on its static address</label></li><li><label><input type="checkbox"> Cabinet fan running; door locks; labels on every port</label></li><li><label><input type="checkbox"> Wi-Fi walk test done in every zone</label></li>
+    </ul>
+    </section>
+    <section class="sec" id="handover">
+      <div class="module-label">TST-04</div>
+      <h2>Handover pack</h2>
+      
+      <ul class="ticks">
+      <li>This documentation updated to <b>as built</b>: real outlet positions and measured lengths</li>
+      <li>Test log (and certification report if a certifier was used)</li>
+      <li>Device list with serial numbers, MAC addresses and warranty dates</li>
+      <li>Admin credentials for the router, switch and Wi-Fi, handed over <b>separately</b> and never written in this pack</li>
+      <li>Cabinet keys</li>
+    </ul>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="installation.html"><small>← DOC 08</small>Installation method</a>
+      <a class="next" href="open-items.html"><small>DOC 10 →</small>Open items</a>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev A</p>
+  </main>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

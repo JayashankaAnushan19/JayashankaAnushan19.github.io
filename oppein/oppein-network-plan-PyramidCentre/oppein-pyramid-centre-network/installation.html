@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installation method — Office 14 Network · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. Installation method.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
+    <span class="nav-tag">Rev A · Draft — for review</span>
+  </div>
+</nav>
+<div class="shell">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">Office 14 · Pyramid Centre</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="floor-plan.html"><span class="num">01</span>Floor plan & routes</a><a href="topology.html"><span class="num">02</span>Topology & ports</a><a href="rack.html"><span class="num">03</span>Rack layout</a><a href="cable-schedule.html"><span class="num">04</span>Cable schedule</a><a href="materials.html"><span class="num">05</span>BOQ & estimate</a><a href="equipment.html"><span class="num">06</span>Equipment & buying guide</a><a href="device-lab.html"><span class="num">07</span>Device lab</a><a href="installation.html" aria-current="page"><span class="num">08</span>Installation method</a><a href="testing.html"><span class="num">09</span>Testing & handover</a><a href="open-items.html"><span class="num">10</span>Open items</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 08 · INSTALLATION METHOD</div>
+      <h1>Installation method</h1>
+      <p class="lead">Rules for the installer and the order of work. The aim is one visit with the ceiling open, every cable pulled, and nothing left to guess about later.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev A · 2026-10-16</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+    <section class="sec" id="rules">
+      <div class="module-label">INS-01</div>
+      <h2>Installation rules</h2>
+      
+      <div class="tw"><table><thead><tr><th>Rule</th><th>Requirement</th></tr></thead><tbody><tr><td><b>Wiring standard</b></td><td>T568B at both ends, on every outlet and the patch panel</td></tr><tr><td><b>Run length</b></td><td>Permanent link ≤ 90 m (longest here is 24 m)</td></tr><tr><td><b>Bend radius</b></td><td>Not tighter than 4 × the cable diameter (about 25 mm)</td></tr><tr><td><b>Pulling tension</b></td><td>No more than 110 N (about 11 kg); pull by hand, do not use force</td></tr><tr><td><b>Untwisting</b></td><td>Keep pair twists to within 13 mm of each termination</td></tr><tr><td><b>Fixing</b></td><td>Velcro ties only; no cable ties pulled tight and no staples</td></tr><tr><td><b>Power separation</b></td><td>At least 300 mm from unshielded power cables and light fittings; cross at 90°</td></tr><tr><td><b>Ceiling</b></td><td>Cables lie in the tray or on J-hooks every 1.2–1.5 m; never on the ceiling tiles or grid</td></tr><tr><td><b>Service loops</b></td><td>About 1 m inside the cabinet, 300 mm behind each outlet</td></tr><tr><td><b>Fire stopping</b></td><td>Re-seal any wall or ceiling penetrations after the cables are through</td></tr></tbody></table></div>
+    </section>
+    <section class="sec" id="seq">
+      <div class="module-label">INS-02</div>
+      <h2>Sequence of work</h2>
+      
+      <ol class="steps">
+      <li><b>Survey and mark out.</b> Walk the site with this pack. Mark every outlet and AP position; confirm the IT Room cabinet wall and the tray route. Close items A-01 to A-05.</li>
+      <li><b>Containment.</b> Mount the cabinet. Fit the ceiling tray / J-hooks from above the IT Room door to J5. Fit back boxes or surface boxes at each outlet.</li>
+      <li><b>Pull cables.</b> Pull all 12 cables in one go. Label both ends <i>before</i> cutting from the box.</li>
+      <li><b>Terminate.</b> Punch down on the patch panel in port order and on the keystones at each outlet. Fit faceplates and labels.</li>
+      <li><b>Test.</b> Test every link and fill in the test log (<a href="testing.html">DOC 09 · Testing & handover</a>). Fix and retest any failures.</li>
+      <li><b>Active equipment.</b> Fit the shelf, ONT, router, switch and PDU. Patch with 0.5 m cords, port n to port n. Mount and connect the access points.</li>
+      <li><b>Configure and commission.</b> Set up router, switch and Wi-Fi to the agreed plan. Check every device online.</li>
+      <li><b>Handover.</b> Update this pack to "as built", hand over the test results, passwords (separately) and keys.</li>
+    </ol>
+    </section>
+    <section class="sec" id="coord">
+      <div class="module-label">INS-03</div>
+      <h2>Site coordination</h2>
+      
+      <ul class="ticks">
+      <li>Book the cabling while the ceiling is open; the pull is the only step that needs the ceiling.</li>
+      <li>The electrician provides the cabinet power socket and the desk power sockets before termination day.</li>
+      <li>The ISP installs the fibre and ONT into the IT Room; agree the entry point so the ONT reaches the U11 shelf.</li>
+      <li>Keep a clear path between the IT Room door and the Design area on pull day.</li>
+    </ul>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="device-lab.html"><small>← DOC 07</small>Device lab</a>
+      <a class="next" href="testing.html"><small>DOC 09 →</small>Testing & handover</a>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev A</p>
+  </main>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
