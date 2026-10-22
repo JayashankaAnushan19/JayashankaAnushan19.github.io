@@ -20,38 +20,38 @@
       <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
     </a>
     <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
-    <span class="nav-tag">Rev A · Draft — for review</span>
+    <span class="nav-tag">Rev C · Draft — for review</span>
   </div>
 </nav>
 <div class="shell">
   <aside class="side" aria-label="Document pages">
     <div class="side-h">Office 14 · Pyramid Centre</div>
-    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="floor-plan.html"><span class="num">01</span>Floor plan & routes</a><a href="topology.html"><span class="num">02</span>Topology & ports</a><a href="rack.html"><span class="num">03</span>Rack layout</a><a href="cable-schedule.html"><span class="num">04</span>Cable schedule</a><a href="materials.html"><span class="num">05</span>BOQ & estimate</a><a href="equipment.html"><span class="num">06</span>Equipment & buying guide</a><a href="device-lab.html"><span class="num">07</span>Device lab</a><a href="installation.html"><span class="num">08</span>Installation method</a><a href="testing.html"><span class="num">09</span>Testing & handover</a><a href="open-items.html" aria-current="page"><span class="num">10</span>Open items</a></div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="floor-plan.html"><span class="num">01</span>Floor plan & routes</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="topology.html"><span class="num">02</span>Topology & ports</a><a href="rack.html"><span class="num">03</span>Rack layout</a><a href="cable-schedule.html"><span class="num">04</span>Cable schedule</a><a href="materials.html"><span class="num">05</span>BOQ & estimate</a><a href="equipment.html"><span class="num">06</span>Equipment & buying guide</a><a href="device-lab.html"><span class="num">07</span>Device lab</a><a href="installation.html"><span class="num">08</span>Installation method</a><a href="testing.html"><span class="num">09</span>Testing & handover</a><a href="open-items.html" aria-current="page"><span class="num">10</span>Open items</a></div>
   </aside>
   <main>
     <header class="ph">
       <div class="eyebrow"><span class="led"></span>DOC 10 · OPEN ITEMS</div>
       <h1>Open items</h1>
       <p class="lead">Everything that is assumed or not yet decided. Each item should be closed before the stage it affects. Work can start once the A-items are confirmed and D-02 and D-03 are decided.</p>
-      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev A · 2026-10-16</span><span>Jayashanka · OPPEIN IT</span></div>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev C · 2026-10-22</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
     <section class="sec" id="assumptions">
       <div class="module-label">OPEN-01</div>
       <h2>Assumptions to confirm on site</h2>
       
-      <div class="tw"><table><thead><tr><th>ID</th><th>Assumption</th><th>Affects</th><th>Status</th></tr></thead><tbody><tr><td class="m"><b>A-01</b></td><td>Outlet positions were read from the hand sketch and the floor plan. Every outlet must be walked and marked on site before cables are pulled.</td><td class="muted">Floor plan</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-02</b></td><td>"Showroom" is the main Office 14 floor; "Design" is the Designers strip along the window wall.</td><td class="muted">Floor plan</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-03</b></td><td>PC6 and PC8 sit at the 1500 mm desk; PC7 (server) sits in the IT Room next to the cabinet.</td><td class="muted">Cable schedule</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-04</b></td><td>"Mobile" is a wired point for a phone / mobile charging dock in the Design area (PoE assumed).</td><td class="muted">Topology</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-05</b></td><td>Cables leave the IT Room above the door and run in a ceiling tray, dropping down the wall to each desk outlet. Ceiling height is taken as 2.8 m.</td><td class="muted">Installation</td><td><span class="pill open">Open</span></td></tr></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>ID</th><th>Assumption</th><th>Affects</th><th>Status</th></tr></thead><tbody><tr><td class="m"><b>A-01</b></td><td>Device positions were taken from the marked plan (marks 1–8). Every outlet must be walked and marked on site before casing is fixed.</td><td class="muted">Floor plan</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-02</b></td><td>"Showroom" is the main Office 14 floor; "Design" is the Designers strip along the window wall. There are no wired desks in the Showroom.</td><td class="muted">Floor plan</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-03</b></td><td>The 4 IT Room PCs sit along the IT Room walls near the cabinet; their exact places are not marked yet. Other IT Room devices use the router Wi-Fi.</td><td class="muted">Cable schedule</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-04</b></td><td>PC3 and SW1 share desk 3; PC5, the printer, the mobile and SW2 share desk 5. These plug straight into their switch with a patch cord.</td><td class="muted">Topology</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-05</b></td><td>Cables go from the cabinet up into the ceiling and through a PVC conduit straight to mark 2, come down behind the wall there, and run in wall casing along the desk wall to desks 3–6. AP2 goes back up at mark 2 and across the ceiling. If the conduit to mark 2 is already in place, its BOQ quantity is set to 0.</td><td class="muted">Installation</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-07</b></td><td>SW1 is the existing 5-port switch (desk 3, AP1 on port 4) and SW2 the existing 8-port switch (desk 5, AP2). SW1 has no spare port; SW2 has one.</td><td class="muted">Topology</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>A-06</b></td><td>The mobile at desk 5 uses the ONT phone (TEL) port through its own cable (C-12). Its data port on SW2 (SW2-P5) is kept; free it if the phone only needs the line.</td><td class="muted">Topology</td><td><span class="pill open">Open</span></td></tr></tbody></table></div>
     </section>
     <section class="sec" id="decisions">
       <div class="module-label">OPEN-02</div>
       <h2>Decisions needed</h2>
       
-      <div class="tw"><table><thead><tr><th>ID</th><th>Decision</th><th>Owner</th><th>Status</th></tr></thead><tbody><tr><td class="m"><b>D-01</b></td><td>IP addressing and Wi-Fi SSIDs: accept the proposed plan or supply an existing scheme.</td><td class="muted">IT</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-02</b></td><td>Access point brand / model (and whether a cloud controller is used).</td><td class="muted">IT / Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-03</b></td><td>PoE switch model: managed or smart-managed, PoE budget ≥ 150 W.</td><td class="muted">IT</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-04</b></td><td>ISP and service: fibre ONT location, static IP needed or not.</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-05</b></td><td>Add a UPS for the cabinet (recommended).</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-06</b></td><td>Mobile point: confirm it is an IP phone / PoE device, or a plain data point.</td><td class="muted">Design team</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-07</b></td><td>Contractor or in-house install; certification tester available or hired.</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>ID</th><th>Decision</th><th>Owner</th><th>Status</th></tr></thead><tbody><tr><td class="m"><b>D-01</b></td><td>IP addressing and Wi-Fi SSIDs: accept the proposed plan or supply an existing scheme.</td><td class="muted">IT</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-02</b></td><td>Access point brand / model (and whether a cloud controller is used).</td><td class="muted">IT / Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-03</b></td><td>SW0 is an 8-port switch (2 spare ports). If more wired IT Room PCs are added later, swap it for a 16-port in the spare space.</td><td class="muted">IT</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-04</b></td><td>ISP and service: ONT model, how many TEL ports, static IP needed or not.</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-05</b></td><td>Add a UPS for the cabinet (recommended).</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-06</b></td><td>Later: replace SW1 + SW2 + injectors with one PoE switch if more desks are added (SW1 is full, SW2 has one spare port).</td><td class="muted">IT</td><td><span class="pill open">Open</span></td></tr><tr><td class="m"><b>D-07</b></td><td>Contractor or in-house install; certification tester available or hired.</td><td class="muted">Management</td><td><span class="pill open">Open</span></td></tr></tbody></table></div>
     </section>
     <section class="sec" id="risks">
       <div class="module-label">OPEN-03</div>
       <h2>Risks</h2>
       
-      <div class="tw"><table><thead><tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr></thead><tbody><tr><td>Ceiling closed before cables are pulled</td><td><span class="pill high">High</span></td><td>Pull all 12 cables in one visit while the ceiling is open.</td></tr><tr><td>Outlet positions change after furniture layout</td><td><span class="pill medium">Medium</span></td><td>Confirm desk layout first (A-01); leave 300 mm service loop at each outlet.</td></tr><tr><td>Cable run near power / lighting</td><td><span class="pill medium">Medium</span></td><td>Keep ≥ 300 mm from unshielded power; cross at 90°.</td></tr><tr><td>IT Room heat with cabinet door closed</td><td><span class="pill low">Low</span></td><td>Fit fan tray; keep the vents clear; check temperature after a week.</td></tr><tr><td>No UPS — power cut drops Wi-Fi and internet</td><td><span class="pill medium">Medium</span></td><td>Decide D-05.</td></tr></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr></thead><tbody><tr><td>Daisy chain: if SW1 or the uplink fails, SW2 and everything behind it go offline too</td><td><span class="pill medium">Medium</span></td><td>Label C-01/C-02 clearly; keep a spare 8-port switch and patch cords; consider one larger switch later (D-06).</td></tr><tr><td>No spare ports on SW1; one on SW2; two on SW0</td><td><span class="pill medium">Medium</span></td><td>A new desk needs a bigger switch; the cabinet has 4U free for one.</td></tr><tr><td>Casing knocked or lids pulled off at desks</td><td><span class="pill low">Low</span></td><td>Screw-fix every 500 mm; run casing behind desks where possible.</td></tr><tr><td>Cable run near power / lighting</td><td><span class="pill medium">Medium</span></td><td>Keep ≥ 300 mm from power casing, or use divided casing; cross at 90°.</td></tr><tr><td>No UPS: a power cut drops Wi-Fi, internet and the phone line</td><td><span class="pill medium">Medium</span></td><td>Decide D-05. SW1, SW2 and the injectors need power at the desks too.</td></tr></tbody></table></div>
     </section>
     <section class="sec" id="next">
       <div class="module-label">NEXT</div>
@@ -59,9 +59,9 @@
       
       <ol class="steps">
       <li>Review this pack and correct anything that is wrong.</li>
-      <li>Site visit: close A-01 to A-05.</li>
+      <li>Site visit: close A-01 to A-06 (confirm the router has 4 LAN ports and the switch desk positions).</li>
       <li>Decide D-02, D-03 and D-05, then request supplier quotations against the <a href="materials.html">DOC 05 · BOQ & estimate</a>.</li>
-      <li>Book the installation while the ceiling is open.</li>
+      <li>Book the installation; clear the desks along the casing route for the day.</li>
     </ol>
     </section>
 
@@ -69,7 +69,7 @@
       <a class="prev" href="testing.html"><small>← DOC 09</small>Testing & handover</a>
       <span></span>
     </footer>
-    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev A</p>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev C</p>
   </main>
 </div>
 

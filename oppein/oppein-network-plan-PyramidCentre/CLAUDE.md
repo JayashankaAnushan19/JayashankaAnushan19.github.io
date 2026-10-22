@@ -40,20 +40,38 @@ Build: `node docs-src/build.mjs` (Node 18+; developed on Node 24). No npm depend
 00 Overview (`index.html` — the project entry page the hub card opens: key figures, links to every doc, scope,
 areas served, status, revision history; there is no separate landing page outside the site folder) · 01 Floor plan & routes · 02 Topology & ports · 03 Rack layout · 04 Cable schedule ·
 05 BOQ & estimate (`materials.html`) · 06 Equipment & buying guide (`equipment.html`) · 07 Device lab (`device-lab.html`) ·
-08 Installation method · 09 Testing & handover · 10 Open items.
+08 Installation method · 09 Testing & handover · 10 Open items. Plus `drawing.html` (code DWG, after 01): the bare floor-plan
+drawing full size, with layer toggles (casing route / cables / devices & switches / Wi-Fi), all off by default.
 Use `docRef('file.html')` in build.mjs for cross-links so DOC numbers stay right if pages move.
+Never give a section the id `plan` — site.js pans/zooms `#plan` (the floor-plan svg).
 
-## Key facts (from data.mjs)
-- 12 Cat6 home runs, 229 m total → 1 × 305 m box; longest C-04 = 24 m.
-- Switch port = patch-panel port = cable number (C-01…C-12); P13 = router uplink; P14–16 spare.
-- 3 PoE devices (AP1, AP2, MOB). 16U wall cabinet in IT Room.
+## Key facts — Rev C (2026-10-22, from the user's marked plan, marks 1–8)
+- The user marked the real positions on the drawing; `mark` in DEVICES = that number. Screenshot px → svg mapping used:
+  svg = (526 + (px−58)·2.52, 434 + (py−155)·2.52) for a Drawing-page screenshot at fit zoom (approximate).
+- 1 IT Room cabinet: 9U wall cabinet (user rejected 16U) — patch panel, SW0 (NEW 8-port switch; user rejected 16-port), ONT + router shelf (2U), 4U spare (U2–U5, user asked for ≥ 4U), PDU.
+  4 wired IT Room PCs (IT1–IT4) on SW0 P3–P6 — their exact spots are NOT marked yet (A-03). Rest of the IT Room uses router Wi-Fi.
+- Router L1 → SW0 P1 (patch) → SW0 P2 → C-01 uplink → SW1 (5-port, desk 3, middle) → C-02 → SW2 (8-port, desk 5, last).
+  The user confirmed this order ("no change") after briefly asking to swap — do NOT swap them. SW1/SW2 plain unmanaged,
+  no PoE, already owned (BOQ rate 0) → AP1/AP2 use PoE injectors. User: AP1 on SW1 port 4, AP2 on SW2.
+- SW1: P3 PC3 (patch, desk 3), P4 AP1 (mark 7), P5 PC2 (mark 2) — full. SW2: P2 AP2 (mark 8, Showroom), P3 PC5 / P4 PRN /
+  P5 MOB (patch, desk 5), P6 PC4 (mark 4), P7 PC6 (mark 6), P8 spare. No Showroom desks any more.
+- Separate phone line C-12: ONT TEL1 → patch panel → conduit/casing → RJ45 phone socket at desk 5 (RJ11 fits). MOB data port kept (A-06).
+- Real route (user): cabinet → up into the ceiling → PVC conduit straight to MARK 2 → down behind the wall → wall casing along
+  the desk wall to desks 3–6 (ROUTE in data.mjs; ROUTE[0]→[1] is the conduit). AP2 goes back up at mark 2 and across the
+  ceiling (`viaCeiling`). IT Room runs follow the room walls. Lengths = (route + start drop + 2.8 m mark-2 drop + end drop) × 1.10.
+  The conduit may already exist (BOQ line says set to 0 if reused) — not confirmed.
+- 12 runs, 108 m → 1 box; ≈ 16 m ceiling conduit + ≈ 20 m wall casing.
 - AP3 (Kitchen / Samples) was dropped on 2026-10-17 — not required. Don't re-add it.
-- BOQ grand total ≈ AED 9,583 incl. 10 % contingency + 5 % VAT (optional F items excluded by default).
+- BOQ grand total ≈ AED 7,797 incl. 10 % contingency + 5 % VAT (optional F items excluded by default). SW0 priced as a trade estimate.
+- The interactive planner is the ORIGINAL Rev A design (tray, one switch) — kept for reference, marked superseded.
 
 ## Decisions made with the user
 - Site follows the hub's look; static files only (GitHub Pages), no backend.
-- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v2`);
-  Print button prints only the letterhead estimate (A4). Company address/tel/email/TRN left blank as placeholders.
+- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v8`; bump it whenever BOQ rows change);
+  Every line has a tick (section ticks + Tick all / Untick all); only ticked lines are numbered (renumbered live), totalled,
+  printed and exported. Users can add custom lines per section (+ Add a line) and remove them; saved with the rest.
+  Print button prints only the letterhead estimate (A4). Export to Word builds a Word-compatible HTML .doc in the browser
+  (no library; named after the estimate no.). Company address/tel/email/TRN left blank as placeholders.
 - Prices: AED excl. VAT, from Amazon.ae / noon / Dubai supplier listings seen 17 Oct 2026, rounded to trade price.
   Product links are real listings found by web search — re-check before ordering; never invent product URLs.
 - Device lab can't fetch specs for arbitrary models online (static site). It uses a built-in library (models.js)

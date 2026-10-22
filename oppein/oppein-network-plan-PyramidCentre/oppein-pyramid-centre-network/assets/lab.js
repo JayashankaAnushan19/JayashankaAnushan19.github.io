@@ -7,7 +7,7 @@
   const KEY = 'o14-lab-v1';
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
   const save = s => { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} };
-  const st = Object.assign({ ap: 'u6-lite', sw: 'sg1218mpe', cable: 'cat6-cu', band: '5', n: 3.0, walls: 3, on: { AP1: true, AP2: true }, custom: { ap: [], switch: [], cable: [] } }, load());
+  const st = Object.assign({ ap: 'u6-lite', cable: 'cat6-cu', band: '5', n: 3.0, walls: 3, on: { AP1: true, AP2: true }, custom: { ap: [], switch: [], cable: [] } }, load());
   const lib = cat => LIB[cat].concat(st.custom[cat] || []);
   const find = (cat, id) => lib(cat).find(m => m.id === id) || lib(cat)[0];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -30,14 +30,14 @@
     sel.value = st[cat === 'switch' ? 'sw' : cat];
   }
   function fillAll() {
-    fillSelect($('#sel-ap'), 'ap'); fillSelect($('#sel-sw'), 'switch'); fillSelect($('#sel-cable'), 'cable');
-    $('#lab-list').innerHTML = ['ap', 'switch', 'cable'].flatMap(c => lib(c).map(m => `<option value="${esc((m.brand ? m.brand + ' ' : '') + m.model)}">`)).join('');
+    fillSelect($('#sel-ap'), 'ap'); fillSelect($('#sel-cable'), 'cable');
+    $('#lab-list').innerHTML = ['ap', 'cable'].flatMap(c => lib(c).map(m => `<option value="${esc((m.brand ? m.brand + ' ' : '') + m.model)}">`)).join('');
   }
   const norm = s => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   function search(q) {
     const toks = norm(q).split(' ').filter(Boolean); if (!toks.length) return null;
     let best = null, score = 0;
-    for (const cat of ['ap', 'switch', 'cable']) for (const m of lib(cat)) {
+    for (const cat of ['ap', 'cable']) for (const m of lib(cat)) {
       const hay = norm(`${m.brand || ''} ${m.model} ${m.id}`).replace(/ /g, '') + ' ' + norm(`${m.brand || ''} ${m.model} ${m.id}`);
       const s = toks.filter(t => hay.includes(t)).length / toks.length;
       if (s > score) { score = s; best = { cat, m }; }
@@ -55,9 +55,9 @@
     const key = r.cat === 'switch' ? 'sw' : r.cat;
     st[key] = r.m.id; save(st); fillAll(); render();
     out.innerHTML = `Found <b>${esc((r.m.brand ? r.m.brand + ' ' : '') + r.m.model)}</b> (${r.cat === 'ap' ? 'access point' : r.cat}). Applied to the plan below.`;
-    document.getElementById(r.cat === 'ap' ? 'ap-card' : r.cat === 'switch' ? 'sw-card' : 'cable-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById(r.cat === 'ap' ? 'ap-card' : 'cable-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
-  [['#sel-ap', 'ap'], ['#sel-sw', 'sw'], ['#sel-cable', 'cable']].forEach(([s, k]) => $(s).addEventListener('change', e => { st[k] = e.target.value; save(st); render(); }));
+  [['#sel-ap', 'ap'], ['#sel-cable', 'cable']].forEach(([s, k]) => $(s).addEventListener('change', e => { st[k] = e.target.value; save(st); render(); }));
   document.querySelectorAll('[name=band]').forEach(r => { r.checked = r.value === st.band; r.addEventListener('change', () => { st.band = r.value; save(st); render(); }); });
   document.querySelectorAll('[data-apon]').forEach(c => { c.checked = !!st.on[c.dataset.apon]; c.addEventListener('change', () => { st.on[c.dataset.apon] = c.checked; save(st); render(); }); });
   [['#pl-n', 'n'], ['#walls', 'walls']].forEach(([s, k]) => { const el = $(s); el.value = st[k]; el.addEventListener('input', () => { st[k] = +el.value; save(st); render(); }); });
@@ -129,7 +129,7 @@
     el.innerHTML = `<h3>${title}</h3><dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${note ? `<p class="cnote">${note}</p>` : ''}`;
   }
   function render() {
-    const ap = find('ap', st.ap), sw = find('switch', st.sw), cb = find('cable', st.cable);
+    const ap = find('ap', st.ap), cb = find('cable', st.cable);
     drawHeat(ap);
     $('#pl-n-v').textContent = st.n.toFixed(1); $('#walls-v').textContent = st.walls + ' dB';
     const r67 = radius(ap, st.band, -67), r72 = radius(ap, st.band, -72), r80 = radius(ap, st.band, -80);
@@ -151,20 +151,15 @@
     }).join('');
     const spacing = list.length > 1 ? list.slice(1).map((a, i) => `${list[i].id}–${a.id} ${f1(toM(Math.hypot(a.x - list[i].x, a.y - list[i].y)))} m`).join(' · ') : '—';
     $('#ap-summary').innerHTML = `<span><b>${list.length}</b> AP on</span><span>Spacing: ${spacing}</span><span>Capacity: <b>${list.length * ap.clients}</b> clients</span><span>Model: n = ${st.n.toFixed(1)}, walls ${st.walls} dB, ${st.band} GHz</span>`;
-    // switch + PoE
-    const loads = O.devices.filter(d => d.poe && (d.type !== 'ap' || st.on[d.id])).map(d => ({ id: d.id, w: d.type === 'ap' ? ap.watt : O.MOB_W }));
-    const used = loads.reduce((s, l) => s + l.w, 0), pct = Math.min(100, used / sw.budget * 100);
-    const afOnly = sw.poe === 'af' && ap.poe === 'at';
-    const poeMax = Math.max(...O.devices.filter(d => d.poe).map(d => d.port));
-    card($('#sw-card'), `${esc(sw.brand || '')} ${esc(sw.model)}`, [
-      ['Ports', `${sw.ports} × 1 GbE · ${sw.poePorts} PoE (802.3${sw.poe})`],
-      ['PoE budget', `${sw.budget} W`],
-      ['Management', esc(sw.managed)],
-      ['Uplinks', esc(sw.uplinks)],
-      ['Fit for Office 14', sw.ports >= 15 && sw.poePorts >= poeMax && !afOnly && used <= sw.budget ? '<span class="ok">✓ Suitable</span>' : `<span class="bad">✗ ${sw.ports < 15 ? 'Too few ports. ' : ''}${sw.poePorts < poeMax ? `PoE only on ports 1–${sw.poePorts}; PoE is needed up to port ${poeMax}. ` : ''}${afOnly ? 'AP needs 802.3at. ' : ''}${used > sw.budget ? 'Over PoE budget.' : ''}</span>`],
-    ], sw.custom ? 'Custom model — values entered by you.' : 'Typical datasheet values — confirm on the maker\'s site.');
-    $('#poe-bar').innerHTML = `<div class="pbar"><i style="width:${pct}%;background:${used > sw.budget ? '#d9534f' : used > sw.budget * .8 ? '#e8c24a' : '#3fbf7f'}"></i></div>
-      <div class="pleg">${loads.map(l => `<span>${l.id} ${l.w} W</span>`).join('')}<b>${f1(used)} W of ${sw.budget} W (${Math.round(used / sw.budget * 100)} %)</b></div>`;
+    // PoE injectors (SW1 / SW2 are plain switches)
+    const poeAps = O.devices.filter(d => d.poe), CLASS = { af: 15.4, at: 30, bt: 60 }, need = ap.poe === 'af' ? 'af' : ap.poe;
+    card($('#inj-card'), 'PoE injector per AP', [
+      ['AP needs', `802.3${ap.poe} · up to ${ap.watt} W`],
+      ['Buy', `Gigabit 802.3${need} injector (${CLASS[need]} W class)${ap.poe === 'af' ? ' — an 802.3at injector also works' : ''}`],
+      ['Quantity', `${poeAps.length} (${poeAps.map(d => `${d.id} at ${d.label.split('-')[0]}`).join(', ')})`],
+      ['Placed', 'At the switch desk, on its own power socket: switch port → injector → AP cable'],
+    ], 'If the AP box includes a PoE adapter, use that and skip the injector.');
+    $('#poe-bar').innerHTML = poeAps.map(d => { const pct = Math.min(100, ap.watt / CLASS[need] * 100); return `<div class="pleg"><span>${d.id}</span><b>${ap.watt} W of ${CLASS[need]} W (${Math.round(pct)} %)</b></div><div class="pbar"><i style="width:${pct}%;background:${pct > 90 ? '#e8c24a' : '#3fbf7f'}"></i></div>`; }).join('');
     // cable
     card($('#cable-card'), esc(cb.model), [
       ['Conductor', `${cb.awg} AWG ${esc(cb.cond)} · ${cb.R} Ω / 100 m per conductor`],
@@ -172,11 +167,11 @@
       ['Standard', cb.ok ? '<span class="ok">✓ Meets TIA/ISO if installed correctly</span>' : '<span class="bad">✗ Not standards-compliant (CCA): fails certification, PoE heat</span>'],
     ], 'Insertion loss model per TIA-568.2-D cable formula; connectors 0.02√f dB each.');
     const ILc = (L, f) => L / 100 * (cb.a * Math.sqrt(f) + cb.b * f + cb.c / Math.sqrt(f)) + 2 * 0.02 * Math.sqrt(f);
-    const rows = O.devices.slice().sort((a, b) => a.port - b.port).map(d => {
+    const rows = O.runs.map(d => {
       const il = ILc(d.est, cb.f), margin = cb.limit - il, remain = Math.pow(10, -il / 20) * 100;
       let poe = '—';
       if (d.poe) {
-        const pd = d.type === 'ap' ? ap.watt : O.MOB_W, R = cb.R / 100 * d.est, V = 50;
+        const pd = ap.watt, R = cb.R / 100 * d.est, V = 50;
         let I = pd / V; for (let k = 0; k < 4; k++) I = pd / (V - I * R);
         poe = `${f1(I * I * R)} W lost · ${f1(V - I * R)} V at device`;
       }

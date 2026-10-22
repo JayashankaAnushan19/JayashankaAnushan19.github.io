@@ -160,6 +160,8 @@ svg.canvas.panning{cursor:grabbing}
 .legend i{display:inline-block;width:20px;margin-right:8px}
 .legend i.dash{border-top:3px dashed var(--c-ap)}
 .legend i.tray{border-top:7px solid var(--tray)}
+.legend i.tel{border-top:3px dashed var(--c-ph)}
+.legend i.conduit{border-top:5px dashed var(--tray)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:flex;align-items:center;gap:2px;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:7px 11px;color:var(--ink);font:600 13px 'Space Grotesk',sans-serif;cursor:pointer}
 .chip small{font:400 11.5px 'IBM Plex Mono',monospace;color:var(--ink-faint);margin-left:8px}
@@ -167,6 +169,12 @@ svg.canvas.panning{cursor:grabbing}
 /* Floor plan: device list beside the map so picking one never needs a scroll */
 .planrow{display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:12px;align-items:start;margin-top:14px}
 .planrow .stage{margin-top:0}
+/* DWG drawing page: bare drawing by default, layers switched on from .layers */
+.stage.drawing-stage{height:calc(100vh - 230px);min-height:520px}
+svg.drawing:not(.show-tray) .trays,svg.drawing:not(.show-cables) .cables,svg.drawing:not(.show-devs) .devs{display:none}
+.layers{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.layers-h{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-right:4px}
+a.tool{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px}
 /* key sits under the map, never on top of it */
 .legend.legend-below{display:flex;position:static;width:auto;max-width:none;margin-top:10px;background:var(--panel)}
 .side-chips{flex-direction:column;flex-wrap:nowrap;max-height:min(78vh,820px);overflow-y:auto}
@@ -211,7 +219,7 @@ svg.canvas.panning{cursor:grabbing}
 /* print: light, no chrome */
 @media print{
   :root{--bg:#fff;--bg-alt:#fff;--panel:#fff;--panel-2:#f3f1ee;--border:#bbb;--border-soft:#ddd;--ink:#111;--ink-dim:#333;--ink-faint:#666;--amber:#9a5a17;--wall:#333;--wall2:#999}
-  nav.top,.side,.pn,.foot,.toolbar,.btn,.chips{display:none!important}
+  nav.top,.side,.pn,.foot,.toolbar,.layers,.btn,.chips{display:none!important}
   .shell{display:block;padding:0}
   main{padding:0}
   .ph::before{display:none}
@@ -272,7 +280,15 @@ table.boq input.changed{background:#fff4e2;border-color:var(--p-acc)}
 table.boq .amt{font-weight:600}
 table.boq tr.excluded td{color:#b3aaa0}
 table.boq tr.excluded .amt{text-decoration:line-through}
-table.boq .inc{width:auto;accent-color:var(--p-acc);vertical-align:-2px}
+table.boq .inc,table.boq .secinc{width:auto;accent-color:var(--p-acc);vertical-align:-2px;cursor:pointer}
+table.boq tr.grp.empty td{color:#b3aaa0}
+table.boq tr.addrow td{padding:4px 10px 8px;border-bottom:1px solid var(--p-line)}
+.addline,.delline{font:500 11.5px "IBM Plex Mono",monospace;letter-spacing:.04em;background:transparent;cursor:pointer;border-radius:3px}
+.addline{color:var(--p-acc);border:1px dashed var(--p-acc);padding:3px 10px}
+.addline:hover{background:#fff4e2}
+.delline{color:#b4483c;border:0;padding:0;text-decoration:underline}
+.paper table.boq input.dsc{font-weight:500;border:1px solid var(--p-line);background:#fff}
+.paper table.boq input.un{border:1px solid var(--p-line);background:#fff;width:52px}
 .optnote{font-weight:400;font-family:"IBM Plex Sans",sans-serif;font-size:12px;color:var(--p-dim)}
 .totals{display:grid;grid-template-columns:1fr 340px;gap:24px;margin-top:18px;align-items:start}
 .words small{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--p-dim)}
@@ -379,7 +395,8 @@ svg.lab .covers{display:none}
   .paper-wrap{overflow:visible;padding:0}
   .paper{box-shadow:none;border-radius:0;padding:0;min-width:0;max-width:none;font-size:11.5px}
   .paper input,table.boq input.q,table.boq input.r,.paper .totals dt input{border:0;background:transparent;padding:0}
-  table.boq tr.excluded{display:none}
+  table.boq tr.excluded,table.boq tr.grp.empty,table.boq tr.subt.empty{display:none}
+  .paper table.boq input.dsc,.paper table.boq input.un{border:0;background:transparent;padding:0}
   table.boq tr{break-inside:avoid}
   table.boq th,.totals .gt,.lh-rule,.doc-meta{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .totals,.sign,.terms{break-inside:avoid}

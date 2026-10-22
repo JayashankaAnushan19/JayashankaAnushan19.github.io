@@ -24,7 +24,7 @@
 
   /* pan / zoom by rewriting the viewBox */
   const svg = document.getElementById('plan');
-  if (!svg) return;
+  if (!svg || !svg.dataset.vb) return; // only the floor-plan svg has data-vb
   const home = svg.dataset.vb.split(' ').map(Number);
   let vb = home.slice();
   const set = () => svg.setAttribute('viewBox', vb.map(v => v.toFixed(1)).join(' '));
@@ -67,6 +67,11 @@
   svg.addEventListener('click', () => { if (moved < 5 && pinned) { pinned = null; highlight(null); } });
   document.querySelectorAll('[data-z]').forEach(b => b.addEventListener('click', () => {
     const z = b.dataset.z; if (z === 'fit') { vb = home.slice(); set(); } else zoom(z === 'in' ? 1.4 : 1 / 1.4);
+  }));
+  /* drawing page: layer toggles add a show-<layer> class to the svg */
+  document.querySelectorAll('[data-layer]').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', on); svg.classList.toggle('show-' + b.dataset.layer, on);
   }));
   const cov = document.getElementById('tcov');
   cov && cov.addEventListener('click', () => {

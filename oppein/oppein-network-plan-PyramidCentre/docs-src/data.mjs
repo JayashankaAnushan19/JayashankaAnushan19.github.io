@@ -1,155 +1,263 @@
 // Single source of truth for the Office 14 documentation.
 // Positions are in drawing units (pt) on the traced floor plan; MM_PER_PT converts to real size.
+//
+// Rev C layout (2026-10-22, from the user's marked plan, marks 1–8):
+//  1 IT Room cabinet: ONT + router + SW0 (rack switch for the 4 wired IT Room PCs and the uplink), ≥ 4U spare.
+//  3 SW1 (5-port) + PC3 · 2 PC2 · 7 AP1 — all on SW1.
+//  5 SW2 (8-port) + PC5, printer, mobile · 4 PC4 · 6 PC6 · 8 AP2 — all on SW2.
+//  Plain (non-PoE) switches: each AP has a PoE injector. A separate phone line runs from the ONT to the mobile at 5.
+//  All cabling runs in surface PVC casing along the walls.
 
 export const META = {
   project: 'Office 14 — Structured Cabling & Network',
   site: 'Pyramid Centre · Office 14',
-  rev: 'Rev A',
-  date: '2026-10-16',
+  rev: 'Rev C',
+  date: '2026-10-22',
   status: 'Draft — for review',
   author: 'Jayashanka · OPPEIN IT',
 };
+export const REVISIONS = [
+  ['Rev A', '2026-10-16', 'First issue. Built from the hand sketch, the Office 14 floor plan and the interactive cabling plan (ceiling tray, one 16-port PoE switch in the cabinet).'],
+  ['Rev B', '2026-10-22', 'Re-designed around a 5-port and an 8-port switch in the Design area, PoE injectors for the APs and wall casing instead of a tray. AP3 dropped.'],
+  ['Rev C', '2026-10-22', 'Positions from the marked plan: 4 wired PCs in the IT Room on a new cabinet switch (SW0); SW1 at desk 3, SW2 at desk 5; AP1 in the Designers strip, AP2 in the Showroom; no Showroom desks; separate phone line from the ONT to the mobile; cabinet keeps ≥ 4U spare.'],
+];
 
 export const MM_PER_PT = 9.27; // from the 1800 mm / 5199 mm dimensions on the drawing
 export const BOUNDS = { x: 430, y: 50, w: 1560, h: 1560 };
-export const RACK = { x: 1760, y: 1500 };
-// Ceiling tray: cabinet → exit above IT Room door → J1 … J5
-export const TRUNK = [
-  { x: 1760, y: 1500 }, { x: 1560, y: 1434 }, { x: 1440, y: 1320 }, { x: 1080, y: 996 },
-  { x: 912, y: 768 }, { x: 768, y: 564 }, { x: 624, y: 420 },
+export const RACK = { x: 1690, y: 1535, id: 'RTR', name: 'Router (cabinet)' }; // mark 1
+
+// Cable route (as the user built it): cabinet → up into the ceiling → PVC conduit in the ceiling straight to mark 2 →
+// down behind the wall at mark 2 → surface casing along the desk wall to desks 3, 4, 5 and 6.
+// ROUTE[0]→ROUTE[1] is the ceiling conduit; every later segment is wall casing.
+export const ROUTE = [
+  { x: 1690, y: 1535 }, { x: 1088, y: 628 }, { x: 975, y: 520 }, { x: 858, y: 400 },
+  { x: 725, y: 232 }, { x: 545, y: 262 },
 ];
+export const CEIL_DROP = 2.8; // m, ceiling down to skirting behind the wall at mark 2 (and back up for AP2)
 export const JUNCTION_NOTES = {
-  J1: 'Tray bend (no outlet)',
-  J2: 'Showroom desk branch (1500 mm desk)',
-  J3: 'Showroom ceiling AP',
-  J4: 'Design area — centre',
-  J5: 'Design area — window-wall end',
+  J1: 'Desk 3 (SW1, PC3, AP1 up the wall)',
+  J2: 'Desk 4',
+  J3: 'Desk 5 (SW2, PC5, printer, mobile, phone socket)',
+  J4: 'Desk 6',
 };
 
 export const TYPE_NAME = {
-  ap: 'Wi-Fi access point', pc: 'Workstation PC', srv: 'Server PC', prn: 'Network printer', ph: 'Mobile / phone point',
+  ap: 'Wi-Fi access point', pc: 'Workstation PC', srv: 'Server PC', prn: 'Network printer', ph: 'Mobile / phone',
+  sw: 'Network switch', up: 'Uplink', tel: 'Phone line',
 };
-export const TYPE_COLOR = { ap: 'var(--c-ap)', pc: 'var(--c-pc)', srv: 'var(--c-srv)', prn: 'var(--c-prn)', ph: 'var(--c-ph)' };
+export const TYPE_COLOR = { ap: 'var(--c-ap)', pc: 'var(--c-pc)', srv: 'var(--c-srv)', prn: 'var(--c-prn)', ph: 'var(--c-ph)', sw: 'var(--amber)', up: 'var(--c-wan)', tel: 'var(--c-ph)' };
 
-export const DEVICES = [
-  { id: 'AP1', port: 1, type: 'ap', zone: 'Showroom', name: 'Access Point 1', x: 840, y: 912, poe: true, ceil: true },
-  { id: 'AP2', port: 2, type: 'ap', zone: 'Design', name: 'Access Point 2', x: 835, y: 455, poe: true, ceil: true },
-  { id: 'PC1', port: 3, type: 'pc', zone: 'Design', name: 'PC 1', x: 703, y: 343 },
-  { id: 'PC2', port: 4, type: 'pc', zone: 'Design', name: 'PC 2', x: 763, y: 283 },
-  { id: 'PC3', port: 5, type: 'pc', zone: 'Design', name: 'PC 3', x: 941, y: 581 },
-  { id: 'PC4', port: 6, type: 'pc', zone: 'Design', name: 'PC 4', x: 1001, y: 521 },
-  { id: 'PC5', port: 7, type: 'pc', zone: 'Design', name: 'PC 5', x: 898, y: 398 },
-  { id: 'PRN', port: 8, type: 'prn', zone: 'Design', name: 'Printer', x: 600, y: 300 },
-  { id: 'MOB', port: 9, type: 'ph', zone: 'Design', name: 'Mobile point', x: 715, y: 465, poe: true },
-  { id: 'PC6', port: 10, type: 'pc', zone: 'Showroom', name: 'PC 6', x: 935, y: 1112 },
-  { id: 'PC7', port: 11, type: 'srv', zone: 'IT Room', name: 'PC 7 · Server', x: 1640, y: 1500, local: true },
-  { id: 'PC8', port: 12, type: 'pc', zone: 'Showroom', name: 'PC 8', x: 1082, y: 1112 },
+// Network units. RTR, SW0 and the ONT sit in the cabinet; SW1 / SW2 are plain unmanaged desktop switches.
+export const CABINET_IDS = ['RTR', 'SW0', 'ONT'];
+export const inCabinet = id => CABINET_IDS.includes(id);
+export const SWITCHES = [
+  { id: 'SW0', name: 'Switch 0 · 8-port', ports: 8, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet (1U)', from: 'RTR', fromPort: 1, inPort: 1, cabinet: true },
+  { id: 'SW1', name: 'Switch 1 · 5-port', ports: 5, x: 990, y: 535, zone: 'Design', at: 'desk 3', from: 'SW0', fromPort: 2, inPort: 1 },
+  { id: 'SW2', name: 'Switch 2 · 8-port', ports: 8, x: 640, y: 252, zone: 'Design', at: 'desk 5', from: 'SW1', fromPort: 2, inPort: 1 },
 ];
-export const UPLINK_PORT = 13;
+export const ROUTER_LAN = 4;
 
+// `on` = unit the device plugs into, `port` = port on that unit. `local` = patch cord only, no cable run.
+// `mark` = number on the user's marked plan.
+export const DEVICES = [
+  // SW1 (5-port, desk 3): AP1 on port 4 (user). SW2 (8-port, desk 5): AP2, which goes back to mark 2,
+  // up the wall and across the ceiling to the Showroom.
+  { id: 'PC3', on: 'SW1', port: 3, type: 'pc', zone: 'Design', name: 'PC 3', x: 945, y: 492, local: true, mark: 3 },
+  { id: 'AP1', on: 'SW1', port: 4, type: 'ap', zone: 'Design', name: 'Access Point 1', x: 793, y: 487, poe: true, ceil: true, mark: 7 },
+  { id: 'PC2', on: 'SW1', port: 5, type: 'pc', zone: 'Design', name: 'PC 2', x: 1100, y: 660, mark: 2 },
+  { id: 'AP2', on: 'SW2', port: 2, type: 'ap', zone: 'Showroom', name: 'Access Point 2', x: 813, y: 1064, poe: true, ceil: true, viaCeiling: true, mark: 8 },
+  { id: 'PC5', on: 'SW2', port: 3, type: 'pc', zone: 'Design', name: 'PC 5', x: 730, y: 205, local: true, mark: 5 },
+  { id: 'PRN', on: 'SW2', port: 4, type: 'prn', zone: 'Design', name: 'Printer', x: 655, y: 190, local: true, mark: 5 },
+  { id: 'MOB', on: 'SW2', port: 5, type: 'ph', zone: 'Design', name: 'Mobile / phone', x: 770, y: 268, local: true, mark: 5, tel: true },
+  { id: 'PC4', on: 'SW2', port: 6, type: 'pc', zone: 'Design', name: 'PC 4', x: 846, y: 384, mark: 4 },
+  { id: 'PC6', on: 'SW2', port: 7, type: 'pc', zone: 'Design', name: 'PC 6', x: 518, y: 270, mark: 6 },
+  // IT Room: 4 wired PCs (positions along the walls are approximate, open item A-03); other devices use router Wi-Fi.
+  { id: 'IT1', on: 'SW0', port: 3, type: 'pc', zone: 'IT Room', name: 'IT PC 1', x: 1600, y: 1548, room: true, mark: 1 },
+  { id: 'IT2', on: 'SW0', port: 4, type: 'pc', zone: 'IT Room', name: 'IT PC 2', x: 1780, y: 1548, room: true, mark: 1 },
+  { id: 'IT3', on: 'SW0', port: 5, type: 'pc', zone: 'IT Room', name: 'IT PC 3', x: 1790, y: 1430, room: true, mark: 1 },
+  { id: 'IT4', on: 'SW0', port: 6, type: 'pc', zone: 'IT Room', name: 'IT PC 4', x: 1790, y: 1320, room: true, mark: 1 },
+];
+
+export const UNITS = [{ ...RACK, ports: ROUTER_LAN, zone: 'IT Room', at: 'cabinet' }, ...SWITCHES];
+export const unit = id => UNITS.find(u => u.id === id);
+export const portLabel = (on, port) => on === 'RTR' ? `RTR-L${port}` : on === 'ONT' ? `ONT-${port}` : `${on}-P${port}`;
+
+export const pointName = k => k === 0 ? 'Cabinet' : k === 1 ? 'Mark 2 drop' : 'J' + (k - 1);
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 export const polyLen = p => p.slice(1).reduce((s, q, i) => s + dist(p[i], q), 0);
+const nearest = pt => { let best = 1, bd = Infinity; for (let i = 1; i < ROUTE.length; i++) { const d = dist(ROUTE[i], pt); if (d < bd) { bd = d; best = i; } } return best; };
 
-// Same rule as the interactive plan: tray to nearest junction, then straight to the outlet;
-// + 2.0 m rack drop + outlet drop (0.6 ceiling / 2.5 wall / 0.5 local) + 10 % slack, rounded up.
+// Cable path between two points: branch to the nearest route point, along the route, branch out.
+// Runs from the cabinet start at ROUTE[0] (ceiling conduit to mark 2). Runs inside the IT Room follow the room walls.
+// `viaCeiling` devices (AP2) leave the casing at mark 2, go back up and cross the ceiling.
+function routePath(a, b, fromCab, room, viaCeiling) {
+  if (room) return { path: [RACK, { x: b.x, y: RACK.y }, b], ia: 0, ib: 0, room: true, vert: 0 };
+  const ia = fromCab ? 0 : nearest(a), ib = viaCeiling ? 1 : nearest(b);
+  const lo = Math.min(ia, ib), hi = Math.max(ia, ib);
+  let mid = ROUTE.slice(lo, hi + 1); if (ia > ib) mid = mid.reverse();
+  // every run that passes the mark-2 drop (cabinet runs, or AP2 going back up) adds the 2.8 m wall drop
+  const vert = (fromCab || viaCeiling) ? CEIL_DROP : 0;
+  return { path: fromCab ? mid.concat([b]) : [a, ...mid, b], ia, ib, vert, viaCeiling: !!viaCeiling };
+}
+
+// End allowances (m). Cabinet: up to the ceiling conduit (or down to the IT Room casing) + dressing loop.
+export const DROP = { rack: 1.5, switch: 1.0, wall: 0.5, ap: 3.0, apCeil: 0.6 };
+export const SLACK = 0.10;
+
+// Cable runs: uplink, switch-to-switch link, one run per device that is not a local patch, and the phone line.
+let n = 0;
+const nextId = () => `C-${String(++n).padStart(2, '0')}`;
+export const RUNS = [];
+function addRun(r) {
+  const fromCab = inCabinet(r.fromId);
+  const from = fromCab ? RACK : unit(r.fromId);
+  const rp = routePath(from, r.to, fromCab, r.room, r.to.viaCeiling);
+  const casingM = polyLen(rp.path) * MM_PER_PT / 1000;
+  const drops = (fromCab ? DROP.rack : DROP.switch) + rp.vert + r.endDrop;
+  Object.assign(r, rp, { casingM, drops, est: Math.ceil((casingM + drops) * (1 + SLACK)), cable: nextId(), junction: rp.room ? 'IT Room' : pointName(rp.ib) });
+  RUNS.push(r); return r;
+}
+for (const s of SWITCHES) {
+  if (s.cabinet) continue; // SW0 is patched to the router inside the cabinet
+  const up = s.from === 'SW0';
+  addRun({ kind: up ? 'uplink' : 'link', fromId: s.from, fromPort: s.fromPort, toId: s.id, toPort: s.inPort, to: s, type: up ? 'up' : 'sw', name: up ? `Uplink cabinet → ${s.id}` : `Link ${s.from} → ${s.id}`, zone: s.zone, endDrop: DROP.switch });
+}
 for (const d of DEVICES) {
-  let path, junction = '—';
-  if (d.local) path = [RACK, { x: RACK.x, y: d.y }, { x: d.x, y: d.y }];
-  else {
-    let best = 2, bd = Infinity;
-    for (let i = 2; i < TRUNK.length; i++) { const dd = dist(TRUNK[i], d); if (dd < bd) { bd = dd; best = i; } }
-    path = TRUNK.slice(0, best + 1).concat([{ x: d.x, y: d.y }]);
-    junction = 'J' + (best - 1);
-  }
-  const trayM = polyLen(path) * MM_PER_PT / 1000;
-  const drops = 2.0 + (d.local ? 0.5 : d.ceil ? 0.6 : 2.5);
-  Object.assign(d, {
-    path, junction, trayM, drops,
-    est: Math.ceil((trayM + drops) * 1.10),
-    cable: `C-${String(d.port).padStart(2, '0')}`,
-    outlet: d.ceil ? 'Ceiling, 1× RJ45' : d.local ? 'Direct patch (IT Room)' : 'Wall, 1× RJ45 @ 300 mm',
-    outletShort: d.ceil ? 'Ceiling' : d.local ? 'Direct' : 'Wall @300',
+  d.label = portLabel(d.on, d.port);
+  if (d.local) { Object.assign(d, { cable: 'patch', est: 0, outlet: `Patch cord at ${d.on}`, outletShort: 'Patch' }); continue; }
+  const r = addRun({ kind: 'device', fromId: d.on, fromPort: d.port, toId: d.id, to: d, type: d.type, name: d.name, zone: d.zone, poe: d.poe, room: d.room, endDrop: d.viaCeiling ? DROP.apCeil : d.ceil ? DROP.ap : DROP.wall });
+  Object.assign(d, { run: r, cable: r.cable, est: r.est, path: r.path, junction: r.junction,
+    outlet: d.ceil ? 'Surface box at the AP (casing up the wall)' : 'Surface box on the casing @ 300 mm', outletShort: d.ceil ? 'Ceiling' : 'Wall @300' });
+}
+// Phone line: ONT TEL port → the mobile / phone at desk 5. Cat6 in the same casing; the RJ11 plug fits the RJ45 jacks.
+const MOB = DEVICES.find(d => d.tel);
+export const PHONE = addRun({ kind: 'phone', fromId: 'ONT', fromPort: 'TEL1', toId: 'TEL', to: { id: 'TEL', x: MOB.x + 25, y: MOB.y + 30, name: 'Phone socket at desk 5' }, type: 'tel', name: 'Phone line ONT → mobile (desk 5)', zone: 'Design', endDrop: DROP.wall });
+MOB.phone = PHONE;
+// What feeds each switch: SW0 is a patch cord from the router; the others are cable runs.
+export const feedOf = id => { const s = unit(id); if (!s.from) return null; const r = RUNS.find(x => x.toId === id); return { from: s.from, fromPort: s.fromPort, cable: r ? r.cable : 'patch', est: r ? r.est : 0, type: r ? r.type : 'up', run: r || null }; };
+
+export const BY_UNIT = UNITS.map(u => ({ unit: u, devices: DEVICES.filter(d => d.on === u.id).sort((a, b) => a.port - b.port) }));
+export const TOTAL_M = RUNS.reduce((s, r) => s + r.est, 0);
+export const DEVICE_RUNS = RUNS.filter(r => r.kind === 'device');
+export const OUTLETS = DEVICE_RUNS.length + 1;        // device-end surface boxes (+1 phone socket)
+export const LOCAL = DEVICES.filter(d => d.local);
+export const POE = DEVICES.filter(d => d.poe).length; // = PoE injectors
+export const BOXES = Math.ceil(TOTAL_M * 1.05 / 305);
+export const LONGEST = RUNS.reduce((a, b) => (b.est > a.est ? b : a));
+export const usedPorts = id => {
+  const u = unit(id), used = new Set(DEVICES.filter(d => d.on === id).map(d => d.port));
+  if (u.inPort) used.add(u.inPort);
+  SWITCHES.forEach(s => { if (s.from === id) used.add(s.fromPort); });
+  return used;
+};
+export const SPARE = Object.fromEntries(UNITS.map(u => [u.id, [...Array(u.ports)].map((_, i) => i + 1).filter(p => !usedPorts(u.id).has(p))]));
+// What plugs into each port, for port maps.
+export function portMap(id) {
+  const u = unit(id);
+  return [...Array(u.ports)].map((_, i) => {
+    const p = i + 1;
+    const d = DEVICES.find(x => x.on === id && x.port === p);
+    const out = SWITCHES.find(s => s.from === id && s.fromPort === p);
+    if (u.inPort === p) { const f = feedOf(id); return { p, what: `In from ${f.from === 'RTR' ? 'router' : f.from}`, cable: f.cable, type: f.type }; }
+    if (out) { const f = feedOf(out.id); return { p, what: `Out to ${out.id}`, cable: f.cable, type: f.type }; }
+    if (d) return { p, what: d.name, cable: d.cable, type: d.type, dev: d };
+    return { p, what: 'Spare', cable: '—', type: null };
   });
 }
 
-export const BY_PORT = DEVICES.slice().sort((a, b) => a.port - b.port);
-export const TOTAL_M = DEVICES.reduce((s, d) => s + d.est, 0);
-export const REQUIRED_M = DEVICES.filter(d => !d.opt).reduce((s, d) => s + d.est, 0);
-export const TRAY_M = polyLen(TRUNK.slice(1)) * MM_PER_PT / 1000;
-export const OUTLETS = DEVICES.filter(d => !d.local).length;
-export const POE = DEVICES.filter(d => d.poe).length;
-export const BOXES = Math.ceil(TOTAL_M * 1.05 / 305);
-export const LONGEST = DEVICES.reduce((a, b) => (b.est > a.est ? b : a));
-export const SPARE_SW = [...Array(16)].map((_, i) => i + 1).filter(p => p !== UPLINK_PORT && !DEVICES.some(d => d.port === p));
-
-export const BOM = [
-  ['Cabling', 'Cat6 U/UTP solid copper cable, 305 m box (LSZH)', BOXES, 'box', `${TOTAL_M} m + 5 % waste → ${BOXES * 305 - TOTAL_M} m left over`],
-  ['Cabling', 'Cat6 keystone jack', OUTLETS, 'pc', 'one per outlet'],
-  ['Cabling', 'Single faceplate (wall) / surface box (ceiling)', OUTLETS, 'pc', `${DEVICES.filter(d => d.ceil).length} ceiling + ${OUTLETS - DEVICES.filter(d => d.ceil).length} wall`],
-  ['Cabling', 'Cable tray / J-hooks, ceiling', Math.ceil(TRAY_M) + 2, 'm', 'IT Room → Design, incl. 2 m spare'],
-  ['Cabling', 'Wire labels (both ends)', DEVICES.length * 2, 'pc', `${BY_PORT[0].cable} … ${BY_PORT.at(-1).cable}`],
-  ['Cabinet', '19″ 16U wall-mount cabinet, 600 mm deep', 1, 'pc', 'with fan + glass door + lock'],
-  ['Cabinet', '24-port Cat6 patch panel, 1U', 1, 'pc', `${DEVICES.length} used, ${24 - DEVICES.length} spare`],
-  ['Cabinet', '1U horizontal cable manager', 2, 'pc', 'above & below switch'],
-  ['Cabinet', 'Cantilever shelf 1U', 1, 'pc', 'ONT + router'],
-  ['Cabinet', 'PDU 8-way 230 V, 1U', 1, 'pc', ''],
-  ['Cabinet', 'Brush cable-entry panel 1U', 1, 'pc', 'top of cabinet'],
-  ['Cabinet', 'Blank panels 1U', 4, 'pc', 'U3, U4, U9 + spare'],
-  ['Active', '16-port Gigabit PoE+ switch (802.3at, ≥ 150 W budget)', 1, 'pc', `${POE} PoE devices + headroom`],
-  ['Patching', 'Cat6 patch cord 0.5 m (cabinet)', DEVICES.length + 1, 'pc', 'incl. router uplink'],
-  ['Patching', 'Cat6 patch cord 2–3 m (desk)', DEVICES.filter(d => !d.ceil && !d.local).length, 'pc', 'outlet → device'],
-];
-// Not in the original plan — recommended, decided under Open items.
-export const BOM_EXTRA = [
-  ['Line-interactive UPS, ~1 kVA (rack or tower)', 1, 'pc', 'Keeps router, switch and APs up through short power cuts', 'D-05'],
-  ['Wi-Fi access points (ceiling, PoE)', 2, 'pc', 'Model not yet chosen', 'D-02'],
-  ['Cat6 patch cord 0.5 m — spares', 4, 'pc', 'For moves and fault-finding', '—'],
-];
-
-export const RACK_UNITS = {
-  16: ['Brush cable-entry panel', 'brush'], 15: ['Patch panel 24 × Cat6 (PP-1…24)', 'pp'], 14: ['Horizontal cable manager', 'cm'],
-  13: ['PoE switch 16-port Gigabit', 'sw'], 12: ['Horizontal cable manager', 'cm'], 11: ['Shelf · ONT + router', 'shelf'],
-  10: ['(shelf space)', 'shelfb'], 9: ['Blank panel', 'blank'], 8: ['Spare · future NVR / NAS', 'spare'], 7: ['Spare', 'spare'],
-  6: ['Spare', 'spare'], 5: ['Spare', 'spare'], 4: ['Blank panel', 'blank'], 3: ['Blank panel', 'blank'],
-  2: ['Fan tray (top-mount alternative)', 'blank'], 1: ['PDU 8-way 230 V', 'pdu'],
+// Casing: count of cables in each main-route segment, plus branch legs (shared legs counted once).
+const sizeFor = c => c <= 4 ? '25 × 16 mm' : c <= 10 ? '40 × 25 mm' : '60 × 40 mm';
+const routeRuns = RUNS.filter(r => !r.room);
+const crosses = (r, i) => Math.min(r.ia, r.ib) <= i && Math.max(r.ia, r.ib) >= i + 1;
+// Ceiling PVC conduit: cabinet → mark 2, plus the AP2 leg across the ceiling from mark 2.
+const conduitSize = c => c <= 3 ? '20 mm' : c <= 6 ? '25 mm' : '32 mm';
+const ceilRuns = routeRuns.filter(r => crosses(r, 0));
+export const CONDUIT = [
+  { what: 'Cabinet → mark 2 (in the ceiling)', len: dist(ROUTE[0], ROUTE[1]) * MM_PER_PT / 1000 + 1.0, cables: ceilRuns.length, list: ceilRuns.map(r => r.cable) },
+  ...RUNS.filter(r => r.viaCeiling).map(r => ({ what: `Mark 2 → ${r.toId} (in the ceiling)`, len: dist(ROUTE[1], r.to) * MM_PER_PT / 1000, cables: 1, list: [r.cable] })),
+].map(c => ({ ...c, size: conduitSize(c.cables) }));
+export const CONDUIT_M = CONDUIT.reduce((t, c) => t + c.len, 0);
+// Wall casing: segments from mark 2 onwards.
+export const CASING_SEGS = ROUTE.slice(1).map((q, i) => ({ i, q })).filter(({ i }) => i >= 1).map(({ q, i }) => {
+  const cables = routeRuns.filter(r => crosses(r, i)).length;
+  return { from: pointName(i), to: pointName(i + 1), len: dist(ROUTE[i], q) * MM_PER_PT / 1000, cables, size: cables ? sizeFor(cables) : '—' };
+});
+// Branch legs from a unit/device to its route point; cables sharing the same leg share one casing.
+const legs = new Map();
+const addLeg = (node, k, pt) => {
+  const key = `${node}>${k}`, l = legs.get(key);
+  if (l) l.cables++; else legs.set(key, { from: node, at: pointName(k), len: dist(pt, ROUTE[k]) * MM_PER_PT / 1000, cables: 1 });
 };
+routeRuns.forEach(r => {
+  if (!inCabinet(r.fromId)) addLeg(r.fromId, r.ia, unit(r.fromId));
+  if (!r.viaCeiling) addLeg(r.toId, r.ib, r.to);
+});
+export const CASING_LEGS = [...legs.values()].map(l => ({ ...l, size: sizeFor(l.cables) }));
+// IT Room: one casing along the bottom and right walls from the cabinet, sized for all room runs.
+const roomRuns = RUNS.filter(r => r.room);
+export const CASING_ROOM = roomRuns.length ? [{ what: `IT Room walls (${roomRuns.map(r => r.toId).join(', ')})`, len: Math.max(...roomRuns.map(r => r.casingM)), size: sizeFor(roomRuns.length) }] : [];
+// Vertical casing: behind the wall at mark 2 (ceiling ↔ skirting), and each wall-fed AP up to the ceiling.
+const dropRuns = routeRuns.filter(r => r.vert);
+export const CASING_VERT = [
+  { what: `Mark 2: ceiling down to skirting (${dropRuns.map(r => r.cable).join(', ')})`, len: CEIL_DROP, size: sizeFor(dropRuns.length) },
+  ...(roomRuns.length ? [{ what: 'Cabinet down to the IT Room casing', len: 1.0, size: sizeFor(roomRuns.length) }] : []),
+  ...DEVICES.filter(d => d.ceil && !d.viaCeiling).map(d => ({ what: `${d.id} up the wall to the ceiling`, len: 2.5, size: sizeFor(1) }))];
+const sumBy = size => [...CASING_SEGS.filter(s => s.cables), ...CASING_LEGS, ...CASING_ROOM, ...CASING_VERT].filter(s => s.size === size).reduce((t, s) => t + s.len, 0);
+export const CASING_SIZES = ['25 × 16 mm', '40 × 25 mm', '60 × 40 mm'].map(size => {
+  const m = sumBy(size); return { size, m, lengths: Math.ceil(m * 1.10 / 2) }; // sold in 2 m lengths, +10 % offcuts
+}).filter(s => s.m > 0);
+export const CASING_M = CASING_SIZES.reduce((t, s) => t + s.m, 0);
+export const ROUTE_M = polyLen(ROUTE) * MM_PER_PT / 1000;
 
-// Proposed — not decided. See open item D-01.
+// 9U wall cabinet: just what it holds + the 4U spare the user asked for (U2–U5). Cables enter through the top knock-out.
+export const RACK_U = 9;
+export const RACK_UNITS = {
+  9: ['Patch panel 12 × Cat6 keystone (PP-1…12)', 'pp'], 8: ['SW0 · 8-port Gigabit switch (rack ears / 1U shelf)', 'sw'],
+  7: ['Shelf · ONT + router', 'shelf'], 6: ['(shelf space)', 'shelfb'],
+  5: ['Spare', 'spare'], 4: ['Spare', 'spare'], 3: ['Spare', 'spare'], 2: ['Spare', 'spare'],
+  1: ['PDU 6-way 230 V', 'pdu'],
+};
+export const SPARE_RANGE = (() => { const us = Object.entries(RACK_UNITS).filter(([, [, k]]) => k === 'spare').map(([u]) => +u); return `U${Math.min(...us)}–U${Math.max(...us)}`; })();
+export const SPARE_U = Object.values(RACK_UNITS).filter(([, k]) => k === 'spare').length;
+// Cables that end in the cabinet land on the patch panel in this order.
+export const PANEL = RUNS.filter(r => inCabinet(r.fromId)).map((r, i) => ({ pp: i + 1, run: r }));
+
+// Proposed — not decided. See open item D-01. Plain switches have no management address.
 export const IP_PLAN = [
   ['Network', '192.168.14.0/24', 'Single flat office LAN'],
-  ['Gateway / router', '192.168.14.1', 'DHCP server, firewall, NAT'],
-  ['PoE switch (mgmt)', '192.168.14.2', 'Static'],
+  ['Gateway / router', '192.168.14.1', 'DHCP server, firewall, NAT, router Wi-Fi for the IT Room'],
   ['Access points AP1–AP2', '192.168.14.11 – .12', 'Static or DHCP reservation'],
   ['Printer', '192.168.14.20', 'DHCP reservation'],
-  ['PC 7 · Server', '192.168.14.30', 'Static'],
-  ['Spare static range', '192.168.14.31 – .99', 'Future NVR, NAS, IP phones'],
+  ['IT Room PCs IT1–IT4', '192.168.14.31 – .34', 'DHCP reservation (or static if they run services)'],
+  ['Spare static range', '192.168.14.35 – .99', 'Future NVR, NAS, IP phones'],
   ['DHCP pool', '192.168.14.100 – .199', 'PCs, laptops, phones'],
-  ['Guest Wi-Fi', 'Isolated by AP / router', 'Client isolation, internet only'],
+  ['Guest Wi-Fi', 'Isolated by AP / router', 'Client isolation, internet only (the switches are unmanaged, no VLANs)'],
 ];
 
 export const ASSUMPTIONS = [
-  ['A-01', 'Outlet positions were read from the hand sketch and the floor plan. Every outlet must be walked and marked on site before cables are pulled.', 'Floor plan'],
-  ['A-02', '"Showroom" is the main Office 14 floor; "Design" is the Designers strip along the window wall.', 'Floor plan'],
-  ['A-03', 'PC6 and PC8 sit at the 1500 mm desk; PC7 (server) sits in the IT Room next to the cabinet.', 'Cable schedule'],
-  ['A-04', '"Mobile" is a wired point for a phone / mobile charging dock in the Design area (PoE assumed).', 'Topology'],
-  ['A-05', 'Cables leave the IT Room above the door and run in a ceiling tray, dropping down the wall to each desk outlet. Ceiling height is taken as 2.8 m.', 'Installation'],
+  ['A-01', 'Device positions were taken from the marked plan (marks 1–8). Every outlet must be walked and marked on site before casing is fixed.', 'Floor plan'],
+  ['A-02', '"Showroom" is the main Office 14 floor; "Design" is the Designers strip along the window wall. There are no wired desks in the Showroom.', 'Floor plan'],
+  ['A-03', 'The 4 IT Room PCs sit along the IT Room walls near the cabinet; their exact places are not marked yet. Other IT Room devices use the router Wi-Fi.', 'Cable schedule'],
+  ['A-04', 'PC3 and SW1 share desk 3; PC5, the printer, the mobile and SW2 share desk 5. These plug straight into their switch with a patch cord.', 'Topology'],
+  ['A-05', 'Cables go from the cabinet up into the ceiling and through a PVC conduit straight to mark 2, come down behind the wall there, and run in wall casing along the desk wall to desks 3–6. AP2 goes back up at mark 2 and across the ceiling. If the conduit to mark 2 is already in place, its BOQ quantity is set to 0.', 'Installation'],
+  ['A-07', 'SW1 is the existing 5-port switch (desk 3, AP1 on port 4) and SW2 the existing 8-port switch (desk 5, AP2). SW1 has no spare port; SW2 has one.', 'Topology'],
+  ['A-06', 'The mobile at desk 5 uses the ONT phone (TEL) port through its own cable (C-12). Its data port on SW2 (SW2-P5) is kept; free it if the phone only needs the line.', 'Topology'],
 ];
 
 export const DECISIONS = [
   ['D-01', 'IP addressing and Wi-Fi SSIDs: accept the proposed plan or supply an existing scheme.', 'IT'],
   ['D-02', 'Access point brand / model (and whether a cloud controller is used).', 'IT / Management'],
-  ['D-03', 'PoE switch model: managed or smart-managed, PoE budget ≥ 150 W.', 'IT'],
-  ['D-04', 'ISP and service: fibre ONT location, static IP needed or not.', 'Management'],
+  ['D-03', 'SW0 is an 8-port switch (2 spare ports). If more wired IT Room PCs are added later, swap it for a 16-port in the spare space.', 'IT'],
+  ['D-04', 'ISP and service: ONT model, how many TEL ports, static IP needed or not.', 'Management'],
   ['D-05', 'Add a UPS for the cabinet (recommended).', 'Management'],
-  ['D-06', 'Mobile point: confirm it is an IP phone / PoE device, or a plain data point.', 'Design team'],
+  ['D-06', 'Later: replace SW1 + SW2 + injectors with one PoE switch if more desks are added (SW1 is full, SW2 has one spare port).', 'IT'],
   ['D-07', 'Contractor or in-house install; certification tester available or hired.', 'Management'],
 ];
 
 export const RISKS = [
-  ['Ceiling closed before cables are pulled', 'High', `Pull all ${DEVICES.length} cables in one visit while the ceiling is open.`],
-  ['Outlet positions change after furniture layout', 'Medium', 'Confirm desk layout first (A-01); leave 300 mm service loop at each outlet.'],
-  ['Cable run near power / lighting', 'Medium', 'Keep ≥ 300 mm from unshielded power; cross at 90°.'],
-  ['IT Room heat with cabinet door closed', 'Low', 'Fit fan tray; keep the vents clear; check temperature after a week.'],
-  ['No UPS — power cut drops Wi-Fi and internet', 'Medium', 'Decide D-05.'],
+  ['Daisy chain: if SW1 or the uplink fails, SW2 and everything behind it go offline too', 'Medium', 'Label C-01/C-02 clearly; keep a spare 8-port switch and patch cords; consider one larger switch later (D-06).'],
+  ['No spare ports on SW1; one on SW2; two on SW0', 'Medium', 'A new desk needs a bigger switch; the cabinet has 4U free for one.'],
+  ['Casing knocked or lids pulled off at desks', 'Low', 'Screw-fix every 500 mm; run casing behind desks where possible.'],
+  ['Cable run near power / lighting', 'Medium', 'Keep ≥ 300 mm from power casing, or use divided casing; cross at 90°.'],
+  ['No UPS: a power cut drops Wi-Fi, internet and the phone line', 'Medium', 'Decide D-05. SW1, SW2 and the injectors need power at the desks too.'],
 ];
-
