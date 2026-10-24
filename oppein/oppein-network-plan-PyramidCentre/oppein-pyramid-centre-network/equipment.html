@@ -20,7 +20,7 @@
       <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
     </a>
     <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
-    <span class="nav-tag">Rev C · Draft — for review</span>
+    <span class="nav-tag">Rev D · Final — for approval</span>
   </div>
 </nav>
 <div class="shell">
@@ -33,14 +33,14 @@
       <div class="eyebrow"><span class="led"></span>DOC 06 · EQUIPMENT &AMP; BUYING GUIDE</div>
       <h1>Equipment & buying guide</h1>
       <p class="lead">What each component does in the Office 14 network, the specification to insist on, and products currently listed on Amazon.ae and noon UAE. Prices are what the listings showed on 17 Oct 2026. Stock and prices change, so open the listing before buying.</p>
-      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev C · 2026-10-22</span><span>Jayashanka · OPPEIN IT</span></div>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev D · 2026-10-23</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
     <section class="sec" id="howto">
       <div class="module-label">EQ-00</div>
       <h2>How the parts work together</h2>
-      <p class="sub">Each device has its own cable back to its switch or the router. SW2 depends on SW1, and SW1 depends on the uplink, so those two cables matter most.</p>
+      <p class="sub">Every device has its own cable back to the cabinet, so a fault on one cable never affects another. Everything depends on the router and SW0.</p>
       <div class="flow">
-      <div class="fstep"><span class="fnum">1</span><b>Internet</b><small>ISP fibre → ONT → router (cabinet)</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">2</span><b>Uplink</b><small>C-01 in casing to SW1</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">3</span><b>Switches</b><small>SW1 5-port → SW2 8-port</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">4</span><b>Cat6 in casing</b><small>12 runs, 108 m</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">5</span><b>Surface box</b><small>Keystone at each end</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">6</span><b>Device</b><small>PC, printer, phone; APs via PoE injector</small></div>
+      <div class="fstep"><span class="fnum">1</span><b>Internet</b><small>ISP fibre → ONT → router</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">2</span><b>Switches</b><small>SW0 → SW1 + SW2, in the cabinet</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">3</span><b>Patch panel</b><small>fixed end of every cable</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">4</span><b>Cat6 in casing</b><small>14 runs, 235 m</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">5</span><b>Surface box</b><small>Keystone at each end</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">6</span><b>Device</b><small>PC, printer, phone; APs via PoE injector</small></div>
     </div>
     </section>
     <section class="sec eq" id="cable">
@@ -73,8 +73,8 @@
       <div class="module-label">EQ-02</div>
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h1M11 12h1M15 12h1"/></svg><div><h2>Switches (SW0 rack, SW1 5-port, SW2 8-port)</h2><span class="eq-qty">BOQ quantity: 1 pc + 1 pc + 1 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>Plain unmanaged Gigabit switches that share the router connection with the devices. SW0 is a 1U rack switch in the cabinet for the IT Room PCs and the uplink. SW1 at desk 3 takes the single uplink cable and passes it on to SW2 at desk 5. None of them give PoE, so the APs use injectors.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Gigabit (10/100/1000) on every port</li><li>SW0: 19″ rack-mount, 1U, internal power supply</li><li>SW1 / SW2: metal case or wall-mount holes, so they can be fixed off the floor</li><li>Own power adapter on a desk socket</li><li>Same make for both switches is easiest</li></ul></div>
+        <div class="card"><h3>Function</h3><p>Plain unmanaged Gigabit switches, all on one shelf in the cabinet. The router feeds SW0 (new 8-port); SW0 feeds the existing SW1 (5-port) and SW2 (8-port) with short patch cords. Every device cable lands on the patch panel and is patched to its switch port. None of them give PoE, so the APs use injectors.</p></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Gigabit (10/100/1000) on every port</li><li>All three fit side by side on one 1U shelf (about 440 mm wide in total)</li><li>Metal case preferred (cabinet heat)</li><li>Each power adapter on the cabinet PDU</li><li>Same make for both switches is easiest</li></ul></div>
       </div>
       <p class="note">Normally supplied by the installer at trade price. See the BOQ for the allowance.</p>
       <div class="callout warn"><b>Avoid:</b> Fast Ethernet (10/100) switches: they cap every PC behind them at 100 Mbps. Do not chain a third switch behind SW2; add ports by replacing a switch instead.</div>
@@ -83,8 +83,8 @@
       <div class="module-label">EQ-03</div>
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M13 7l-3 5h4l-3 5"/></svg><div><h2>PoE injectors</h2><span class="eq-qty">BOQ quantity: 2 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>A small box at the switch desk between the switch and the AP cable. It adds power to the data cable so the AP needs no socket at the ceiling: data in from the switch, data + power out to the AP.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>802.3at (PoE+, 30 W), or whatever the AP datasheet asks for</li><li>Gigabit</li><li>Plugged into a desk socket beside the switch</li></ul></div>
+        <div class="card"><h3>Function</h3><p>A small box in the cabinet between the switch and the AP cable. It adds power to the data cable so the AP needs no socket at the ceiling: data in from the switch, data + power out to the AP.</p></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>802.3at (PoE+, 30 W), or whatever the AP datasheet asks for</li><li>Gigabit</li><li>Powered from the cabinet PDU, on the shelf next to the router</li></ul></div>
       </div>
       <p class="note">Normally supplied by the installer at trade price. See the BOQ for the allowance.</p>
       <div class="callout warn"><b>Avoid:</b> Passive 24 V injectors with a standard 802.3af/at AP (and the reverse). Match the AP's PoE type exactly. Many UniFi APs ship with their own PoE adapter; check the box before buying.</div>
@@ -93,7 +93,7 @@
       <div class="module-label">EQ-04</div>
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg><div><h2>Wi-Fi access points</h2><span class="eq-qty">BOQ quantity: 2 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>Ceiling-mounted radios that give wireless access to laptops, phones and tablets. AP1 covers the Showroom and AP2 the Design area. Each one is powered through its cable by a PoE injector beside its switch (AP1 on SW1, AP2 on SW2), and both are managed from one app or controller.</p></div>
+        <div class="card"><h3>Function</h3><p>Ceiling-mounted radios that give wireless access to laptops, phones and tablets. AP1 covers the Showroom and AP2 the Design area. Each one is powered through its cable by a PoE injector in the cabinet (AP1 on SW1, AP2 on SW2), and both are managed from one app or controller.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Wi-Fi 6 (802.11ax), dual band</li><li>PoE powered, ceiling mount kit</li><li>Same brand for all APs (seamless roaming)</li><li>Guest SSID with client isolation</li></ul></div>
       </div>
       <div class="picks"><a class="pick" href="https://www.amazon.ae/Ubiquiti-Networks-Adapter-Included-U6-Lite/dp/B08T6CKG5B" target="_blank" rel="noopener sponsored">
@@ -115,8 +115,8 @@
       <div class="module-label">EQ-05</div>
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h8"/></svg><div><h2>Cabinet & patch panel</h2><span class="eq-qty">BOQ quantity: 1 pc + 1 pc + 1 pc + 1 pc + 4 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>The cabinet in the IT Room protects the ONT and router and keeps them locked. The 6 cables that start there end on a small patch panel, so changes are made with patch cords, not by re-terminating cables.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>19″ 9U wall-mount (holds everything + 4U spare), glass door, lock</li><li>≥ 450 mm deep (600 mm if the router is large)</li><li>Fan + vented sides</li><li>12-port Cat6 keystone patch panel (or a loaded 24-port)</li></ul></div>
+        <div class="card"><h3>Function</h3><p>The cabinet in the IT Room protects the ONT and router and keeps them locked. The 14 cables that start there end on a small patch panel, so changes are made with patch cords, not by re-terminating cables.</p></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>19″ 9U wall-mount (holds everything + 4U spare), glass door, lock</li><li>≥ 450 mm deep (600 mm if the router is large)</li><li>Fan + vented sides</li><li>24-port Cat6 patch panel (keystone or loaded)</li></ul></div>
       </div>
       <div class="picks"><a class="pick" href="https://www.noon.com/uae-en/24-port-cat-6-utp-loaded-patch-panel-black/N44149082A/p/" target="_blank" rel="noopener sponsored">
         <span class="ptag t-recommended">Recommended</span>
@@ -131,7 +131,7 @@
     </section>
     <section class="sec eq" id="outlets">
       <div class="module-label">EQ-06</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 10h6v5H9z"/></svg><div><h2>Outlets: keystones & surface boxes</h2><span class="eq-qty">BOQ quantity: 24 pc + 10 pc + 4 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 10h6v5H9z"/></svg><div><h2>Outlets: keystones & surface boxes</h2><span class="eq-qty">BOQ quantity: 28 pc + 14 pc</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>The socket at each end of a run. The keystone jack terminates the Cat6 cable; the surface box holds it at the end of the casing, so no wall box is needed. It must be Cat6-rated, or the whole link drops to the lower grade.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Cat6 keystone, T568B</li><li>Surface-mount box (1-port at devices, 2-port at switches) with label window</li><li>Same brand as cable if possible</li></ul></div>
@@ -153,9 +153,9 @@
     </section>
     <section class="sec eq" id="patch">
       <div class="module-label">EQ-07</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6M14 12h6M10 9v6M14 9v6"/></svg><div><h2>Patch cords</h2><span class="eq-qty">BOQ quantity: 14 pc + 11 pc + 2 pc + 1 pc + 2 pc + 4 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6M14 12h6M10 9v6M14 9v6"/></svg><div><h2>Patch cords</h2><span class="eq-qty">BOQ quantity: 18 pc + 11 pc + 2 pc + 1 pc + 2 pc + 4 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>Short, flexible factory-made leads: 0.5 m in the cabinet and at the switch desks, 1 m from each injector, and 2 m at the desk (surface box → device).</p></div>
+        <div class="card"><h3>Function</h3><p>Short, flexible factory-made leads: 0.5 m in the cabinet (panel → switch, switch → switch, switch → injector), 1 m from each injector to the panel, and 2 m at the desk (surface box → device).</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Cat6, factory moulded</li><li>Stranded copper</li><li>Colour by device type (see DOC 03)</li></ul></div>
       </div>
       <div class="picks"><a class="pick" href="https://www.amazon.ae/D-Link-Cat6-Patch-Ethernet-Cable/dp/B07MCR3V3L" target="_blank" rel="noopener sponsored">
@@ -211,7 +211,7 @@
     </section>
     <section class="sec eq" id="casing">
       <div class="module-label">EQ-10</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v4H3zM6 12v6M18 12v6"/></svg><div><h2>Cable casing (PVC trunking) & labelling</h2><span class="eq-qty">BOQ quantity: 11 length + 1 length + 6 length + 1 lot + 1 lot + 24 pc + 1 lot</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v4H3zM6 12v6M18 12v6"/></svg><div><h2>Cable casing (PVC trunking) & labelling</h2><span class="eq-qty">BOQ quantity: 7 length + 5 length + 6 length + 1 lot + 1 lot + 28 pc + 1 lot</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>A plastic channel fixed to the wall with a snap-on lid; the cables lie inside it. Here the cables reach mark 2 through a PVC conduit in the ceiling, come down behind the wall, and the casing carries them along the desk wall to each desk and up the wall to AP1. Labels make every cable traceable.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>25 × 16 mm for up to 4 Cat6, 40 × 25 mm for up to 10–12</li><li>Screw-fix every 500 mm (adhesive alone falls off)</li><li>Proper corner and tee fittings, no tight folds</li><li>Separate (or divided) casing from power, ≥ 300 mm apart</li><li>Printed labels at both ends</li></ul></div>
@@ -221,7 +221,7 @@
     </section>
     <section class="sec eq" id="labour">
       <div class="module-label">EQ-11</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4-8 8H6v-4z"/></svg><div><h2>Labour & testing</h2><span class="eq-qty">BOQ quantity: 12 run + 20 m + 16 m + 1 lot + 12 run + 1 lot + 1 lot + 12 run</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4-8 8H6v-4z"/></svg><div><h2>Labour & testing</h2><span class="eq-qty">BOQ quantity: 14 run + 21 m + 16 m + 1 lot + 14 run + 1 lot + 1 lot + 14 run</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>Installation, termination, testing, configuration and handover by an installer. Ask for a line-by-line price against this BOQ.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Installer used to surface casing work</li><li>Cable tester (wire map + length) at minimum</li><li>Certification tester if a warranty is required</li></ul></div>
@@ -234,7 +234,7 @@
       <a class="prev" href="materials.html"><small>← DOC 05</small>BOQ & estimate</a>
       <a class="next" href="device-lab.html"><small>DOC 07 →</small>Device lab</a>
     </footer>
-    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev C</p>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev D</p>
   </main>
 </div>
 

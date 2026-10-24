@@ -3,7 +3,7 @@
 (function () {
   const doc = document.getElementById('boq');
   if (!doc) return;
-  const KEY = 'o14-boq-v8'; // v8: ticks on every line + custom lines
+  const KEY = 'o14-boq-v9'; // v9: Rev D (all switches in the cabinet)
   const VAT = +doc.dataset.vat || 5;
   const $ = s => document.getElementById(s);
   const money = n => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });

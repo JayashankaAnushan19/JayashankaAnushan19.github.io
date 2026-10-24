@@ -8,7 +8,7 @@ It is the next project for the OPPEIN project hub on GitHub Pages: https://jayas
 (hub repo `oppein`: one folder per project, dark / amber style, Space Grotesk + IBM Plex fonts).
 The hub repo is **not** in this folder. The finished site folder gets copied into it (see "Publishing").
 
-Owner: Jayashanka (OPPEIN IT). Status: **Rev A draft, for review** (started 2026-10-16).
+Owner: Jayashanka (OPPEIN IT). Status: **Rev D — final, for approval** (2026-10-23; started 2026-10-16).
 
 ## Layout
 ```
@@ -45,29 +45,30 @@ drawing full size, with layer toggles (casing route / cables / devices & switche
 Use `docRef('file.html')` in build.mjs for cross-links so DOC numbers stay right if pages move.
 Never give a section the id `plan` — site.js pans/zooms `#plan` (the floor-plan svg).
 
-## Key facts — Rev C (2026-10-22, from the user's marked plan, marks 1–8)
+## Key facts — Rev D FINAL (2026-10-23, "Final — for approval")
 - The user marked the real positions on the drawing; `mark` in DEVICES = that number. Screenshot px → svg mapping used:
   svg = (526 + (px−58)·2.52, 434 + (py−155)·2.52) for a Drawing-page screenshot at fit zoom (approximate).
-- 1 IT Room cabinet: 9U wall cabinet (user rejected 16U) — patch panel, SW0 (NEW 8-port switch; user rejected 16-port), ONT + router shelf (2U), 4U spare (U2–U5, user asked for ≥ 4U), PDU.
-  4 wired IT Room PCs (IT1–IT4) on SW0 P3–P6 — their exact spots are NOT marked yet (A-03). Rest of the IT Room uses router Wi-Fi.
-- Router L1 → SW0 P1 (patch) → SW0 P2 → C-01 uplink → SW1 (5-port, desk 3, middle) → C-02 → SW2 (8-port, desk 5, last).
-  The user confirmed this order ("no change") after briefly asking to swap — do NOT swap them. SW1/SW2 plain unmanaged,
-  no PoE, already owned (BOQ rate 0) → AP1/AP2 use PoE injectors. User: AP1 on SW1 port 4, AP2 on SW2.
-- SW1: P3 PC3 (patch, desk 3), P4 AP1 (mark 7), P5 PC2 (mark 2) — full. SW2: P2 AP2 (mark 8, Showroom), P3 PC5 / P4 PRN /
-  P5 MOB (patch, desk 5), P6 PC4 (mark 4), P7 PC6 (mark 6), P8 spare. No Showroom desks any more.
-- Separate phone line C-12: ONT TEL1 → patch panel → conduit/casing → RJ45 phone socket at desk 5 (RJ11 fits). MOB data port kept (A-06).
-- Real route (user): cabinet → up into the ceiling → PVC conduit straight to MARK 2 → down behind the wall → wall casing along
-  the desk wall to desks 3–6 (ROUTE in data.mjs; ROUTE[0]→[1] is the conduit). AP2 goes back up at mark 2 and across the
-  ceiling (`viaCeiling`). IT Room runs follow the room walls. Lengths = (route + start drop + 2.8 m mark-2 drop + end drop) × 1.10.
-  The conduit may already exist (BOQ line says set to 0 if reused) — not confirmed.
-- 12 runs, 108 m → 1 box; ≈ 16 m ceiling conduit + ≈ 20 m wall casing.
+- ALL switches are in the IT Room cabinet (mark 1) — final user decision. 9U wall cabinet (user rejected 16U):
+  U9 24-port patch panel · U8 shelf with SW0 (NEW 8-port; user rejected 16-port) + SW1 (existing 5-port) + SW2 (existing 8-port) ·
+  U7–U6 shelf ONT + router + 2 PoE injectors · U5–U2 spare (user asked for ≥ 4U) · U1 8-way PDU.
+- Router L1 → SW0 P1; SW0 P2 → SW1 P1; SW0 P3 → SW2 P1 (patch cords in the cabinet). SW1/SW2 unmanaged, no PoE, owned (BOQ rate 0).
+  SW0: P4–P7 IT1–IT4, P8 spare. SW1: P2 PC2, P3 PC3, P4 AP1 (user: AP1 on SW1 port 4), P5 spare.
+  SW2: P2 AP2 (user), P3 PC4, P4 PC5, P5 PRN, P6 MOB, P7 PC6, P8 spare. Router L2–L4 spare.
+- Every device is a home run from the cabinet patch panel (14 runs incl. the phone line). Route (user): cabinet → up into the
+  ceiling → PVC conduit to MARK 2 → down behind the wall → wall casing to desks 2–6 and up to AP1. AP2 stays in the ceiling
+  from mark 2 (`viaCeiling`, no mark-2 drop). IT Room PCs (positions NOT marked yet, A-03) run along the IT Room walls.
+  Lengths = (route + start drop + 2.8 m mark-2 drop + end drop) × 1.10.
+- Separate phone line C-14: ONT TEL1 → patch panel → conduit/casing → RJ45 socket at desk 5 (RJ11 fits). MOB data cable kept (A-06).
+- 14 runs, 235 m → 1 box; ceiling conduit ≈ 16 m (32 mm for the 10-cable bundle; existing pipe may be reused — check its size);
+  wall casing ≈ 21 m (40×25 mm main run, 25×16 mm branches).
 - AP3 (Kitchen / Samples) was dropped on 2026-10-17 — not required. Don't re-add it.
-- BOQ grand total ≈ AED 7,797 incl. 10 % contingency + 5 % VAT (optional F items excluded by default). SW0 priced as a trade estimate.
+- BOQ grand total ≈ AED 8,309 incl. 10 % contingency + 5 % VAT (optional F items excluded by default). SW0 priced as a trade estimate.
 - The interactive planner is the ORIGINAL Rev A design (tray, one switch) — kept for reference, marked superseded.
+- History of layouts (don't revert to these): Rev B switches at desks + casing; Rev C SW1 at desk 3 / SW2 at desk 5 chained.
 
 ## Decisions made with the user
 - Site follows the hub's look; static files only (GitHub Pages), no backend.
-- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v8`; bump it whenever BOQ rows change);
+- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v9`; bump it whenever BOQ rows change);
   Every line has a tick (section ticks + Tick all / Untick all); only ticked lines are numbered (renumbered live), totalled,
   printed and exported. Users can add custom lines per section (+ Add a line) and remove them; saved with the rest.
   Print button prints only the letterhead estimate (A4). Export to Word builds a Word-compatible HTML .doc in the browser

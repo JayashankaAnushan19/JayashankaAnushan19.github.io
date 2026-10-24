@@ -20,7 +20,7 @@
       <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
     </a>
     <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
-    <span class="nav-tag">Rev C · Draft — for review</span>
+    <span class="nav-tag">Rev D · Final — for approval</span>
   </div>
 </nav>
 <div class="shell">
@@ -32,8 +32,8 @@
     <header class="ph">
       <div class="eyebrow"><span class="led"></span>DOC 00 · OVERVIEW</div>
       <h1>Overview</h1>
-      <p class="lead">The local network and Cat6 cabling for Office 14 at Pyramid Centre. The ONT, router and a rack switch (SW0) sit in a cabinet in the IT Room and serve the 4 wired IT Room PCs. One uplink cable runs in wall casing to a 5-port switch (SW1) at desk 3, which feeds an 8-port switch (SW2) at desk 5. A separate phone line runs from the ONT to the mobile at desk 5. Between them they connect 9 PCs, a printer, a mobile point and 2 Wi-Fi access points. Everything needed to approve, buy and install it is in these documents.</p>
-      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev C · 2026-10-22</span><span>Jayashanka · OPPEIN IT</span></div>
+      <p class="lead">The local network and Cat6 cabling for Office 14 at Pyramid Centre. Everything active sits in one cabinet in the IT Room: the ONT, the router and three switches (new SW0 8-port, existing SW1 5-port and SW2 8-port). Every device has its own cable from the cabinet: the IT Room PCs along the IT Room walls, and everything else up through a PVC conduit in the ceiling to mark 2, then in wall casing to each desk. A separate phone line runs from the ONT to desk 5. Between them they connect 9 PCs, a printer, a mobile and 2 Wi-Fi access points.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev D · 2026-10-23</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
     <div class="hero-cta">
       <a class="btn solid" href="floor-plan.html">Start with the floor plan →</a>
@@ -45,7 +45,7 @@
       <div class="module-label">SUM-01</div>
       <h2>At a glance</h2>
       
-      <div class="tiles"><div class="tile"><div class="tv">12</div><div class="tl">Cable runs</div><div class="ts">9 devices · uplink · link · phone</div></div><div class="tile"><div class="tv">108 m</div><div class="tl">Cat6 to pull</div><div class="ts">1 × 305 m box</div></div><div class="tile"><div class="tv">3</div><div class="tl">Switches</div><div class="ts">SW0 cabinet · SW1 5-port · SW2 8-port</div></div><div class="tile"><div class="tv">16 + 20 m</div><div class="tl">Conduit + casing</div><div class="ts">ceiling to mark 2, then walls</div></div><div class="tile"><div class="tv">9U</div><div class="tl">Wall cabinet</div><div class="ts">IT Room · 4U free</div></div><div class="tile"><div class="tv">23 m</div><div class="tl">Longest run</div><div class="ts">C-12 · limit 90 m</div></div></div>
+      <div class="tiles"><div class="tile"><div class="tv">14</div><div class="tl">Cable runs</div><div class="ts">13 devices + phone line, all from the cabinet</div></div><div class="tile"><div class="tv">235 m</div><div class="tl">Cat6 to pull</div><div class="ts">1 × 305 m box</div></div><div class="tile"><div class="tv">3</div><div class="tl">Switches</div><div class="ts">SW0 cabinet · SW1 5-port · SW2 8-port</div></div><div class="tile"><div class="tv">16 + 20 m</div><div class="tl">Conduit + casing</div><div class="ts">ceiling to mark 2, then walls</div></div><div class="tile"><div class="tv">9U</div><div class="tl">Wall cabinet</div><div class="ts">IT Room · 4U free</div></div><div class="tile"><div class="tv">25 m</div><div class="tl">Longest run</div><div class="ts">C-09 · limit 90 m</div></div></div>
     </section>
     <section class="sec" id="docs-plan">
       <div class="module-label">PLAN</div>
@@ -72,9 +72,9 @@
       <div class="cols2"><div class="card"><h3>In scope</h3><ul class="ticks">
         <li>19″ 9U wall cabinet in the IT Room for the ONT, router and an 8-port switch (SW0), with a small patch panel and 4U kept free</li>
         <li>PVC conduit in the ceiling from the cabinet to mark 2 (≈ 16 m), then wall casing to every desk and up to AP1 (≈ 20 m)</li>
-        <li>12 Cat6 runs (108 m), terminated in RJ45 surface boxes and on the cabinet patch panel</li>
-        <li>Fixing SW1 (5-port) and SW2 (8-port) at desks 3 and 5, with PoE injectors for AP1 and AP2</li>
-        <li>A separate phone line (C-12) from the ONT phone port to the mobile at desk 5</li>
+        <li>14 Cat6 runs (235 m), terminated in RJ45 surface boxes and on the cabinet patch panel</li>
+        <li>All switches in the cabinet: new SW0 (8-port) with the existing SW1 (5-port) and SW2 (8-port), plus PoE injectors for AP1 and AP2</li>
+        <li>A separate phone line (C-14) from the ONT phone port to the mobile at desk 5</li>
         <li>Labelling of every cable at both ends, panel port and surface box</li>
         <li>Testing of every link, a written test record, and configuring the router and access points</li>
       </ul></div><div class="card"><h3>Not in scope (unless agreed)</h3><ul class="crosses">
@@ -89,14 +89,14 @@
       <div class="module-label">ZONES</div>
       <h2>Areas served</h2>
       
-      <div class="tw"><table><thead><tr><th>Zone</th><th>Devices</th><th>Connected to</th><th class="n">Outlets</th><th class="n">Length</th></tr></thead><tbody><tr><td><b>Design</b></td><td><span class="sw" style="background:var(--c-pc)"></span>PC3 &nbsp; <span class="sw" style="background:var(--c-ap)"></span>AP1 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC2 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC5 &nbsp; <span class="sw" style="background:var(--c-prn)"></span>PRN &nbsp; <span class="sw" style="background:var(--c-ph)"></span>MOB &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC4 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC6</td><td class="m">SW1, SW2</td><td class="n">4</td><td class="n">22 m</td></tr><tr><td><b>Showroom</b></td><td><span class="sw" style="background:var(--c-ap)"></span>AP2</td><td class="m">SW2</td><td class="n">1</td><td class="n">17 m</td></tr><tr><td><b>IT Room</b></td><td><span class="sw" style="background:var(--c-pc)"></span>IT1 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT2 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT3 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT4</td><td class="m">SW0</td><td class="n">4</td><td class="n">19 m</td></tr></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>Zone</th><th>Devices</th><th>Connected to</th><th class="n">Outlets</th><th class="n">Length</th></tr></thead><tbody><tr><td><b>Design</b></td><td><span class="sw" style="background:var(--c-pc)"></span>PC2 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC3 &nbsp; <span class="sw" style="background:var(--c-ap)"></span>AP1 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC4 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC5 &nbsp; <span class="sw" style="background:var(--c-prn)"></span>PRN &nbsp; <span class="sw" style="background:var(--c-ph)"></span>MOB &nbsp; <span class="sw" style="background:var(--c-pc)"></span>PC6</td><td class="m">SW1, SW2</td><td class="n">8</td><td class="n">174 m</td></tr><tr><td><b>Showroom</b></td><td><span class="sw" style="background:var(--c-ap)"></span>AP2</td><td class="m">SW2</td><td class="n">1</td><td class="n">19 m</td></tr><tr><td><b>IT Room</b></td><td><span class="sw" style="background:var(--c-pc)"></span>IT1 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT2 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT3 &nbsp; <span class="sw" style="background:var(--c-pc)"></span>IT4</td><td class="m">SW0</td><td class="n">4</td><td class="n">19 m</td></tr></tbody></table></div>
     </section>
     <section class="sec" id="status">
       <div class="module-label">STATUS</div>
       <h2>Where the project stands</h2>
       
       <ol class="steps">
-        <li><b>Documentation Rev C:</b> drafted 2026-10-22, for review.</li>
+        <li><b>Documentation Rev D:</b> drafted 2026-10-23, for review.</li>
         <li><b>Next:</b> site visit to confirm outlet positions, then decisions on APs, switch and UPS (<a href="open-items.html">open items</a>).</li>
         <li><b>Then:</b> supplier quotations against the <a href="materials.html">BOQ</a> and booking the installation.</li>
       </ol>
@@ -105,14 +105,14 @@
       <div class="module-label">REV</div>
       <h2>Revision history</h2>
       
-      <div class="tw"><table><thead><tr><th>Rev</th><th>Date</th><th>Change</th><th>By</th></tr></thead><tbody><tr><td class="m">Rev A</td><td class="m">2026-10-16</td><td>First issue. Built from the hand sketch, the Office 14 floor plan and the interactive cabling plan (ceiling tray, one 16-port PoE switch in the cabinet).</td><td>Jayashanka · OPPEIN IT</td></tr><tr><td class="m">Rev B</td><td class="m">2026-10-22</td><td>Re-designed around a 5-port and an 8-port switch in the Design area, PoE injectors for the APs and wall casing instead of a tray. AP3 dropped.</td><td>Jayashanka · OPPEIN IT</td></tr><tr><td class="m">Rev C</td><td class="m">2026-10-22</td><td>Positions from the marked plan: 4 wired PCs in the IT Room on a new cabinet switch (SW0); SW1 at desk 3, SW2 at desk 5; AP1 in the Designers strip, AP2 in the Showroom; no Showroom desks; separate phone line from the ONT to the mobile; cabinet keeps ≥ 4U spare.</td><td>Jayashanka · OPPEIN IT</td></tr></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>Rev</th><th>Date</th><th>Change</th><th>By</th></tr></thead><tbody><tr><td class="m">Rev A</td><td class="m">2026-10-16</td><td>First issue. Built from the hand sketch, the Office 14 floor plan and the interactive cabling plan (ceiling tray, one 16-port PoE switch in the cabinet).</td><td>Jayashanka · OPPEIN IT</td></tr><tr><td class="m">Rev B</td><td class="m">2026-10-22</td><td>Re-designed around a 5-port and an 8-port switch in the Design area, PoE injectors for the APs and wall casing instead of a tray. AP3 dropped.</td><td>Jayashanka · OPPEIN IT</td></tr><tr><td class="m">Rev C</td><td class="m">2026-10-22</td><td>Positions from the marked plan: 4 wired PCs in the IT Room on a new cabinet switch (SW0); SW1 at desk 3, SW2 at desk 5; AP1 in the Designers strip, AP2 in the Showroom; no Showroom desks; separate phone line from the ONT to the mobile; cabinet keeps ≥ 4U spare.</td><td>Jayashanka · OPPEIN IT</td></tr><tr><td class="m">Rev D</td><td class="m">2026-10-23</td><td>Final wiring plan: all switches moved into the cabinet. Every device gets its own cable from the cabinet through the ceiling conduit to mark 2 and on in wall casing; PoE injectors in the cabinet; 24-port patch panel.</td><td>Jayashanka · OPPEIN IT</td></tr></tbody></table></div>
     </section>
 
     <footer class="pn">
       <span></span>
       <a class="next" href="floor-plan.html"><small>DOC 01 →</small>Floor plan & routes</a>
     </footer>
-    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev C</p>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev D</p>
   </main>
 </div>
 

@@ -177,7 +177,7 @@ function floorPlanSVG({ lab = false, drawing = false } = {}) {
 }
 
 /* ---------------- topology svg ---------------- */
-// Router → SW1 → SW2 chain on the left; each unit's devices listed to the right of it.
+// Router → SW0 → SW1 / SW2 (all in the cabinet) on the left; each unit's devices listed to the right of it.
 function topologySVG() {
   const rowH = 54, gap = 34, X = 900, BW = 470;
   const groups = D.BY_UNIT.map(g => ({ ...g, devices: g.devices }));
@@ -189,7 +189,7 @@ function topologySVG() {
     + el('rect', { x, y: yy, width: 7, height: h, rx: 3, fill: color }, null)
     + el('text', { x: x + 18, y: yy + h / 2 - (sub ? 3 : -6), class: 'svgtxt', 'font-size': 18, 'font-weight': 700 }, esc(title))
     + (sub ? el('text', { x: x + 18, y: yy + h / 2 + 17, class: 'svgmono', 'font-size': 12 }, esc(sub)) : '');
-  let s = `<svg class="diagram" viewBox="0 0 1500 ${H}" role="img" aria-label="Logical topology: Internet, ONT and router in the cabinet, uplink to switch 1, link to switch 2, and the devices on each">`;
+  let s = `<svg class="diagram" viewBox="0 0 1500 ${H}" role="img" aria-label="Logical topology: Internet, ONT and router, then switches SW0, SW1 and SW2 in the cabinet, and the devices on each">`;
   const UX = 330, UW = 300;
   const uy = id => pos[id].top + 30;
   s += box(20, uy('RTR') - 100, 220, 60, 'Internet', 'ISP fibre → ONT', 'var(--c-wan)');
@@ -204,11 +204,13 @@ function topologySVG() {
         + box(X, yy, BW, rowH - 10, 'TEL — Phone line to desk 5', `ONT-TEL1 · RJ11 phone · separate from the LAN`, D.TYPE_COLOR.tel) + '</g>'; }
     const ox = (isR ? 240 : UX + UW);
     // chain link to the next switch
-    const nxt = D.SWITCHES.find(w => w.from === u.id);
-    if (nxt) {
-      const r = D.feedOf(nxt.id), ty = uy(nxt.id) + 38, sx = isR ? 130 : UX + UW / 2;
-      s += `<g class="lnk" data-id="${nxt.id}">` + el('path', { d: `M${sx} ${top + h} V ${ty} H ${UX}`, stroke: D.TYPE_COLOR[r.type], 'stroke-width': 5, fill: 'none' }, null)
-        + el('text', { x: sx + 10, y: (top + h + ty) / 2, class: 'svgmono', 'font-size': 12 }, r.run ? `${r.cable} · ${r.est} m · ${D.portLabel(r.from, r.fromPort)} → ${nxt.id}-P${nxt.inPort}` : `patch cord · ${D.portLabel(r.from, r.fromPort)} → ${nxt.id}-P${nxt.inPort} (in the cabinet)`) + '</g>';
+    for (const nxt of D.SWITCHES.filter(w => w.from === u.id)) {
+      // router: straight down from its box; a switch: out of its left side and down the left margin, so the
+      // line to SW2 does not cross the SW1 box
+      const r = D.feedOf(nxt.id), ty = uy(nxt.id) + 38, sx = isR ? 130 : UX - 34;
+      const d = isR ? `M${sx} ${top + h} V ${ty} H ${UX}` : `M${UX} ${top + h / 2} H ${sx} V ${ty} H ${UX}`;
+      s += `<g class="lnk" data-id="${nxt.id}">` + el('path', { d, stroke: D.TYPE_COLOR[r.type], 'stroke-width': 5, fill: 'none' }, null)
+        + el('text', isR ? { x: sx + 10, y: ty - 12, class: 'svgmono', 'font-size': 11 } : { x: sx - 8, y: ty + 4, class: 'svgmono', 'font-size': 11, 'text-anchor': 'end' }, r.run ? `${r.cable} · ${r.est} m · ${D.portLabel(r.from, r.fromPort)} → ${nxt.id}-P${nxt.inPort}` : `patch · ${D.portLabel(r.from, r.fromPort)} → ${nxt.id}-P${nxt.inPort}`) + '</g>';
     }
     g.devices.forEach((d, i) => {
       const yy = pos[u.id].top + i * rowH, ny = yy + (rowH - 10) / 2, c = D.TYPE_COLOR[d.type];
@@ -232,21 +234,23 @@ function rackSVG() {
   for (let u = N; u >= 1; u--) {
     const y = top + (N - u) * U; const [name, kind] = D.RACK_UNITS[u];
     s += el('text', { x: X - 14, y: y + U / 2 + 5, class: 'svgmono', 'font-size': 13, 'text-anchor': 'end' }, 'U' + u);
-    const fill = kind === 'sw' ? 'var(--amber)' : (kind === 'pp' || kind === 'pdu') ? '#2a2420' : (kind === 'cm' || kind === 'shelf' || kind === 'brush') ? 'var(--panel)' : 'var(--bg-alt)';
+    const fill = (kind === 'pp' || kind === 'pdu') ? '#2a2420' : (kind === 'cm' || kind === 'shelf' || kind === 'brush' || kind === 'sw') ? 'var(--panel)' : 'var(--bg-alt)';
     s += el('rect', { x: X, y: y + 2, width: W, height: U - 4, rx: 3, fill, stroke: 'var(--border)' }, null);
-    if (kind === 'sw') { const used = D.usedPorts('SW0'); for (let i = 0; i < 8; i++) s += el('rect', { x: X + 40 + i * 30, y: y + 14, width: 20, height: 13, rx: 1.5, fill: used.has(i + 1) ? 'var(--bg)' : 'rgba(0,0,0,.25)' }, null); }
-    if (kind === 'pp') for (let i = 0; i < 12; i++) { const used = i < D.PANEL.length; s += el('rect', { x: X + 30 + i * 36, y: y + 14, width: 20, height: 13, rx: 1.5, fill: used ? 'var(--c-prn)' : 'var(--ink-faint)' }, null); }
+    // switch shelf: the three desktop switches side by side, used ports dark
+    if (kind === 'sw') { let x0 = X + 16; for (const w of D.SWITCHES) { const used = D.usedPorts(w.id), bw = w.ports * 14 + 40; s += el('rect', { x: x0, y: y + 7, width: bw, height: U - 14, rx: 3, fill: 'var(--amber)' }, null) + el('text', { x: x0 + 6, y: y + U / 2 + 4, 'font-size': 10, class: 'svgmono', style: 'fill:var(--bg)' }, w.id); for (let i = 0; i < w.ports; i++) s += el('rect', { x: x0 + 32 + i * 14, y: y + 16, width: 10, height: 12, rx: 1.5, fill: used.has(i + 1) ? 'var(--bg)' : 'rgba(0,0,0,.25)' }, null); x0 += bw + 10; } }
+    if (kind === 'pp') for (let i = 0; i < 24; i++) { const used = i < D.PANEL.length; s += el('rect', { x: X + 22 + i * 18.5, y: y + 14, width: 14, height: 13, rx: 1.5, fill: used ? 'var(--c-prn)' : 'var(--ink-faint)' }, null); }
     if (kind === 'shelf') {
       s += el('rect', { x: X + 20, y: y + 8, width: 110, height: 30, rx: 3, fill: 'var(--c-wan)' }, null) + el('rect', { x: X + 150, y: y + 8, width: 150, height: 30, rx: 3, fill: 'var(--ink-dim)' }, null);
       s += el('text', { x: X + 75, y: y + 28, 'font-size': 12, 'text-anchor': 'middle', class: 'svgmono', style: 'fill:var(--bg)' }, 'ONT') + el('text', { x: X + 225, y: y + 28, 'font-size': 12, 'text-anchor': 'middle', class: 'svgmono', style: 'fill:var(--bg)' }, 'ROUTER');
+      for (let i = 0; i < D.POE; i++) s += el('rect', { x: X + 320 + i * 70, y: y + 12, width: 60, height: 22, rx: 3, fill: 'var(--c-ap)' }, null) + el('text', { x: X + 350 + i * 70, y: y + 27, 'font-size': 10, 'text-anchor': 'middle', class: 'svgmono', style: 'fill:var(--bg)' }, 'PoE INJ');
     }
     if (kind === 'cm') for (let i = 0; i < 10; i++) s += el('rect', { x: X + 24 + i * 46, y: y + 10, width: 28, height: 22, rx: 4, fill: 'none', stroke: 'var(--ink-faint)', 'stroke-width': 2 }, null);
     if (kind === 'brush') s += el('rect', { x: X + 30, y: y + 17, width: W - 60, height: 8, rx: 4, fill: 'var(--ink-faint)' }, null);
-    if (kind === 'pdu') for (let i = 0; i < 6; i++) s += el('rect', { x: X + 30 + i * 52, y: y + 12, width: 22, height: 18, rx: 3, fill: 'var(--ink-dim)' }, null);
+    if (kind === 'pdu') for (let i = 0; i < 8; i++) s += el('rect', { x: X + 30 + i * 52, y: y + 12, width: 22, height: 18, rx: 3, fill: 'var(--ink-dim)' }, null);
     s += el('text', { x: X + W + 64, y: y + U / 2 + 5, class: kind === 'spare' || kind === 'blank' || kind === 'shelfb' ? 'svgmono' : 'svgtxt', 'font-size': 15 }, esc(name));
   }
   s += el('text', { x: X - 40, y: top + N * U + 84, class: 'svgmono', 'font-size': 13 }, `Patch panel: ${D.PANEL.map(p => `PP-${p.pp} ${p.run.cable} (${p.run.toId})`).join(' · ')}`);
-  s += el('text', { x: X - 40, y: top + N * U + 104, class: 'svgmono', 'font-size': 13 }, `Router L1 → SW0 P1 · SW0 P2 uplink C-01 · P3–P6 IT PCs · ${D.SPARE.SW0.length} ports spare · ${D.SPARE_U}U free (${D.SPARE_RANGE})`);
+  s += el('text', { x: X - 40, y: top + N * U + 104, class: 'svgmono', 'font-size': 13 }, `Router L1 → SW0 P1 · SW0 P2 → SW1 · SW0 P3 → SW2 · switch ports spare: ${['SW0', 'SW1', 'SW2'].reduce((t, k) => t + D.SPARE[k].length, 0)} · ${D.SPARE_U}U free (${D.SPARE_RANGE})`);
   return s + '</svg>';
 }
 
@@ -255,13 +259,13 @@ const zones = [...new Set(D.DEVICES.map(d => d.zone))];
 const out = {};
 
 /* Overview content — DOC 00 (index.html), assembled after GROUPS below */
-const OVERVIEW_LEAD = `The local network and Cat6 cabling for Office 14 at Pyramid Centre. The ONT, router and a rack switch (SW0) sit in a cabinet in the IT Room and serve the 4 wired IT Room PCs. One uplink cable runs in wall casing to a 5-port switch (SW1) at desk 3, which feeds an 8-port switch (SW2) at desk 5. A separate phone line runs from the ONT to the mobile at desk 5. Between them they connect ${D.DEVICES.filter(d => d.type === 'pc' || d.type === 'srv').length} PCs, a printer, a mobile point and ${D.DEVICES.filter(d => d.type === 'ap').length} Wi-Fi access points. Everything needed to approve, buy and install it is in these documents.`;
+const OVERVIEW_LEAD = `The local network and Cat6 cabling for Office 14 at Pyramid Centre. Everything active sits in one cabinet in the IT Room: the ONT, the router and three switches (new SW0 8-port, existing SW1 5-port and SW2 8-port). Every device has its own cable from the cabinet: the IT Room PCs along the IT Room walls, and everything else up through a PVC conduit in the ceiling to mark 2, then in wall casing to each desk. A separate phone line runs from the ONT to desk 5. Between them they connect ${D.DEVICES.filter(d => d.type === 'pc').length} PCs, a printer, a mobile and ${D.DEVICES.filter(d => d.type === 'ap').length} Wi-Fi access points.`;
 const OVERVIEW_SCOPE = section('scope', 'SCOPE', 'Scope of work',
       `<div class="cols2"><div class="card"><h3>In scope</h3><ul class="ticks">
         <li>19″ ${D.RACK_U}U wall cabinet in the IT Room for the ONT, router and an 8-port switch (SW0), with a small patch panel and ${D.SPARE_U}U kept free</li>
         <li>PVC conduit in the ceiling from the cabinet to mark 2 (≈ ${Math.round(D.CONDUIT_M)} m), then wall casing to every desk and up to AP1 (≈ ${Math.round(D.CASING_M)} m)</li>
         <li>${D.RUNS.length} Cat6 runs (${D.TOTAL_M} m), terminated in RJ45 surface boxes and on the cabinet patch panel</li>
-        <li>Fixing SW1 (5-port) and SW2 (8-port) at desks 3 and 5, with PoE injectors for AP1 and AP2</li>
+        <li>All switches in the cabinet: new SW0 (8-port) with the existing SW1 (5-port) and SW2 (8-port), plus PoE injectors for AP1 and AP2</li>
         <li>A separate phone line (${D.PHONE.cable}) from the ONT phone port to the mobile at desk 5</li>
         <li>Labelling of every cable at both ends, panel port and surface box</li>
         <li>Testing of every link, a written test record, and configuring the router and access points</li>
@@ -322,7 +326,7 @@ out['floor-plan.html'] = page('floor-plan.html', {
       <div class="chips side-chips" id="devchips" aria-label="Devices">${D.RUNS.map(r => `<button class="chip" data-id="${r.toId}">${swatch(r.type)}${r.toId}<small>${r.cable} · ${r.est} m</small></button>`).join('')}${D.LOCAL.map(d => `<button class="chip" data-id="${d.id}">${swatch(d.type)}${d.id}<small>patch · ${d.label}</small></button>`).join('')}</div>
       </div>
       <div class="legend legend-below">
-        <span>${swatch('up')}Uplink cabinet → SW1</span><span><i class="tel"></i>Phone line</span><span>${swatch('sw')}Switch / SW1 → SW2</span><span>${swatch('ap')}Access point</span><span>${swatch('pc')}Workstation PC</span><span>${swatch('srv')}Server</span>
+        <span><i class="tel"></i>Phone line</span><span>${swatch('ap')}Access point</span><span>${swatch('pc')}Workstation PC</span><span>${swatch('srv')}Server</span>
         <span>${swatch('prn')}Printer</span><span>${swatch('ph')}Mobile point</span><span><i class="tray"></i>Wall casing</span><span><i class="conduit"></i>Ceiling PVC conduit</span>
       </div>
       <p class="note">Scroll or pinch to zoom, drag to pan. Hover or tap a device on the plan, or a device in the list, to pick out its cable. The Wi-Fi circles show a 7 m radius and are only a guide, not a survey. The <a href="interactive-plan.html">interactive planner</a> is the original Rev A design (ceiling tray, one switch) and is kept for reference only.</p>`)
@@ -341,18 +345,16 @@ out['floor-plan.html'] = page('floor-plan.html', {
       table(['Outlet type', 'Mounting', 'Used for'], [
         `<tr><td><b>Desk outlet</b></td><td>1× RJ45 surface box at the end of the casing, 300 mm above floor, next to a power socket</td><td>${D.DEVICES.filter(d => !d.local && !d.ceil).map(d => d.id).join(', ')}</td></tr>`,
         `<tr><td><b>AP outlet</b></td><td>Surface box at ceiling level next to the AP, at the top of the vertical casing; 300 mm service loop</td><td>${D.DEVICES.filter(d => d.ceil).map(d => d.id).join(', ')}</td></tr>`,
-        `<tr><td><b>Switch desk</b></td><td>2× RJ45 surface boxes beside SW1 / SW2 on the casing; 0.5 m patch cords into the switch; PoE injectors and switch adapters on the desk socket</td><td>SW1 (desk 3), SW2 (desk 5)</td></tr>`,
         `<tr><td><b>Phone socket</b></td><td>1× RJ45 surface box at desk 5 on its own cable (${D.PHONE.cable}) from the ONT phone port; the phone's RJ11 plug fits the RJ45 jack</td><td>Mobile / phone</td></tr>`,
-        `<tr><td><b>Patch cord only</b></td><td>Plugs straight into its switch or the router, no cable run</td><td>${D.LOCAL.map(d => `${d.id} (${d.label})`).join(', ')}</td></tr>`,
       ]) + callout('warn', '<b>Check on site:</b> every outlet position on this plan is taken from a sketch. Mark each one on the wall or ceiling with the furniture layout in hand before any casing is fixed (open item A-01). The IT Room PC positions are not marked yet (A-03).')),
 });
 
 out['topology.html'] = page('topology.html', {
   wide: true,
-  lead: 'How the network fits together: the ISP line comes into the ONT and router in the cabinet. The router feeds the cabinet switch SW0 (IT Room PCs), one uplink cable feeds SW1 at desk 3, and SW1 feeds SW2 at desk 5. The ONT phone port has its own line to desk 5.',
+  lead: 'How the network fits together: the ISP line comes into the ONT and router in the cabinet. The router feeds SW0, and SW0 feeds SW1 and SW2 — all three switches sit on one shelf in the cabinet, joined by patch cords. Every device cable starts on the cabinet patch panel and is patched to its switch port. The ONT phone port has its own line to desk 5.',
   body:
     section('logical', 'NET-01', 'Logical topology', `<div class="figure">${topologySVG()}</div>
-      <p class="note">ISP fibre → ONT → router → SW0 (cabinet) → (C-01) → SW1 → (C-02) → SW2. Dotted lines are patch cords with no cable run; the dashed pink line is the phone line. The APs get power from a PoE injector beside their switch.</p>`)
+      <p class="note">ISP fibre → ONT → router → SW0 → SW1 and SW2, all patched inside the cabinet. Every device has its own cable from the cabinet; the dashed pink line is the phone line. The APs get power from a PoE injector beside their switch.</p>`)
     + section('ports', 'NET-02', 'Port map', D.UNITS.map(u => `<h3 class="h3">${u.id === 'RTR' ? 'Router LAN (cabinet) · ONT phone port TEL1 → ' + D.PHONE.cable + ' to desk 5' : `${u.name} · ${u.at}`}</h3>`
       + table(['Port', 'Connects to', 'Cable', 'Zone', 'PoE', 'Proposed IP'], D.portMap(u.id).map(x => `<tr${x.dev ? ` data-id="${x.dev.id}"` : ''}${x.what === 'Spare' ? ' class="spare"' : ''}><td class="m">${D.portLabel(u.id, x.p)}</td><td>${x.type ? swatch(x.type) : ''}${x.what}</td><td class="m">${x.cable}</td><td>${x.dev ? x.dev.zone : '—'}</td><td class="n">${x.dev?.poe ? 'Injector' : '—'}</td><td class="m">${x.dev ? ({ AP1: '.11', AP2: '.12', PRN: '.20', IT1: '.31', IT2: '.32', IT3: '.33', IT4: '.34' }[x.dev.id] || 'DHCP') : '—'}</td></tr>`))).join(''),
       `Spare ports: ${Object.entries(D.SPARE).map(([k, v]) => `${k} ${v.length ? v.map(p => D.portLabel(k, p)).join(', ') : 'none'}`).join(' · ')}.`)
@@ -365,12 +367,12 @@ out['topology.html'] = page('topology.html', {
 });
 
 out['rack.html'] = page('rack.html', {
-  lead: `Front view of the 19″ ${D.RACK_U}U wall cabinet in the IT Room: only what it holds plus ${D.SPARE_U}U spare. ONT and router on a shelf, an 8-port switch (SW0), a 12-port patch panel for the ${D.PANEL.length} cables that start here, and a PDU. ${D.SPARE_U}U (${D.SPARE_RANGE}) stay free for later.`,
+  lead: `Front view of the 19″ ${D.RACK_U}U wall cabinet in the IT Room. It holds everything active: a 24-port patch panel where all ${D.PANEL.length} cables end, the three switches side by side on one shelf, the ONT, router and PoE injectors on a 2U shelf, and an 8-way PDU. ${D.SPARE_U}U (${D.SPARE_RANGE}) stay free for later.`,
   body:
     section('elev', 'RACK-01', 'Front elevation', `<div class="figure narrow">${rackSVG()}</div>`)
     + section('units', 'RACK-02', 'Unit schedule', table(['U', 'Item', 'Note'], Object.keys(D.RACK_UNITS).sort((a, b) => b - a).map(u => {
       const [n, k] = D.RACK_UNITS[u];
-      const note = { brush: 'Cables enter from the casing above the cabinet', pp: `${D.PANEL.length} ports used: ${D.PANEL.map(p => `PP-${p.pp} ${p.run.cable}`).join(', ')}`, sw: `P1 from router L1 · P2 uplink C-01 · P3–P6 IT PCs · ${D.SPARE.SW0.length} spare`, cm: 'Route 0.5 m cords', shelf: `ONT (ISP) and router side by side · router L1 → SW0 · ONT TEL1 → PP (${D.PHONE.cable} phone line)`, spare: 'Kept free (at least 4U asked for)', pdu: 'Fed from a dedicated socket' }[k] || '';
+      const note = { brush: 'Cables enter from the casing above the cabinet', pp: `${D.PANEL.length} ports used: ${D.PANEL.map(p => `PP-${p.pp} ${p.run.cable}`).join(', ')}`, sw: `SW0 ← router L1 · SW0 P2 → SW1 · SW0 P3 → SW2 · spare: ${['SW0', 'SW1', 'SW2'].map(k => D.SPARE[k].map(p => D.portLabel(k, p)).join(', ')).filter(Boolean).join(', ')}`, cm: 'Route 0.5 m cords', shelf: `ONT (ISP) and router side by side · router L1 → SW0 · ONT TEL1 → PP (${D.PHONE.cable} phone line)`, spare: 'Kept free (at least 4U asked for)', pdu: 'Fed from a dedicated socket' }[k] || '';
       return `<tr${k === 'spare' || k === 'blank' || k === 'shelfb' ? ' class="spare"' : ''}><td class="m">U${u}</td><td>${n}</td><td>${note}</td></tr>`;
     })))
     + section('env', 'RACK-03', 'Power, cooling and access', `<ul class="ticks">
@@ -378,23 +380,23 @@ out['rack.html'] = page('rack.html', {
       <li><b>Cooling:</b> fan on top of the cabinet; keep the side vents clear and close the spare slots with blank panels.</li>
       <li><b>Mounting:</b> fix to a solid wall; the casing comes down beside the cabinet and the cables enter through the brush panel.</li>
       <li><b>Access:</b> lockable glass door; key kept by IT. Leave about 600 mm clear in front for working.</li>
-      <li><b>Patch cords:</b> one colour per use makes faults easier to trace: red for the uplink to SW1, blue for PCs, pink RJ11–RJ45 cord for the phone line. Use the same colours at the switch desks (yellow for AP / injector cords).</li>
+      <li><b>Patch cords:</b> one colour per use makes faults easier to trace: red for switch-to-switch cords, blue for PCs, yellow for AP / injector cords, pink RJ11–RJ45 cord for the phone line.</li>
     </ul>`),
 });
 
 out['cable-schedule.html'] = page('cable-schedule.html', {
   wide: true,
-  lead: 'One cable run per link: the uplink, the switch-to-switch link, and one run per device. Each cable is labelled with the same ID at both ends. Devices beside a switch or the router use a patch cord instead.',
+  lead: 'One cable per device, every one starting on the cabinet patch panel. Each cable is labelled with the same ID at both ends; the patch-panel port is patched to the switch port shown.',
   body:
     section('sched', 'CAB-01', 'Schedule',
-      table(['Cable', 'From', 'To', 'Type', 'Zone', 'End', 'Via', 'Casing m', 'Drops m', 'Pull m', 'PoE'], D.RUNS.map(r =>
+      table(['Cable', 'From', 'To', 'Type', 'Zone', 'End', 'Via', 'Route m', 'Drops m', 'Pull m', 'PoE'], D.RUNS.map(r =>
         `<tr data-id="${r.toId}"><td class="m">${swatch(r.type)}<b>${r.cable}</b></td><td class="m">${D.portLabel(r.fromId, r.fromPort)}</td><td>${r.kind === 'device' ? r.name : `${r.toId} (${r.to.name})`}</td><td>${D.TYPE_NAME[r.type]}</td><td>${r.zone}</td><td>${r.kind === 'device' ? r.to.outletShort : r.kind === 'phone' ? 'Phone socket' : 'Switch desk'}</td><td class="m">${r.junction}</td><td class="n">${f1(r.casingM)}</td><td class="n">${f1(r.drops)}</td><td class="n"><b>${r.est}</b></td><td class="n">${r.poe ? 'Injector' : '—'}</td></tr>`)
         .concat(D.LOCAL.map(d => `<tr data-id="${d.id}" class="spare"><td class="m">${swatch(d.type)}patch</td><td class="m">${d.label}</td><td>${d.name}</td><td>${D.TYPE_NAME[d.type]}</td><td>${d.zone}</td><td>Patch cord</td><td class="m">—</td><td class="n">—</td><td class="n">—</td><td class="n">2 m cord</td><td class="n">—</td></tr>`)),
         { foot: `<tfoot><tr><td colspan="9">Total Cat6</td><td class="n">${D.TOTAL_M} m</td><td></td></tr></tfoot>` }))
     + section('method', 'CAB-02', 'How lengths are worked out', `<p class="formula">Pull length = ( conduit + casing route + start drop + mark-2 drop + end drop ) × ${1 + D.SLACK}, rounded up to the next metre</p>
       ${table(['Part', 'Allowance'], [
         '<tr><td>Route</td><td>Measured on the plan: cabinet → ceiling conduit → mark 2, then along the wall casing to the junction nearest the device and along the branch. IT Room runs follow the IT Room walls.</td></tr>',
-        `<tr><td>Start drop</td><td>${D.DROP.rack} m from the cabinet up to the conduit (or down to the IT Room casing), incl. dressing loop · ${D.DROP.switch} m at a switch desk</td></tr>`,
+        `<tr><td>Start drop</td><td>${D.DROP.rack} m from the cabinet up to the conduit (or down to the IT Room casing), incl. dressing loop</td></tr>`,
         `<tr><td>Mark-2 drop</td><td>${D.CEIL_DROP} m from the ceiling down behind the wall to skirting (cabinet runs), or back up for AP2</td></tr>`,
         `<tr><td>End drop</td><td>${D.DROP.wall} m at a desk surface box · ${D.DROP.ap} m up the wall to AP1 · ${D.DROP.apCeil} m at AP2 in the ceiling · ${D.DROP.switch} m when the far end is a switch</td></tr>`,
         `<tr><td>Slack</td><td>${D.SLACK * 100} % for following the walls around obstacles and termination</td></tr>`,
@@ -403,9 +405,8 @@ out['cable-schedule.html'] = page('cable-schedule.html', {
     + section('labels', 'CAB-03', 'Label format', table(['Where', 'Label', 'Example'], [
       '<tr><td>Cable, both ends (within 300 mm of termination)</td><td>Cable ID</td><td class="m">C-06</td></tr>',
       '<tr><td>Surface box at the device</td><td>Cable ID / switch port</td><td class="m">C-06 / SW2-P4</td></tr>',
-      '<tr><td>Surface box at the switch desk</td><td>Cable ID / device</td><td class="m">C-06 · PC1</td></tr>',
-      '<tr><td>Cabinet patch-panel port</td><td>Cable ID / device</td><td class="m">PP-1 · C-01 SW1</td></tr>',
-      '<tr><td>Switch (sticker on top)</td><td>Switch ID / what feeds it</td><td class="m">SW2 ← C-02 from SW1-P2</td></tr>',
+      '<tr><td>Cabinet patch-panel port</td><td>Cable ID / device</td><td class="m">PP-1 · C-01 PC2</td></tr>',
+      '<tr><td>Switch (sticker on top)</td><td>Switch ID / what feeds it</td><td class="m">SW2 ← SW0-P3</td></tr>',
     ])),
 });
 
@@ -539,8 +540,8 @@ out['equipment.html'] = page('equipment.html', {
   lead: `What each component does in the Office 14 network, the specification to insist on, and products currently listed on Amazon.ae and noon UAE. Prices are what the listings showed on ${Q.PRICE_DATE}. Stock and prices change, so open the listing before buying.`,
   body:
     section('howto', 'EQ-00', 'How the parts work together', `<div class="flow">
-      ${[['Internet', 'ISP fibre → ONT → router (cabinet)'], ['Uplink', 'C-01 in casing to SW1'], ['Switches', 'SW1 5-port → SW2 8-port'], ['Cat6 in casing', `${D.RUNS.length} runs, ${D.TOTAL_M} m`], ['Surface box', 'Keystone at each end'], ['Device', 'PC, printer, phone; APs via PoE injector']].map(([t, d], i) => `<div class="fstep"><span class="fnum">${i + 1}</span><b>${t}</b><small>${d}</small></div>`).join('<span class="farrow">→</span>')}
-    </div>`, 'Each device has its own cable back to its switch or the router. SW2 depends on SW1, and SW1 depends on the uplink, so those two cables matter most.')
+      ${[['Internet', 'ISP fibre → ONT → router'], ['Switches', 'SW0 → SW1 + SW2, in the cabinet'], ['Patch panel', 'fixed end of every cable'], ['Cat6 in casing', `${D.RUNS.length} runs, ${D.TOTAL_M} m`], ['Surface box', 'Keystone at each end'], ['Device', 'PC, printer, phone; APs via PoE injector']].map(([t, d], i) => `<div class="fstep"><span class="fnum">${i + 1}</span><b>${t}</b><small>${d}</small></div>`).join('<span class="farrow">→</span>')}
+    </div>`, 'Every device has its own cable back to the cabinet, so a fault on one cable never affects another. Everything depends on the router and SW0.')
     + Q.GUIDE.map((g, gi) => `    <section class="sec eq" id="${g.id}">
       <div class="module-label">EQ-${String(gi + 1).padStart(2, '0')}</div>
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON[g.icon]}</svg><div><h2>${g.title}</h2>${qtyOf(g.id) ? `<span class="eq-qty">BOQ quantity: ${qtyOf(g.id)}</span>` : ''}</div></div>
@@ -641,23 +642,23 @@ out['installation.html'] = page('installation.html', {
       ['Casing', 'Screw-fix every 500 mm, level, at skirting height (desk height behind desks is fine); proper corner / tee fittings; fill no more than 60–70 %'],
       ['Casing size', D.CASING_SIZES.map(c => `${c.size}: ${Math.round(c.m)} m`).join(' · ') + ' (see DOC 01)'],
       ['Lids', 'Fitted after the cables are tested; cut lids to meet the fittings with no gaps'],
-      ['Service loops', 'About 1 m inside the cabinet, 300 mm at each surface box, 0.5 m at each switch desk'],
+      ['Service loops', 'About 1 m inside the cabinet, 300 mm at each surface box'],
       ['Ceiling conduit', 'PVC conduit fixed above the ceiling (not resting on tiles), large bends only, draw wire left in; fill no more than 40 %'],
       ['Through walls', 'Sleeve the hole at mark 2 and at the cabinet, keep the bend radius, and re-seal after the cables are through'],
     ].map(([a, b]) => `<tr><td><b>${a}</b></td><td>${b}</td></tr>`)))
     + section('seq', 'INS-02', 'Sequence of work', `<ol class="steps">
       <li><b>Survey and mark out.</b> Walk the site with this pack. Mark the casing line on the walls, the SW1 and SW2 desks, every surface box and the two AP positions. Close items A-01 to A-06.</li>
-      <li><b>Conduit and casing.</b> Mount the cabinet. Check (or fit) the ceiling PVC conduit from the cabinet to mark 2 and from mark 2 to AP2, with a draw wire. Fix the vertical casing behind the wall at mark 2, the wall casing to J4, the branches to each desk and switch, AP1's casing up the wall, and the IT Room casing. Leave the lids off.</li>
-      <li><b>Lay cables.</b> Lay all ${D.RUNS.length} cables into the casing, starting with C-01 (uplink) and C-02 (SW1 → SW2); ${D.PHONE.cable} is the phone line, so label it TEL. Label both ends <i>before</i> cutting from the box.</li>
+      <li><b>Conduit and casing.</b> Mount the cabinet. Check (or fit) the ceiling PVC conduit from the cabinet to mark 2 and from mark 2 to AP2, with a draw wire. Fix the vertical casing behind the wall at mark 2, the wall casing to J4, the branches to each desk, AP1's casing up the wall, and the IT Room casing. Leave the lids off.</li>
+      <li><b>Pull cables.</b> Pull all ${D.RUNS.length} cables from the cabinet: the Design-area bundle through the ceiling conduit to mark 2 in one pull (use the draw wire), then lay each one into the casing to its desk; ${D.PHONE.cable} is the phone line, so label it TEL. Label both ends <i>before</i> cutting from the box.</li>
       <li><b>Terminate.</b> Punch down the ${D.PANEL.length} cabinet cables on the patch panel and every other end on a keystone in its surface box. Fit labels.</li>
       <li><b>Test, then close.</b> Test every link and fill in the test log (${docRef('testing.html')}). Fix and retest failures, then fit the casing lids.</li>
-      <li><b>Active equipment.</b> Fit the shelf, ONT, router, SW0 and PDU. Patch router L1 → SW0 P1, the uplink and IT PC cables from the panel to SW0, and the phone line from its panel port to ONT TEL1 with an RJ11–RJ45 cord. At each switch desk fit the switch, its surface boxes and the PoE injector, and patch every port as in DOC 02. Mount and connect the access points.</li>
+      <li><b>Active equipment.</b> Fit the shelves, ONT, router, SW0, SW1, SW2, the PoE injectors and the PDU. Patch router L1 → SW0 P1, SW0 P2 → SW1, SW0 P3 → SW2, then every panel port to its switch port as in DOC 02 (AP cables through their injectors) and the phone line to ONT TEL1 with an RJ11–RJ45 cord. Mount and connect the access points.</li>
       <li><b>Configure and commission.</b> Set up router, switch and Wi-Fi to the agreed plan. Check every device online.</li>
       <li><b>Handover.</b> Update this pack to "as built", hand over the test results, passwords (separately) and keys.</li>
     </ol>`)
     + section('coord', 'INS-03', 'Site coordination', `<ul class="ticks">
       <li>Casing goes on the walls, so desks and cabinets along the route need to be pulled out on install day.</li>
-      <li>The electrician provides the cabinet power socket and a power socket at each switch desk (switch adapter + PoE injector) before termination day.</li>
+      <li>The electrician provides the cabinet power socket (the 8-way PDU feeds the ONT, router, 3 switches and 2 PoE injectors) and the desk power sockets before termination day.</li>
       <li>The ISP installs the fibre and ONT into the IT Room; agree the entry point so the ONT reaches the U11 shelf.</li>
       <li>A ladder is needed at AP1 and AP2 only.</li>
     </ul>`),
@@ -670,7 +671,7 @@ out['testing.html'] = page('testing.html', {
       ['Wire map', 'All 8 conductors correct, T568B, no splits, opens or shorts', 'Cable tester'],
       ['Length', '≤ 90 m, and close to the scheduled length', 'Cable tester (TDR)'],
       ['Cat6 performance', 'Permanent link passes Cat6 limits (preferred)', 'Certification tester, e.g. Fluke DSX'],
-      ['Link speed', 'Every link, including C-01 and C-02, comes up at 1 Gbps full duplex', 'Switch / router port LEDs'],
+      ['Link speed', 'Every link comes up at 1 Gbps full duplex', 'Switch / router port LEDs'],
       ['PoE', 'AP1 and AP2 power up from their injectors', 'AP status LED / controller'],
       ['Wi-Fi', 'Usable signal (about −67 dBm or better) in the Showroom and Design areas', 'Wi-Fi analyser app'],
     ].map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="muted">${c}</td></tr>`)))
@@ -704,7 +705,7 @@ out['open-items.html'] = page('open-items.html', {
       D.RISKS.map(([r, l, m]) => `<tr><td>${r}</td><td><span class="pill ${l.toLowerCase()}">${l}</span></td><td>${m}</td></tr>`)))
     + section('next', 'NEXT', 'Next steps', `<ol class="steps">
       <li>Review this pack and correct anything that is wrong.</li>
-      <li>Site visit: close A-01 to A-06 (confirm the router has 4 LAN ports and the switch desk positions).</li>
+      <li>Site visit: close A-01 to A-06 (IT Room PC places; whether the ceiling conduit can take 10 cables).</li>
       <li>Decide D-02, D-03 and D-05, then request supplier quotations against the ${docRef('materials.html')}.</li>
       <li>Book the installation; clear the desks along the casing route for the day.</li>
     </ol>`),
@@ -758,7 +759,7 @@ out['index.html'] = page('index.html', {
       <a class="btn" href="interactive-plan.html">Interactive planner</a>
     </div>\n`
     + section('summary', 'SUM-01', 'At a glance', tiles([
-      [D.RUNS.length, 'Cable runs', `${D.DEVICE_RUNS.length} devices · uplink · link · phone`],
+      [D.RUNS.length, 'Cable runs', `${D.DEVICE_RUNS.length} devices + phone line, all from the cabinet`],
       [`${D.TOTAL_M} m`, 'Cat6 to pull', `${D.BOXES} × 305 m box`],
       [D.SWITCHES.length, 'Switches', 'SW0 cabinet · SW1 5-port · SW2 8-port'],
       [`${Math.round(D.CONDUIT_M)} + ${Math.round(D.CASING_M)} m`, 'Conduit + casing', 'ceiling to mark 2, then walls'],

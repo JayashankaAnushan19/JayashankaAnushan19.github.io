@@ -157,7 +157,7 @@
       ['AP needs', `802.3${ap.poe} · up to ${ap.watt} W`],
       ['Buy', `Gigabit 802.3${need} injector (${CLASS[need]} W class)${ap.poe === 'af' ? ' — an 802.3at injector also works' : ''}`],
       ['Quantity', `${poeAps.length} (${poeAps.map(d => `${d.id} at ${d.label.split('-')[0]}`).join(', ')})`],
-      ['Placed', 'At the switch desk, on its own power socket: switch port → injector → AP cable'],
+      ['Placed', 'In the cabinet, on the PDU: switch port → injector → patch panel → AP cable'],
     ], 'If the AP box includes a PoE adapter, use that and skip the injector.');
     $('#poe-bar').innerHTML = poeAps.map(d => { const pct = Math.min(100, ap.watt / CLASS[need] * 100); return `<div class="pleg"><span>${d.id}</span><b>${ap.watt} W of ${CLASS[need]} W (${Math.round(pct)} %)</b></div><div class="pbar"><i style="width:${pct}%;background:${pct > 90 ? '#e8c24a' : '#3fbf7f'}"></i></div>`; }).join('');
     // cable
