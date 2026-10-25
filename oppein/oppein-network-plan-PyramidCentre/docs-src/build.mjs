@@ -32,26 +32,43 @@ const swatch = t => `<span class="sw" style="background:${D.TYPE_COLOR[t]}"></sp
 const link = (file, text) => `<a href="${file}">${text}</a>`;
 const docRef = file => { const p = PAGES.find(x => x[0] === file); return link(file, `DOC ${p[1]} · ${p[2]}`); };
 
-/* ---------------- page shell ---------------- */
-function page(file, { lead, body, wide = false, bodyClass = '', scripts = [] }) {
-  const i = PAGES.findIndex(p => p[0] === file);
-  const [, code, title] = PAGES[i];
-  const prev = PAGES[i - 1], next = PAGES[i + 1];
-  const nav = PAGES.map(([f, c, t]) =>
+/* ---------------- page shell ----------------
+   One template for every section (SYS-01 Internet & Telephone, SYS-02 CCTV, SYS-03 Rack & Cabinet). Section folders sit
+   side by side under the Pyramid Centre folder, so ../index.html is the Pyramid Centre hub and ../../ the OPPEIN hub. */
+const SEC_NET = {
+  pages: PAGES, assets: 'assets/', crumb: 'Internet &amp; Telephone', side: 'SYS-01 · Internet &amp; Telephone',
+  tag: `${D.META.rev} · ${D.META.status}`, title: 'Office 14 Network', meta: `${D.META.rev} · ${D.META.date}`,
+  foot: `Office 14 Network documentation · ${D.META.rev}`,
+};
+const SA = '../oppein-pyramid-centre-network/assets/'; // shared assets for the other sections
+const SEC_CCTV = {
+  pages: [['index.html', '00', 'Overview'], ['drawing.html', 'DWG', 'Drawing'], ['materials.html', '01', 'BOQ & estimate']],
+  assets: SA, crumb: 'CCTV', side: 'SYS-02 · CCTV', tag: 'Upcoming', title: 'CCTV · Office 114', meta: 'Upcoming', foot: 'CCTV documentation · upcoming',
+};
+const SEC_CAB = {
+  pages: [['index.html', '00', 'Overview'], ['design.html', '01', 'Cabinet design'], ['materials.html', '02', 'BOQ & estimate']],
+  assets: SA, crumb: 'Rack &amp; Cabinet', side: 'SYS-03 · Rack &amp; Cabinet', tag: 'Upcoming', title: 'Rack & Cabinet · Office 114', meta: 'Upcoming', foot: 'Rack &amp; cabinet documentation · upcoming',
+};
+function page(file, { lead, body, wide = false, bodyClass = '', scripts = [] }, sec = SEC_NET) {
+  const P = sec.pages;
+  const i = P.findIndex(p => p[0] === file);
+  const [, code, title] = P[i];
+  const prev = P[i - 1], next = P[i + 1];
+  const nav = P.map(([f, c, t]) =>
     `<a href="${f}"${f === file ? ' aria-current="page"' : ''}><span class="num">${c}</span>${t}</a>`).join('');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${title} — Office 14 Network · OPPEIN</title>
+<title>${title} — ${sec.title} · OPPEIN</title>
 <meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. ${esc(title)}.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="${sec.assets}style.css">
 </head>
 <body${bodyClass ? ` class="${bodyClass}"` : ''}>
 <nav class="top">
@@ -60,13 +77,13 @@ function page(file, { lead, body, wide = false, bodyClass = '', scripts = [] }) 
       <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
       <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
     </a>
-    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="index.html">Office 14 Network</a></span>
-    <span class="nav-tag">${D.META.rev} · ${D.META.status}</span>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="../index.html">Pyramid Centre</a> / <a href="index.html">${sec.crumb}</a></span>
+    <span class="nav-tag">${sec.tag}</span>
   </div>
 </nav>
 <div class="shell${wide ? ' wide' : ''}">
   <aside class="side" aria-label="Document pages">
-    <div class="side-h">Office 14 · Pyramid Centre</div>
+    <div class="side-h">${sec.side}</div>
     <div class="side-nav">${nav}</div>
   </aside>
   <main>
@@ -74,18 +91,18 @@ function page(file, { lead, body, wide = false, bodyClass = '', scripts = [] }) 
       <div class="eyebrow"><span class="led"></span>DOC ${code} · ${esc(title).toUpperCase()}</div>
       <h1>${title}</h1>
       ${lead ? `<p class="lead">${lead}</p>` : ''}
-      <div class="meta"><span>${D.META.site}</span><span>${D.META.rev} · ${D.META.date}</span><span>${D.META.author}</span></div>
+      <div class="meta"><span>${D.META.site}</span><span>${sec.meta}</span><span>${D.META.author}</span></div>
     </header>
 ${body}
     <footer class="pn">
       ${prev ? `<a class="prev" href="${prev[0]}"><small>← DOC ${prev[1]}</small>${prev[2]}</a>` : '<span></span>'}
       ${next ? `<a class="next" href="${next[0]}"><small>DOC ${next[1]} →</small>${next[2]}</a>` : '<span></span>'}
     </footer>
-    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · ${D.META.rev}</p>
+    <p class="foot">OPPEIN — Project hub · ${sec.foot}</p>
   </main>
 </div>
 ${scripts.map(s => s.startsWith('<') ? s : `<script src="${s}"></script>`).join('\n')}
-<script src="assets/site.js"></script>
+<script src="${sec.assets}site.js"></script>
 </body>
 </html>
 `;
@@ -413,16 +430,16 @@ out['cable-schedule.html'] = page('cable-schedule.html', {
 /* ---------- DOC 05 · BOQ & estimate ---------- */
 const money = n => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const STORE = { amazon: 'Amazon.ae', noon: 'noon UAE' };
-function boqRows() {
+function boqRows(boq = Q.BOQ, guides = true) {
   let h = '';
-  for (const sec of Q.BOQ) {
+  for (const sec of boq) {
     // every line has a tick (boq.js numbers the ticked lines A.1, A.2 … and totals only those); the section tick sets all of it
     h += `<tr class="grp${sec.optional ? ' optgrp' : ''}" data-grp="${sec.code}"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section ${sec.code}"> ${sec.code}</td><td colspan="5"><span class="gt-title">${sec.title}</span>${sec.optional ? ' <span class="optnote no-print">— tick an item to include it in the total</span>' : ''}</td></tr>`;
     sec.items.forEach(([desc, unit, q, r, fn, basis, guide], i) => {
       const key = `${sec.code}.${i + 1}`;
       h += `<tr class="it${sec.optional ? ' opt' : ''}" data-key="${key}" data-sec="${sec.code}" data-defon="${sec.optional ? 0 : 1}">
         <td class="m"><input type="checkbox" class="inc no-print"${sec.optional ? '' : ' checked'} aria-label="Include ${key}"> <span class="no">${key}</span></td>
-        <td><span class="d">${esc(desc)}</span><div class="fn">${esc(fn)}</div><div class="rmk no-print">${basis ? 'Rate basis: ' + esc(basis) + ' · ' : ''}<a href="equipment.html#${guide}">Function &amp; where to buy →</a></div></td>
+        <td><span class="d">${esc(desc)}</span><div class="fn">${esc(fn)}</div><div class="rmk no-print">${basis ? 'Rate basis: ' + esc(basis) : ''}${guides && guide ? `${basis ? ' · ' : ''}<a href="equipment.html#${guide}">Function &amp; where to buy →</a>` : ''}</div></td>
         <td class="u">${unit}</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="${q}" data-def="${q}" aria-label="Quantity ${key}"></td>
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="${r.toFixed(2)}" data-def="${r.toFixed(2)}" aria-label="Unit rate ${key}"></td>
@@ -433,7 +450,11 @@ function boqRows() {
   }
   return h;
 }
-const paper = `<div class="boq-tools no-print">
+// One letterhead BOQ for every section; `key` keeps each section's edits apart in the browser.
+function boqPaper({ boq, key, points, ref, proj, notes, foot, guides = true, logo = '../../assets/oppein-logo.webp' }) {
+  const main = boq.filter(s => !s.optional).map(s => s.code), opt = boq.filter(s => s.optional).map(s => s.code);
+  const baseLabel = `Subtotal ${main[0]}${main.length > 1 ? '–' + main.at(-1) : ''}`, optLabel = `Optional items (${opt.join(', ') || '—'}, ticked)`;
+  return `<div class="boq-tools no-print">
       <button class="btn solid" id="boq-print">Print / save as PDF</button>
       <button class="btn solid" id="boq-word">Export to Word</button>
       <button class="btn" id="boq-all">Tick all</button>
@@ -441,10 +462,10 @@ const paper = `<div class="boq-tools no-print">
       <button class="btn" id="boq-reset">Reset to estimate</button>
       <span class="hint">Tick the lines to include: only ticked lines are numbered, totalled, printed and exported. Add your own lines with “+ Add a line” in any section. Click any quantity, rate or header field to edit it. Edits are saved in this browser only.</span>
     </div>
-    <div class="paper-wrap"><article class="paper" id="boq" data-vat="${Q.VAT_PCT}" data-points="${D.RUNS.length}">
+    <div class="paper-wrap"><article class="paper" id="boq" data-vat="${Q.VAT_PCT}" data-points="${points}" data-key="${key}">
       <header class="lh">
         <div class="lh-brand">
-          <img src="../../assets/oppein-logo.webp" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
+          <img src="${logo}" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
           <div class="lh-id"><input class="lh-name" data-f="co" value="OPPEIN" aria-label="Company name"><input class="lh-tag" data-f="tag" value="IT Department · Projects &amp; Infrastructure" aria-label="Department"></div>
         </div>
         <div class="lh-contact">
@@ -457,25 +478,25 @@ const paper = `<div class="boq-tools no-print">
       <div class="lh-rule"></div>
       <div class="doc-title"><h2>Estimate — Bill of Quantities</h2><span class="stamp">Budget estimate · not a quotation</span></div>
       <div class="doc-meta">
-        <label>Estimate no.<input data-f="ref" value="OPP-IT-EST-O14-002"></label>
+        <label>Estimate no.<input data-f="ref" value="${ref}"></label>
         <label>Date<input data-f="date" type="date" value="${D.META.date}"></label>
         <label>Valid for<input data-f="valid" value="30 days"></label>
         <label>Revision<input data-f="rev" value="${D.META.rev}"></label>
         <label class="w2">Prepared for<input data-f="to" placeholder="Client / management name"></label>
-        <label class="w2">Project<input data-f="proj" value="Office 14 — Structured cabling &amp; network"></label>
+        <label class="w2">Project<input data-f="proj" value="${proj}"></label>
         <label class="w2">Site<input data-f="site" value="${D.META.site}"></label>
         <label class="w2">Currency<input data-f="cur" value="${Q.CURRENCY} · rates excl. VAT"></label>
       </div>
       <div class="tw-paper"><table class="boq">
         <colgroup><col style="width:8%"><col><col style="width:7%"><col style="width:9%"><col style="width:12%"><col style="width:14%"></colgroup>
         <thead><tr><th>No.</th><th>Description &amp; function</th><th>Unit</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
-        <tbody>${boqRows()}</tbody>
+        <tbody>${boqRows(boq, guides)}</tbody>
       </table></div>
       <div class="totals">
         <div class="words"><small>Grand total in words</small><p id="t-words">—</p></div>
         <dl>
-          <dt>Subtotal A–E</dt><dd id="t-base">—</dd>
-          <dt>Optional items (F, ticked)</dt><dd id="t-opt">—</dd>
+          <dt>${baseLabel}</dt><dd id="t-base">—</dd>
+          <dt>${optLabel}</dt><dd id="t-opt">—</dd>
           <dt>Contingency <input id="t-contp" type="number" min="0" max="50" step="1" value="${Q.CONTINGENCY_PCT}" aria-label="Contingency percent"> %</dt><dd id="t-cont">—</dd>
           <dt>Total before VAT</dt><dd id="t-net">—</dd>
           <dt>VAT ${Q.VAT_PCT} %</dt><dd id="t-vat">—</dd>
@@ -485,12 +506,7 @@ const paper = `<div class="boq-tools no-print">
       <div class="terms">
         <h3>Notes &amp; conditions</h3>
         <ol>
-          <li>Budget estimate for planning and approval. Rates are UAE market estimates (${Q.PRICE_DATE}) and are replaced by supplier quotations before ordering.</li>
-          <li>Quantities follow the Office 14 cable schedule: ${D.RUNS.length} Cat6 runs, ${D.TOTAL_M} m, ≈ ${Math.round(D.CASING_M)} m of wall casing. To be confirmed after the site survey.</li>
-          <li>SW1 (5-port) and SW2 (8-port) are existing units and are priced at zero. SW0 (cabinet) is new.</li>
-          <li>Excluded: ISP fibre and ONT, electrical works and sockets, painting or making good, PCs, printers and software licences.</li>
-          <li>Optional items (section F) are included only where ticked. Contingency covers site variations.</li>
-          <li>All cable and termination to be Cat6 solid bare copper; CCA cable is not accepted.</li>
+${notes.map(n => `          <li>${n}</li>`).join('\n')}
         </ol>
       </div>
       <div class="sign">
@@ -498,8 +514,20 @@ const paper = `<div class="boq-tools no-print">
         <div><span>Reviewed by</span><input data-f="rev_by" placeholder="Name"><i>Signature &amp; date</i></div>
         <div><span>Approved by</span><input data-f="appr" placeholder="Name"><i>Signature &amp; date</i></div>
       </div>
-      <footer class="pf"><span>OPPEIN · Office 14 Network · Estimate BOQ</span><span>Generated from the project documentation</span></footer>
+      <footer class="pf"><span>OPPEIN · ${foot} · Estimate BOQ</span><span>Generated from the project documentation</span></footer>
     </article></div>`;
+}
+const paper = boqPaper({
+  boq: Q.BOQ, key: 'o14-boq-v9', points: D.RUNS.length, ref: 'OPP-IT-EST-O14-002', proj: 'Office 14 — Structured cabling &amp; network', foot: 'Office 14 Network',
+  notes: [
+    `Budget estimate for planning and approval. Rates are UAE market estimates (${Q.PRICE_DATE}) and are replaced by supplier quotations before ordering.`,
+    `Quantities follow the Office 14 cable schedule: ${D.RUNS.length} Cat6 runs, ${D.TOTAL_M} m, ≈ ${Math.round(D.CASING_M)} m of wall casing. To be confirmed after the site survey.`,
+    'SW1 (5-port) and SW2 (8-port) are existing units and are priced at zero. SW0 (cabinet) is new.',
+    'Excluded: ISP fibre and ONT, electrical works and sockets, painting or making good, PCs, printers and software licences.',
+    'Optional items (section F) are included only where ticked. Contingency covers site variations.',
+    'All cable and termination to be Cat6 solid bare copper; CCA cable is not accepted.',
+  ],
+});
 const noPrint = h => h.replace('<section class="sec"', '<section class="sec no-print"');
 
 out['materials.html'] = page('materials.html', {
@@ -712,21 +740,21 @@ out['open-items.html'] = page('open-items.html', {
 });
 
 /* ---------- original interactive planner, re-themed ---------- */
-const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">';
+const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">';
 {
   let p = fs.readFileSync(path.join(HERE, 'interactive-plan.src.html'), 'utf8');
   const theme = `${FONTS}<style>
 :root,:root:not([data-theme="light"]),:root[data-theme="dark"],:root[data-theme="light"]{
-  --bg:#0B0A08!important;--panel:#161310!important;--ink:#F0EAE2!important;--muted:#A99C8C!important;--line:#2E2620!important;--soft:#1C1712!important;
-  --wall:#CFC5B8!important;--wall2:#6B6055!important;--accent:#D98A3D!important;--tray:rgba(217,138,61,.22)!important;
+  --bg:#05080D!important;--panel:#0B111B!important;--ink:#E3EEF8!important;--muted:#8FA3B8!important;--line:#1B2A3D!important;--soft:#0F1826!important;
+  --wall:#B9C7D6!important;--wall2:#4A5B70!important;--accent:#22D3EE!important;--tray:rgba(34,211,238,.20)!important;
   --c-ap:#E8C24A!important;--c-pc:#6D9FF5!important;--c-srv:#B07CF0!important;--c-prn:#3CC7AD!important;--c-ph:#E46AA3!important;--c-wan:#F0645C!important;--c-up:#F0EAE2!important;
-  --f-display:"Space Grotesk",sans-serif!important;--f-body:"IBM Plex Sans",sans-serif!important;--f-mono:"IBM Plex Mono",monospace!important;color-scheme:dark}
-.back{display:inline-block;font:500 12px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#D98A3D;text-decoration:none;margin-bottom:8px}
+  --f-display:"Chakra Petch",sans-serif!important;--f-body:"IBM Plex Sans",sans-serif!important;--f-mono:"JetBrains Mono",monospace!important;color-scheme:dark}
+.back{display:inline-block;font:500 12px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#22D3EE;text-decoration:none;margin-bottom:8px}
 .back:hover{text-decoration:underline}
 </style>`;
   p = p.replace('<header>', theme + '\n<header>')
     .replace('<title>Office 14 Network Cabling</title>', '<title>Interactive planner — Office 14 Network · OPPEIN</title>')
-    .replace('<div class="ttl">', '<div class="ttl">\n    <a class="back" href="index.html">← Office 14 docs</a> <a class="back" href="floor-plan.html" style="margin-left:14px">DOC 01 floor plan</a>\n    <p class="superseded" style="margin:6px 0 4px;padding:6px 10px;border:1px solid #7A4E20;border-radius:6px;color:#D98A3D;font:500 12.5px IBM Plex Mono,monospace">Original Rev A design (ceiling tray, one 16-port switch) — superseded by the current revision. Kept for reference only.</p>');
+    .replace('<div class="ttl">', '<div class="ttl">\n    <a class="back" href="index.html">← Office 14 docs</a> <a class="back" href="floor-plan.html" style="margin-left:14px">DOC 01 floor plan</a>\n    <p class="superseded" style="margin:6px 0 4px;padding:6px 10px;border:1px solid #0E5566;border-radius:6px;color:#22D3EE;font:500 12.5px JetBrains Mono,monospace">Original Rev A design (ceiling tray, one 16-port switch) — superseded by the current revision. Kept for reference only.</p>');
   fs.writeFileSync(path.join(OUT, 'interactive-plan.html'), p);
 }
 
@@ -777,7 +805,290 @@ out['index.html'] = page('index.html', {
     + OVERVIEW_HISTORY,
 });
 
-fs.rmSync(path.resolve(HERE, '..', 'index.html'), { force: true }); // old separate landing page — the hub links straight to DOC 00
+/* ---------- Pyramid Centre system hub (../index.html) and the CCTV section (../cctv/) ----------
+   The OPPEIN hub card opens ../index.html, which offers the two systems. Both share the drawing and the cabinet. */
+const NET = 'oppein-pyramid-centre-network/';
+function standalone({ title, desc, css, logo, hub, crumb, body, scripts = [], tag = D.META.status }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title}</title>
+<meta name="description" content="${esc(desc)}">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="${logo}">
+${FONTS.replace('family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500', 'family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500')}
+<link rel="stylesheet" href="${css}">
+</head>
+<body class="landing">
+<nav class="top"><div class="top-in">
+  <a class="logo" href="${hub}" title="Back to the project hub"><img class="logo-img" src="${logo}" alt="OPPEIN" onload="this.classList.add('loaded')" onerror="this.remove()"><span class="logo-dot"></span><span class="logo-txt">OPPEIN</span></a>
+  <span class="crumb">${crumb}</span>
+  <span class="nav-tag">${tag}</span>
+</div></nav>
+<main class="land">
+${body}
+  <p class="foot">OPPEIN — Office 114 · Pyramid Centre · ${D.META.author}</p>
+</main>
+${scripts.map(src => `<script src="${src}"></script>`).join('')}
+</body>
+</html>
+`;
+}
+const ICONS = {
+  net: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="17"/><path d="M7 24h34M24 7c5 5 7 11 7 17s-2 12-7 17M24 7c-5 5-7 11-7 17s2 12 7 17"/><path d="M34 33l6 3v5c0 3-3 5-6 6-3-1-6-3-6-6v-5z" fill="var(--bg)"/><path d="M32 41l2 2 3-4"/></svg>',
+  rack: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="5" width="28" height="38" rx="2"/><path d="M14 12h20M14 19h20M14 26h20M14 33h20"/><circle cx="31" cy="12" r="1" fill="currentColor"/><circle cx="31" cy="19" r="1" fill="currentColor"/><path d="M16 43v2M32 43v2"/></svg>',
+  cam: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h26l6 6-6 6H6z"/><circle cx="16" cy="20" r="3"/><path d="M38 20h4M14 26v8M8 38h16"/><circle cx="40" cy="36" r="2" fill="currentColor"/></svg>',
+};
+const pcs = D.DEVICES.filter(d => d.type === 'pc').length;
+fs.writeFileSync(path.resolve(HERE, '..', 'index.html'), standalone({
+  title: 'Office 114 · Pyramid Centre — OPPEIN', desc: 'Office 114, Pyramid Centre: Internet & Telephone and CCTV systems.',
+  css: `${NET}assets/style.css`, logo: '../assets/oppein-logo.webp', hub: '../index.html',
+  crumb: '<a href="../index.html">Projects</a> / Office 114 · Pyramid Centre',
+  body: `  <header class="hero sys-hero">
+    <div class="eyebrow"><span class="led"></span>PROJECT · ${esc(D.META.site.toUpperCase())}</div>
+    <h1>Office 114 <span>Pyramid Centre</span></h1>
+    <p class="lead">Low-voltage systems for the office. Internet &amp; Telephone and CCTV share one floor-plan drawing and one cabinet in the IT Room; the cabinet itself gets its own combined plan. Choose a section to open it.</p>
+  </header>
+  <div class="sys-grid">
+    <a class="sys-card" href="${NET}index.html">
+      <div class="sys-top"><span class="sys-id">SYS-01</span><span class="sys-state on"><i></i>On going · wiring</span></div>
+      <div class="sys-ico">${ICONS.net}</div>
+      <h2>Internet &amp; Telephone</h2>
+      <p>Cat6 network, Wi-Fi and the phone line: cabinet, switches, cable routes, port map, BOQ, installation and testing.</p>
+      <ul class="sys-stats">
+        <li><b>${D.RUNS.length}</b> cable runs · ${D.TOTAL_M} m</li>
+        <li><b>${pcs}</b> PCs · <b>${D.POE}</b> APs · phone line</li>
+        <li><b>${D.SWITCHES.length}</b> switches · ${D.RACK_U}U cabinet</li>
+      </ul>
+      <span class="sys-go">Open documents <span>→</span></span>
+    </a>
+    <a class="sys-card next" href="cctv/index.html">
+      <div class="sys-top"><span class="sys-id">SYS-02</span><span class="sys-state soon"><i></i>Upcoming</span></div>
+      <div class="sys-ico">${ICONS.cam}</div>
+      <h2>CCTV</h2>
+      <p>Camera system for the office. It will use the same floor-plan drawing and the same IT Room cabinet.</p>
+      <ul class="sys-stats">
+        <li>Camera plan · <b>to come</b></li>
+        <li>Recorder in the cabinet · <b>${D.SPARE_U}U</b> kept free</li>
+        <li>Route via the ceiling conduit · <b>to check</b></li>
+      </ul>
+      <span class="sys-go">View section <span>→</span></span>
+    </a>
+    <a class="sys-card next" href="cabinet/index.html">
+      <div class="sys-top"><span class="sys-id">SYS-03</span><span class="sys-state soon"><i></i>Upcoming</span></div>
+      <div class="sys-ico">${ICONS.rack}</div>
+      <h2>Rack &amp; Cabinet Management</h2>
+      <p>One combined cabinet plan for Internet, Telephone and CCTV: the same IT Room cabinet, fully customised.</p>
+      <ul class="sys-stats">
+        <li>Same cabinet · <b>IT Room, mark 1</b></li>
+        <li>Combined layout · <b>to come</b></li>
+        <li>Power, cooling, labelling · <b>to come</b></li>
+      </ul>
+      <span class="sys-go">View section <span>→</span></span>
+    </a>
+  </div>
+  <section class="sec">
+    <div class="module-label">SHARED</div>
+    <h2>Shared across all sections</h2>
+    <div class="doc-grid">
+      <a class="doc-card" href="${NET}drawing.html"><span class="num">DWG</span><b>Floor-plan drawing</b><span>The Office 114 drawing with layer toggles. One drawing for every section.</span></a>
+      <a class="doc-card" href="cabinet/index.html"><span class="num">RACK</span><b>IT Room cabinet</b><span>One cabinet at mark 1 for all systems. Current layout: ${D.RACK_U}U with ${D.SPARE_U}U (${D.SPARE_RANGE}) free. Combined plan in SYS-03.</span></a>
+      <a class="doc-card" href="${NET}floor-plan.html"><span class="num">ROUTE</span><b>Ceiling conduit to mark 2</b><span>The cable path from the cabinet into the office.</span></a>
+    </div>
+  </section>`,
+}));
+/* ---------- SYS-02 CCTV and SYS-03 Rack & Cabinet: sidebar sections (upcoming) ---------- */
+const sectionBOQ = (Bq, cfg) => `    <section class="sec boq-sec" id="boq-sec">
+      <div class="module-label no-print">BOQ-02</div>
+      <h2 class="no-print">Bill of quantities</h2>
+      ${boqPaper({ boq: Bq, guides: false, ...cfg })}
+    </section>\n`;
+const glance = () => noPrint(section('summary', 'BOQ-01', 'Estimate at a glance', `<div class="tiles">
+      <div class="tile"><div class="tv" data-live="base">—</div><div class="tl">Subtotal (main)</div><div class="ts">excl. contingency &amp; VAT</div></div>
+      <div class="tile"><div class="tv" data-live="grand">—</div><div class="tl">Grand total</div><div class="ts">incl. contingency + ${Q.VAT_PCT} % VAT</div></div>
+    </div><div id="boq-bars"></div>`, 'Figures update live from the BOQ below.'));
+const outCCTV = {}, outCAB = {};
+
+outCCTV['index.html'] = page('index.html', {
+  lead: 'The camera system for Office 114. This section is being planned: camera positions, the recorder, storage and viewing will be documented here. It uses the same floor-plan drawing and the same IT Room cabinet as Internet &amp; Telephone.',
+  body: section('ready', 'CCTV-01', 'Already in place', `<div class="cols2"><div class="card"><h3>Shared with the other sections</h3><ul class="ticks">
+      <li>The Office 114 floor-plan drawing — see <a href="drawing.html">DWG · Drawing</a>; camera positions will be added there as a layer</li>
+      <li>The same IT Room cabinet: ${D.SPARE_U}U (${D.SPARE_RANGE}) kept free for a recorder (NVR) and a PoE switch — final layout in <a href="../cabinet/index.html">SYS-03 Rack &amp; Cabinet</a></li>
+      <li>The ceiling conduit from the cabinet to mark 2 — check spare space before adding camera cables</li>
+    </ul></div><div class="card"><h3>To be decided</h3><ul class="crosses">
+      <li>Number of cameras and where each one goes</li>
+      <li>Recorder channels and how many days of recording</li>
+      <li>PoE switch for the cameras, and UPS backup</li>
+      <li>Who can view, and from where (on site / phone app)</li>
+    </ul></div></div>`)
+    + section('next', 'CCTV-02', 'Next', `<ol class="steps">
+      <li><b>Walk the site</b> and mark camera positions on the drawing.</li>
+      <li><b>Fill in the <a href="materials.html">BOQ</a></b>: set the camera count and choose the recorder.</li>
+      <li><b>Agree the cabinet space</b> with SYS-03.</li>
+    </ol>`),
+}, SEC_CCTV);
+outCCTV['drawing.html'] = page('drawing.html', {
+  wide: true, scripts: [`${SA}plan-art.js`],
+  lead: 'The Office 114 floor plan for the CCTV design. Camera positions and coverage will be added as layers. The plan comes from the one shared drawing file also used by Internet &amp; Telephone.',
+  body: `    <div class="stage drawing-stage">
+        ${floorPlanSVG({ drawing: true })}
+        <div class="toolbar">
+          <button class="tool" data-z="in" aria-label="Zoom in">+</button>
+          <button class="tool" data-z="out" aria-label="Zoom out">−</button>
+          <button class="tool" data-z="fit" aria-label="Fit to screen">⤢</button>
+        </div>
+      </div>
+      <p class="note">Scroll or pinch to zoom, drag to pan. The cabinet at mark 1 (IT Room) is shared by every section.</p>
+`,
+}, SEC_CCTV);
+outCCTV['materials.html'] = page('materials.html', {
+  wide: true, bodyClass: 'boq-page', scripts: [`${SA}boq.js`],
+  lead: 'Bill of quantities for the CCTV system. Camera-count items start at quantity 0 — set them once the camera plan is fixed. Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.',
+  body: glance()
+    + sectionBOQ(Q.BOQ_CCTV, {
+      key: 'o14-cctv-boq-v1', points: 1, ref: 'OPP-IT-EST-O14-CCTV-001', proj: 'Office 114 — CCTV system', foot: 'Office 114 CCTV',
+      notes: [
+        `Starter estimate for planning. Rates are typical UAE trade estimates (${Q.PRICE_DATE}); replace them with supplier quotations.`,
+        'Camera, recorder-channel and cable quantities start at 0 until the camera positions are marked on the drawing.',
+        'The recorder and camera PoE switch go in the shared IT Room cabinet; cabinet items are priced in SYS-03, not here.',
+        'Optional items (section F) are included only where ticked. Contingency covers site variations.',
+        'Excluded: electrical works, painting or making good, monitors other than F items, software licences beyond the recorder.',
+      ],
+    }),
+}, SEC_CCTV);
+
+outCAB['index.html'] = page('index.html', {
+  lead: `One combined plan for the IT Room cabinet, covering Internet, Telephone and CCTV together. This is the <b>same cabinet</b> used by the other two sections; it will be fully customised here once the CCTV design is known.`,
+  body: callout('info', `<b>Note:</b> there is only one cabinet, in the IT Room at mark 1. The ${D.RACK_U}U layout in <a href="../oppein-pyramid-centre-network/rack.html">SYS-01 · Rack layout</a> is the Internet &amp; Telephone view of it. This section will replace it with the final, fully customised cabinet for every system.`)
+    + section('now', 'CAB-01', 'What the cabinet holds today (SYS-01)', table(['U', 'Item'], Object.keys(D.RACK_UNITS).sort((a, b) => b - a).map(u => `<tr${D.RACK_UNITS[u][1] === 'spare' ? ' class="spare"' : ''}><td class="m">U${u}</td><td>${esc(D.RACK_UNITS[u][0])}</td></tr>`)))
+    + section('plan', 'CAB-02', 'To be worked out here', `<div class="cols2"><div class="card"><h3>Combined layout</h3><ul class="ticks">
+      <li>Final shelf-by-shelf layout for network, telephone and CCTV (NVR, camera PoE switch) together — first draft in <a href="design.html">Cabinet design</a></li>
+      <li>Whether the cabinet size changes once CCTV is added</li>
+      <li>One patch panel or separate panels per system; colour code per system</li>
+      <li>Cable entry, management and labelling for all systems</li>
+    </ul></div><div class="card"><h3>Power &amp; care</h3><ul class="ticks">
+      <li>PDU sockets and total power for every device</li>
+      <li>UPS sizing and run time for the whole cabinet</li>
+      <li>Cooling, door, lock and access</li>
+      <li>As-built record and maintenance checklist</li>
+    </ul></div></div>`).replace("id=\"plan\"", 'id="cab-plan"'),
+}, SEC_CAB);
+/* ---------- SYS-03 · Cabinet design (from the user's sample drawings) ---------- */
+// The proposed cabinet is a custom wall-hung laminate module (not a 19" rack). Facts below are the clearly readable
+// dimensions on the four sample images in "sketch plan for full network cabinet/".
+const CAB = { w: 80, h: 40, d: 35, board: 1.8, shelfD: 21, topBay: 14, midBay: 10, inlet: 10, vent: [64, 3], lowGap: 5, desk: 240 };
+CAB.lowBay = +(CAB.h - CAB.topBay - CAB.midBay - 2 * CAB.board).toFixed(1);
+const CAB_IMGS = [
+  ['1.jfif', 'cabinet-1.jpg', 'As-built view', 'Wall-hung module above the 240 cm desk; inner 80 × 40 cm, 18 mm board (section A-A).'],
+  ['2.jfif', 'cabinet-2.jpg', 'Isolated module', 'Inner width 80 cm, height 40 cm, depth 35 cm; edge joint detail.'],
+  ['3.jfif', 'cabinet-3.jpg', 'Shelves, inlet & ventilation', 'Two 21 cm shelves, Ø10 cm back cable inlet, 64 × 3 cm top vent slot, 5 cm lower vent gap with filter.'],
+  ['4.jfif', 'cabinet-4.jpg', 'Revised blueprint (hinge-free)', 'Fixed-panel joinery, no door hinges; top view and front elevation. Part-list text in this image is not legible — dimensions only.'],
+];
+// Heat in the cabinet (typical figures): ONT, router, 3 switches, 2 PoE injectors feeding the APs.
+const HEAT = [['ONT', 10], ['Router', 15], ['SW0 + SW1 + SW2', 15], ['2 PoE injectors (AP load + losses)', 30]];
+const HEAT_W = HEAT.reduce((t, [, w]) => t + w, 0);
+const cabSVG = () => {
+  const k = 10, X = 60, Y = 50, W = CAB.w * k, H = CAB.h * k, b = CAB.board * k; // 1 cm = 10 units
+  const r = (x, y, w, h, fill, label, sub) => el('rect', { x: X + x * k, y: Y + y * k, width: w * k, height: h * k, rx: 4, fill, stroke: 'rgba(0,0,0,.35)' }, null)
+    + (label ? el('text', { x: X + (x + w / 2) * k, y: Y + (y + h / 2) * k + (sub ? -2 : 5), 'font-size': 14, 'text-anchor': 'middle', class: 'svgmono', style: 'fill:var(--bg);font-weight:600' }, label) : '')
+    + (sub ? el('text', { x: X + (x + w / 2) * k, y: Y + (y + h / 2) * k + 14, 'font-size': 11, 'text-anchor': 'middle', class: 'svgmono', style: 'fill:var(--bg)' }, sub) : '');
+  const s1 = CAB.topBay, s2 = CAB.topBay + CAB.board + CAB.midBay;           // shelf tops (cm from inner top)
+  let s = `<svg class="diagram" viewBox="0 0 ${W + 360} ${H + 170}" role="img" aria-label="Proposed cabinet, front view to scale with the planned equipment">`;
+  s += el('rect', { x: X - b, y: Y - b, width: W + 2 * b, height: H + 2 * b + CAB.lowGap * k, rx: 6, fill: '#3a3128', stroke: '#6b5a48', 'stroke-width': 2 }, null); // 18 mm laminate carcass
+  s += el('rect', { x: X, y: Y, width: W, height: H, fill: 'var(--bg-alt)', stroke: 'var(--border)' }, null);
+  s += el('rect', { x: X + 8 * k, y: Y - b + 2, width: CAB.vent[0] * k, height: 8, rx: 3, fill: 'var(--bg)', stroke: 'var(--amber)', 'stroke-dasharray': '6 4' }, null);
+  s += el('text', { x: X + 40 * k, y: Y - b - 10, 'font-size': 13, 'text-anchor': 'middle', class: 'svgmono' }, `top vent slot ${CAB.vent[0]} × ${CAB.vent[1]} cm`);
+  s += el('circle', { cx: X + 6 * k, cy: Y + 6 * k, r: CAB.inlet / 2 * k, fill: 'none', stroke: 'var(--amber)', 'stroke-width': 2, 'stroke-dasharray': '5 4' }, null);
+  s += el('text', { x: X + 6 * k, y: Y + 6 * k + 4, 'font-size': 11, 'text-anchor': 'middle', class: 'svgmono' }, 'Ø10 inlet');
+  [s1, s2].forEach(y => { s += el('rect', { x: X, y: Y + y * k, width: W, height: b, fill: '#5a4a3a' }, null); });
+  s += el('rect', { x: X - b, y: Y + H + b, width: W + 2 * b, height: CAB.lowGap * k, fill: 'url(#lowgap)', opacity: .9 }, null);
+  s += `<defs><pattern id="lowgap" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 10L10 0" stroke="#6b5a48" stroke-width="2"/></pattern></defs>`;
+  // top bay: router + ONT (warmest kit nearest the top vent)
+  s += r(16, s1 - 4.5, 22, 4.5, 'var(--ink-dim)', 'ROUTER') + el('path', { d: `M${X + 19 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}M${X + 35 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}`, stroke: 'var(--ink-dim)', 'stroke-width': 3, 'stroke-linecap': 'round' }, null);
+  s += r(42, s1 - 3.5, 20, 3.5, 'var(--c-wan)', 'ONT');
+  // middle bay: three switches + two injectors
+  let x = 2;
+  for (const w of D.SWITCHES) { const ww = w.ports === 5 ? 10 : 16; s += r(x, s2 - 3, ww, 3, 'var(--amber)', w.id); x += ww + 2; }
+  for (let i = 0; i < D.POE; i++) { s += r(x, s2 - 3.5, 7, 3.5, 'var(--c-ap)', 'INJ'); x += 9; }
+  // bottom bay: patch panel on a 1U wall bracket (back board) and the PDU on the base
+  s += r(16, CAB.h - 4.4 - 4.4 - 2, 48, 4.4, 'var(--c-prn)', `PATCH PANEL 24 · ${D.PANEL.length} used`);
+  s += r(16, CAB.h - 4.4, 48, 4.4, '#9a8f84', 'PDU 8-WAY');
+  // dimensions
+  const dim = (x1, y1, x2, y2, t, tx, ty, rot = 0) => el('path', { d: `M${x1} ${y1}L${x2} ${y2}`, stroke: 'var(--ink-faint)', 'stroke-width': 1.5, 'marker-start': 'url(#ar)', 'marker-end': 'url(#ar)' }, null)
+    + el('text', { x: tx, y: ty, 'font-size': 13, 'text-anchor': 'middle', class: 'svgmono', ...(rot ? { transform: `rotate(${rot} ${tx} ${ty})` } : {}) }, t);
+  s += `<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink-faint)"/></marker></defs>`;
+  s += dim(X, Y + H + b + CAB.lowGap * k + 26, X + W, Y + H + b + CAB.lowGap * k + 26, `inner width ${CAB.w} cm`, X + W / 2, Y + H + b + CAB.lowGap * k + 48);
+  s += dim(X + W + 30, Y, X + W + 30, Y + H, `inner height ${CAB.h} cm`, X + W + 52, Y + H / 2, 90);
+  const lx = X + W + 80;
+  [[0, s1, `top bay ≈ ${CAB.topBay} cm`, 'router + ONT'], [s1 + CAB.board, s2, `middle bay ≈ ${CAB.midBay} cm`, 'switches + injectors'], [s2 + CAB.board, CAB.h, `bottom bay ≈ ${CAB.lowBay} cm`, 'patch panel + PDU']].forEach(([a, z, t, u]) => {
+    s += el('text', { x: lx, y: Y + (a + z) / 2 * k - 2, 'font-size': 14, class: 'svgtxt' }, t) + el('text', { x: lx, y: Y + (a + z) / 2 * k + 16, 'font-size': 12, class: 'svgmono' }, u);
+  });
+  s += el('text', { x: lx, y: Y + H + b + 30, 'font-size': 12, class: 'svgmono' }, `lower vent gap ${CAB.lowGap} cm + filter`);
+  return s + '</svg>';
+};
+const fitRow = (ok, item, why) => `<tr><td><span class="pill ${ok === 'ok' ? 'low' : ok === 'warn' ? 'medium' : 'high'}">${ok === 'ok' ? 'Fits' : ok === 'warn' ? 'Check' : 'No'}</span></td><td><b>${item}</b></td><td>${why}</td></tr>`;
+outCAB['design.html'] = page('design.html', {
+  wide: true,
+  lead: `The proposed cabinet is a <b>custom wall-hung laminate module</b> fixed above the desk, not a standard 19″ rack: ${CAB.w} × ${CAB.h} × ${CAB.d} cm inside, 18 mm board, two shelves, a back cable inlet, and top and bottom ventilation. This page collects the sample drawings, the dimensions read from them, and how the equipment would fit.`,
+  body: section('gallery', 'DES-01', 'Sample drawings', `<div class="gallery">${CAB_IMGS.map(([, f, t, c], i) => `<figure class="shot"><button type="button" class="shot-btn" data-full="img/${f}" data-cap="${esc(t)} — ${esc(c)}" aria-label="Enlarge: ${esc(t)}"><img src="img/${f}" alt="${esc(t)}" loading="lazy"></button><figcaption><span class="num">IMG ${i + 1}</span><b>${t}</b>${c}</figcaption></figure>`).join('')}</div>
+      <dialog class="lightbox" id="lightbox"><button type="button" class="lb-close" aria-label="Close">×</button><img alt=""><p></p></dialog>
+      <script>(()=>{const d=document.getElementById('lightbox');document.querySelectorAll('.shot-btn').forEach(b=>b.addEventListener('click',()=>{d.querySelector('img').src=b.dataset.full;d.querySelector('p').textContent=b.dataset.cap;d.showModal();}));d.addEventListener('click',e=>{if(e.target===d||e.target.classList.contains('lb-close'))d.close();});})();</script>`, 'Click an image to enlarge. These are sample / concept drawings supplied for the proposal.')
+    + section('dims', 'DES-02', 'Dimensions read from the drawings', tiles([
+      [`${CAB.w} × ${CAB.h}`, 'Inner width × height (cm)', `≈ ${(CAB.h * 10 / 44.45).toFixed(1)}U of height`],
+      [`${CAB.d} cm`, 'Inner depth', `shelves ${CAB.shelfD} cm deep`],
+      ['18 mm', 'Board thickness', 'laminated panels, fixed joinery'],
+      [`Ø${CAB.inlet} cm`, 'Cable inlet', 'round hole, back top-left'],
+      [`${CAB.vent[0]} × ${CAB.vent[1]} cm`, 'Top vent slot', `+ ${CAB.lowGap} cm lower gap with filter`],
+      [`${CAB.desk} cm`, 'Desk below', 'cabinet hangs above it'],
+    ]) + table(['Part', 'Detail', 'Source'], [
+      ['Carcass', `Inner ${CAB.w} W × ${CAB.h} H × ${CAB.d} D cm; 18 mm laminated board (sections A-A / B-B)`, 'IMG 1, 2'],
+      ['Shelves', `2 fixed shelves, ${CAB.shelfD} cm deep, on pins / runners; bays ≈ ${CAB.topBay} / ${CAB.midBay} / ${CAB.lowBay} cm (top / middle / bottom)`, 'IMG 3, 4'],
+      ['Cable inlet', `Round hole ≈ Ø${CAB.inlet} cm (radius ≈ 5 cm) in the back panel, top-left, aligned with the back`, 'IMG 3, 4'],
+      ['Ventilation', `Top slot ≈ ${CAB.vent[0]} × ${CAB.vent[1]} cm; lower ventilation gap ${CAB.lowGap} cm with a line-shape filter`, 'IMG 3, 4'],
+      ['Front', 'Hinge-free design: fixed panels, no door', 'IMG 4'],
+      ['Position', `Wall-hung above the ${CAB.desk} cm desk, next to open shelving`, 'IMG 1'],
+    ].map(([a, b, c]) => `<tr><td><b>${a}</b></td><td>${b}</td><td class="muted">${c}</td></tr>`)))
+    + section('fit', 'DES-03', 'How the equipment would sit (to scale)', `<div class="figure">${cabSVG()}</div>
+      <p class="note">Front view, 1 cm = 1 grid unit. Warm kit (router, ONT) goes in the top bay right under the vent slot; the switches and PoE injectors in the middle bay; the patch panel on a 1U wall bracket and the PDU in the bottom bay. The Ø10 cm inlet at the back top-left takes every cable from the ceiling conduit.</p>`)
+    + section('checks', 'DES-04', 'Engineering checks', table(['Result', 'Item', 'Why'], [
+      fitRow('ok', 'Height budget', `${CAB.h} cm inside ≈ 9U, the same height as the 9U rack plan in SYS-01 — but there are no 19″ rails, so everything sits on shelves or brackets.`),
+      fitRow('ok', '19″ patch panel and PDU', `Both are 48 cm wide; the ${CAB.w} cm width leaves ${CAB.w - 48} cm. The panel needs a 1U wall-mount bracket on the back board.`),
+      fitRow('ok', `Cable inlet for ${D.RUNS.length} + CCTV cables`, `Ø${CAB.inlet} cm ≈ ${Math.round(Math.PI * 25)} cm². ${D.RUNS.length} Cat6 (Ø6 mm) use about ${(D.RUNS.length * 0.28).toFixed(0)} cm² — plenty of room for CCTV too. Fit a brush grommet.`),
+      fitRow('warn', 'Shelf depth', `${CAB.shelfD} cm: typical router and desktop switches are 10–20 cm deep, but allow ~5 cm for the plugs at the back. Measure the router before ordering.`),
+      fitRow('warn', 'Router antennas', `Top bay ≈ ${CAB.topBay} cm: fold the antennas sideways or pick a router with internal antennas. Wi-Fi from inside a wooden box is weaker — the APs carry the office Wi-Fi.`),
+      fitRow('warn', 'Heat', `About ${HEAT_W} W in the cabinet (${HEAT.map(([n, w]) => `${n} ${w} W`).join(', ')}). The top slot + lower gap make a chimney, but in Dubai add a quiet extract fan on the top slot and keep 5 cm free behind the kit.`),
+      fitRow('warn', 'Open front', 'Hinge-free means no door: fine in a locked IT Room; otherwise add a lockable front panel so cables and ports cannot be pulled.'),
+      fitRow('warn', 'CCTV recorder', `A typical 8-channel NVR is about 38 × 5 × 30 cm: it fits the 35 cm depth but needs a full bay — decide in this section once the camera plan exists.`),
+      fitRow('no', 'Rack UPS', 'A 1–1.5 kVA rack UPS (48 × 9 × 40 cm) is deeper than the cabinet and too heavy for a wall-hung board box. Use a tower UPS under the desk.'),
+      fitRow('warn', 'Wall fixing', 'Board cabinet plus ~10–15 kg of equipment: fix to masonry with heavy-duty anchors, not to plasterboard alone.'),
+    ]) + callout('info', `<b>Effect on the other sections:</b> SYS-01 still shows the 9U 19″ rack view. If this module is approved, the SYS-01 rack page and BOQ section B will follow it. The SYS-03 BOQ below is already priced for this module.`)),
+}, SEC_CAB);
+
+outCAB['materials.html'] = page('materials.html', {
+  wide: true, bodyClass: 'boq-page', scripts: [`${SA}boq.js`],
+  lead: 'Bill of quantities for the combined, fully customised cabinet (all systems). Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.',
+  body: callout('warn', '<b>Avoid double counting:</b> the SYS-01 BOQ (section B) also prices a cabinet for Internet &amp; Telephone. When this combined cabinet is approved, untick section B in the SYS-01 BOQ.')
+    + glance()
+    + sectionBOQ(Q.BOQ_CAB, {
+      key: 'o14-cab-boq-v2', points: 1, ref: 'OPP-IT-EST-O14-CAB-001', proj: 'Office 114 — Rack &amp; cabinet (all systems)', foot: 'Office 114 Rack &amp; Cabinet',
+      notes: [
+        `Starter estimate for planning. Rates are typical UAE trade estimates (${Q.PRICE_DATE}); replace them with supplier quotations.`,
+        'One cabinet in the IT Room (mark 1) for Internet, Telephone and CCTV. Size and layout to be fixed once the CCTV design is known.',
+        'Active equipment (router, switches, NVR) is priced in its own section BOQ, not here.',
+        'Optional items (section F) are included only where ticked. Contingency covers site variations.',
+      ],
+    }),
+}, SEC_CAB);
+
+// copy the sample cabinet drawings (.jfif = JPEG) into cabinet/img/ as .jpg
+fs.mkdirSync(path.resolve(HERE, '..', 'cabinet', 'img'), { recursive: true });
+for (const [src, dst] of CAB_IMGS) fs.copyFileSync(path.resolve(HERE, '..', 'sketch plan for full network cabinet', src), path.resolve(HERE, '..', 'cabinet', 'img', dst));
+for (const [dir, o] of [['cctv', outCCTV], ['cabinet', outCAB]]) {
+  fs.mkdirSync(path.resolve(HERE, '..', dir), { recursive: true });
+  for (const [f, html] of Object.entries(o)) fs.writeFileSync(path.resolve(HERE, '..', dir, f), html);
+}
 for (const [f, html] of Object.entries(out)) fs.writeFileSync(path.join(OUT, f), html);
 for (const a of ['style.css', 'site.js', 'boq.js', 'lab.js', 'models.js']) fs.copyFileSync(path.join(HERE, a), path.join(OUT, 'assets', a));
 fs.writeFileSync(path.join(OUT, 'assets', 'plan-art.js'), 'window.PLAN_ART=' + JSON.stringify(fs.readFileSync(path.join(HERE, 'plan-raw.svg'), 'utf8')) + ';\n');

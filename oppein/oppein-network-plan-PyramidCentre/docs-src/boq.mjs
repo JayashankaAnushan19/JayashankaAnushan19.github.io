@@ -69,6 +69,63 @@ export const BOQ = [
   ]},
 ];
 
+// SYS-02 CCTV starter BOQ — camera-count items start at 0 until the camera plan exists.
+// [description, unit, qty, rate, function, rate basis, guide anchor (none for these sections)]
+export const BOQ_CCTV = [
+  { code: 'A', title: 'Cameras & recording', items: [
+    ['IP dome camera, 4 MP, PoE, IR night vision (indoor)', 'pc', 0, 350, 'Indoor coverage of desks, showroom and entrances.', 'Typical trade price', ''],
+    ['IP bullet camera, 4 MP, PoE, IR (entrance / corridor)', 'pc', 0, 380, 'Longer, narrower views such as the entrance door.', 'Typical trade price', ''],
+    ['NVR 8-channel 4K, H.265, rackable', 'pc', 0, 900, 'Records every camera; sits in the shared IT Room cabinet.', 'Typical trade price', ''],
+    ['Surveillance hard disk 4 TB', 'pc', 0, 450, 'Storage for about 2–4 weeks of recording (depends on cameras and settings).', 'Typical trade price', ''],
+  ]},
+  { code: 'B', title: 'Network & power', items: [
+    ['PoE switch 8-port for cameras (802.3af/at), 1U or desktop', 'pc', 0, 450, 'Powers the cameras over their cables. Not needed if the NVR has built-in PoE ports.', 'Typical trade price', ''],
+    ['Camera junction / mounting box', 'pc', 0, 40, 'Neat fixing of each camera and its cable end.', '', ''],
+  ]},
+  { code: 'C', title: 'Cabling & containment', items: [
+    ['Cat6 U/UTP solid bare copper, 305 m box', 'box', 0, 480, 'One cable from the cabinet to each camera.', 'Same as SYS-01 cable', ''],
+    ['RJ45 plugs / keystones and surface boxes', 'lot', 0, 120, 'Cable ends at the cameras and the patch panel.', '', ''],
+    ['PVC casing / conduit and fittings', 'lot', 0, 250, 'Containment for the camera cables, sharing the existing route where it has space.', '', ''],
+  ]},
+  { code: 'D', title: 'Labour & services', items: [
+    ['Install, terminate and aim camera', 'pc', 0, 150, 'Per camera.', '', ''],
+    ['NVR set-up, recording schedule, phone-app viewing', 'lot', 0, 400, 'Configuration and user access.', '', ''],
+    ['Testing, handover and as-built camera plan', 'lot', 0, 250, '', '', ''],
+  ]},
+  { code: 'F', title: 'Optional items', optional: true, items: [
+    ['UPS for the NVR and camera switch', 'pc', 1, 600, 'Keeps recording through short power cuts.', '', ''],
+    ['Monitor 22″ for live viewing', 'pc', 1, 450, 'Live view at reception or the IT Room.', '', ''],
+  ]},
+];
+
+// SYS-03 combined cabinet BOQ — the proposed custom wall-hung laminate module (see cabinet/design.html).
+export const BOQ_CAB = [
+  { code: 'A', title: 'Cabinet module (joinery)', items: [
+    ['Custom wall-hung cabinet module, 18 mm laminated board, inner 80 × 40 × 35 cm, 2 shelves (21 cm), fixed panels', 'pc', 1, 900, 'One cabinet for Internet, Telephone and CCTV, above the desk in the IT Room.', 'Joinery estimate — get a carpenter quote', ''],
+    ['Ø100 mm cable inlet with brush grommet (back panel)', 'pc', 1, 35, 'Neat, dust-proof entry for every cable from the ceiling conduit.', '', ''],
+    ['Quiet extract fan for the top vent slot, with thermostat', 'pc', 1, 120, 'Pulls warm air out through the 64 × 3 cm slot; needed in Dubai heat.', '', ''],
+    ['Washable filter for the 5 cm lower ventilation gap', 'pc', 1, 40, 'Keeps dust out of the air drawn in at the bottom.', '', ''],
+    ['Heavy-duty wall anchors and fixing', 'lot', 1, 60, 'Board cabinet plus equipment, fixed to masonry.', '', ''],
+  ]},
+  { code: 'B', title: 'Cable management', items: [
+    ['24-port Cat6 patch panel, 1U', 'pc', 1, 80, 'All cables land here (network, phone and up to ~10 CCTV cameras).', '', ''],
+    ['1U wall-mount bracket for the patch panel', 'pc', 1, 45, 'Holds the 19″ panel on the back board in the bottom bay (no rails in this cabinet).', '', ''],
+    ['Labels, Velcro and colour-coded patch cords (per system)', 'lot', 1, 120, 'One colour per system makes faults easy to trace.', '', ''],
+  ]},
+  { code: 'C', title: 'Power', items: [
+    ['PDU 8-way 230 V (laid in the bottom bay)', 'pc', 1, 90, 'Sockets for every device in the cabinet.', '', ''],
+    ['UPS 1–1.5 kVA line-interactive, tower (under the desk)', 'pc', 1, 1400, 'Backs up internet, phone line and recording. A rack UPS does not fit this cabinet.', 'Typical trade price', ''],
+  ]},
+  { code: 'D', title: 'Labour & services', items: [
+    ['Fit-out: mount kit, fit panel and PDU, dress and label all cables', 'lot', 1, 500, 'All systems together, coordinated with the carpenter.', '', ''],
+    ['As-built cabinet drawing and maintenance checklist', 'lot', 1, 250, '', '', ''],
+  ]},
+  { code: 'F', title: 'Optional items', optional: true, items: [
+    ['Lockable front panel (the drawings are hinge-free / open front)', 'pc', 1, 250, 'Only if the IT Room is not locked.', 'Joinery estimate', ''],
+    ['Environment sensor (temperature / door) with alerts', 'pc', 1, 350, 'Warns if the cabinet overheats.', '', ''],
+  ]},
+];
+
 // Functional guide + where to buy. Prices = what the listing showed on PRICE_DATE (may change).
 export const GUIDE = [
   { id: 'cable', title: 'Cat6 cable', icon: 'cable',

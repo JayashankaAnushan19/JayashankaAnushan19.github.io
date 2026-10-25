@@ -12,7 +12,7 @@ export const META = {
   site: 'Pyramid Centre · Office 14',
   rev: 'Rev D',
   date: '2026-10-23',
-  status: 'Final — for approval',
+  status: 'On going — wiring',
   author: 'Jayashanka · OPPEIN IT',
 };
 export const REVISIONS = [

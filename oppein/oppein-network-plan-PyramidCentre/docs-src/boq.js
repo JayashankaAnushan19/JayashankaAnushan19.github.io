@@ -3,7 +3,7 @@
 (function () {
   const doc = document.getElementById('boq');
   if (!doc) return;
-  const KEY = 'o14-boq-v9'; // v9: Rev D (all switches in the cabinet)
+  const KEY = doc.dataset.key || 'o14-boq-v9'; // each section's BOQ has its own key (data-key)
   const VAT = +doc.dataset.vat || 5;
   const $ = s => document.getElementById(s);
   const money = n => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -156,7 +156,8 @@
       } else if (r.classList.contains('subt') && !r.classList.contains('empty')) body += `<tr class="s"><td></td><td colspan="4">${esc(r.children[1].textContent)}</td><td class="n">${esc(r.lastElementChild.textContent)}</td></tr>`;
     });
     const cp = $('t-contp').value;
-    const tot = [['Subtotal A–E', txt('t-base')], ...(doc.classList.contains('no-opt') ? [] : [['Optional items (F, ticked)', txt('t-opt')]]), [`Contingency ${cp} %`, txt('t-cont')], ['Total before VAT', txt('t-net')], [`VAT ${VAT} %`, txt('t-vat')]];
+    const lbl = id => ($(id).previousElementSibling || {}).textContent || '';
+    const tot = [[lbl('t-base'), txt('t-base')], ...(doc.classList.contains('no-opt') ? [] : [[lbl('t-opt'), txt('t-opt')]]), [`Contingency ${cp} %`, txt('t-cont')], ['Total before VAT', txt('t-net')], [`VAT ${VAT} %`, txt('t-vat')]];
     const meta = [['Estimate no.', f('ref')], ['Date', f('date')], ['Valid for', f('valid')], ['Revision', f('rev')], ['Prepared for', f('to')], ['Project', f('proj')], ['Site', f('site')], ['Currency', f('cur')]];
     const terms = [...doc.querySelectorAll('.terms li')].map(li => `<li>${esc(li.textContent)}</li>`).join('');
     const sign = [['Prepared by', f('by')], ['Reviewed by', f('rev_by')], ['Approved by', f('appr')]];

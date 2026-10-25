@@ -129,6 +129,9 @@
   .status-dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
   .card-name{ font-size:20px; }
   .card-desc{ font-size:13.5px; color:var(--ink-dim); }
+  .card-note{ margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.02em; color:var(--ink); }
+  .project-card.onhold .card-stripe{ background:var(--ink-dim); }
+  .project-card.onhold{ opacity:0.8; }
   .card-cta{
     margin-top:auto; padding-top:16px; border-top:1px solid var(--border-soft);
     display:flex; align-items:center; justify-content:space-between;
@@ -188,37 +191,40 @@
         with its own index.html, then copy this card and update the href, name, and description.
         Update #projectCount above when you add or remove one.
       -->
-      <a class="project-card reveal" href="oppein-green-house/index.html">
+      <a class="project-card reveal" href="oppein-network-plan-PyramidCentre/index.html">
         <div class="card-stripe"></div>
         <div class="card-body">
-          <span class="status-pill"><span class="status-dot"></span>Active</span>
-          <div>
-            <h3 class="card-name">Green House</h3>
-            <p class="card-desc">Indoor greenhouse plan and documentation — Sajja, Sharjah, UAE.</p>
-          </div>
-          <div class="card-cta">Open project <span class="arrow">→</span></div>
-        </div>
-      </a>
-
-      <a class="project-card reveal" href="oppein-dubai-cctv-network/index.html">
-        <div class="card-stripe"></div>
-        <div class="card-body">
-          <span class="status-pill planning"><span class="status-dot"></span>Spec</span>
-          <div>
-            <h3 class="card-name">Dubai CCTV Network</h3>
-            <p class="card-desc">Showroom network &amp; CCTV upgrade spec — Oppein Dubai showroom.</p>
-          </div>
-          <div class="card-cta">Open project <span class="arrow">→</span></div>
-        </div>
-      </a>
-
-      <a class="project-card reveal" href="oppein-network-plan-PyramidCentre/oppein-pyramid-centre-network/index.html">
-        <div class="card-stripe"></div>
-        <div class="card-body">
-          <span class="status-pill planning"><span class="status-dot"></span>Rev A · Draft</span>
+          <span class="status-pill"><span class="status-dot"></span>On Going</span>
           <div>
             <h3 class="card-name">Office 114 Pyramid Centre</h3>
             <p class="card-desc">Structured Cat6 cabling &amp; network plan — Office 114, Pyramid Centre.</p>
+            <p class="card-note">Plan not confirmed. Wiring on going.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="project-card onhold reveal" href="oppein-green-house/index.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill soon"><span class="status-dot"></span>On Hold</span>
+          <div>
+            <h3 class="card-name">Green House</h3>
+            <p class="card-desc">Indoor greenhouse plan and documentation — Sajja, Sharjah, UAE.</p>
+            <p class="card-note">No further discussion.</p>
+          </div>
+          <div class="card-cta">Open project <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <a class="project-card cancelled reveal" href="oppein-dubai-cctv-network/index.html">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <span class="status-pill cancelled"><span class="status-dot"></span>Rejected</span>
+          <div>
+            <h3 class="card-name">Dubai CCTV Network</h3>
+            <p class="card-desc">Showroom network &amp; CCTV upgrade spec — Oppein Dubai showroom.</p>
+            <p class="card-note">Showroom relocating.</p>
           </div>
           <div class="card-cta">Open project <span class="arrow">→</span></div>
         </div>

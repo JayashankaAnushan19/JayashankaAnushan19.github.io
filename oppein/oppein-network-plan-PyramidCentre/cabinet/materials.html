@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOQ & estimate — Rack & Cabinet · Office 114 · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. BOQ &amp; estimate.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../oppein-pyramid-centre-network/assets/style.css">
+</head>
+<body class="boq-page">
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="../index.html">Pyramid Centre</a> / <a href="index.html">Rack &amp; Cabinet</a></span>
+    <span class="nav-tag">Upcoming</span>
+  </div>
+</nav>
+<div class="shell wide">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">SYS-03 · Rack &amp; Cabinet</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="design.html"><span class="num">01</span>Cabinet design</a><a href="materials.html" aria-current="page"><span class="num">02</span>BOQ & estimate</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 02 · BOQ &AMP; ESTIMATE</div>
+      <h1>BOQ & estimate</h1>
+      <p class="lead">Bill of quantities for the combined, fully customised cabinet (all systems). Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Upcoming</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+<div class="callout warn"><b>Avoid double counting:</b> the SYS-01 BOQ (section B) also prices a cabinet for Internet &amp; Telephone. When this combined cabinet is approved, untick section B in the SYS-01 BOQ.</div>    <section class="sec no-print" id="summary">
+      <div class="module-label">BOQ-01</div>
+      <h2>Estimate at a glance</h2>
+      <p class="sub">Figures update live from the BOQ below.</p>
+      <div class="tiles">
+      <div class="tile"><div class="tv" data-live="base">—</div><div class="tl">Subtotal (main)</div><div class="ts">excl. contingency &amp; VAT</div></div>
+      <div class="tile"><div class="tv" data-live="grand">—</div><div class="tl">Grand total</div><div class="ts">incl. contingency + 5 % VAT</div></div>
+    </div><div id="boq-bars"></div>
+    </section>
+    <section class="sec boq-sec" id="boq-sec">
+      <div class="module-label no-print">BOQ-02</div>
+      <h2 class="no-print">Bill of quantities</h2>
+      <div class="boq-tools no-print">
+      <button class="btn solid" id="boq-print">Print / save as PDF</button>
+      <button class="btn solid" id="boq-word">Export to Word</button>
+      <button class="btn" id="boq-all">Tick all</button>
+      <button class="btn" id="boq-none">Untick all</button>
+      <button class="btn" id="boq-reset">Reset to estimate</button>
+      <span class="hint">Tick the lines to include: only ticked lines are numbered, totalled, printed and exported. Add your own lines with “+ Add a line” in any section. Click any quantity, rate or header field to edit it. Edits are saved in this browser only.</span>
+    </div>
+    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="1" data-key="o14-cab-boq-v2">
+      <header class="lh">
+        <div class="lh-brand">
+          <img src="../../assets/oppein-logo.webp" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
+          <div class="lh-id"><input class="lh-name" data-f="co" value="OPPEIN" aria-label="Company name"><input class="lh-tag" data-f="tag" value="IT Department · Projects &amp; Infrastructure" aria-label="Department"></div>
+        </div>
+        <div class="lh-contact">
+          <input data-f="addr" placeholder="Office address, Dubai, UAE" aria-label="Address">
+          <input data-f="tel" placeholder="Tel: +971 …" aria-label="Telephone">
+          <input data-f="mail" placeholder="Email" aria-label="Email">
+          <input data-f="trn" placeholder="TRN: …" aria-label="Tax registration number">
+        </div>
+      </header>
+      <div class="lh-rule"></div>
+      <div class="doc-title"><h2>Estimate — Bill of Quantities</h2><span class="stamp">Budget estimate · not a quotation</span></div>
+      <div class="doc-meta">
+        <label>Estimate no.<input data-f="ref" value="OPP-IT-EST-O14-CAB-001"></label>
+        <label>Date<input data-f="date" type="date" value="2026-10-23"></label>
+        <label>Valid for<input data-f="valid" value="30 days"></label>
+        <label>Revision<input data-f="rev" value="Rev D"></label>
+        <label class="w2">Prepared for<input data-f="to" placeholder="Client / management name"></label>
+        <label class="w2">Project<input data-f="proj" value="Office 114 — Rack &amp; cabinet (all systems)"></label>
+        <label class="w2">Site<input data-f="site" value="Pyramid Centre · Office 14"></label>
+        <label class="w2">Currency<input data-f="cur" value="AED · rates excl. VAT"></label>
+      </div>
+      <div class="tw-paper"><table class="boq">
+        <colgroup><col style="width:8%"><col><col style="width:7%"><col style="width:9%"><col style="width:12%"><col style="width:14%"></colgroup>
+        <thead><tr><th>No.</th><th>Description &amp; function</th><th>Unit</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
+        <tbody><tr class="grp" data-grp="A"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section A"> A</td><td colspan="5"><span class="gt-title">Cabinet module (joinery)</span></td></tr><tr class="it" data-key="A.1" data-sec="A" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.1"> <span class="no">A.1</span></td>
+        <td><span class="d">Custom wall-hung cabinet module, 18 mm laminated board, inner 80 × 40 × 35 cm, 2 shelves (21 cm), fixed panels</span><div class="fn">One cabinet for Internet, Telephone and CCTV, above the desk in the IT Room.</div><div class="rmk no-print">Rate basis: Joinery estimate — get a carpenter quote</div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="900.00" data-def="900.00" aria-label="Unit rate A.1"></td>
+        <td class="n amt">900.00</td></tr><tr class="it" data-key="A.2" data-sec="A" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.2"> <span class="no">A.2</span></td>
+        <td><span class="d">Ø100 mm cable inlet with brush grommet (back panel)</span><div class="fn">Neat, dust-proof entry for every cable from the ceiling conduit.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="35.00" data-def="35.00" aria-label="Unit rate A.2"></td>
+        <td class="n amt">35.00</td></tr><tr class="it" data-key="A.3" data-sec="A" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.3"> <span class="no">A.3</span></td>
+        <td><span class="d">Quiet extract fan for the top vent slot, with thermostat</span><div class="fn">Pulls warm air out through the 64 × 3 cm slot; needed in Dubai heat.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="120.00" data-def="120.00" aria-label="Unit rate A.3"></td>
+        <td class="n amt">120.00</td></tr><tr class="it" data-key="A.4" data-sec="A" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.4"> <span class="no">A.4</span></td>
+        <td><span class="d">Washable filter for the 5 cm lower ventilation gap</span><div class="fn">Keeps dust out of the air drawn in at the bottom.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.4"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="40.00" data-def="40.00" aria-label="Unit rate A.4"></td>
+        <td class="n amt">40.00</td></tr><tr class="it" data-key="A.5" data-sec="A" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.5"> <span class="no">A.5</span></td>
+        <td><span class="d">Heavy-duty wall anchors and fixing</span><div class="fn">Board cabinet plus equipment, fixed to masonry.</div><div class="rmk no-print"></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.5"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="60.00" data-def="60.00" aria-label="Unit rate A.5"></td>
+        <td class="n amt">60.00</td></tr><tr class="addrow no-print" data-sec="A"><td></td><td colspan="5"><button type="button" class="addline" data-sec="A">+ Add a line to A</button></td></tr><tr class="subt" data-sub="A"><td></td><td colspan="4">Subtotal A — Cabinet module (joinery)</td><td class="n" data-subamt="A">—</td></tr><tr class="grp" data-grp="B"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section B"> B</td><td colspan="5"><span class="gt-title">Cable management</span></td></tr><tr class="it" data-key="B.1" data-sec="B" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.1"> <span class="no">B.1</span></td>
+        <td><span class="d">24-port Cat6 patch panel, 1U</span><div class="fn">All cables land here (network, phone and up to ~10 CCTV cameras).</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="80.00" data-def="80.00" aria-label="Unit rate B.1"></td>
+        <td class="n amt">80.00</td></tr><tr class="it" data-key="B.2" data-sec="B" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.2"> <span class="no">B.2</span></td>
+        <td><span class="d">1U wall-mount bracket for the patch panel</span><div class="fn">Holds the 19″ panel on the back board in the bottom bay (no rails in this cabinet).</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="45.00" data-def="45.00" aria-label="Unit rate B.2"></td>
+        <td class="n amt">45.00</td></tr><tr class="it" data-key="B.3" data-sec="B" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.3"> <span class="no">B.3</span></td>
+        <td><span class="d">Labels, Velcro and colour-coded patch cords (per system)</span><div class="fn">One colour per system makes faults easy to trace.</div><div class="rmk no-print"></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="120.00" data-def="120.00" aria-label="Unit rate B.3"></td>
+        <td class="n amt">120.00</td></tr><tr class="addrow no-print" data-sec="B"><td></td><td colspan="5"><button type="button" class="addline" data-sec="B">+ Add a line to B</button></td></tr><tr class="subt" data-sub="B"><td></td><td colspan="4">Subtotal B — Cable management</td><td class="n" data-subamt="B">—</td></tr><tr class="grp" data-grp="C"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section C"> C</td><td colspan="5"><span class="gt-title">Power</span></td></tr><tr class="it" data-key="C.1" data-sec="C" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.1"> <span class="no">C.1</span></td>
+        <td><span class="d">PDU 8-way 230 V (laid in the bottom bay)</span><div class="fn">Sockets for every device in the cabinet.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="90.00" data-def="90.00" aria-label="Unit rate C.1"></td>
+        <td class="n amt">90.00</td></tr><tr class="it" data-key="C.2" data-sec="C" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.2"> <span class="no">C.2</span></td>
+        <td><span class="d">UPS 1–1.5 kVA line-interactive, tower (under the desk)</span><div class="fn">Backs up internet, phone line and recording. A rack UPS does not fit this cabinet.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="1400.00" data-def="1400.00" aria-label="Unit rate C.2"></td>
+        <td class="n amt">1,400.00</td></tr><tr class="addrow no-print" data-sec="C"><td></td><td colspan="5"><button type="button" class="addline" data-sec="C">+ Add a line to C</button></td></tr><tr class="subt" data-sub="C"><td></td><td colspan="4">Subtotal C — Power</td><td class="n" data-subamt="C">—</td></tr><tr class="grp" data-grp="D"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section D"> D</td><td colspan="5"><span class="gt-title">Labour & services</span></td></tr><tr class="it" data-key="D.1" data-sec="D" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.1"> <span class="no">D.1</span></td>
+        <td><span class="d">Fit-out: mount kit, fit panel and PDU, dress and label all cables</span><div class="fn">All systems together, coordinated with the carpenter.</div><div class="rmk no-print"></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity D.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="500.00" data-def="500.00" aria-label="Unit rate D.1"></td>
+        <td class="n amt">500.00</td></tr><tr class="it" data-key="D.2" data-sec="D" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.2"> <span class="no">D.2</span></td>
+        <td><span class="d">As-built cabinet drawing and maintenance checklist</span><div class="fn"></div><div class="rmk no-print"></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity D.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="250.00" data-def="250.00" aria-label="Unit rate D.2"></td>
+        <td class="n amt">250.00</td></tr><tr class="addrow no-print" data-sec="D"><td></td><td colspan="5"><button type="button" class="addline" data-sec="D">+ Add a line to D</button></td></tr><tr class="subt" data-sub="D"><td></td><td colspan="4">Subtotal D — Labour & services</td><td class="n" data-subamt="D">—</td></tr><tr class="grp optgrp" data-grp="F"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section F"> F</td><td colspan="5"><span class="gt-title">Optional items</span> <span class="optnote no-print">— tick an item to include it in the total</span></td></tr><tr class="it opt" data-key="F.1" data-sec="F" data-defon="0">
+        <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.1"> <span class="no">F.1</span></td>
+        <td><span class="d">Lockable front panel (the drawings are hinge-free / open front)</span><div class="fn">Only if the IT Room is not locked.</div><div class="rmk no-print">Rate basis: Joinery estimate</div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="250.00" data-def="250.00" aria-label="Unit rate F.1"></td>
+        <td class="n amt">250.00</td></tr><tr class="it opt" data-key="F.2" data-sec="F" data-defon="0">
+        <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.2"> <span class="no">F.2</span></td>
+        <td><span class="d">Environment sensor (temperature / door) with alerts</span><div class="fn">Warns if the cabinet overheats.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="350.00" data-def="350.00" aria-label="Unit rate F.2"></td>
+        <td class="n amt">350.00</td></tr><tr class="addrow no-print" data-sec="F"><td></td><td colspan="5"><button type="button" class="addline" data-sec="F">+ Add a line to F</button></td></tr><tr class="subt optsub" data-sub="F"><td></td><td colspan="4">Subtotal F — Optional items (included items)</td><td class="n" data-subamt="F">—</td></tr></tbody>
+      </table></div>
+      <div class="totals">
+        <div class="words"><small>Grand total in words</small><p id="t-words">—</p></div>
+        <dl>
+          <dt>Subtotal A–D</dt><dd id="t-base">—</dd>
+          <dt>Optional items (F, ticked)</dt><dd id="t-opt">—</dd>
+          <dt>Contingency <input id="t-contp" type="number" min="0" max="50" step="1" value="10" aria-label="Contingency percent"> %</dt><dd id="t-cont">—</dd>
+          <dt>Total before VAT</dt><dd id="t-net">—</dd>
+          <dt>VAT 5 %</dt><dd id="t-vat">—</dd>
+          <dt class="gt">Grand total (AED)</dt><dd class="gt" id="t-grand">—</dd>
+        </dl>
+      </div>
+      <div class="terms">
+        <h3>Notes &amp; conditions</h3>
+        <ol>
+          <li>Starter estimate for planning. Rates are typical UAE trade estimates (17 Oct 2026); replace them with supplier quotations.</li>
+          <li>One cabinet in the IT Room (mark 1) for Internet, Telephone and CCTV. Size and layout to be fixed once the CCTV design is known.</li>
+          <li>Active equipment (router, switches, NVR) is priced in its own section BOQ, not here.</li>
+          <li>Optional items (section F) are included only where ticked. Contingency covers site variations.</li>
+        </ol>
+      </div>
+      <div class="sign">
+        <div><span>Prepared by</span><input data-f="by" value="Jayashanka · OPPEIN IT"><i>Signature &amp; date</i></div>
+        <div><span>Reviewed by</span><input data-f="rev_by" placeholder="Name"><i>Signature &amp; date</i></div>
+        <div><span>Approved by</span><input data-f="appr" placeholder="Name"><i>Signature &amp; date</i></div>
+      </div>
+      <footer class="pf"><span>OPPEIN · Office 114 Rack &amp; Cabinet · Estimate BOQ</span><span>Generated from the project documentation</span></footer>
+    </article></div>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="design.html"><small>← DOC 01</small>Cabinet design</a>
+      <span></span>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · Rack &amp; cabinet documentation · upcoming</p>
+  </main>
+</div>
+<script src="../oppein-pyramid-centre-network/assets/boq.js"></script>
+<script src="../oppein-pyramid-centre-network/assets/site.js"></script>
+</body>
+</html>
