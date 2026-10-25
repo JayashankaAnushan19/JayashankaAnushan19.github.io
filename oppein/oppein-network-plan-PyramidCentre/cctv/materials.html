@@ -26,13 +26,13 @@
 <div class="shell wide">
   <aside class="side" aria-label="Document pages">
     <div class="side-h">SYS-02 · CCTV</div>
-    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="materials.html" aria-current="page"><span class="num">01</span>BOQ & estimate</a></div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="cameras.html"><span class="num">01</span>Camera schedule</a><a href="recording.html"><span class="num">02</span>Recording & storage</a><a href="materials.html" aria-current="page"><span class="num">03</span>BOQ & estimate</a></div>
   </aside>
   <main>
     <header class="ph">
-      <div class="eyebrow"><span class="led"></span>DOC 01 · BOQ &AMP; ESTIMATE</div>
+      <div class="eyebrow"><span class="led"></span>DOC 03 · BOQ &AMP; ESTIMATE</div>
       <h1>BOQ & estimate</h1>
-      <p class="lead">Bill of quantities for the CCTV system. Camera-count items start at quantity 0 — set them once the camera plan is fixed. Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.</p>
+      <p class="lead">Bill of quantities for the CCTV system: 4 HD analog cameras on siamese cable, a 4-channel DVR, a 2 TB disk and a 12 V power supply, from the camera schedule. Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.</p>
       <div class="meta"><span>Pyramid Centre · Office 14</span><span>Upcoming</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
     <section class="sec no-print" id="summary">
@@ -55,7 +55,7 @@
       <button class="btn" id="boq-reset">Reset to estimate</button>
       <span class="hint">Tick the lines to include: only ticked lines are numbered, totalled, printed and exported. Add your own lines with “+ Add a line” in any section. Click any quantity, rate or header field to edit it. Edits are saved in this browser only.</span>
     </div>
-    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="1" data-key="o14-cctv-boq-v1">
+    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="1" data-key="o14-cctv-boq-v3">
       <header class="lh">
         <div class="lh-brand">
           <img src="../../assets/oppein-logo.webp" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
@@ -85,89 +85,101 @@
         <thead><tr><th>No.</th><th>Description &amp; function</th><th>Unit</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
         <tbody><tr class="grp" data-grp="A"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section A"> A</td><td colspan="5"><span class="gt-title">Cameras & recording</span></td></tr><tr class="it" data-key="A.1" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.1"> <span class="no">A.1</span></td>
-        <td><span class="d">IP dome camera, 4 MP, PoE, IR night vision (indoor)</span><div class="fn">Indoor coverage of desks, showroom and entrances.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td><span class="d">HD analog dome camera 2 MP (AHD/TVI), IR night vision, 2.8 mm (≈ 90°), 12 V DC, ceiling mount</span><div class="fn">CAM1 Designers · CAM2 Showroom · kitchen-side corner · CAM3 Showroom · printer-side corner · CAM4 Kitchen.</div><div class="rmk no-print">Rate basis: Typical trade price (Hikvision Turbo HD / Dahua HDCVI class)</div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity A.1"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="350.00" data-def="350.00" aria-label="Unit rate A.1"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="A.2" data-sec="A" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity A.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate A.1"></td>
+        <td class="n amt">600.00</td></tr><tr class="it" data-key="A.2" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.2"> <span class="no">A.2</span></td>
-        <td><span class="d">IP bullet camera, 4 MP, PoE, IR (entrance / corridor)</span><div class="fn">Longer, narrower views such as the entrance door.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td><span class="d">DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+, 1 SATA bay</span><div class="fn">Records the 4 cameras from their coax; one LAN port to the office network (SW0-P8) for viewing.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity A.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="380.00" data-def="380.00" aria-label="Unit rate A.2"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="A.3" data-sec="A" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="350.00" data-def="350.00" aria-label="Unit rate A.2"></td>
+        <td class="n amt">350.00</td></tr><tr class="it" data-key="A.3" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.3"> <span class="no">A.3</span></td>
-        <td><span class="d">NVR 8-channel 4K, H.265, rackable</span><div class="fn">Records every camera; sits in the shared IT Room cabinet.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td><span class="d">Surveillance hard disk 2 TB</span><div class="fn">About 20 days of continuous recording from 4 cameras (see Recording &amp; storage).</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity A.3"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="900.00" data-def="900.00" aria-label="Unit rate A.3"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="A.4" data-sec="A" data-defon="1">
-        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.4"> <span class="no">A.4</span></td>
-        <td><span class="d">Surveillance hard disk 4 TB</span><div class="fn">Storage for about 2–4 weeks of recording (depends on cameras and settings).</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
-        <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity A.4"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate A.4"></td>
-        <td class="n amt">0.00</td></tr><tr class="addrow no-print" data-sec="A"><td></td><td colspan="5"><button type="button" class="addline" data-sec="A">+ Add a line to A</button></td></tr><tr class="subt" data-sub="A"><td></td><td colspan="4">Subtotal A — Cameras & recording</td><td class="n" data-subamt="A">—</td></tr><tr class="grp" data-grp="B"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section B"> B</td><td colspan="5"><span class="gt-title">Network & power</span></td></tr><tr class="it" data-key="B.1" data-sec="B" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="300.00" data-def="300.00" aria-label="Unit rate A.3"></td>
+        <td class="n amt">300.00</td></tr><tr class="addrow no-print" data-sec="A"><td></td><td colspan="5"><button type="button" class="addline" data-sec="A">+ Add a line to A</button></td></tr><tr class="subt" data-sub="A"><td></td><td colspan="4">Subtotal A — Cameras & recording</td><td class="n" data-subamt="A">—</td></tr><tr class="grp" data-grp="B"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section B"> B</td><td colspan="5"><span class="gt-title">Camera power</span></td></tr><tr class="it" data-key="B.1" data-sec="B" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.1"> <span class="no">B.1</span></td>
-        <td><span class="d">PoE switch 8-port for cameras (802.3af/at), 1U or desktop</span><div class="fn">Powers the cameras over their cables. Not needed if the NVR has built-in PoE ports.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td><span class="d">CCTV power supply 12 V DC 5 A, 4-way, individually fused, metal box</span><div class="fn">Feeds every camera through the power pair of its siamese cable. Load 2 A of 5 A.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity B.1"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate B.1"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="B.2" data-sec="B" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity B.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="120.00" data-def="120.00" aria-label="Unit rate B.1"></td>
+        <td class="n amt">120.00</td></tr><tr class="it" data-key="B.2" data-sec="B" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.2"> <span class="no">B.2</span></td>
-        <td><span class="d">Camera junction / mounting box</span><div class="fn">Neat fixing of each camera and its cable end.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">DC power pigtail (male) at each camera</span><div class="fn">Connects the power pair to the camera.</div><div class="rmk no-print"></div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity B.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="40.00" data-def="40.00" aria-label="Unit rate B.2"></td>
-        <td class="n amt">0.00</td></tr><tr class="addrow no-print" data-sec="B"><td></td><td colspan="5"><button type="button" class="addline" data-sec="B">+ Add a line to B</button></td></tr><tr class="subt" data-sub="B"><td></td><td colspan="4">Subtotal B — Network & power</td><td class="n" data-subamt="B">—</td></tr><tr class="grp" data-grp="C"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section C"> C</td><td colspan="5"><span class="gt-title">Cabling & containment</span></td></tr><tr class="it" data-key="C.1" data-sec="C" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity B.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="5.00" data-def="5.00" aria-label="Unit rate B.2"></td>
+        <td class="n amt">20.00</td></tr><tr class="it" data-key="B.3" data-sec="B" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include B.3"> <span class="no">B.3</span></td>
+        <td><span class="d">Camera junction / mounting box (ceiling)</span><div class="fn">Neat fixing of each camera and its cable end.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity B.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="40.00" data-def="40.00" aria-label="Unit rate B.3"></td>
+        <td class="n amt">160.00</td></tr><tr class="addrow no-print" data-sec="B"><td></td><td colspan="5"><button type="button" class="addline" data-sec="B">+ Add a line to B</button></td></tr><tr class="subt" data-sub="B"><td></td><td colspan="4">Subtotal B — Camera power</td><td class="n" data-subamt="B">—</td></tr><tr class="grp" data-grp="C"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section C"> C</td><td colspan="5"><span class="gt-title">Cabling & containment</span></td></tr><tr class="it" data-key="C.1" data-sec="C" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.1"> <span class="no">C.1</span></td>
-        <td><span class="d">Cat6 U/UTP solid bare copper, 305 m box</span><div class="fn">One cable from the cabinet to each camera.</div><div class="rmk no-print">Rate basis: Same as SYS-01 cable</div></td>
-        <td class="u">box</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity C.1"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="480.00" data-def="480.00" aria-label="Unit rate C.1"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="C.2" data-sec="C" data-defon="1">
+        <td><span class="d">Siamese cable RG59 coax + 2 × 0.75 mm² power, 100 m roll</span><div class="fn">51 m for 4 camera runs (+10 % for terminations and offcuts).</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td class="u">roll</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.1"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="180.00" data-def="180.00" aria-label="Unit rate C.1"></td>
+        <td class="n amt">180.00</td></tr><tr class="it" data-key="C.2" data-sec="C" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.2"> <span class="no">C.2</span></td>
-        <td><span class="d">RJ45 plugs / keystones and surface boxes</span><div class="fn">Cable ends at the cameras and the patch panel.</div><div class="rmk no-print"></div></td>
-        <td class="u">lot</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity C.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="120.00" data-def="120.00" aria-label="Unit rate C.2"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="C.3" data-sec="C" data-defon="1">
-        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.3"> <span class="no">C.3</span></td>
-        <td><span class="d">PVC casing / conduit and fittings</span><div class="fn">Containment for the camera cables, sharing the existing route where it has space.</div><div class="rmk no-print"></div></td>
-        <td class="u">lot</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity C.3"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="250.00" data-def="250.00" aria-label="Unit rate C.3"></td>
-        <td class="n amt">0.00</td></tr><tr class="addrow no-print" data-sec="C"><td></td><td colspan="5"><button type="button" class="addline" data-sec="C">+ Add a line to C</button></td></tr><tr class="subt" data-sub="C"><td></td><td colspan="4">Subtotal C — Cabling & containment</td><td class="n" data-subamt="C">—</td></tr><tr class="grp" data-grp="D"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section D"> D</td><td colspan="5"><span class="gt-title">Labour & services</span></td></tr><tr class="it" data-key="D.1" data-sec="D" data-defon="1">
-        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.1"> <span class="no">D.1</span></td>
-        <td><span class="d">Install, terminate and aim camera</span><div class="fn">Per camera.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">BNC compression connectors (camera end + DVR end)</span><div class="fn">Two per camera run.</div><div class="rmk no-print"></div></td>
         <td class="u">pc</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity D.1"></td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="8" data-def="8" aria-label="Quantity C.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="6.00" data-def="6.00" aria-label="Unit rate C.2"></td>
+        <td class="n amt">48.00</td></tr><tr class="it" data-key="C.3" data-sec="C" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.3"> <span class="no">C.3</span></td>
+        <td><span class="d">Ceiling conduit / flexible conduit and fixings for the camera drops</span><div class="fn">Shares the cabinet → mark 2 conduit; short new runs above the ceiling to each camera.</div><div class="rmk no-print"></div></td>
+        <td class="u">lot</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate C.3"></td>
+        <td class="n amt">150.00</td></tr><tr class="it" data-key="C.4" data-sec="C" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.4"> <span class="no">C.4</span></td>
+        <td><span class="d">Cat6 patch cord, DVR → SW0-P8</span><div class="fn">Connects the DVR to the office network for phone-app viewing.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.4"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate C.4"></td>
+        <td class="n amt">15.00</td></tr><tr class="addrow no-print" data-sec="C"><td></td><td colspan="5"><button type="button" class="addline" data-sec="C">+ Add a line to C</button></td></tr><tr class="subt" data-sub="C"><td></td><td colspan="4">Subtotal C — Cabling & containment</td><td class="n" data-subamt="C">—</td></tr><tr class="grp" data-grp="D"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section D"> D</td><td colspan="5"><span class="gt-title">Labour & services</span></td></tr><tr class="it" data-key="D.1" data-sec="D" data-defon="1">
+        <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.1"> <span class="no">D.1</span></td>
+        <td><span class="d">Install, terminate (BNC + DC) and aim camera</span><div class="fn">Per camera, including ceiling work.</div><div class="rmk no-print"></div></td>
+        <td class="u">pc</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity D.1"></td>
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate D.1"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="D.2" data-sec="D" data-defon="1">
+        <td class="n amt">600.00</td></tr><tr class="it" data-key="D.2" data-sec="D" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.2"> <span class="no">D.2</span></td>
-        <td><span class="d">NVR set-up, recording schedule, phone-app viewing</span><div class="fn">Configuration and user access.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">DVR set-up: recording, motion events, users, phone-app viewing, password hardening</span><div class="fn">Configuration and secure remote access.</div><div class="rmk no-print"></div></td>
         <td class="u">lot</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity D.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="400.00" data-def="400.00" aria-label="Unit rate D.2"></td>
-        <td class="n amt">0.00</td></tr><tr class="it" data-key="D.3" data-sec="D" data-defon="1">
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity D.2"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="350.00" data-def="350.00" aria-label="Unit rate D.2"></td>
+        <td class="n amt">350.00</td></tr><tr class="it" data-key="D.3" data-sec="D" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include D.3"> <span class="no">D.3</span></td>
-        <td><span class="d">Testing, handover and as-built camera plan</span><div class="fn"></div><div class="rmk no-print"></div></td>
+        <td><span class="d">Testing, handover and as-built camera plan</span><div class="fn">Day / night image and voltage check at every camera.</div><div class="rmk no-print"></div></td>
         <td class="u">lot</td>
-        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="0" data-def="0" aria-label="Quantity D.3"></td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity D.3"></td>
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="250.00" data-def="250.00" aria-label="Unit rate D.3"></td>
-        <td class="n amt">0.00</td></tr><tr class="addrow no-print" data-sec="D"><td></td><td colspan="5"><button type="button" class="addline" data-sec="D">+ Add a line to D</button></td></tr><tr class="subt" data-sub="D"><td></td><td colspan="4">Subtotal D — Labour & services</td><td class="n" data-subamt="D">—</td></tr><tr class="grp optgrp" data-grp="F"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section F"> F</td><td colspan="5"><span class="gt-title">Optional items</span> <span class="optnote no-print">— tick an item to include it in the total</span></td></tr><tr class="it opt" data-key="F.1" data-sec="F" data-defon="0">
+        <td class="n amt">250.00</td></tr><tr class="addrow no-print" data-sec="D"><td></td><td colspan="5"><button type="button" class="addline" data-sec="D">+ Add a line to D</button></td></tr><tr class="subt" data-sub="D"><td></td><td colspan="4">Subtotal D — Labour & services</td><td class="n" data-subamt="D">—</td></tr><tr class="grp optgrp" data-grp="F"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section F"> F</td><td colspan="5"><span class="gt-title">Optional items</span> <span class="optnote no-print">— tick an item to include it in the total</span></td></tr><tr class="it opt" data-key="F.1" data-sec="F" data-defon="0">
         <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.1"> <span class="no">F.1</span></td>
-        <td><span class="d">UPS for the NVR and camera switch</span><div class="fn">Keeps recording through short power cuts.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">Monitor 22″ (HDMI) for live viewing</span><div class="fn">Live view at reception, straight from the DVR.</div><div class="rmk no-print"></div></td>
         <td class="u">pc</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.1"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="600.00" data-def="600.00" aria-label="Unit rate F.1"></td>
-        <td class="n amt">600.00</td></tr><tr class="it opt" data-key="F.2" data-sec="F" data-defon="0">
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate F.1"></td>
+        <td class="n amt">450.00</td></tr><tr class="it opt" data-key="F.2" data-sec="F" data-defon="0">
         <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.2"> <span class="no">F.2</span></td>
-        <td><span class="d">Monitor 22″ for live viewing</span><div class="fn">Live view at reception or the IT Room.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">Upgrade disk to 4 TB</span><div class="fn">Extra over the 2 TB: about 41 days in total.</div><div class="rmk no-print"></div></td>
         <td class="u">pc</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="450.00" data-def="450.00" aria-label="Unit rate F.2"></td>
-        <td class="n amt">450.00</td></tr><tr class="addrow no-print" data-sec="F"><td></td><td colspan="5"><button type="button" class="addline" data-sec="F">+ Add a line to F</button></td></tr><tr class="subt optsub" data-sub="F"><td></td><td colspan="4">Subtotal F — Optional items (included items)</td><td class="n" data-subamt="F">—</td></tr></tbody>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate F.2"></td>
+        <td class="n amt">150.00</td></tr><tr class="it opt" data-key="F.3" data-sec="F" data-defon="0">
+        <td class="m"><input type="checkbox" class="inc no-print" aria-label="Include F.3"> <span class="no">F.3</span></td>
+        <td><span class="d">CCTV warning signs</span><div class="fn">Notice at the entrance and kitchen.</div><div class="rmk no-print"></div></td>
+        <td class="u">set</td>
+        <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity F.3"></td>
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="60.00" data-def="60.00" aria-label="Unit rate F.3"></td>
+        <td class="n amt">60.00</td></tr><tr class="addrow no-print" data-sec="F"><td></td><td colspan="5"><button type="button" class="addline" data-sec="F">+ Add a line to F</button></td></tr><tr class="subt optsub" data-sub="F"><td></td><td colspan="4">Subtotal F — Optional items (included items)</td><td class="n" data-subamt="F">—</td></tr></tbody>
       </table></div>
       <div class="totals">
         <div class="words"><small>Grand total in words</small><p id="t-words">—</p></div>
@@ -183,11 +195,12 @@
       <div class="terms">
         <h3>Notes &amp; conditions</h3>
         <ol>
-          <li>Starter estimate for planning. Rates are typical UAE trade estimates (17 Oct 2026); replace them with supplier quotations.</li>
-          <li>Camera, recorder-channel and cable quantities start at 0 until the camera positions are marked on the drawing.</li>
-          <li>The recorder and camera PoE switch go in the shared IT Room cabinet; cabinet items are priced in SYS-03, not here.</li>
+          <li>Budget estimate for planning. Rates are typical UAE trade estimates (17 Oct 2026); replace them with supplier quotations.</li>
+          <li>Quantities follow the camera schedule: 4 HD analog cameras, 51 m of siamese cable (RG59 + power).</li>
+          <li>Cameras and DVR to be the same analog standard (AHD / TVI / CVI).</li>
+          <li>The DVR and the camera power supply go in the shared cabinet; cabinet items are priced in SYS-03, not here.</li>
           <li>Optional items (section F) are included only where ticked. Contingency covers site variations.</li>
-          <li>Excluded: electrical works, painting or making good, monitors other than F items, software licences beyond the recorder.</li>
+          <li>Excluded: electrical works, painting or making good.</li>
         </ol>
       </div>
       <div class="sign">
@@ -200,7 +213,7 @@
     </section>
 
     <footer class="pn">
-      <a class="prev" href="drawing.html"><small>← DOC DWG</small>Drawing</a>
+      <a class="prev" href="recording.html"><small>← DOC 02</small>Recording & storage</a>
       <span></span>
     </footer>
     <p class="foot">OPPEIN — Project hub · CCTV documentation · upcoming</p>

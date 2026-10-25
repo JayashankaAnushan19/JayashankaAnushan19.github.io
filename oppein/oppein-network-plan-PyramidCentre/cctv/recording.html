@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recording & storage — CCTV · Office 114 · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. Recording &amp; storage.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../oppein-pyramid-centre-network/assets/style.css">
+</head>
+<body>
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="../index.html">Pyramid Centre</a> / <a href="index.html">CCTV</a></span>
+    <span class="nav-tag">Upcoming</span>
+  </div>
+</nav>
+<div class="shell">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">SYS-02 · CCTV</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="cameras.html"><span class="num">01</span>Camera schedule</a><a href="recording.html" aria-current="page"><span class="num">02</span>Recording & storage</a><a href="materials.html"><span class="num">03</span>BOQ & estimate</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 02 · RECORDING &AMP; STORAGE</div>
+      <h1>Recording & storage</h1>
+      <p class="lead">How the DVR records, how long footage is kept, and how viewing is kept secure.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Upcoming</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+    <section class="sec" id="store">
+      <div class="module-label">REC-01</div>
+      <h2>Storage</h2>
+      
+      <div class="tiles"><div class="tile"><div class="tv">2 Mbit/s</div><div class="tl">Per camera</div><div class="ts">2 MP (1080p), H.265+, continuous (typical)</div></div><div class="tile"><div class="tv">86 GB</div><div class="tl">Per day</div><div class="ts">4 cameras together</div></div><div class="tile"><div class="tv">≈ 20 days</div><div class="tl">On 2 TB</div><div class="ts">90 % of the disk usable</div></div></div><div class="tw"><table><thead><tr><th>Disk</th><th>Days kept</th><th>Note</th></tr></thead><tbody><tr><td class="m">1 TB</td><td class="n">10</td><td>Minimum</td></tr><tr><td class="m">2 TB</td><td class="n">20</td><td><b>Recommended</b></td></tr><tr><td class="m">4 TB</td><td class="n">41</td><td>If a longer history is wanted</td></tr></tbody></table></div><p class="note">Motion-only recording at night stretches this further. The DVR overwrites the oldest footage when the disk is full.</p>
+    </section>
+    <section class="sec" id="settings">
+      <div class="module-label">REC-02</div>
+      <h2>Recommended DVR settings</h2>
+      
+      <div class="tw"><table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody><tr><td><b>Input mode</b></td><td>Match each channel to the camera standard (AHD / TVI / CVI) — or auto-detect</td></tr><tr><td><b>Recording</b></td><td>Continuous, main stream 1080p / 15 fps, H.265+</td></tr><tr><td><b>Sub-stream</b></td><td>Low resolution for phone-app live view</td></tr><tr><td><b>Motion events</b></td><td>On for all cameras; event tags for quick search</td></tr><tr><td><b>Time</b></td><td>NTP from the router, so the timestamps are right</td></tr><tr><td><b>Night</b></td><td>IR auto; check each camera after dark at handover</td></tr></tbody></table></div>
+    </section>
+    <section class="sec" id="secure">
+      <div class="module-label">REC-03</div>
+      <h2>Security</h2>
+      
+      <ul class="ticks">
+      <li>The analog cameras are not network devices — they cannot be reached or hacked over the network. The DVR is the only CCTV device on the LAN.</li>
+      <li>Change the DVR default password; one admin account for IT, view-only accounts for staff.</li>
+      <li>Remote viewing through the maker's app with two-factor login, or a VPN — no open router ports.</li>
+      <li>Keep the DVR firmware up to date; turn off UPnP and unused services.</li>
+      <li>Export clips only on request, to an encrypted USB drive; keep an export log.</li>
+    </ul>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="cameras.html"><small>← DOC 01</small>Camera schedule</a>
+      <a class="next" href="materials.html"><small>DOC 03 →</small>BOQ & estimate</a>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · CCTV documentation · upcoming</p>
+  </main>
+</div>
+
+<script src="../oppein-pyramid-centre-network/assets/site.js"></script>
+</body>
+</html>

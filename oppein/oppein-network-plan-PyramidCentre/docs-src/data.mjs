@@ -261,3 +261,41 @@ export const RISKS = [
   ['Cable run near power / lighting', 'Medium', 'Keep ≥ 300 mm from power casing, or use divided casing; cross at 90°.'],
   ['No UPS: a power cut drops Wi-Fi, internet and the phone line', 'Medium', 'Decide D-05. Everything is now powered from the cabinet PDU, so one UPS covers the whole network.'],
 ];
+
+/* ================= SYS-02 CCTV (2026-10-25, user's placement; ANALOG system) =================
+   HD analog cameras (AHD / TVI), each on ONE siamese cable: RG59 coax (video) + 2 × 0.75 mm² power pair in one jacket,
+   home-run from the camera to the cabinet. Video lands on the DVR's BNC inputs, power on a 12 V DC CCTV power supply.
+   No camera in the IT Room. CAM1 Designers ceiling at the printer, facing the designers. CAM2 + CAM3 in the Showroom,
+   facing each other. CAM4 in the kitchen next to the IT Room.
+   `dir` = facing angle on the drawing (0 = right, 90 = down). `route`: 'mark2' = ceiling conduit to mark 2 then across the
+   ceiling; 'direct' = straight from the cabinet across the ceiling. */
+export const CAMERAS = [
+  { id: 'CAM1', name: 'Designers', zone: 'Design', x: 640, y: 215, dir: 46, fov: 34, range: 8, route: 'mark2', port: 1,
+    view: 'Down the Designers strip toward desks 4, 3 and 2', type: 'HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm' },
+  { id: 'CAM2', name: 'Showroom · kitchen-side corner', zone: 'Showroom', x: 1430, y: 1440, dir: 226, fov: 60, range: 9, route: 'direct', port: 2,
+    view: 'Across the Showroom toward CAM3', type: 'HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm' },
+  { id: 'CAM3', name: 'Showroom · printer-side corner', zone: 'Showroom', x: 640, y: 560, dir: 50, fov: 60, range: 9, route: 'mark2', port: 3,
+    view: 'Across the Showroom toward CAM2 (and the entrance side)', type: 'HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm' },
+  { id: 'CAM4', name: 'Kitchen', zone: 'Kitchen', x: 1700, y: 1225, dir: 215, fov: 80, range: 3.5, route: 'direct', port: 4,
+    view: 'Into the kitchen from the corner nearest the cabinet', type: 'HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm' },
+];
+export const DVR = { id: 'DVR', name: 'DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+', inputs: CAMERAS.length, lan: 'SW0-P8' };
+export const CCTV_CABLE = 'RG59 coax + 2 × 0.75 mm² power';
+export const PSU = { volts: 12, amps: 5, outputs: 4, camA: 0.5 }; // camera draw at night with IR on (typical max)
+const CAM_DROP = 0.6; // m: ceiling box down to the camera
+const R_075 = 0.0245;  // Ω per metre of one 0.75 mm² copper core
+export const CCTV_RUNS = CAMERAS.map((c, i) => {
+  const pts = c.route === 'mark2' ? [RACK, ROUTE[1], c] : [RACK, c];
+  const routeM = polyLen(pts) * MM_PER_PT / 1000;
+  const drops = DROP.rack + CAM_DROP;
+  const est = Math.ceil((routeM + drops) * (1 + SLACK));
+  const drop = 2 * est * R_075 * PSU.camA; // voltage lost on the power pair (go + return)
+  const r = { cable: `V-${String(i + 1).padStart(2, '0')}`, cam: c, path: pts, routeM, drops, est, vDrop: drop, vCam: PSU.volts - drop };
+  c.run = r; return r;
+});
+export const CCTV_TOTAL_M = CCTV_RUNS.reduce((t, r) => t + r.est, 0);
+export const CCTV_ROLLS = Math.ceil(CCTV_TOTAL_M * 1.1 / 100); // siamese cable sold in 100 m rolls
+export const PSU_LOAD = +(CAMERAS.length * PSU.camA).toFixed(1);
+// Storage: 2 MP (1080p) H.265+ on an analog DVR ≈ 2 Mbit/s per camera, continuous; 90 % of the disk usable.
+export const REC = { mbps: 2, disks: [1, 2, 4], rec: 2, usable: 0.9 };
+export const recDays = tb => Math.floor(tb * 1e12 * REC.usable / (CAMERAS.length * REC.mbps * 1e6 / 8 * 86400));

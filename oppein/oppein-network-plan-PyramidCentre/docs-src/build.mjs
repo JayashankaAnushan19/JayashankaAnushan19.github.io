@@ -42,7 +42,7 @@ const SEC_NET = {
 };
 const SA = '../oppein-pyramid-centre-network/assets/'; // shared assets for the other sections
 const SEC_CCTV = {
-  pages: [['index.html', '00', 'Overview'], ['drawing.html', 'DWG', 'Drawing'], ['materials.html', '01', 'BOQ & estimate']],
+  pages: [['index.html', '00', 'Overview'], ['drawing.html', 'DWG', 'Drawing'], ['cameras.html', '01', 'Camera schedule'], ['recording.html', '02', 'Recording & storage'], ['materials.html', '03', 'BOQ & estimate']],
   assets: SA, crumb: 'CCTV', side: 'SYS-02 · CCTV', tag: 'Upcoming', title: 'CCTV · Office 114', meta: 'Upcoming', foot: 'CCTV documentation · upcoming',
 };
 const SEC_CAB = {
@@ -153,9 +153,9 @@ function glyph(d) {
     + el('rect', { x: -13, y: -10, width: 26, height: 15, fill: 'var(--panel)' }, null)
     + el('rect', { x: -6, y: 9, width: 12, height: 6, fill: c }, null);
 }
-function floorPlanSVG({ lab = false, drawing = false } = {}) {
+function floorPlanSVG({ lab = false, drawing = false, cams = false } = {}) {
   const B = D.BOUNDS;
-  let s = `<svg class="canvas${lab ? ' lab' : ''}${drawing ? ' drawing' : ''}" id="plan" viewBox="${B.x} ${B.y} ${B.w} ${B.h}" data-vb="${B.x} ${B.y} ${B.w} ${B.h}" role="img" aria-label="Office 14 floor plan with the ceiling conduit and wall casing route, the two switches and every Cat6 run">`;
+  let s = `<svg class="canvas${lab ? ' lab' : ''}${drawing ? ' drawing' : ''}${cams ? ' show-camfov' : ''}" id="plan" viewBox="${B.x} ${B.y} ${B.w} ${B.h}" data-vb="${B.x} ${B.y} ${B.w} ${B.h}" role="img" aria-label="Office 14 floor plan with the ceiling conduit and wall casing route, the two switches and every Cat6 run">`;
   if (lab) s += `<image id="heat" x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}" preserveAspectRatio="none" style="image-rendering:auto"/>`;
   s += `<g class="plan" data-art></g>`;
   if (lab) s += `<g id="rings"></g>`;
@@ -173,6 +173,8 @@ function floorPlanSVG({ lab = false, drawing = false } = {}) {
     s += el('text', { x: p.x + 12, y: p.y + 24, class: 'svgmono', 'font-size': 14 }, 'J' + (i + 1));
   });
   s += el('text', { x: 1520, y: 1400, class: 'svgmono', 'font-size': 14, 'text-anchor': 'middle', transform: `rotate(56 ${(D.ROUTE[0].x + D.ROUTE[1].x) / 2 + 40} ${(D.ROUTE[0].y + D.ROUTE[1].y) / 2})` }, 'PVC conduit in the ceiling').replace('x="1520" y="1400"', `x="${(D.ROUTE[0].x + D.ROUTE[1].x) / 2 + 40}" y="${(D.ROUTE[0].y + D.ROUTE[1].y) / 2}"`) + '</g>';
+  // CCTV drawing (cams): leave the Internet & Telephone cables and devices out; camLayer draws the cabinet instead
+  if (!cams) {
   s += '<g class="cables">';
   D.RUNS.forEach((r, i) => {
     const off = (i - (D.RUNS.length - 1) / 2) * 3.2;
@@ -190,7 +192,30 @@ function floorPlanSVG({ lab = false, drawing = false } = {}) {
   s += `<g class="dev" data-id="RACK"><title>${D.RACK_U}U wall cabinet — ONT, router, SW0 · IT Room</title>${el('rect', { x: R.x - 26, y: R.y - 22, width: 52, height: 44, rx: 4, fill: 'var(--ink)' }, null)}`
     + [0, 1, 2, 3].map(i => el('rect', { x: R.x - 20, y: R.y - 16 + i * 9, width: 40, height: 5, rx: 1, fill: 'var(--bg)', opacity: .8 }, null)).join('')
     + el('text', { x: R.x, y: R.y + 48, class: 'devlbl', 'font-size': 20, 'text-anchor': 'middle' }, 'CABINET · ONT · ROUTER · SW0') + '</g>';
-  return s + '</g></svg>';
+  s += '</g>';
+  }
+  if (cams) s += camLayer();
+  return s + '</svg>';
+}
+
+/* ---------------- CCTV camera layer (field-of-view cones, camera cables, camera icons) ---------------- */
+function camLayer() {
+  const k = 1000 / D.MM_PER_PT, rad = a => a * Math.PI / 180;
+  let fov = '<g class="camfov">', cab = '<g class="camcab">', ico = '<g class="cams">';
+  for (const c of D.CAMERAS) {
+    const r = c.range * k, a1 = rad(c.dir - c.fov / 2), a2 = rad(c.dir + c.fov / 2);
+    const p1 = [c.x + r * Math.cos(a1), c.y + r * Math.sin(a1)], p2 = [c.x + r * Math.cos(a2), c.y + r * Math.sin(a2)];
+    fov += el('path', { d: `M${c.x} ${c.y}L${p1[0].toFixed(1)} ${p1[1].toFixed(1)}A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}Z`, class: 'fov', 'data-id': c.id }, null);
+    cab += el('path', { d: toD(c.run.path), class: 'cable camcable', 'data-id': c.id }, null);
+    const ux = Math.cos(rad(c.dir)), uy = Math.sin(rad(c.dir));
+    ico += `<g class="cam" data-id="${c.id}" transform="translate(${c.x} ${c.y})"><title>${c.id} — ${esc(c.name)} · ${esc(c.view)} · ${c.run.cable} siamese ${c.run.est} m · DVR CH${c.port}</title>`
+      + el('circle', { r: 20, class: 'cambody' }, null) + el('circle', { r: 8, class: 'camlens', cx: (ux * 7).toFixed(1), cy: (uy * 7).toFixed(1) }, null)
+      + el('text', { y: -28, class: 'devlbl', 'font-size': 20, 'text-anchor': 'middle' }, c.id) + '</g>';
+  }
+  const R = D.RACK;
+  ico += `<g class="cabinet"><title>Cabinet (mark 1) — DVR and 12 V camera supply</title>${el('rect', { x: R.x - 26, y: R.y - 22, width: 52, height: 44, rx: 4, fill: 'var(--ink)' }, null)}`
+    + el('text', { x: R.x, y: R.y + 48, class: 'devlbl', 'font-size': 20, 'text-anchor': 'middle' }, 'CABINET · DVR · 12 V') + '</g>';
+  return fov + '</g>' + cab + '</g>' + ico + '</g>';
 }
 
 /* ---------------- topology svg ---------------- */
@@ -911,50 +936,115 @@ const glance = () => noPrint(section('summary', 'BOQ-01', 'Estimate at a glance'
     </div><div id="boq-bars"></div>`, 'Figures update live from the BOQ below.'));
 const outCCTV = {}, outCAB = {};
 
+const camRows = () => D.CAMERAS.map(c => `<tr data-id="${c.id}"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>${c.id}</b></td><td>${esc(c.name)}</td><td>${c.zone}</td><td>${esc(c.view)}</td><td class="m">CH${c.port}</td><td class="m">${c.run.cable}</td><td class="n">${c.run.est} m</td></tr>`);
 outCCTV['index.html'] = page('index.html', {
-  lead: 'The camera system for Office 114. This section is being planned: camera positions, the recorder, storage and viewing will be documented here. It uses the same floor-plan drawing and the same IT Room cabinet as Internet &amp; Telephone.',
-  body: section('ready', 'CCTV-01', 'Already in place', `<div class="cols2"><div class="card"><h3>Shared with the other sections</h3><ul class="ticks">
-      <li>The Office 114 floor-plan drawing — see <a href="drawing.html">DWG · Drawing</a>; camera positions will be added there as a layer</li>
-      <li>The same IT Room cabinet: ${D.SPARE_U}U (${D.SPARE_RANGE}) kept free for a recorder (NVR) and a PoE switch — final layout in <a href="../cabinet/index.html">SYS-03 Rack &amp; Cabinet</a></li>
-      <li>The ceiling conduit from the cabinet to mark 2 — check spare space before adding camera cables</li>
-    </ul></div><div class="card"><h3>To be decided</h3><ul class="crosses">
-      <li>Number of cameras and where each one goes</li>
-      <li>Recorder channels and how many days of recording</li>
-      <li>PoE switch for the cameras, and UPS backup</li>
-      <li>Who can view, and from where (on site / phone app)</li>
+  lead: `The camera system for Office 114: <b>${D.CAMERAS.length} HD analog cameras</b> recorded by a DVR in the shared cabinet. Each camera has <b>one siamese cable</b> (coax for video + a power pair) back to the cabinet. One camera covers the Designers strip, two face each other across the Showroom, and one covers the kitchen.`,
+  body: section('glance', 'CCTV-01', 'At a glance', tiles([
+      [D.CAMERAS.length, 'Cameras', '2 MP HD analog dome, IR'],
+      ['4-ch DVR', 'Recorder', 'BNC inputs · in the cabinet'],
+      [`${D.PSU.volts} V DC`, 'Camera power', `${D.PSU.amps} A supply in the cabinet · load ${D.PSU_LOAD} A`],
+      [`${D.CCTV_TOTAL_M} m`, 'Siamese cable', `RG59 + power · ${D.CCTV_ROLLS} × 100 m roll`],
+      [`≈ ${D.recDays(D.REC.rec)} days`, 'Recording', `${D.REC.rec} TB disk, continuous`],
+    ]))
+    + section('cams', 'CCTV-02', 'Cameras', table(['Camera', 'Location', 'Zone', 'Looks at', 'DVR input', 'Cable', 'Length'], camRows())
+      + `<p class="note">Positions follow your placement. See them with their fields of view on the ${link('drawing.html', 'CCTV drawing')}; full details in the ${link('cameras.html', 'camera schedule')}.</p>`)
+    + section('design', 'CCTV-03', 'Design choices', `<div class="cols2"><div class="card"><h3>Coverage</h3><ul class="ticks">
+      <li><b>CAM1</b> on the Designers ceiling at the printer looks down the whole strip, so every desk and the printer are in view.</li>
+      <li><b>CAM2</b> and <b>CAM3</b> face each other across the Showroom: each one sees the other's blind spot below it, and together they cover the entrance.</li>
+      <li><b>CAM4</b> covers the kitchen from the corner nearest the cabinet — the shortest camera cable.</li>
+    </ul></div><div class="card"><h3>System</h3><ul class="ticks">
+      <li><b>One siamese cable per camera</b> (RG59 coax + 2 × 0.75 mm² power in one jacket), home-run to the cabinet: CAM1 and CAM3 through the ceiling conduit to mark 2, CAM2 and CAM4 straight across the ceiling.</li>
+      <li>Video: coax → <b>DVR</b> BNC input. Power: power pair → <b>${D.PSU.volts} V DC CCTV power supply</b> (one fused output per camera). Both sit in the <a href="../cabinet/design.html">cabinet</a>.</li>
+      <li>Analog cameras are not on any network. <b>Only the DVR</b> joins the office LAN (patch cord to SW0-P8) for phone-app viewing.</li>
+      <li>Camera cables do not use the network patch panel or the Cat6 cable.</li>
     </ul></div></div>`)
-    + section('next', 'CCTV-02', 'Next', `<ol class="steps">
-      <li><b>Walk the site</b> and mark camera positions on the drawing.</li>
-      <li><b>Fill in the <a href="materials.html">BOQ</a></b>: set the camera count and choose the recorder.</li>
-      <li><b>Agree the cabinet space</b> with SYS-03.</li>
-    </ol>`),
+    + section('open', 'CCTV-04', 'To confirm', `<ul class="crosses">
+      <li>Exact camera spots on site (ceiling grid, lights, sprinklers) and the kitchen corner.</li>
+      <li>Camera and DVR must use the same analog standard (AHD / TVI / CVI) — buy them as a set.</li>
+      <li>Kitchen camera: agree with management that staff areas may be recorded, and put up notice signs.</li>
+      <li>Dubai rules: CCTV in many commercial premises falls under SIRA requirements — check whether this office does, and use an approved installer if so.</li>
+      <li>Retention period wanted (the ${D.REC.rec} TB disk gives ≈ ${D.recDays(D.REC.rec)} days).</li>
+      <li>The DVR takes the last spare port on SW0 (P8).</li>
+    </ul>`),
 }, SEC_CCTV);
+
 outCCTV['drawing.html'] = page('drawing.html', {
   wide: true, scripts: [`${SA}plan-art.js`],
-  lead: 'The Office 114 floor plan for the CCTV design. Camera positions and coverage will be added as layers. The plan comes from the one shared drawing file also used by Internet &amp; Telephone.',
+  lead: 'The Office 114 floor plan with the camera positions, their fields of view and their siamese cables back to the cabinet. The plan comes from the one shared drawing file also used by Internet &amp; Telephone.',
   body: `    <div class="stage drawing-stage">
-        ${floorPlanSVG({ drawing: true })}
+        ${floorPlanSVG({ drawing: true, cams: true })}
         <div class="toolbar">
           <button class="tool" data-z="in" aria-label="Zoom in">+</button>
           <button class="tool" data-z="out" aria-label="Zoom out">−</button>
           <button class="tool" data-z="fit" aria-label="Fit to screen">⤢</button>
         </div>
       </div>
-      <p class="note">Scroll or pinch to zoom, drag to pan. The cabinet at mark 1 (IT Room) is shared by every section.</p>
+      <div class="layers" role="group" aria-label="Layers">
+        <span class="layers-h">Layers</span>
+        <button class="tool" data-layer="camfov" aria-pressed="true">Fields of view</button>
+        <button class="tool" data-layer="camcab" aria-pressed="false">Siamese cables</button>
+        <button class="tool" data-layer="tray" aria-pressed="false">Conduit &amp; casing</button>
+      </div>
+      <p class="note">Cones show the useful view of each camera (2.8 mm lens, ≈ 90° at the lens, drawn tighter to the area it identifies people in); cameras do not see through the partition or counters. Hover a camera for details. The cabinet at mark 1 is shared by every section.</p>
 `,
 }, SEC_CCTV);
+
+outCCTV['cameras.html'] = page('cameras.html', {
+  wide: true,
+  lead: `Every camera with its place, what it looks at, its DVR input, its power output and its siamese cable (${D.CCTV_CABLE}) from the cabinet.`,
+  body: section('sched', 'CAM-01', 'Camera schedule', table(['Camera', 'Location', 'Looks at', 'Type / lens', 'DVR', 'Power', 'Cable', 'Route', 'Route m', 'Pull m'], D.CAMERAS.map(c =>
+      `<tr data-id="${c.id}"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>${c.id}</b></td><td>${esc(c.name)}</td><td>${esc(c.view)}</td><td>${esc(c.type)}</td><td class="m">CH${c.port}</td><td class="m">PSU-${c.port}</td><td class="m">${c.run.cable}</td><td>${c.route === 'mark2' ? 'Cabinet → ceiling conduit → mark 2 → ceiling' : 'Cabinet → ceiling (direct)'}</td><td class="n">${f1(c.run.routeM)}</td><td class="n"><b>${c.run.est}</b></td></tr>`),
+      { foot: `<tfoot><tr><td colspan="9">Total siamese cable</td><td class="n">${D.CCTV_TOTAL_M} m</td></tr></tfoot>` }))
+    + section('power', 'CAM-02', 'Power check (12 V over the cable)', table(['Camera', 'Cable', 'Length', 'Current', 'Voltage lost', 'At camera', 'Result'], D.CAMERAS.map(c =>
+      `<tr><td class="m"><b>${c.id}</b></td><td class="m">${c.run.cable}</td><td class="n">${c.run.est} m</td><td class="n">${D.PSU.camA} A</td><td class="n">${c.run.vDrop.toFixed(2)} V</td><td class="n"><b>${c.run.vCam.toFixed(1)} V</b></td><td>${c.run.vCam >= 10.8 ? '<span class="pill low">OK</span>' : '<span class="pill high">Too low</span>'}</td></tr>`))
+      + `<p class="note">Voltage lost = 2 × length × 0.0245 Ω/m (0.75 mm² copper, go + return) × ${D.PSU.camA} A (camera with IR on, typical maximum). Cameras accept 12 V ± 10 % (≥ 10.8 V). Total load ${D.PSU_LOAD} A on a ${D.PSU.amps} A supply.</p>`)
+    + section('method', 'CAM-03', 'How lengths are worked out', `<p class="formula">Pull length = ( ceiling route + ${D.DROP.rack} m cabinet drop + 0.6 m camera drop ) × ${1 + D.SLACK}, rounded up</p>
+      ${callout('info', `At the cabinet each siamese cable splits: the coax gets a BNC connector into the DVR input, the power pair goes to its fused output on the ${D.PSU.volts} V supply. At the camera: BNC on the coax, DC pigtail on the power pair. Total ${D.CCTV_TOTAL_M} m — order ${D.CCTV_ROLLS} × 100 m roll.`)}`)
+    + section('labels', 'CAM-04', 'Labels', table(['Where', 'Label', 'Example'], [
+      '<tr><td>Cable, both ends</td><td>Cable ID</td><td class="m">V-01</td></tr>',
+      '<tr><td>DVR input</td><td>Camera ID</td><td class="m">CH1 · CAM1</td></tr>',
+      '<tr><td>Power supply output</td><td>Camera ID</td><td class="m">PSU-1 · CAM1</td></tr>',
+    ])),
+}, SEC_CCTV);
+
+const recRows = D.REC.disks.map(tb => `<tr><td class="m">${tb} TB</td><td class="n">${D.recDays(tb)}</td><td>${tb === D.REC.rec ? '<b>Recommended</b>' : tb < D.REC.rec ? 'Minimum' : 'If a longer history is wanted'}</td></tr>`);
+outCCTV['recording.html'] = page('recording.html', {
+  lead: 'How the DVR records, how long footage is kept, and how viewing is kept secure.',
+  body: section('store', 'REC-01', 'Storage', tiles([
+      [`${D.REC.mbps} Mbit/s`, 'Per camera', '2 MP (1080p), H.265+, continuous (typical)'],
+      [`${(D.CAMERAS.length * D.REC.mbps * 86400 / 8 / 1000).toFixed(0)} GB`, 'Per day', `${D.CAMERAS.length} cameras together`],
+      [`≈ ${D.recDays(D.REC.rec)} days`, `On ${D.REC.rec} TB`, `${D.REC.usable * 100} % of the disk usable`],
+    ]) + table(['Disk', 'Days kept', 'Note'], recRows) + '<p class="note">Motion-only recording at night stretches this further. The DVR overwrites the oldest footage when the disk is full.</p>')
+    + section('settings', 'REC-02', 'Recommended DVR settings', table(['Setting', 'Value'], [
+      ['Input mode', 'Match each channel to the camera standard (AHD / TVI / CVI) — or auto-detect'],
+      ['Recording', 'Continuous, main stream 1080p / 15 fps, H.265+'],
+      ['Sub-stream', 'Low resolution for phone-app live view'],
+      ['Motion events', 'On for all cameras; event tags for quick search'],
+      ['Time', 'NTP from the router, so the timestamps are right'],
+      ['Night', 'IR auto; check each camera after dark at handover'],
+    ].map(([a, b]) => `<tr><td><b>${a}</b></td><td>${b}</td></tr>`)))
+    + section('secure', 'REC-03', 'Security', `<ul class="ticks">
+      <li>The analog cameras are not network devices — they cannot be reached or hacked over the network. The DVR is the only CCTV device on the LAN.</li>
+      <li>Change the DVR default password; one admin account for IT, view-only accounts for staff.</li>
+      <li>Remote viewing through the maker's app with two-factor login, or a VPN — no open router ports.</li>
+      <li>Keep the DVR firmware up to date; turn off UPnP and unused services.</li>
+      <li>Export clips only on request, to an encrypted USB drive; keep an export log.</li>
+    </ul>`),
+}, SEC_CCTV);
+
 outCCTV['materials.html'] = page('materials.html', {
   wide: true, bodyClass: 'boq-page', scripts: [`${SA}boq.js`],
-  lead: 'Bill of quantities for the CCTV system. Camera-count items start at quantity 0 — set them once the camera plan is fixed. Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.',
+  lead: `Bill of quantities for the CCTV system: ${D.CAMERAS.length} HD analog cameras on siamese cable, a 4-channel DVR, a ${D.REC.rec} TB disk and a ${D.PSU.volts} V power supply, from the camera schedule. Tick lines in or out, add your own lines, edit every quantity and rate, then print or export to Word.`,
   body: glance()
     + sectionBOQ(Q.BOQ_CCTV, {
-      key: 'o14-cctv-boq-v1', points: 1, ref: 'OPP-IT-EST-O14-CCTV-001', proj: 'Office 114 — CCTV system', foot: 'Office 114 CCTV',
+      key: 'o14-cctv-boq-v3', points: 1, ref: 'OPP-IT-EST-O14-CCTV-001', proj: 'Office 114 — CCTV system', foot: 'Office 114 CCTV',
       notes: [
-        `Starter estimate for planning. Rates are typical UAE trade estimates (${Q.PRICE_DATE}); replace them with supplier quotations.`,
-        'Camera, recorder-channel and cable quantities start at 0 until the camera positions are marked on the drawing.',
-        'The recorder and camera PoE switch go in the shared IT Room cabinet; cabinet items are priced in SYS-03, not here.',
+        `Budget estimate for planning. Rates are typical UAE trade estimates (${Q.PRICE_DATE}); replace them with supplier quotations.`,
+        `Quantities follow the camera schedule: ${D.CAMERAS.length} HD analog cameras, ${D.CCTV_TOTAL_M} m of siamese cable (RG59 + power).`,
+        'Cameras and DVR to be the same analog standard (AHD / TVI / CVI).',
+        'The DVR and the camera power supply go in the shared cabinet; cabinet items are priced in SYS-03, not here.',
         'Optional items (section F) are included only where ticked. Contingency covers site variations.',
-        'Excluded: electrical works, painting or making good, monitors other than F items, software licences beyond the recorder.',
+        'Excluded: electrical works, painting or making good.',
       ],
     }),
 }, SEC_CCTV);
@@ -964,7 +1054,7 @@ outCAB['index.html'] = page('index.html', {
   body: callout('info', `<b>Note:</b> there is only one cabinet, in the IT Room at mark 1. The ${D.RACK_U}U layout in <a href="../oppein-pyramid-centre-network/rack.html">SYS-01 · Rack layout</a> is the Internet &amp; Telephone view of it. This section will replace it with the final, fully customised cabinet for every system.`)
     + section('now', 'CAB-01', 'What the cabinet holds today (SYS-01)', table(['U', 'Item'], Object.keys(D.RACK_UNITS).sort((a, b) => b - a).map(u => `<tr${D.RACK_UNITS[u][1] === 'spare' ? ' class="spare"' : ''}><td class="m">U${u}</td><td>${esc(D.RACK_UNITS[u][0])}</td></tr>`)))
     + section('plan', 'CAB-02', 'To be worked out here', `<div class="cols2"><div class="card"><h3>Combined layout</h3><ul class="ticks">
-      <li>Final shelf-by-shelf layout for network, telephone and CCTV (NVR, camera PoE switch) together — first draft in <a href="design.html">Cabinet design</a></li>
+      <li>Final shelf-by-shelf layout for network, telephone and CCTV (DVR, 12 V camera supply) together — first draft in <a href="design.html">Cabinet design</a></li>
       <li>Whether the cabinet size changes once CCTV is added</li>
       <li>One patch panel or separate panels per system; colour code per system</li>
       <li>Cable entry, management and labelling for all systems</li>
@@ -987,7 +1077,7 @@ const CAB_IMGS = [
   ['4.jfif', 'cabinet-4.jpg', 'Revised blueprint (hinge-free)', 'Fixed-panel joinery, no door hinges; top view and front elevation. Part-list text in this image is not legible — dimensions only.'],
 ];
 // Heat in the cabinet (typical figures): ONT, router, 3 switches, 2 PoE injectors feeding the APs.
-const HEAT = [['ONT', 10], ['Router', 15], ['SW0 + SW1 + SW2', 15], ['2 PoE injectors (AP load + losses)', 30]];
+const HEAT = [['ONT', 10], ['Router', 15], ['SW0 + SW1 + SW2', 15], ['2 PoE injectors (AP load + losses)', 30], ['DVR + disk', 15], ['12 V camera supply (4 cameras + losses)', 30]];
 const HEAT_W = HEAT.reduce((t, [, w]) => t + w, 0);
 const cabSVG = () => {
   const k = 10, X = 60, Y = 50, W = CAB.w * k, H = CAB.h * k, b = CAB.board * k; // 1 cm = 10 units
@@ -1006,12 +1096,14 @@ const cabSVG = () => {
   s += el('rect', { x: X - b, y: Y + H + b, width: W + 2 * b, height: CAB.lowGap * k, fill: 'url(#lowgap)', opacity: .9 }, null);
   s += `<defs><pattern id="lowgap" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 10L10 0" stroke="#6b5a48" stroke-width="2"/></pattern></defs>`;
   // top bay: router + ONT (warmest kit nearest the top vent)
-  s += r(16, s1 - 4.5, 22, 4.5, 'var(--ink-dim)', 'ROUTER') + el('path', { d: `M${X + 19 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}M${X + 35 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}`, stroke: 'var(--ink-dim)', 'stroke-width': 3, 'stroke-linecap': 'round' }, null);
-  s += r(42, s1 - 3.5, 20, 3.5, 'var(--c-wan)', 'ONT');
+  s += r(13, s1 - 4.5, 22, 4.5, 'var(--ink-dim)', 'ROUTER') + el('path', { d: `M${X + 16 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}M${X + 32 * k} ${Y + (s1 - 4.5) * k}V${Y + 3 * k}`, stroke: 'var(--ink-dim)', 'stroke-width': 3, 'stroke-linecap': 'round' }, null);
+  s += r(37, s1 - 3.5, 16, 3.5, 'var(--c-wan)', 'ONT');
+  s += r(55, s1 - 4.5, 24, 4.5, 'var(--c-cam)', 'DVR 4-CH');
   // middle bay: three switches + two injectors
   let x = 2;
   for (const w of D.SWITCHES) { const ww = w.ports === 5 ? 10 : 16; s += r(x, s2 - 3, ww, 3, 'var(--amber)', w.id); x += ww + 2; }
   for (let i = 0; i < D.POE; i++) { s += r(x, s2 - 3.5, 7, 3.5, 'var(--c-ap)', 'INJ'); x += 9; }
+  s += r(x + 1, s2 - 5, 16, 5, 'var(--c-cam)', 'PSU 12V');
   // bottom bay: patch panel on a 1U wall bracket (back board) and the PDU on the base
   s += r(16, CAB.h - 4.4 - 4.4 - 2, 48, 4.4, 'var(--c-prn)', `PATCH PANEL 24 · ${D.PANEL.length} used`);
   s += r(16, CAB.h - 4.4, 48, 4.4, '#9a8f84', 'PDU 8-WAY');
@@ -1022,7 +1114,7 @@ const cabSVG = () => {
   s += dim(X, Y + H + b + CAB.lowGap * k + 26, X + W, Y + H + b + CAB.lowGap * k + 26, `inner width ${CAB.w} cm`, X + W / 2, Y + H + b + CAB.lowGap * k + 48);
   s += dim(X + W + 30, Y, X + W + 30, Y + H, `inner height ${CAB.h} cm`, X + W + 52, Y + H / 2, 90);
   const lx = X + W + 80;
-  [[0, s1, `top bay ≈ ${CAB.topBay} cm`, 'router + ONT'], [s1 + CAB.board, s2, `middle bay ≈ ${CAB.midBay} cm`, 'switches + injectors'], [s2 + CAB.board, CAB.h, `bottom bay ≈ ${CAB.lowBay} cm`, 'patch panel + PDU']].forEach(([a, z, t, u]) => {
+  [[0, s1, `top bay ≈ ${CAB.topBay} cm`, 'router + ONT + DVR'], [s1 + CAB.board, s2, `middle bay ≈ ${CAB.midBay} cm`, 'switches + injectors + 12 V PSU'], [s2 + CAB.board, CAB.h, `bottom bay ≈ ${CAB.lowBay} cm`, 'patch panel + PDU']].forEach(([a, z, t, u]) => {
     s += el('text', { x: lx, y: Y + (a + z) / 2 * k - 2, 'font-size': 14, class: 'svgtxt' }, t) + el('text', { x: lx, y: Y + (a + z) / 2 * k + 16, 'font-size': 12, class: 'svgmono' }, u);
   });
   s += el('text', { x: lx, y: Y + H + b + 30, 'font-size': 12, class: 'svgmono' }, `lower vent gap ${CAB.lowGap} cm + filter`);
@@ -1055,12 +1147,12 @@ outCAB['design.html'] = page('design.html', {
     + section('checks', 'DES-04', 'Engineering checks', table(['Result', 'Item', 'Why'], [
       fitRow('ok', 'Height budget', `${CAB.h} cm inside ≈ 9U, the same height as the 9U rack plan in SYS-01 — but there are no 19″ rails, so everything sits on shelves or brackets.`),
       fitRow('ok', '19″ patch panel and PDU', `Both are 48 cm wide; the ${CAB.w} cm width leaves ${CAB.w - 48} cm. The panel needs a 1U wall-mount bracket on the back board.`),
-      fitRow('ok', `Cable inlet for ${D.RUNS.length} + CCTV cables`, `Ø${CAB.inlet} cm ≈ ${Math.round(Math.PI * 25)} cm². ${D.RUNS.length} Cat6 (Ø6 mm) use about ${(D.RUNS.length * 0.28).toFixed(0)} cm² — plenty of room for CCTV too. Fit a brush grommet.`),
+      fitRow('ok', `Cable inlet for ${D.RUNS.length + D.CAMERAS.length} cables`, `Ø${CAB.inlet} cm ≈ ${Math.round(Math.PI * 25)} cm². ${D.RUNS.length} Cat6 (Ø6 mm ≈ 0.28 cm²) + ${D.CAMERAS.length} siamese RG59 + power (≈ 7 × 11 mm ≈ 0.6 cm²) use about ${(D.RUNS.length * 0.28 + D.CAMERAS.length * 0.6).toFixed(0)} cm² — plenty of room. Fit a brush grommet.`),
       fitRow('warn', 'Shelf depth', `${CAB.shelfD} cm: typical router and desktop switches are 10–20 cm deep, but allow ~5 cm for the plugs at the back. Measure the router before ordering.`),
       fitRow('warn', 'Router antennas', `Top bay ≈ ${CAB.topBay} cm: fold the antennas sideways or pick a router with internal antennas. Wi-Fi from inside a wooden box is weaker — the APs carry the office Wi-Fi.`),
       fitRow('warn', 'Heat', `About ${HEAT_W} W in the cabinet (${HEAT.map(([n, w]) => `${n} ${w} W`).join(', ')}). The top slot + lower gap make a chimney, but in Dubai add a quiet extract fan on the top slot and keep 5 cm free behind the kit.`),
       fitRow('warn', 'Open front', 'Hinge-free means no door: fine in a locked IT Room; otherwise add a lockable front panel so cables and ports cannot be pulled.'),
-      fitRow('warn', 'CCTV recorder', `A typical 8-channel NVR is about 38 × 5 × 30 cm: it fits the 35 cm depth but needs a full bay — decide in this section once the camera plan exists.`),
+      fitRow('warn', 'CCTV recorder + power', `A compact 4-channel DVR (about 26 cm wide, 5 cm high, 22 cm deep) fits the right side of the top bay, and the 12 V camera supply the middle bay; check both depths against the ${CAB.shelfD} cm shelf. Coax goes straight to the DVR, not via the patch panel.`),
       fitRow('no', 'Rack UPS', 'A 1–1.5 kVA rack UPS (48 × 9 × 40 cm) is deeper than the cabinet and too heavy for a wall-hung board box. Use a tower UPS under the desk.'),
       fitRow('warn', 'Wall fixing', 'Board cabinet plus ~10–15 kg of equipment: fix to masonry with heavy-duty anchors, not to plasterboard alone.'),
     ]) + callout('info', `<b>Effect on the other sections:</b> SYS-01 still shows the 9U 19″ rack view. If this module is approved, the SYS-01 rack page and BOQ section B will follow it. The SYS-03 BOQ below is already priced for this module.`)),
@@ -1076,7 +1168,7 @@ outCAB['materials.html'] = page('materials.html', {
       notes: [
         `Starter estimate for planning. Rates are typical UAE trade estimates (${Q.PRICE_DATE}); replace them with supplier quotations.`,
         'One cabinet in the IT Room (mark 1) for Internet, Telephone and CCTV. Size and layout to be fixed once the CCTV design is known.',
-        'Active equipment (router, switches, NVR) is priced in its own section BOQ, not here.',
+        'Active equipment (router, switches, DVR, camera power supply) is priced in its own section BOQ, not here.',
         'Optional items (section F) are included only where ticked. Contingency covers site variations.',
       ],
     }),

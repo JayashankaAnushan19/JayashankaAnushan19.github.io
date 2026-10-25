@@ -1,6 +1,6 @@
 // BOQ, functional descriptions and market product suggestions.
 // Rates: AED excl. VAT, budget estimates from UAE web listings seen 17 Oct 2026.
-import { DEVICES, RUNS, OUTLETS, BOXES, TOTAL_M, POE, CASING_SIZES, CASING_M, CONDUIT_M, PANEL, LOCAL, SWITCHES, SPARE, inCabinet } from './data.mjs';
+import { CAMERAS, CCTV_TOTAL_M, CCTV_ROLLS, PSU, PSU_LOAD, REC, recDays, DEVICES, RUNS, OUTLETS, BOXES, TOTAL_M, POE, CASING_SIZES, CASING_M, CONDUIT_M, PANEL, LOCAL, SWITCHES, SPARE, inCabinet } from './data.mjs';
 
 export const VAT_PCT = 5;
 export const CONTINGENCY_PCT = 10;
@@ -69,32 +69,35 @@ export const BOQ = [
   ]},
 ];
 
-// SYS-02 CCTV starter BOQ — camera-count items start at 0 until the camera plan exists.
+// SYS-02 CCTV BOQ — 4 HD analog cameras on siamese cable (coax + power), DVR and 12 V power supply in the cabinet.
 // [description, unit, qty, rate, function, rate basis, guide anchor (none for these sections)]
+const NCAM = CAMERAS.length;
 export const BOQ_CCTV = [
   { code: 'A', title: 'Cameras & recording', items: [
-    ['IP dome camera, 4 MP, PoE, IR night vision (indoor)', 'pc', 0, 350, 'Indoor coverage of desks, showroom and entrances.', 'Typical trade price', ''],
-    ['IP bullet camera, 4 MP, PoE, IR (entrance / corridor)', 'pc', 0, 380, 'Longer, narrower views such as the entrance door.', 'Typical trade price', ''],
-    ['NVR 8-channel 4K, H.265, rackable', 'pc', 0, 900, 'Records every camera; sits in the shared IT Room cabinet.', 'Typical trade price', ''],
-    ['Surveillance hard disk 4 TB', 'pc', 0, 450, 'Storage for about 2–4 weeks of recording (depends on cameras and settings).', 'Typical trade price', ''],
+    ['HD analog dome camera 2 MP (AHD/TVI), IR night vision, 2.8 mm (≈ 90°), 12 V DC, ceiling mount', 'pc', NCAM, 150, `${CAMERAS.map(c => `${c.id} ${c.name}`).join(' · ')}.`, 'Typical trade price (Hikvision Turbo HD / Dahua HDCVI class)', ''],
+    ['DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+, 1 SATA bay', 'pc', 1, 350, 'Records the 4 cameras from their coax; one LAN port to the office network (SW0-P8) for viewing.', 'Typical trade price', ''],
+    [`Surveillance hard disk ${REC.rec} TB`, 'pc', 1, 300, `About ${recDays(REC.rec)} days of continuous recording from ${NCAM} cameras (see Recording & storage).`, 'Typical trade price', ''],
   ]},
-  { code: 'B', title: 'Network & power', items: [
-    ['PoE switch 8-port for cameras (802.3af/at), 1U or desktop', 'pc', 0, 450, 'Powers the cameras over their cables. Not needed if the NVR has built-in PoE ports.', 'Typical trade price', ''],
-    ['Camera junction / mounting box', 'pc', 0, 40, 'Neat fixing of each camera and its cable end.', '', ''],
+  { code: 'B', title: 'Camera power', items: [
+    [`CCTV power supply ${PSU.volts} V DC ${PSU.amps} A, ${PSU.outputs}-way, individually fused, metal box`, 'pc', 1, 120, `Feeds every camera through the power pair of its siamese cable. Load ${PSU_LOAD} A of ${PSU.amps} A.`, 'Typical trade price', ''],
+    ['DC power pigtail (male) at each camera', 'pc', NCAM, 5, 'Connects the power pair to the camera.', '', ''],
+    ['Camera junction / mounting box (ceiling)', 'pc', NCAM, 40, 'Neat fixing of each camera and its cable end.', '', ''],
   ]},
   { code: 'C', title: 'Cabling & containment', items: [
-    ['Cat6 U/UTP solid bare copper, 305 m box', 'box', 0, 480, 'One cable from the cabinet to each camera.', 'Same as SYS-01 cable', ''],
-    ['RJ45 plugs / keystones and surface boxes', 'lot', 0, 120, 'Cable ends at the cameras and the patch panel.', '', ''],
-    ['PVC casing / conduit and fittings', 'lot', 0, 250, 'Containment for the camera cables, sharing the existing route where it has space.', '', ''],
+    ['Siamese cable RG59 coax + 2 × 0.75 mm² power, 100 m roll', 'roll', CCTV_ROLLS, 180, `${CCTV_TOTAL_M} m for ${NCAM} camera runs (+10 % for terminations and offcuts).`, 'Typical trade price', ''],
+    ['BNC compression connectors (camera end + DVR end)', 'pc', NCAM * 2, 6, 'Two per camera run.', '', ''],
+    ['Ceiling conduit / flexible conduit and fixings for the camera drops', 'lot', 1, 150, 'Shares the cabinet → mark 2 conduit; short new runs above the ceiling to each camera.', '', ''],
+    ['Cat6 patch cord, DVR → SW0-P8', 'pc', 1, 15, 'Connects the DVR to the office network for phone-app viewing.', '', ''],
   ]},
   { code: 'D', title: 'Labour & services', items: [
-    ['Install, terminate and aim camera', 'pc', 0, 150, 'Per camera.', '', ''],
-    ['NVR set-up, recording schedule, phone-app viewing', 'lot', 0, 400, 'Configuration and user access.', '', ''],
-    ['Testing, handover and as-built camera plan', 'lot', 0, 250, '', '', ''],
+    ['Install, terminate (BNC + DC) and aim camera', 'pc', NCAM, 150, 'Per camera, including ceiling work.', '', ''],
+    ['DVR set-up: recording, motion events, users, phone-app viewing, password hardening', 'lot', 1, 350, 'Configuration and secure remote access.', '', ''],
+    ['Testing, handover and as-built camera plan', 'lot', 1, 250, 'Day / night image and voltage check at every camera.', '', ''],
   ]},
   { code: 'F', title: 'Optional items', optional: true, items: [
-    ['UPS for the NVR and camera switch', 'pc', 1, 600, 'Keeps recording through short power cuts.', '', ''],
-    ['Monitor 22″ for live viewing', 'pc', 1, 450, 'Live view at reception or the IT Room.', '', ''],
+    ['Monitor 22″ (HDMI) for live viewing', 'pc', 1, 450, 'Live view at reception, straight from the DVR.', '', ''],
+    ['Upgrade disk to 4 TB', 'pc', 1, 150, `Extra over the ${REC.rec} TB: about ${recDays(4)} days in total.`, '', ''],
+    ['CCTV warning signs', 'set', 1, 60, 'Notice at the entrance and kitchen.', '', ''],
   ]},
 ];
 

@@ -26,39 +26,54 @@
 <div class="shell">
   <aside class="side" aria-label="Document pages">
     <div class="side-h">SYS-02 · CCTV</div>
-    <div class="side-nav"><a href="index.html" aria-current="page"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="materials.html"><span class="num">01</span>BOQ & estimate</a></div>
+    <div class="side-nav"><a href="index.html" aria-current="page"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="cameras.html"><span class="num">01</span>Camera schedule</a><a href="recording.html"><span class="num">02</span>Recording & storage</a><a href="materials.html"><span class="num">03</span>BOQ & estimate</a></div>
   </aside>
   <main>
     <header class="ph">
       <div class="eyebrow"><span class="led"></span>DOC 00 · OVERVIEW</div>
       <h1>Overview</h1>
-      <p class="lead">The camera system for Office 114. This section is being planned: camera positions, the recorder, storage and viewing will be documented here. It uses the same floor-plan drawing and the same IT Room cabinet as Internet &amp; Telephone.</p>
+      <p class="lead">The camera system for Office 114: <b>4 HD analog cameras</b> recorded by a DVR in the shared cabinet. Each camera has <b>one siamese cable</b> (coax for video + a power pair) back to the cabinet. One camera covers the Designers strip, two face each other across the Showroom, and one covers the kitchen.</p>
       <div class="meta"><span>Pyramid Centre · Office 14</span><span>Upcoming</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
-    <section class="sec" id="ready">
+    <section class="sec" id="glance">
       <div class="module-label">CCTV-01</div>
-      <h2>Already in place</h2>
+      <h2>At a glance</h2>
       
-      <div class="cols2"><div class="card"><h3>Shared with the other sections</h3><ul class="ticks">
-      <li>The Office 114 floor-plan drawing — see <a href="drawing.html">DWG · Drawing</a>; camera positions will be added there as a layer</li>
-      <li>The same IT Room cabinet: 4U (U2–U5) kept free for a recorder (NVR) and a PoE switch — final layout in <a href="../cabinet/index.html">SYS-03 Rack &amp; Cabinet</a></li>
-      <li>The ceiling conduit from the cabinet to mark 2 — check spare space before adding camera cables</li>
-    </ul></div><div class="card"><h3>To be decided</h3><ul class="crosses">
-      <li>Number of cameras and where each one goes</li>
-      <li>Recorder channels and how many days of recording</li>
-      <li>PoE switch for the cameras, and UPS backup</li>
-      <li>Who can view, and from where (on site / phone app)</li>
+      <div class="tiles"><div class="tile"><div class="tv">4</div><div class="tl">Cameras</div><div class="ts">2 MP HD analog dome, IR</div></div><div class="tile"><div class="tv">4-ch DVR</div><div class="tl">Recorder</div><div class="ts">BNC inputs · in the cabinet</div></div><div class="tile"><div class="tv">12 V DC</div><div class="tl">Camera power</div><div class="ts">5 A supply in the cabinet · load 2 A</div></div><div class="tile"><div class="tv">51 m</div><div class="tl">Siamese cable</div><div class="ts">RG59 + power · 1 × 100 m roll</div></div><div class="tile"><div class="tv">≈ 20 days</div><div class="tl">Recording</div><div class="ts">2 TB disk, continuous</div></div></div>
+    </section>
+    <section class="sec" id="cams">
+      <div class="module-label">CCTV-02</div>
+      <h2>Cameras</h2>
+      
+      <div class="tw"><table><thead><tr><th>Camera</th><th>Location</th><th>Zone</th><th>Looks at</th><th>DVR input</th><th>Cable</th><th class="n">Length</th></tr></thead><tbody><tr data-id="CAM1"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM1</b></td><td>Designers</td><td>Design</td><td>Down the Designers strip toward desks 4, 3 and 2</td><td class="m">CH1</td><td class="m">V-01</td><td class="n">20 m</td></tr><tr data-id="CAM2"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM2</b></td><td>Showroom · kitchen-side corner</td><td>Showroom</td><td>Across the Showroom toward CAM3</td><td class="m">CH2</td><td class="m">V-02</td><td class="n">6 m</td></tr><tr data-id="CAM3"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM3</b></td><td>Showroom · printer-side corner</td><td>Showroom</td><td>Across the Showroom toward CAM2 (and the entrance side)</td><td class="m">CH3</td><td class="m">V-03</td><td class="n">19 m</td></tr><tr data-id="CAM4"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM4</b></td><td>Kitchen</td><td>Kitchen</td><td>Into the kitchen from the corner nearest the cabinet</td><td class="m">CH4</td><td class="m">V-04</td><td class="n">6 m</td></tr></tbody></table></div><p class="note">Positions follow your placement. See them with their fields of view on the <a href="drawing.html">CCTV drawing</a>; full details in the <a href="cameras.html">camera schedule</a>.</p>
+    </section>
+    <section class="sec" id="design">
+      <div class="module-label">CCTV-03</div>
+      <h2>Design choices</h2>
+      
+      <div class="cols2"><div class="card"><h3>Coverage</h3><ul class="ticks">
+      <li><b>CAM1</b> on the Designers ceiling at the printer looks down the whole strip, so every desk and the printer are in view.</li>
+      <li><b>CAM2</b> and <b>CAM3</b> face each other across the Showroom: each one sees the other's blind spot below it, and together they cover the entrance.</li>
+      <li><b>CAM4</b> covers the kitchen from the corner nearest the cabinet — the shortest camera cable.</li>
+    </ul></div><div class="card"><h3>System</h3><ul class="ticks">
+      <li><b>One siamese cable per camera</b> (RG59 coax + 2 × 0.75 mm² power in one jacket), home-run to the cabinet: CAM1 and CAM3 through the ceiling conduit to mark 2, CAM2 and CAM4 straight across the ceiling.</li>
+      <li>Video: coax → <b>DVR</b> BNC input. Power: power pair → <b>12 V DC CCTV power supply</b> (one fused output per camera). Both sit in the <a href="../cabinet/design.html">cabinet</a>.</li>
+      <li>Analog cameras are not on any network. <b>Only the DVR</b> joins the office LAN (patch cord to SW0-P8) for phone-app viewing.</li>
+      <li>Camera cables do not use the network patch panel or the Cat6 cable.</li>
     </ul></div></div>
     </section>
-    <section class="sec" id="next">
-      <div class="module-label">CCTV-02</div>
-      <h2>Next</h2>
+    <section class="sec" id="open">
+      <div class="module-label">CCTV-04</div>
+      <h2>To confirm</h2>
       
-      <ol class="steps">
-      <li><b>Walk the site</b> and mark camera positions on the drawing.</li>
-      <li><b>Fill in the <a href="materials.html">BOQ</a></b>: set the camera count and choose the recorder.</li>
-      <li><b>Agree the cabinet space</b> with SYS-03.</li>
-    </ol>
+      <ul class="crosses">
+      <li>Exact camera spots on site (ceiling grid, lights, sprinklers) and the kitchen corner.</li>
+      <li>Camera and DVR must use the same analog standard (AHD / TVI / CVI) — buy them as a set.</li>
+      <li>Kitchen camera: agree with management that staff areas may be recorded, and put up notice signs.</li>
+      <li>Dubai rules: CCTV in many commercial premises falls under SIRA requirements — check whether this office does, and use an approved installer if so.</li>
+      <li>Retention period wanted (the 2 TB disk gives ≈ 20 days).</li>
+      <li>The DVR takes the last spare port on SW0 (P8).</li>
+    </ul>
     </section>
 
     <footer class="pn">

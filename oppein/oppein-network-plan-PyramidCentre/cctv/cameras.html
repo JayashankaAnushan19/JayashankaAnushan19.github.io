@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camera schedule — CCTV · Office 114 · OPPEIN</title>
+<meta name="description" content="Office 14, Pyramid Centre — structured cabling and network documentation. Camera schedule.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../oppein-pyramid-centre-network/assets/style.css">
+</head>
+<body>
+<nav class="top">
+  <div class="top-in">
+    <a class="logo" href="../../index.html" title="Back to the project hub">
+      <img class="logo-img" src="../../assets/oppein-logo.webp" alt="OPPEIN" onload="this.classList.add('loaded')">
+      <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
+    </a>
+    <span class="crumb"><a href="../../index.html">Projects</a> / <a href="../index.html">Pyramid Centre</a> / <a href="index.html">CCTV</a></span>
+    <span class="nav-tag">Upcoming</span>
+  </div>
+</nav>
+<div class="shell wide">
+  <aside class="side" aria-label="Document pages">
+    <div class="side-h">SYS-02 · CCTV</div>
+    <div class="side-nav"><a href="index.html"><span class="num">00</span>Overview</a><a href="drawing.html"><span class="num">DWG</span>Drawing</a><a href="cameras.html" aria-current="page"><span class="num">01</span>Camera schedule</a><a href="recording.html"><span class="num">02</span>Recording & storage</a><a href="materials.html"><span class="num">03</span>BOQ & estimate</a></div>
+  </aside>
+  <main>
+    <header class="ph">
+      <div class="eyebrow"><span class="led"></span>DOC 01 · CAMERA SCHEDULE</div>
+      <h1>Camera schedule</h1>
+      <p class="lead">Every camera with its place, what it looks at, its DVR input, its power output and its siamese cable (RG59 coax + 2 × 0.75 mm² power) from the cabinet.</p>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Upcoming</span><span>Jayashanka · OPPEIN IT</span></div>
+    </header>
+    <section class="sec" id="sched">
+      <div class="module-label">CAM-01</div>
+      <h2>Camera schedule</h2>
+      
+      <div class="tw"><table><thead><tr><th>Camera</th><th>Location</th><th>Looks at</th><th>Type / lens</th><th>DVR</th><th>Power</th><th>Cable</th><th>Route</th><th>Route m</th><th class="n">Pull m</th></tr></thead><tbody><tr data-id="CAM1"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM1</b></td><td>Designers</td><td>Down the Designers strip toward desks 4, 3 and 2</td><td>HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm</td><td class="m">CH1</td><td class="m">PSU-1</td><td class="m">V-01</td><td>Cabinet → ceiling conduit → mark 2 → ceiling</td><td class="n">15.7</td><td class="n"><b>20</b></td></tr><tr data-id="CAM2"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM2</b></td><td>Showroom · kitchen-side corner</td><td>Across the Showroom toward CAM3</td><td>HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm</td><td class="m">CH2</td><td class="m">PSU-2</td><td class="m">V-02</td><td>Cabinet → ceiling (direct)</td><td class="n">2.6</td><td class="n"><b>6</b></td></tr><tr data-id="CAM3"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM3</b></td><td>Showroom · printer-side corner</td><td>Across the Showroom toward CAM2 (and the entrance side)</td><td>HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm</td><td class="m">CH3</td><td class="m">PSU-3</td><td class="m">V-03</td><td>Cabinet → ceiling conduit → mark 2 → ceiling</td><td class="n">14.3</td><td class="n"><b>19</b></td></tr><tr data-id="CAM4"><td class="m"><span class="sw" style="background:var(--c-cam)"></span><b>CAM4</b></td><td>Kitchen</td><td>Into the kitchen from the corner nearest the cabinet</td><td>HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm</td><td class="m">CH4</td><td class="m">PSU-4</td><td class="m">V-04</td><td>Cabinet → ceiling (direct)</td><td class="n">2.9</td><td class="n"><b>6</b></td></tr></tbody><tfoot><tr><td colspan="9">Total siamese cable</td><td class="n">51 m</td></tr></tfoot></table></div>
+    </section>
+    <section class="sec" id="power">
+      <div class="module-label">CAM-02</div>
+      <h2>Power check (12 V over the cable)</h2>
+      
+      <div class="tw"><table><thead><tr><th>Camera</th><th>Cable</th><th class="n">Length</th><th>Current</th><th>Voltage lost</th><th>At camera</th><th>Result</th></tr></thead><tbody><tr><td class="m"><b>CAM1</b></td><td class="m">V-01</td><td class="n">20 m</td><td class="n">0.5 A</td><td class="n">0.49 V</td><td class="n"><b>11.5 V</b></td><td><span class="pill low">OK</span></td></tr><tr><td class="m"><b>CAM2</b></td><td class="m">V-02</td><td class="n">6 m</td><td class="n">0.5 A</td><td class="n">0.15 V</td><td class="n"><b>11.9 V</b></td><td><span class="pill low">OK</span></td></tr><tr><td class="m"><b>CAM3</b></td><td class="m">V-03</td><td class="n">19 m</td><td class="n">0.5 A</td><td class="n">0.47 V</td><td class="n"><b>11.5 V</b></td><td><span class="pill low">OK</span></td></tr><tr><td class="m"><b>CAM4</b></td><td class="m">V-04</td><td class="n">6 m</td><td class="n">0.5 A</td><td class="n">0.15 V</td><td class="n"><b>11.9 V</b></td><td><span class="pill low">OK</span></td></tr></tbody></table></div><p class="note">Voltage lost = 2 × length × 0.0245 Ω/m (0.75 mm² copper, go + return) × 0.5 A (camera with IR on, typical maximum). Cameras accept 12 V ± 10 % (≥ 10.8 V). Total load 2 A on a 5 A supply.</p>
+    </section>
+    <section class="sec" id="method">
+      <div class="module-label">CAM-03</div>
+      <h2>How lengths are worked out</h2>
+      
+      <p class="formula">Pull length = ( ceiling route + 1.5 m cabinet drop + 0.6 m camera drop ) × 1.1, rounded up</p>
+      <div class="callout info">At the cabinet each siamese cable splits: the coax gets a BNC connector into the DVR input, the power pair goes to its fused output on the 12 V supply. At the camera: BNC on the coax, DC pigtail on the power pair. Total 51 m — order 1 × 100 m roll.</div>
+    </section>
+    <section class="sec" id="labels">
+      <div class="module-label">CAM-04</div>
+      <h2>Labels</h2>
+      
+      <div class="tw"><table><thead><tr><th>Where</th><th>Label</th><th>Example</th></tr></thead><tbody><tr><td>Cable, both ends</td><td>Cable ID</td><td class="m">V-01</td></tr><tr><td>DVR input</td><td>Camera ID</td><td class="m">CH1 · CAM1</td></tr><tr><td>Power supply output</td><td>Camera ID</td><td class="m">PSU-1 · CAM1</td></tr></tbody></table></div>
+    </section>
+
+    <footer class="pn">
+      <a class="prev" href="drawing.html"><small>← DOC DWG</small>Drawing</a>
+      <a class="next" href="recording.html"><small>DOC 02 →</small>Recording & storage</a>
+    </footer>
+    <p class="foot">OPPEIN — Project hub · CCTV documentation · upcoming</p>
+  </main>
+</div>
+
+<script src="../oppein-pyramid-centre-network/assets/site.js"></script>
+</body>
+</html>
