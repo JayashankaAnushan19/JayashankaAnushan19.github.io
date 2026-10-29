@@ -35,6 +35,7 @@ h1 span{background:linear-gradient(100deg,var(--cyan),var(--violet));-webkit-bac
 .doors li:nth-child(4) .door{animation-delay:.6s}
 .doors li:nth-child(5) .door{animation-delay:.75s}
 .doors li:nth-child(6) .door{animation-delay:.9s}
+.doors li:nth-child(7) .door{animation-delay:1.05s}
 @keyframes slide{to{opacity:1;transform:none}}
 .door::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(77,227,255,.10),transparent 70%);opacity:0;transition:opacity .3s}
 .door::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .45s}
@@ -52,6 +53,7 @@ h1 span{background:linear-gradient(100deg,var(--cyan),var(--violet));-webkit-bac
 .chip.live{color:var(--green)}.chip.live::before{animation:ping 2s infinite}
 .chip.lock{color:var(--amber)}
 .chip.soon{color:var(--violet)}.chip.soon::before{animation:ping 1.4s infinite}
+.chip.old{color:var(--dim)}
 @keyframes ping{0%{box-shadow:0 0 0 0 currentColor}70%,100%{box-shadow:0 0 0 7px transparent}}
 .arrow{font-family:'JetBrains Mono',monospace;color:var(--dim);transition:transform .3s,color .3s}
 .door:hover .arrow,.door:focus-visible .arrow{transform:translateX(5px);color:var(--cyan)}
@@ -143,13 +145,23 @@ footer::after{content:"_";animation:cursor 1s steps(1) infinite}
       </a>
     </li>
     <li>
-      <a class="door" href="quick_stop/">
+      <a class="door" href="quick_stop_new/">
         <span class="idx">02</span>
         <div class="body">
           <h2>Quick Stop</h2>
-          <p>Shop site for two stores in Preston. Browse, build a basket, order on WhatsApp.</p>
+          <p>Info site for two stores in Preston. Products, offers, opening times and how to find them.</p>
         </div>
         <span class="side"><span class="chip live">Live</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+    </li>
+    <li>
+      <a class="door" href="quick_stop_old/">
+        <span class="idx">02</span>
+        <div class="body">
+          <h2>Quick Stop (old)</h2>
+          <p>The first version. Browse, build a basket, order on WhatsApp.</p>
+        </div>
+        <span class="side"><span class="chip old">Old</span><span class="arrow" aria-hidden="true">&rarr;</span></span>
       </a>
     </li>
     <li>

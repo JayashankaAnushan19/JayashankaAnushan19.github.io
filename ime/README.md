@@ -2,7 +2,7 @@
 
 Home for the projects I'm making for Ime. Everything lives inside this folder.
 
-`index.html` is the main page. It has a dark, techy look (grid, drifting network lines, cyan and violet accents, monospace labels). Each project is a row with a status chip (Live, Locked or Soon), **newest first**, that leads to that project's folder.
+`index.html` is the main page. It has a dark, techy look (grid, drifting network lines, cyan and violet accents, monospace labels). Each project is a row with a status chip (Live, Locked, Soon or Old), **newest first**, that leads to that project's folder.
 
 ## Projects
 
@@ -14,7 +14,8 @@ Listed newest first, the same order as the main page.
 | Life Twins | [life_twins/](life_twins/) | A nameless memory collection for two people. Two halves ("me" and "you"), each with a live sky that follows its own local time, and the same rows on both sides: time, daily mode, weather, air, sunrise and sunset. A thread between them shows the distance and carries hugs. Also a Special days section (dates without years) and a Memory sky of tappable stars with coded hints. | Locked |
 | Weather Twin | [weather_twin/](weather_twin/) | Live weather for Dubai and Preston side by side, with a small note that changes with the conditions. Data from Open-Meteo (free, no key), refreshes every 10 minutes. | Available |
 | Linner Clock | [linner_clock/](linner_clock/) | A playful world clock: Dubai and Preston side by side, with one line for what part of her day it is in Preston. Pure HTML, CSS and JS. | Available |
-| Quick Stop | [quick_stop/](quick_stop/) | Website for QUICK STOP, two shops in Preston. Browse, fill a basket, order on WhatsApp. Has its own [README](quick_stop/README.md). | Available |
+| Quick Stop | [quick_stop_new/](quick_stop_new/) | Information website for QUICK STOP, two shops in Preston: products, offers, open-now times, directions. No online ordering; WhatsApp on the Contact page only. Has its own [README](quick_stop_new/README.md). | Available |
+| Quick Stop (old) | [quick_stop_old/](quick_stop_old/) | The first version of the QUICK STOP site. Browse, fill a basket, order on WhatsApp. Has its own [README](quick_stop_old/README.md). | Available (old) |
 | The Special Day | [special_day/](special_day/) | A small surprise page, with a photo (`ime.jpeg`) | Locked, see below |
 
 ## The lock
@@ -41,7 +42,8 @@ ime/
 │   └── index.html
 ├── linner_clock/     project 3, world clock for Dubai and Preston
 │   └── index.html
-├── quick_stop/       project 2, the QUICK STOP shop website (own README inside)
+├── quick_stop_new/   project 2, the QUICK STOP information website (own README inside)
+├── quick_stop_old/   project 2, first version with basket + WhatsApp ordering (own README inside)
 └── special_day/      project 1 (locked)
     ├── index.html
     └── ime.jpeg
@@ -52,7 +54,7 @@ ime/
 1. Create a new folder in `ime/`, e.g. `ime/my_project/`, with its own `index.html`.
 2. Open `ime/index.html` and copy a `<li>` row inside `<ul class="doors">`.
 3. Put the new row **right below the "Next drop" row**, so the newest is first and the teaser stays pinned at the top. Change `href`, the number (`03`, etc.), the title, the text and the status chip (`live`, `lock` or `soon`). For a locked page, add `data-locked` to the `<a class="door">` and put the guard script from another locked page at the top of its `<head>`.
-4. Add a delay for it in the `.doors li:nth-child(n) .door` rules in the CSS, or it appears with no stagger (rules exist up to the 6th row).
+4. Add a delay for it in the `.doors li:nth-child(n) .door` rules in the CSS, or it appears with no stagger (rules exist up to the 7th row).
 5. Add a row to the Projects table above.
 
 ## Notes
