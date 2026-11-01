@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablet Holder | OPPEIN</title>
+<meta name="description" content="OPPEIN tablet holder: SolidWorks design of a wooden tray with a charger compartment.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="../assets/oppein-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0A08; --panel:#161310; --panel-2:#1C1712; --border:#2E2620; --border-soft:#221C17;
+    --ink:#F0EAE2; --ink-dim:#A99C8C; --ink-faint:#6B6055;
+    --amber:#D98A3D; --amber-dim:#7A4E20; --amber-glow:rgba(217,138,61,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.6; overflow-x:hidden; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color:var(--amber); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+  @media(max-width:720px){ .wrap{ padding:0 16px; } }
+
+  nav{ border-bottom:1px solid var(--border-soft); padding:22px 0; }
+  .back-link{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.06em; color:var(--ink-dim); }
+  .back-link:hover{ color:var(--amber); text-decoration:none; }
+
+  .hero{ padding:64px 0 48px; border-bottom:1px solid var(--border-soft); position:relative; overflow:hidden; }
+  .hero::before{ content:''; position:absolute; top:-30%; right:-10%; width:560px; height:560px; background:radial-gradient(circle,var(--amber-glow) 0%,transparent 70%); pointer-events:none; }
+  .hero-inner{ position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:40px; align-items:center; }
+  @media(max-width:860px){ .hero-inner{ grid-template-columns:minmax(0,1fr); } }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--amber); display:flex; align-items:center; gap:9px; margin-bottom:18px; }
+  .eyebrow .led{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+  h1{ font-size:clamp(36px,5.4vw,56px); line-height:1.06; margin-bottom:16px; }
+  h1 span{ color:var(--amber); }
+  .lead{ font-size:16.5px; color:var(--ink-dim); }
+
+  .shot{ display:block; width:100%; padding:0; border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#fff; cursor:zoom-in; transition:border-color .2s,box-shadow .2s; }
+  .shot:hover{ border-color:var(--amber); box-shadow:0 0 28px var(--amber-glow); }
+  .shot img{ display:block; width:100%; height:auto; }
+
+  .section{ padding:56px 0 8px; }
+  .module-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; color:var(--amber); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+  .module-label::after{ content:''; flex:1; height:1px; background:var(--border); }
+  h2{ font-size:25px; margin-bottom:6px; }
+  .sub{ color:var(--ink-dim); font-size:14.5px; margin-bottom:20px; }
+
+  .tiles{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  @media(max-width:640px){ .tiles{ grid-template-columns:minmax(0,1fr); } }
+  .tile{ background:var(--panel); border:1px solid var(--border); border-top:2px solid var(--amber); border-radius:8px; padding:18px 20px; }
+  .tile b{ display:block; font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:600; }
+  .tile span{ font-size:13.5px; color:var(--ink-dim); }
+
+  .views{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .parts{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  @media(max-width:860px){ .parts{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:560px){ .views,.parts{ grid-template-columns:minmax(0,1fr); } }
+  figure{ background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  figure .shot{ border:0; border-radius:0; border-bottom:1px solid var(--border); }
+  figcaption{ padding:12px 14px; font-size:13.5px; color:var(--ink-dim); }
+  figcaption b{ display:block; color:var(--ink); font-family:'Space Grotesk',sans-serif; font-size:15.5px; font-weight:600; }
+  figcaption a{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; display:inline-block; margin-top:5px; overflow-wrap:anywhere; }
+
+  .note{ margin-top:16px; padding:13px 16px; background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--amber); border-radius:6px; font-size:14px; color:var(--ink-dim); }
+  footer{ margin-top:64px; padding:32px 0; text-align:center; border-top:1px solid var(--border-soft); }
+  footer p{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); letter-spacing:0.1em; }
+
+  dialog{ border:1px solid var(--border); border-radius:10px; background:var(--panel); padding:12px; margin:auto; max-width:min(1240px,94vw); max-height:94vh; }
+  dialog::backdrop{ background:rgba(0,0,0,.82); }
+  dialog img{ display:block; max-width:100%; max-height:80vh; margin:0 auto; border-radius:6px; background:#fff; }
+  dialog p{ margin-top:8px; text-align:center; font-size:13.5px; color:var(--ink-dim); }
+  .close{ position:absolute; top:6px; right:10px; width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:var(--panel-2); color:var(--ink); font-size:20px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap"><a class="back-link" href="../index.html">&larr; OPPEIN Project Hub</a></div></nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow"><span class="led"></span>Project · CAD design</div>
+      <h1>Tablet <span>Holder</span></h1>
+      <p class="lead">A wooden tray designed in SolidWorks to hold a tablet, with space inside for its charger and connector and a notch in the base for the power cable.</p>
+    </div>
+    <button type="button" class="shot" data-full="img/assembly-iso.png" data-cap="Full assembly, isometric view"><img src="img/assembly-iso.png" alt="Isometric render of the open wooden tray with the charger and connector inside" width="1202" height="619"></button>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="module-label">Summary</div>
+    <h2>The model</h2>
+    <p class="sub">Designed in SolidWorks.</p>
+    <div class="tiles">
+      <div class="tile"><b>1</b><span>Full assembly</span></div>
+      <div class="tile"><b>7</b><span>Part files</span></div>
+      <div class="tile"><b>4</b><span>Wooden parts, plus charger, connector and tablet</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="module-label">Assembly</div>
+    <h2>Assembly views</h2>
+    <p class="sub">Click any image to enlarge. <a href="Full-Assem.SLDASM" download>Download the assembly (Full-Assem.SLDASM)</a></p>
+    <div class="views">
+      <figure><button type="button" class="shot" data-full="img/assembly-top.png" data-cap="Top view: connector on the left, charger on the right, cable notch at the top"><img src="img/assembly-top.png" alt="Top view of the tray interior" loading="lazy" width="1202" height="619"></button><figcaption><b>Top view</b>Connector on the left, charger on the right, cable notch at the top.</figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/assembly-right.png" data-cap="Side view: the frame stacked on the base plate"><img src="img/assembly-right.png" alt="Side view of the tray" loading="lazy" width="1202" height="619"></button><figcaption><b>Side view</b>The frame stacked on the base plate.</figcaption></figure>
+    </div>
+    <p class="note">The saved assembly views show the inside of the tray, with the tablet not visible. Finish, sizes and build material are still to be recorded on this page.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="module-label">Parts</div>
+    <h2>Parts</h2>
+    <p class="sub">Each part with its SolidWorks file.</p>
+    <div class="parts">
+      <figure><button type="button" class="shot" data-full="img/base-01.png" data-cap="Base-01: base plate with the cable notch"><img src="img/base-01.png" alt="Base plate" loading="lazy" width="1246" height="619"></button><figcaption><b>Base plate</b>Bottom panel with the cable notch.<br><a href="Base-01.SLDPRT" download>Base-01.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/base-02-bridge.png" data-cap="Base-02-Bridge: rectangular frame"><img src="img/base-02-bridge.png" alt="Rectangular frame" loading="lazy" width="1246" height="619"></button><figcaption><b>Frame</b>Rectangular frame around the tray.<br><a href="Base-02-Bridge.SLDPRT" download>Base-02-Bridge.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/base-01-left.png" data-cap="Base-01-Left: short side rail"><img src="img/base-01-left.png" alt="Short side rail" loading="lazy" width="1246" height="619"></button><figcaption><b>Short rail</b>Rail along the short side.<br><a href="Base-01-Left.SLDPRT" download>Base-01-Left.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/base-01-top.png" data-cap="Base-01-Top: long side rail"><img src="img/base-01-top.png" alt="Long side rail" loading="lazy" width="1246" height="619"></button><figcaption><b>Long rail</b>Rail along the long side.<br><a href="Base-01-Top.SLDPRT" download>Base-01-Top.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/charger.png" data-cap="Charger model with its cable"><img src="img/charger.png" alt="Charger block with cable" loading="lazy" width="1246" height="619"></button><figcaption><b>Charger</b>Charger block with its cable.<br><a href="Charger.SLDPRT" download>Charger.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/connector.png" data-cap="Connector model"><img src="img/connector.png" alt="Connector" loading="lazy" width="1246" height="619"></button><figcaption><b>Connector</b>Connector with its cable.<br><a href="Connector.SLDPRT" download>Connector.SLDPRT</a></figcaption></figure>
+      <figure><button type="button" class="shot" data-full="img/tablet.png" data-cap="Tablet reference model"><img src="img/tablet.png" alt="Tablet model" loading="lazy" width="1242" height="619"></button><figcaption><b>Tablet</b>Reference model of the tablet.<br><a href="Tablet.SLDPRT" download>Tablet.SLDPRT</a></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><p>OPPEIN — TABLET HOLDER</p></div></footer>
+
+<dialog id="lb"><button type="button" class="close" aria-label="Close">×</button><img alt=""><p></p></dialog>
+<script>
+  const d = document.getElementById('lb');
+  document.querySelectorAll('.shot').forEach(b => b.addEventListener('click', () => {
+    d.querySelector('img').src = b.dataset.full;
+    d.querySelector('img').alt = b.dataset.cap;
+    d.querySelector('p').textContent = b.dataset.cap;
+    d.showModal();
+  }));
+  d.addEventListener('click', e => { if (e.target === d || e.target.classList.contains('close')) d.close(); });
+</script>
+</body>
+</html>
