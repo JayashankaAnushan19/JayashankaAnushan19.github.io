@@ -20,7 +20,7 @@
       <span class="logo-dot"></span><span class="logo-txt">OPPEIN</span>
     </a>
     <span class="crumb"><a href="../../index.html">Projects</a> / <a href="../index.html">Pyramid Centre</a> / <a href="index.html">Internet &amp; Telephone</a></span>
-    <span class="nav-tag">Rev D · On going — wiring</span>
+    <span class="nav-tag">Rev E · On going — wiring</span>
   </div>
 </nav>
 <div class="shell">
@@ -33,14 +33,14 @@
       <div class="eyebrow"><span class="led"></span>DOC 06 · EQUIPMENT &AMP; BUYING GUIDE</div>
       <h1>Equipment & buying guide</h1>
       <p class="lead">What each component does in the Office 14 network, the specification to insist on, and products currently listed on Amazon.ae and noon UAE. Prices are what the listings showed on 17 Oct 2026. Stock and prices change, so open the listing before buying.</p>
-      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev D · 2026-10-23</span><span>Jayashanka · OPPEIN IT</span></div>
+      <div class="meta"><span>Pyramid Centre · Office 14</span><span>Rev E · 2026-11-05</span><span>Jayashanka · OPPEIN IT</span></div>
     </header>
     <section class="sec" id="howto">
       <div class="module-label">EQ-00</div>
       <h2>How the parts work together</h2>
-      <p class="sub">Every device has its own cable back to the cabinet, so a fault on one cable never affects another. Everything depends on the router and SW0.</p>
+      <p class="sub">Every device has its own cable back to the cabinet, so a fault on one cable never affects another. Everything depends on the router.</p>
       <div class="flow">
-      <div class="fstep"><span class="fnum">1</span><b>Internet</b><small>ISP fibre → ONT → router</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">2</span><b>Switches</b><small>SW0 → SW1 + SW2, in the cabinet</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">3</span><b>Patch panel</b><small>fixed end of every cable</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">4</span><b>Cat6 in casing</b><small>14 runs, 235 m</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">5</span><b>Surface box</b><small>Keystone at each end</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">6</span><b>Device</b><small>PC, printer, phone; APs via PoE injector</small></div>
+      <div class="fstep"><span class="fnum">1</span><b>Internet</b><small>ISP fibre → ONT → router</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">2</span><b>Switches</b><small>router → Switch-01 + Switch-02, in the cabinet</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">3</span><b>Patch panel</b><small>fixed end of every cable</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">4</span><b>Cat6 in casing</b><small>14 runs, 235 m</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">5</span><b>Surface box</b><small>Keystone at each end</small></div><span class="farrow">→</span><div class="fstep"><span class="fnum">6</span><b>Device</b><small>PC, printer, phone; APs via PoE injector</small></div>
     </div>
     </section>
     <section class="sec eq" id="cable">
@@ -71,10 +71,10 @@
     </section>
     <section class="sec eq" id="switch">
       <div class="module-label">EQ-02</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h1M11 12h1M15 12h1"/></svg><div><h2>Switches (SW0 rack, SW1 5-port, SW2 8-port)</h2><span class="eq-qty">BOQ quantity: 1 pc + 1 pc + 1 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h1M11 12h1M15 12h1"/></svg><div><h2>Switches (Switch-01 5-port, Switch-02 8-port)</h2><span class="eq-qty">BOQ quantity: 1 pc + 1 pc + 1 pc + 1 pc</span></div></div>
       <div class="eq-grid">
-        <div class="card"><h3>Function</h3><p>Plain unmanaged Gigabit switches, all on one shelf in the cabinet. The router feeds SW0 (new 8-port); SW0 feeds the existing SW1 (5-port) and SW2 (8-port) with short patch cords. Every device cable lands on the patch panel and is patched to its switch port. None of them give PoE, so the APs use injectors.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Gigabit (10/100/1000) on every port</li><li>All three fit side by side on one 1U shelf (about 440 mm wide in total)</li><li>Metal case preferred (cabinet heat)</li><li>Each power adapter on the cabinet PDU</li><li>Same make for both switches is easiest</li></ul></div>
+        <div class="card"><h3>Function</h3><p>The two existing plain unmanaged Gigabit switches, side by side on the U5 shelf of the cabinet. The router feeds each one directly with a patch cord; every device cable lands on the patch panel and is patched to its switch port. Neither gives PoE, so the APs use injectors.</p></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Gigabit (10/100/1000) on every port</li><li>Both fit side by side on one 19″ 1U shelf with the PoE injectors</li><li>Metal case preferred (cabinet heat)</li><li>Each power adapter on the cabinet PDU</li><li>Same make for both switches is easiest</li></ul></div>
       </div>
       <p class="note">Normally supplied by the installer at trade price. See the BOQ for the allowance.</p>
       <div class="callout warn"><b>Avoid:</b> Fast Ethernet (10/100) switches: they cap every PC behind them at 100 Mbps. Do not chain a third switch behind SW2; add ports by replacing a switch instead.</div>
@@ -113,28 +113,44 @@
     </section>
     <section class="sec eq" id="cabinet">
       <div class="module-label">EQ-05</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h8"/></svg><div><h2>Cabinet & patch panel</h2><span class="eq-qty">BOQ quantity: 1 pc + 1 pc + 1 pc + 1 pc + 4 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h8"/></svg><div><h2>Cabinet & patch panel</h2></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>The cabinet in the IT Room protects the ONT and router and keeps them locked. The 14 cables that start there end on a small patch panel, so changes are made with patch cords, not by re-terminating cables.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>19″ 9U wall-mount (holds everything + 4U spare), glass door, lock</li><li>≥ 450 mm deep (600 mm if the router is large)</li><li>Fan + vented sides</li><li>24-port Cat6 patch panel (keystone or loaded)</li></ul></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>19″ 12U wall-mount cabinet (the one linked in the plan sheet)</li><li>≥ 450 mm deep so the router and switches fit on the shelves</li><li>Vented / fan</li><li>24-port Cat6 patch panel, fully loaded (VENTION, as in the sheet)</li><li>19″ 1U shelves — not 10-inch ones</li></ul></div>
       </div>
-      <div class="picks"><a class="pick" href="https://www.noon.com/uae-en/24-port-cat-6-utp-loaded-patch-panel-black/N44149082A/p/" target="_blank" rel="noopener sponsored">
-        <span class="ptag t-recommended">Recommended</span>
-        <b>D-Link 24-port Cat6 UTP loaded patch panel (NPP-C61BLK241)</b>
-        <span class="pmeta"><span class="store s-noon">noon UAE</span><span class="price">AED 141.55</span></span>
-        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.noon.com/uae-en/vention-cat-6-utp-24-ports-keystone-patch-panel-black-model-kgcb0/Z37C3524980E8232FBC39Z/p/" target="_blank" rel="noopener sponsored">
-        <span class="ptag t-alternative">Alternative</span>
-        <b>VENTION Cat6 UTP 24-port keystone patch panel (KGCB0)</b>
-        <span class="pmeta"><span class="store s-noon">noon UAE</span><span class="price">AED 123.55</span></span>
+      <div class="picks"><a class="pick" href="https://www.amazon.ae/Server-Cabinet-Network-Networking-Equipment/dp/B0HLG46875" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet">Plan sheet</span>
+        <b>12U network cabinet</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
+        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.amazon.ae/VENTION-Cat-6-Loaded-Network-Distribution/dp/B0B7MJD9S2" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet">Plan sheet</span>
+        <b>VENTION Cat.6 UTP fully loaded patch panel, 24-port</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
+        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.amazon.ae/dp/B0H1TD5X57" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet">Plan sheet</span>
+        <b>Taradhin 1U 24-slot horizontal cable manager</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
+        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.amazon.ae/rack-mounted-Network-Extension-BlackColor-aluminum/dp/B0BPCT9LVB" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet">Plan sheet</span>
+        <b>XForm 1U 6-way 13 A UK PDU, 1.8 m</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
+        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.amazon.ae/Waterproof-Organisation-Self-Adhesive-Compatible-Handwriting/dp/B0G51WPDD6" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet">Plan sheet</span>
+        <b>540 pcs wire-labelling kit, 9 colours</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
+        <span class="pgo">View listing ↗</span></a><a class="pick" href="https://www.amazon.ae/GeeekPi-Cantilever-Network-Equipment-RackMate/dp/B0D5XGSPXD" target="_blank" rel="noopener sponsored">
+        <span class="ptag t-plan-sheet-·-10-inch">Plan sheet · 10-inch</span>
+        <b>GeeekPi 1U cantilever shelf — this listing is for 10-inch racks; pick the 19″ size</b>
+        <span class="pmeta"><span class="store s-amazon">Amazon.ae</span><span class="price">check listing</span></span>
         <span class="pgo">View listing ↗</span></a></div>
       <div class="callout warn"><b>Avoid:</b> FTP / STP (shielded) patch panels with UTP cable. Shielding only works if the whole system is shielded and earthed.</div>
     </section>
     <section class="sec eq" id="outlets">
       <div class="module-label">EQ-06</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 10h6v5H9z"/></svg><div><h2>Outlets: keystones & surface boxes</h2><span class="eq-qty">BOQ quantity: 28 pc + 14 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 10h6v5H9z"/></svg><div><h2>Outlets: keystones & surface boxes</h2><span class="eq-qty">BOQ quantity: 14 pc + 14 pc</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>The socket at each end of a run. The keystone jack terminates the Cat6 cable; the surface box holds it at the end of the casing, so no wall box is needed. It must be Cat6-rated, or the whole link drops to the lower grade.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Cat6 keystone, T568B</li><li>Surface-mount box (1-port at devices, 2-port at switches) with label window</li><li>Same brand as cable if possible</li></ul></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>Cat6 keystone, T568B</li><li>Surface-mount box, 1-port (2-port at desk 5 if preferred), with label window</li><li>Same brand as cable if possible</li></ul></div>
       </div>
       <div class="picks"><a class="pick" href="https://www.amazon.ae/CableCreation-Keystone-10-Pack-Ethernet-Connectors/dp/B01FHC1HXO" target="_blank" rel="noopener sponsored">
         <span class="ptag t-recommended">Recommended</span>
@@ -153,7 +169,7 @@
     </section>
     <section class="sec eq" id="patch">
       <div class="module-label">EQ-07</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6M14 12h6M10 9v6M14 9v6"/></svg><div><h2>Patch cords</h2><span class="eq-qty">BOQ quantity: 18 pc + 11 pc + 2 pc + 1 pc + 2 pc + 4 pc</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6M14 12h6M10 9v6M14 9v6"/></svg><div><h2>Patch cords</h2><span class="eq-qty">BOQ quantity: 17 pc + 11 pc + 2 pc + 2 pc + 4 pc</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>Short, flexible factory-made leads: 0.5 m in the cabinet (panel → switch, switch → switch, switch → injector), 1 m from each injector to the panel, and 2 m at the desk (surface box → device).</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Cat6, factory moulded</li><li>Stranded copper</li><li>Colour by device type (see DOC 03)</li></ul></div>
@@ -174,7 +190,7 @@
       <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h1M11 12h1M15 12h1"/></svg><div><h2>Upgrade option: one 16-port PoE+ switch</h2><span class="eq-qty">BOQ quantity: 1 pc</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>Optional (BOQ F.3, decision D-03). One switch in place of SW1 + SW2 + the injectors: it powers the APs over the cable, has spare ports for new desks, and a smart-managed model can separate guest Wi-Fi with a VLAN.</p></div>
-        <div class="card"><h3>Must have</h3><ul class="ticks"><li>16 × 1 GbE PoE+ (802.3at, 30 W / port)</li><li>PoE budget ≥ 150 W (2 PoE devices + growth)</li><li>Rackmount ears (fits the spare 4U in the cabinet)</li><li>Smart-managed (VLAN) preferred</li></ul></div>
+        <div class="card"><h3>Must have</h3><ul class="ticks"><li>16 × 1 GbE PoE+ (802.3at, 30 W / port)</li><li>PoE budget ≥ 150 W (2 PoE devices + growth)</li><li>Rackmount ears (fits a free U in the 12U cabinet)</li><li>Smart-managed (VLAN) preferred</li></ul></div>
       </div>
       <div class="picks"><a class="pick" href="https://www.amazon.ae/TP-Link-TL-SG1218MPE-16-Port-Gigabit-Rackmount/dp/B07YL7C6HP" target="_blank" rel="noopener sponsored">
         <span class="ptag t-recommended">Recommended</span>
@@ -211,7 +227,7 @@
     </section>
     <section class="sec eq" id="casing">
       <div class="module-label">EQ-10</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v4H3zM6 12v6M18 12v6"/></svg><div><h2>Cable casing (PVC trunking) & labelling</h2><span class="eq-qty">BOQ quantity: 7 length + 5 length + 6 length + 1 lot + 1 lot + 28 pc + 1 lot</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v4H3zM6 12v6M18 12v6"/></svg><div><h2>Cable casing (PVC trunking) & labelling</h2><span class="eq-qty">BOQ quantity: 7 length + 5 length + 6 length + 1 lot + 1 lot + 1 lot</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>A plastic channel fixed to the wall with a snap-on lid; the cables lie inside it. Here the cables reach mark 2 through a PVC conduit in the ceiling, come down behind the wall, and the casing carries them along the desk wall to each desk and up the wall to AP1. Labels make every cable traceable.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>25 × 16 mm for up to 4 Cat6, 40 × 25 mm for up to 10–12</li><li>Screw-fix every 500 mm (adhesive alone falls off)</li><li>Proper corner and tee fittings, no tight folds</li><li>Separate (or divided) casing from power, ≥ 300 mm apart</li><li>Printed labels at both ends</li></ul></div>
@@ -221,7 +237,7 @@
     </section>
     <section class="sec eq" id="labour">
       <div class="module-label">EQ-11</div>
-      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4-8 8H6v-4z"/></svg><div><h2>Labour & testing</h2><span class="eq-qty">BOQ quantity: 14 run + 21 m + 16 m + 1 lot + 14 run + 1 lot + 1 lot + 14 run</span></div></div>
+      <div class="eq-head"><svg class="eq-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4-8 8H6v-4z"/></svg><div><h2>Labour & testing</h2><span class="eq-qty">BOQ quantity: 14 run + 21 m + 16 m + 14 run + 1 lot + 1 lot + 14 run</span></div></div>
       <div class="eq-grid">
         <div class="card"><h3>Function</h3><p>Installation, termination, testing, configuration and handover by an installer. Ask for a line-by-line price against this BOQ.</p></div>
         <div class="card"><h3>Must have</h3><ul class="ticks"><li>Installer used to surface casing work</li><li>Cable tester (wire map + length) at minimum</li><li>Certification tester if a warranty is required</li></ul></div>
@@ -234,7 +250,7 @@
       <a class="prev" href="materials.html"><small>← DOC 05</small>BOQ & estimate</a>
       <a class="next" href="device-lab.html"><small>DOC 07 →</small>Device lab</a>
     </footer>
-    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev D</p>
+    <p class="foot">OPPEIN — Project hub · Office 14 Network documentation · Rev E</p>
   </main>
 </div>
 

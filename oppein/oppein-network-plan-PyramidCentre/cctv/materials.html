@@ -55,7 +55,7 @@
       <button class="btn" id="boq-reset">Reset to estimate</button>
       <span class="hint">Tick the lines to include: only ticked lines are numbered, totalled, printed and exported. Add your own lines with “+ Add a line” in any section. Click any quantity, rate or header field to edit it. Edits are saved in this browser only.</span>
     </div>
-    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="1" data-key="o14-cctv-boq-v3">
+    <div class="paper-wrap"><article class="paper" id="boq" data-vat="5" data-points="1" data-key="o14-cctv-boq-v5">
       <header class="lh">
         <div class="lh-brand">
           <img src="../../assets/oppein-logo.webp" alt="" class="lh-logo" onload="this.classList.add('ok')" onerror="this.remove()">
@@ -72,9 +72,9 @@
       <div class="doc-title"><h2>Estimate — Bill of Quantities</h2><span class="stamp">Budget estimate · not a quotation</span></div>
       <div class="doc-meta">
         <label>Estimate no.<input data-f="ref" value="OPP-IT-EST-O14-CCTV-001"></label>
-        <label>Date<input data-f="date" type="date" value="2026-10-23"></label>
+        <label>Date<input data-f="date" type="date" value="2026-11-05"></label>
         <label>Valid for<input data-f="valid" value="30 days"></label>
-        <label>Revision<input data-f="rev" value="Rev D"></label>
+        <label>Revision<input data-f="rev" value="Rev E"></label>
         <label class="w2">Prepared for<input data-f="to" placeholder="Client / management name"></label>
         <label class="w2">Project<input data-f="proj" value="Office 114 — CCTV system"></label>
         <label class="w2">Site<input data-f="site" value="Pyramid Centre · Office 14"></label>
@@ -85,17 +85,17 @@
         <thead><tr><th>No.</th><th>Description &amp; function</th><th>Unit</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
         <tbody><tr class="grp" data-grp="A"><td class="m"><input type="checkbox" class="secinc no-print" aria-label="Tick or untick all of section A"> A</td><td colspan="5"><span class="gt-title">Cameras & recording</span></td></tr><tr class="it" data-key="A.1" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.1"> <span class="no">A.1</span></td>
-        <td><span class="d">HD analog dome camera 2 MP (AHD/TVI), IR night vision, 2.8 mm (≈ 90°), 12 V DC, ceiling mount</span><div class="fn">CAM1 Designers · CAM2 Showroom · kitchen-side corner · CAM3 Showroom · printer-side corner · CAM4 Kitchen.</div><div class="rmk no-print">Rate basis: Typical trade price (Hikvision Turbo HD / Dahua HDCVI class)</div></td>
+        <td><span class="d">HD analog dome camera 2 MP (AHD/TVI), IR night vision, 2.8 mm (≈ 90°), 12 V DC, ceiling mount</span><div class="fn">Plan sheet: qty ??? — 4 used, from the camera plan: CAM1 Designers · CAM2 Showroom · kitchen-side corner · CAM3 Showroom · printer-side corner · CAM4 Kitchen. Change the quantity when confirmed.</div><div class="rmk no-print">Rate basis: Typical trade price (Hikvision Turbo HD / Dahua HDCVI class)</div></td>
         <td class="u">pc</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="4" data-def="4" aria-label="Quantity A.1"></td>
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate A.1"></td>
         <td class="n amt">600.00</td></tr><tr class="it" data-key="A.2" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.2"> <span class="no">A.2</span></td>
-        <td><span class="d">DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+, 1 SATA bay</span><div class="fn">Records the 4 cameras from their coax; one LAN port to the office network (SW0-P8) for viewing.</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
+        <td><span class="d">DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+ (existing — plan sheet: exists)</span><div class="fn">Records the cameras from their coax; sits on the U11 shelf; LAN to Switch-01 port 5 for viewing.</div><div class="rmk no-print">Rate basis: Existing (plan sheet)</div></td>
         <td class="u">pc</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity A.2"></td>
-        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="350.00" data-def="350.00" aria-label="Unit rate A.2"></td>
-        <td class="n amt">350.00</td></tr><tr class="it" data-key="A.3" data-sec="A" data-defon="1">
+        <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="0.00" data-def="0.00" aria-label="Unit rate A.2"></td>
+        <td class="n amt">0.00</td></tr><tr class="it" data-key="A.3" data-sec="A" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include A.3"> <span class="no">A.3</span></td>
         <td><span class="d">Surveillance hard disk 2 TB</span><div class="fn">About 20 days of continuous recording from 4 cameras (see Recording &amp; storage).</div><div class="rmk no-print">Rate basis: Typical trade price</div></td>
         <td class="u">pc</td>
@@ -139,7 +139,7 @@
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="150.00" data-def="150.00" aria-label="Unit rate C.3"></td>
         <td class="n amt">150.00</td></tr><tr class="it" data-key="C.4" data-sec="C" data-defon="1">
         <td class="m"><input type="checkbox" class="inc no-print" checked aria-label="Include C.4"> <span class="no">C.4</span></td>
-        <td><span class="d">Cat6 patch cord, DVR → SW0-P8</span><div class="fn">Connects the DVR to the office network for phone-app viewing.</div><div class="rmk no-print"></div></td>
+        <td><span class="d">Cat6 patch cord, DVR → Switch-01 P5</span><div class="fn">Connects the DVR to the office network for phone-app viewing.</div><div class="rmk no-print"></div></td>
         <td class="u">pc</td>
         <td class="n"><input class="q" type="number" inputmode="decimal" min="0" step="1" value="1" data-def="1" aria-label="Quantity C.4"></td>
         <td class="n"><input class="r" type="number" inputmode="decimal" min="0" step="0.01" value="15.00" data-def="15.00" aria-label="Unit rate C.4"></td>

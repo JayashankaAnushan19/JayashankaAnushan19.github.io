@@ -75,36 +75,39 @@ the clear dimensions are used. Page = lightbox gallery, dimension table, to-scal
 (rack UPS does not fit → tower UPS under desk; fan for heat; router antennas vs 14 cm bay). Cabinet BOQ (`o14-cab-boq-v2`) is
 priced for this module. SYS-01 rack page / BOQ section B still show the 9U 19" view — update them if the module is approved.
 BOQs: one `boqPaper()` for all sections; each has its own data (`Q.BOQ`, `Q.BOQ_CCTV`, `Q.BOQ_CAB` in boq.mjs) and own
-localStorage key via `data-key` (`o14-boq-v9`, `o14-cctv-boq-v1`, `o14-cab-boq-v1`). CCTV camera-count lines start at qty 0
+localStorage key via `data-key` (`o14-boq-v10`, `o14-cctv-boq-v1`, `o14-cab-boq-v1`). CCTV camera-count lines start at qty 0
 (no camera plan yet). Cabinet BOQ overlaps SYS-01 BOQ section B — a callout tells the user to untick B when the combined cabinet is approved.
 Theme: "NetSec" (user disliked the amber hub look for this project): navy #05080D, cyan accent #22D3EE (kept in the `--amber`
 variable name), green status #34D399, grid backdrop, fonts Chakra Petch / IBM Plex Sans / JetBrains Mono. The BOQ letterhead
 paper keeps the OPPEIN orange (it is printed).
 
-## Key facts — Rev D FINAL (2026-10-23, "Final — for approval")
-- The user marked the real positions on the drawing; `mark` in DEVICES = that number. Screenshot px → svg mapping used:
-  svg = (526 + (px−58)·2.52, 434 + (py−155)·2.52) for a Drawing-page screenshot at fit zoom (approximate).
-- ALL switches are in the IT Room cabinet (mark 1) — final user decision. 9U wall cabinet (user rejected 16U):
-  U9 24-port patch panel · U8 shelf with SW0 (NEW 8-port; user rejected 16-port) + SW1 (existing 5-port) + SW2 (existing 8-port) ·
-  U7–U6 shelf ONT + router + 2 PoE injectors · U5–U2 spare (user asked for ≥ 4U) · U1 8-way PDU.
-- Router L1 → SW0 P1; SW0 P2 → SW1 P1; SW0 P3 → SW2 P1 (patch cords in the cabinet). SW1/SW2 unmanaged, no PoE, owned (BOQ rate 0).
-  SW0: P4–P7 IT1–IT4, P8 spare. SW1: P2 PC2, P3 PC3, P4 AP1 (user: AP1 on SW1 port 4), P5 spare.
-  SW2: P2 AP2 (user), P3 PC4, P4 PC5, P5 PRN, P6 MOB, P7 PC6, P8 spare. Router L2–L4 spare.
-- Every device is a home run from the cabinet patch panel (14 runs incl. the phone line). Route (user): cabinet → up into the
-  ceiling → PVC conduit to MARK 2 → down behind the wall → wall casing to desks 2–6 and up to AP1. AP2 stays in the ceiling
-  from mark 2 (`viaCeiling`, no mark-2 drop). IT Room PCs (positions NOT marked yet, A-03) run along the IT Room walls.
-  Lengths = (route + start drop + 2.8 m mark-2 drop + end drop) × 1.10.
-- Separate phone line C-14: ONT TEL1 → patch panel → conduit/casing → RJ45 socket at desk 5 (RJ11 fits). MOB data cable kept (A-06).
-- 14 runs, 235 m → 1 box; ceiling conduit ≈ 16 m (32 mm for the 10-cable bundle; existing pipe may be reused — check its size);
-  wall casing ≈ 21 m (40×25 mm main run, 25×16 mm branches).
+## Key facts — Rev E (2026-11-05, from the user's sheet `Network - Oud Metha.xlsx` in this folder)
+- 12U 19″ wall cabinet (user), layout from the sheet, U12 top: U12 spare · U11 DVR + 12 V camera PSU on a 1U shelf ·
+  U10–U8 free space · U7 ONT stacked ON the router · U6 plain shelf with the router · U5 shelf: Switch-01 + Switch-02 + 2 PoE
+  injectors · U4 cable manager · U3 24-port fully loaded patch panel (VENTION) · U2 PDU 6-way (XForm) · U1 2nd PDU (my add:
+  8 sockets needed). Sheet's shelf (GeeekPi) is a 10-inch-rack shelf → BOQ uses 19″ 1U shelves ×3 (A-08).
+- NO SW0 any more (sheet lists only existing Router, ONT, Switch-01, Switch-02, DVR — all priced 0). Router L1 → SW2 (8-port),
+  L2 → SW1 (5-port), L3/L4 IT PC 3/4. SW1: P2 PC2, P3 PC3, P4 AP1 (user), P5 DVR. SW2: P2 AP2 (user), P3 PC4, P4 PC5, P5 PRN,
+  P6 PC6, P7 IT1, P8 IT2. ALL ports used. 14 devices vs 13 ports → MOB data cable pulled to the panel but NOT patched
+  (`on: 'PP'`, `unpatched`); its phone is on the ONT line C-14. DVR is a cabinet device (`cab: true`, not drawn on plans).
+- Route unchanged (ceiling conduit to mark 2, casing to desks); 14 runs, 235 m → 1 box.
+- 2026-11-05 (user: "I can't see cabinet, patch panel…"): ALL plan-sheet cabinet items live in the SYS-03 Rack & Cabinet BOQ
+  (`BOQ_CAB`): A cabinet & hardware in the sheet's order with the sheet's own Amazon links (`SHEET_URL`; 8th BOQ field →
+  "Plan-sheet link ↗"), B existing router/ONT/SW1/SW2/DVR at 0, C UPS, D fan + blanks, E fit-out + as-built, F sensor.
+  SYS-01 BOQ no longer has a cabinet section: A cabling, B active, C patching, D labour, F optional. `SHEET` drives the
+  "Plan sheet → BOQ" table (`sheetTable()`) on both BOQ pages. Rates are MY ESTIMATES — sheet had no prices.
+  Keys: o14-boq-v12, o14-cctv-boq-v5, o14-cab-boq-v5. Totals: SYS-01 ≈ 6,928 · CCTV ≈ 3,226 · Cabinet ≈ 3,673.
+- `cabinet/design.html` now shows the 12U cabinet to scale (`cab12SVG`, `KIT` typical sizes, `SHELVES` fit table, engineering
+  checks). The old custom laminate-module sketches sit at the bottom (DES-04) as a superseded concept.
+  SYS-03 cabinet BOQ blank panels = SPARE_U (4).
+- Camera quantity is "???" in the sheet — the CCTV design still uses 4.
 - AP3 (Kitchen / Samples) was dropped on 2026-10-17 — not required. Don't re-add it.
-- BOQ grand total ≈ AED 8,309 incl. 10 % contingency + 5 % VAT (optional F items excluded by default). SW0 priced as a trade estimate.
 - The interactive planner is the ORIGINAL Rev A design (tray, one switch) — kept for reference, marked superseded.
-- History of layouts (don't revert to these): Rev B switches at desks + casing; Rev C SW1 at desk 3 / SW2 at desk 5 chained.
+- Layout history (don't revert): Rev B switches at desks; Rev C SW1 desk 3 / SW2 desk 5; Rev D SW0+SW1+SW2 in a 9U cabinet.
 
 ## Decisions made with the user
 - Site follows the hub's look; static files only (GitHub Pages), no backend.
-- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v9`; bump it whenever BOQ rows change);
+- BOQ: every qty / rate / letterhead field is an editable input; edits persist per browser (localStorage key `o14-boq-v10`; bump it whenever BOQ rows change);
   Every line has a tick (section ticks + Tick all / Untick all); only ticked lines are numbered (renumbered live), totalled,
   printed and exported. Users can add custom lines per section (+ Add a line) and remove them; saved with the rest.
   Print button prints only the letterhead estimate (A4). Export to Word builds a Word-compatible HTML .doc in the browser

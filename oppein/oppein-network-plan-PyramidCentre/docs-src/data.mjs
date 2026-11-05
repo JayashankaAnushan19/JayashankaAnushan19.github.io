@@ -1,8 +1,9 @@
 // Single source of truth for the Office 14 documentation.
 // Positions are in drawing units (pt) on the traced floor plan; MM_PER_PT converts to real size.
 //
-// Rev D — final (2026-10-23). Positions from the user's marked plan (marks 1–8).
-//  ALL switches are in the IT Room cabinet (mark 1): router → SW0 (8-port) → SW1 (5-port) and SW2 (8-port), patch cords.
+// Positions from the user's marked plan (marks 1–8), Rev D (2026-10-23).
+//  Rev E (2026-11-05, user's sheet "Network - Oud Metha.xlsx"): 12U cabinet; the router feeds the two EXISTING switches
+//  (Switch-01 5-port, Switch-02 8-port) directly — no new SW0. Router + ONT stacked on one shelf, DVR on its own shelf.
 //  Every device has its own home run from the cabinet: up into the ceiling, PVC conduit to mark 2, down behind the wall,
 //  then wall casing to each desk (AP2 carries on across the ceiling from mark 2). IT Room PCs run along the IT Room walls.
 //  Plain (non-PoE) switches: each AP has a PoE injector in the cabinet. Separate phone line from the ONT to desk 5.
@@ -10,8 +11,8 @@
 export const META = {
   project: 'Office 14 — Structured Cabling & Network',
   site: 'Pyramid Centre · Office 14',
-  rev: 'Rev D',
-  date: '2026-10-23',
+  rev: 'Rev E',
+  date: '2026-11-05',
   status: 'On going — wiring',
   author: 'Jayashanka · OPPEIN IT',
 };
@@ -20,6 +21,7 @@ export const REVISIONS = [
   ['Rev B', '2026-10-22', 'Re-designed around a 5-port and an 8-port switch in the Design area, PoE injectors for the APs and wall casing instead of a tray. AP3 dropped.'],
   ['Rev C', '2026-10-22', 'Positions from the marked plan: 4 wired PCs in the IT Room on a new cabinet switch (SW0); SW1 at desk 3, SW2 at desk 5; AP1 in the Designers strip, AP2 in the Showroom; no Showroom desks; separate phone line from the ONT to the mobile; cabinet keeps ≥ 4U spare.'],
   ['Rev D', '2026-10-23', 'Final wiring plan: all switches moved into the cabinet. Every device gets its own cable from the cabinet through the ceiling conduit to mark 2 and on in wall casing; PoE injectors in the cabinet; 24-port patch panel.'],
+  ['Rev E', '2026-11-05', 'Cabinet changed to a 12U 19″ cabinet laid out as in the plan sheet: DVR, router with the ONT stacked on top on one shelf, the two existing switches, cable manager, fully loaded patch panel, PDU. No new SW0 — the router feeds Switch-01 and Switch-02 directly; the DVR joins the network on Switch-01.'],
 ];
 
 export const MM_PER_PT = 9.27; // from the 1800 mm / 5199 mm dimensions on the drawing
@@ -43,44 +45,44 @@ export const JUNCTION_NOTES = {
 
 export const TYPE_NAME = {
   ap: 'Wi-Fi access point', pc: 'Workstation PC', srv: 'Server PC', prn: 'Network printer', ph: 'Mobile / phone',
-  sw: 'Network switch', up: 'Uplink', tel: 'Phone line',
+  sw: 'Network switch', up: 'Uplink', tel: 'Phone line', dvr: 'CCTV recorder (DVR)',
 };
-export const TYPE_COLOR = { ap: 'var(--c-ap)', pc: 'var(--c-pc)', srv: 'var(--c-srv)', prn: 'var(--c-prn)', ph: 'var(--c-ph)', sw: 'var(--amber)', up: 'var(--c-wan)', tel: 'var(--c-ph)' };
+export const TYPE_COLOR = { ap: 'var(--c-ap)', pc: 'var(--c-pc)', srv: 'var(--c-srv)', prn: 'var(--c-prn)', ph: 'var(--c-ph)', sw: 'var(--amber)', up: 'var(--c-wan)', tel: 'var(--c-ph)', dvr: 'var(--c-cam)' };
 
-// Network units — all in the cabinet. SW0 is new; SW1 / SW2 are the existing plain unmanaged desktop switches.
-export const CABINET_IDS = ['RTR', 'SW0', 'SW1', 'SW2', 'ONT'];
+// Network units — all in the cabinet: the router and the two EXISTING plain unmanaged switches (no SW0 any more).
+export const CABINET_IDS = ['RTR', 'SW1', 'SW2', 'ONT', 'PP']; // PP = patch panel only (cable pulled, not patched)
 export const inCabinet = id => CABINET_IDS.includes(id);
 export const SWITCHES = [
-  { id: 'SW0', name: 'Switch 0 · 8-port', ports: 8, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet', from: 'RTR', fromPort: 1, inPort: 1, cabinet: true },
-  { id: 'SW1', name: 'Switch 1 · 5-port', ports: 5, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet', from: 'SW0', fromPort: 2, inPort: 1, cabinet: true },
-  { id: 'SW2', name: 'Switch 2 · 8-port', ports: 8, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet', from: 'SW0', fromPort: 3, inPort: 1, cabinet: true },
+  { id: 'SW1', name: 'Switch-01 · 5-port', ports: 5, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet', from: 'RTR', fromPort: 2, inPort: 1, cabinet: true },
+  { id: 'SW2', name: 'Switch-02 · 8-port', ports: 8, x: 1690, y: 1535, zone: 'IT Room', at: 'cabinet', from: 'RTR', fromPort: 1, inPort: 1, cabinet: true },
 ];
 export const ROUTER_LAN = 4;
 
 // `on` = unit the device plugs into, `port` = port on that unit. `local` = patch cord only, no cable run.
 // `mark` = number on the user's marked plan.
 export const DEVICES = [
-  // Every device is a home run from the cabinet. AP1 on SW1 port 4 and AP2 on SW2 (user). AP2 continues from mark 2
-  // across the ceiling to the Showroom.
+  // Rev E: router L1 → SW2, L2 → SW1 (patch cords). 14 devices for 13 free ports, so the mobile's data cable is pulled to the
+  // patch panel but not patched (its phone runs on its own ONT line, C-14). AP1 on SW1 port 4 and AP2 on SW2 (user).
   { id: 'PC2', on: 'SW1', port: 2, type: 'pc', zone: 'Design', name: 'PC 2', x: 1100, y: 660, mark: 2 },
   { id: 'PC3', on: 'SW1', port: 3, type: 'pc', zone: 'Design', name: 'PC 3', x: 945, y: 492, mark: 3 },
   { id: 'AP1', on: 'SW1', port: 4, type: 'ap', zone: 'Design', name: 'Access Point 1', x: 793, y: 487, poe: true, ceil: true, mark: 7 },
+  { id: 'DVR', on: 'SW1', port: 5, type: 'dvr', zone: 'IT Room', name: 'DVR (CCTV recorder)', x: 1690, y: 1535, local: true, cab: true, mark: 1 },
   { id: 'AP2', on: 'SW2', port: 2, type: 'ap', zone: 'Showroom', name: 'Access Point 2', x: 813, y: 1064, poe: true, ceil: true, viaCeiling: true, mark: 8 },
   { id: 'PC4', on: 'SW2', port: 3, type: 'pc', zone: 'Design', name: 'PC 4', x: 846, y: 384, mark: 4 },
   { id: 'PC5', on: 'SW2', port: 4, type: 'pc', zone: 'Design', name: 'PC 5', x: 730, y: 205, mark: 5 },
   { id: 'PRN', on: 'SW2', port: 5, type: 'prn', zone: 'Design', name: 'Printer', x: 655, y: 190, mark: 5 },
-  { id: 'MOB', on: 'SW2', port: 6, type: 'ph', zone: 'Design', name: 'Mobile / phone', x: 770, y: 268, mark: 5, tel: true },
-  { id: 'PC6', on: 'SW2', port: 7, type: 'pc', zone: 'Design', name: 'PC 6', x: 518, y: 270, mark: 6 },
+  { id: 'PC6', on: 'SW2', port: 6, type: 'pc', zone: 'Design', name: 'PC 6', x: 518, y: 270, mark: 6 },
   // IT Room: 4 wired PCs (positions along the walls are approximate, open item A-03); other devices use router Wi-Fi.
-  { id: 'IT1', on: 'SW0', port: 4, type: 'pc', zone: 'IT Room', name: 'IT PC 1', x: 1600, y: 1548, room: true, mark: 1 },
-  { id: 'IT2', on: 'SW0', port: 5, type: 'pc', zone: 'IT Room', name: 'IT PC 2', x: 1780, y: 1548, room: true, mark: 1 },
-  { id: 'IT3', on: 'SW0', port: 6, type: 'pc', zone: 'IT Room', name: 'IT PC 3', x: 1790, y: 1430, room: true, mark: 1 },
-  { id: 'IT4', on: 'SW0', port: 7, type: 'pc', zone: 'IT Room', name: 'IT PC 4', x: 1790, y: 1320, room: true, mark: 1 },
+  { id: 'IT1', on: 'SW2', port: 7, type: 'pc', zone: 'IT Room', name: 'IT PC 1', x: 1600, y: 1548, room: true, mark: 1 },
+  { id: 'IT2', on: 'SW2', port: 8, type: 'pc', zone: 'IT Room', name: 'IT PC 2', x: 1780, y: 1548, room: true, mark: 1 },
+  { id: 'IT3', on: 'RTR', port: 3, type: 'pc', zone: 'IT Room', name: 'IT PC 3', x: 1790, y: 1430, room: true, mark: 1 },
+  { id: 'IT4', on: 'RTR', port: 4, type: 'pc', zone: 'IT Room', name: 'IT PC 4', x: 1790, y: 1320, room: true, mark: 1 },
+  { id: 'MOB', on: 'PP', port: null, type: 'ph', zone: 'Design', name: 'Mobile / phone (data, not patched)', x: 770, y: 268, mark: 5, tel: true, unpatched: true },
 ];
 
 export const UNITS = [{ ...RACK, ports: ROUTER_LAN, zone: 'IT Room', at: 'cabinet' }, ...SWITCHES];
 export const unit = id => UNITS.find(u => u.id === id);
-export const portLabel = (on, port) => on === 'RTR' ? `RTR-L${port}` : on === 'ONT' ? `ONT-${port}` : `${on}-P${port}`;
+export const portLabel = (on, port) => on === 'RTR' ? `RTR-L${port}` : on === 'ONT' ? `ONT-${port}` : on === 'PP' ? 'not patched' : `${on}-P${port}`;
 
 export const pointName = k => k === 0 ? 'Cabinet' : k === 1 ? 'Mark 2 drop' : 'J' + (k - 1);
 const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -209,16 +211,23 @@ export const CASING_SIZES = ['25 × 16 mm', '40 × 25 mm', '60 × 40 mm'].map(si
 export const CASING_M = CASING_SIZES.reduce((t, s) => t + s.m, 0);
 export const ROUTE_M = polyLen(ROUTE) * MM_PER_PT / 1000;
 
-// 9U wall cabinet: just what it holds + the 4U spare the user asked for (U2–U5). Cables enter through the top knock-out.
-export const RACK_U = 9;
+// 12U 19″ wall cabinet, laid out as in the user's plan sheet (U12 at the top). U10–U6 is one 5U zone: a plain shelf at U6
+// holds the router with the ONT stacked on top of it, and the space above stays empty.
+export const RACK_U = 12;
 export const RACK_UNITS = {
-  9: ['Patch panel 24 × Cat6 (PP-1…24)', 'pp'], 8: ['Shelf · SW0 8-port · SW1 5-port · SW2 8-port', 'sw'],
-  7: ['Shelf · ONT + router + 2 PoE injectors', 'shelf'], 6: ['(shelf space)', 'shelfb'],
-  5: ['Spare', 'spare'], 4: ['Spare', 'spare'], 3: ['Spare', 'spare'], 2: ['Spare', 'spare'],
-  1: ['PDU 8-way 230 V', 'pdu'],
+  12: ['Spare', 'spare'],
+  11: ['DVR (CCTV) + 12 V camera supply on a 1U shelf', 'dvr'],
+  10: ['Free space above the router / ONT', 'shelfb'], 9: ['Free space above the router / ONT', 'shelfb'], 8: ['Free space above the router / ONT', 'shelfb'],
+  7: ['ONT (stacked on the router)', 'ont'],
+  6: ['Shelf · router', 'shelf'],
+  5: ['Shelf · Switch-01 + Switch-02 + 2 PoE injectors', 'sw'],
+  4: ['1U cable manager', 'cm'],
+  3: ['Patch panel 24 × Cat6, fully loaded', 'pp'],
+  2: ['PDU 6-way 13 A', 'pdu'],
+  1: ['PDU 6-way 13 A (second — 8 sockets needed)', 'pdu'],
 };
-export const SPARE_RANGE = (() => { const us = Object.entries(RACK_UNITS).filter(([, [, k]]) => k === 'spare').map(([u]) => +u); return `U${Math.min(...us)}–U${Math.max(...us)}`; })();
-export const SPARE_U = Object.values(RACK_UNITS).filter(([, k]) => k === 'spare').length;
+export const SPARE_RANGE = Object.entries(RACK_UNITS).filter(([, [, k]]) => k === 'spare' || k === 'shelfb').map(([u]) => 'U' + u).sort((a, b) => b.slice(1) - a.slice(1)).join(', ');
+export const SPARE_U = Object.values(RACK_UNITS).filter(([, k]) => k === 'spare' || k === 'shelfb').length;
 // Cables that end in the cabinet land on the patch panel in this order.
 export const PANEL = RUNS.filter(r => inCabinet(r.fromId)).map((r, i) => ({ pp: i + 1, run: r }));
 
@@ -240,22 +249,24 @@ export const ASSUMPTIONS = [
   ['A-03', 'The 4 IT Room PCs sit along the IT Room walls near the cabinet; their exact places are not marked yet. Other IT Room devices use the router Wi-Fi.', 'Cable schedule'],
   ['A-04', 'Desk 5 has four sockets side by side (PC5, printer, mobile data, phone line); every other desk has one. No switch sits at any desk.', 'Topology'],
   ['A-05', 'All Design-area cables go from the cabinet up into the ceiling and through the PVC conduit to mark 2, come down behind the wall there and run in wall casing to desks 2–6 and up to AP1. AP2 stays in the ceiling from mark 2. If the conduit is already in place, set its BOQ line to 0, but check it can take all the cables.', 'Installation'],
-  ['A-07', 'SW1 is the existing 5-port switch (AP1 on port 4) and SW2 the existing 8-port switch (AP2); both now sit in the cabinet on one shelf with the new SW0.', 'Topology'],
-  ['A-06', 'The mobile at desk 5 uses the ONT phone (TEL) port through its own cable (C-12). Its data port on SW2 (SW2-P5) is kept; free it if the phone only needs the line.', 'Topology'],
+  ['A-06', 'The mobile at desk 5 uses the ONT phone (TEL) port through its own cable (C-14). Its data cable is pulled and lands on the patch panel but is NOT patched — the router and both switches are full. Patch it if a switch port frees up.', 'Topology'],
+  ['A-07', 'Switch-01 (5-port, AP1 on port 4) and Switch-02 (8-port, AP2) are the existing switches, both fed straight from the router. Every router and switch port is in use (no spares).', 'Topology'],
+  ['A-08', 'The 1U shelf linked in the plan sheet (GeeekPi, 7.87″ deep) is made for 10-inch racks; the BOQ uses a 19″ 1U cantilever shelf that fits the 12U cabinet.', 'Rack'],
 ];
 
 export const DECISIONS = [
   ['D-01', 'IP addressing and Wi-Fi SSIDs: accept the proposed plan or supply an existing scheme.', 'IT'],
   ['D-02', 'Access point brand / model (and whether a cloud controller is used).', 'IT / Management'],
-  ['D-03', 'Keep three small switches (SW0 + existing SW1 / SW2) or replace them with one 16- or 24-port switch in the spare space (tidier, one power supply).', 'IT'],
+  ['D-03', 'No spare switch ports: for any new device, replace Switch-01 with an 8-port (or both with one 16-port) — the cabinet has free U for it.', 'IT'],
   ['D-04', 'ISP and service: ONT model, how many TEL ports, static IP needed or not.', 'Management'],
   ['D-05', 'Add a UPS for the cabinet (recommended).', 'Management'],
-  ['D-06', 'Later: one PoE switch would replace SW0–SW2 and both injectors (BOQ F.3).', 'IT'],
+  ['D-06', 'Later: one 16-port PoE switch would replace both switches and both injectors (BOQ F.3).', 'IT'],
   ['D-07', 'Contractor or in-house install; certification tester available or hired.', 'Management'],
 ];
 
 export const RISKS = [
-  ['SW0 failure takes SW1 and SW2 (the whole office) offline', 'Medium', 'Keep a spare 8-port switch and patch cords in the cabinet; or move to one larger switch (D-03).'],
+  ['Router failure takes both switches (the whole office) offline', 'Medium', 'Keep a spare 8-port switch and patch cords; note the router settings so a replacement can be set up fast.'],
+  ['No spare switch or router ports', 'Medium', 'Plan the switch upgrade (D-03) before adding any wired device.'],
   ['Conduit to mark 2 too small for all the cables', 'Medium', 'Check the existing pipe size before pulling; the BOQ sizes it for the full bundle.'],
   ['Casing knocked or lids pulled off at desks', 'Low', 'Screw-fix every 500 mm; run casing behind desks where possible.'],
   ['Cable run near power / lighting', 'Medium', 'Keep ≥ 300 mm from power casing, or use divided casing; cross at 90°.'],
@@ -279,7 +290,7 @@ export const CAMERAS = [
   { id: 'CAM4', name: 'Kitchen', zone: 'Kitchen', x: 1700, y: 1225, dir: 215, fov: 80, range: 3.5, route: 'direct', port: 4,
     view: 'Into the kitchen from the corner nearest the cabinet', type: 'HD analog dome 2 MP (AHD/TVI), IR, 2.8 mm' },
 ];
-export const DVR = { id: 'DVR', name: 'DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+', inputs: CAMERAS.length, lan: 'SW0-P8' };
+export const DVR = { id: 'DVR', name: 'DVR 4-channel HD analog (AHD/TVI/CVI), 1080p, H.265+', inputs: CAMERAS.length, lan: 'SW1-P5' };
 export const CCTV_CABLE = 'RG59 coax + 2 × 0.75 mm² power';
 export const PSU = { volts: 12, amps: 5, outputs: 4, camA: 0.5 }; // camera draw at night with IR on (typical max)
 const CAM_DROP = 0.6; // m: ceiling box down to the camera
