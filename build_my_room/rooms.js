@@ -34,7 +34,10 @@ const THEMES = [
     images: [
       { file: "innovation-floor-1.jpg", title: "Fabrication module with arm", note: "Robot arm inside the glass module; manipulator over the bench." },
       { file: "innovation-floor-2.jpg", title: "Gantry + rack build", note: "CNC-style gantry in the module, filament rack under it." },
-      { file: "innovation-floor-3.jpg", title: "Laser cutter + PCB bench", note: "Laser cutter in the module, PCB assembly bench, more AMRs." }
+      { file: "innovation-floor-3.jpg", title: "Laser cutter + PCB bench", note: "Laser cutter in the module, PCB assembly bench, more AMRs." },
+      { file: "innovation-floor-recreate.jpg", title: "Recreated lab", note: "Fabrication module, AMR bench, bio-robotics and deep-learning posters.", round: 2, prompt: 0 },
+      { file: "innovation-floor-gantry.jpg", title: "Gantry arm + AMRs", note: "Ceiling rail arm reaching over the bench; AMRs on charging pads.", round: 2, prompt: 1 },
+      { file: "innovation-floor-night.jpg", title: "Lab at night", note: "City lights outside, cyan monitors, status LEDs glowing on the AMRs.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Turn the room into a compact robotics R&D lab called \"RoboJain Labs - Innovation Floor\". On the left, a glass-walled precision fabrication module with a white six-axis robot arm inside. A steel workbench in the centre holding a stacked AMR prototype, oscilloscope and parts trays. Grey labelled storage bins on steel shelving covering both side walls. A wide desk on the right with three monitors showing a robot fleet map. Cool white LED panels, skylight, polished floor with recessed cable trays.",
@@ -63,7 +66,10 @@ const THEMES = [
     images: [
       { file: "workshop-lounge-1.jpg", title: "Workshop only", note: "First pass: bench, whiteboard and big gaming-style monitors, no sofa yet." },
       { file: "workshop-lounge-2.jpg", title: "Workshop + sofa", note: "Monitors move to the window desk; L-sofa and branded cushions added." },
-      { file: "workshop-lounge-3.jpg", title: "Robot with arm", note: "Same layout; mobile robot now carries a manipulator arm." }
+      { file: "workshop-lounge-3.jpg", title: "Robot with arm", note: "Same layout; mobile robot now carries a manipulator arm." },
+      { file: "workshop-lounge-recreate.jpg", title: "Open workshop", note: "Bench and rover on the left, window desk, a wall of labelled bins.", round: 2, prompt: 0 },
+      { file: "workshop-lounge-sofa.jpg", title: "Half lab, half lounge", note: "Grey L-sofa with a CARA cushion, rug, fiddle-leaf fig and lamp.", round: 2, prompt: 1 },
+      { file: "workshop-lounge-golden-hour.jpg", title: "Golden hour", note: "Low sun across the floor and a steaming cup on the bench.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Left side of the room: a long steel electronics workbench with an oscilloscope, bench power supply, soldering station and a wooden-frame four-wheeled mobile robot. A whiteboard on the left wall titled \"RoboJain: Assistive Tech\" with circuit sketches and goals. Steel shelving with labelled clear bins and warm LED strips under each shelf. Centre: a small desk in front of the window with two monitors and an ergonomic chair.",
@@ -92,7 +98,10 @@ const THEMES = [
     images: [
       { file: "urban-lab-bedroom-1.jpg", title: "Day, quadruped on bench", note: "Bed in the wardrobe niche; a robot dog on the mobile bench." },
       { file: "urban-lab-bedroom-2.jpg", title: "Day, arm robot", note: "Same layout with a mobile robot carrying an arm." },
-      { file: "urban-lab-bedroom-night.jpg", title: "Night", note: "City at night, drone on the bench, humanoid near the window." }
+      { file: "urban-lab-bedroom-night.jpg", title: "Night", note: "City at night, drone on the bench, humanoid near the window." },
+      { file: "urban-lab-bedroom-recreate.jpg", title: "Recreated bedroom-lab", note: "Bed in the grey wardrobe wall, certificates, mobile bench on castors.", round: 2, prompt: 0 },
+      { file: "urban-lab-bedroom-wall-bed.jpg", title: "Fold-up wall bed", note: "Bed shown half folded into the wall unit to free up floor space.", round: 2, prompt: 1 },
+      { file: "urban-lab-bedroom-night-tablet.jpg", title: "Night, tablet dashboard", note: "Skyline lit up, LEDs low, robot dashboard on the bedside tablet.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Make this a bedroom-lab for a robotics engineer. Right wall: a double bed built into dark grey floor-to-ceiling wardrobes with a reading light, charcoal bedding and two pillows printed \"RoboJain\" and \"CARA\". Left wall: steel shelving with labelled bins and warm LED strips, a whiteboard and a mobile workbench on castors with a small robot on it. A desk in front of the window with two monitors and an office chair. Hanging plants beside the window, framed certificates on the right wall.",
@@ -120,7 +129,11 @@ const THEMES = [
     ],
     images: [
       { file: "coastal-biojain-sunset.jpg", title: "Sunset", note: "Golden light over the sea, canopy open." },
-      { file: "coastal-biojain-night.jpg", title: "Night", note: "Crescent moon, fairy lights on, BioJain sign lit." }
+      { file: "coastal-biojain-night.jpg", title: "Night", note: "Crescent moon, fairy lights on, BioJain sign lit." },
+      { file: "coastal-biojain-recreate.jpg", title: "Prosthetic hand bench", note: "Sunset over the sea, canopy bed, chalkboard with the prosthetic-hand project.", round: 2, prompt: 0 },
+      { file: "coastal-biojain-monsoon.jpg", title: "Monsoon day", note: "Rain on the window, grey-green sea, tea on the desk, canopy tied back.", round: 2, prompt: 1 },
+      { file: "coastal-biojain-monsoon-minimal.jpg", title: "Monsoon, pared back", note: "A calmer take: teak shelving, a daybed with a canopy and a stormy sea.", round: 2, prompt: 1 },
+      { file: "coastal-biojain-blue-hour.jpg", title: "Blue hour", note: "Moon over the sea, fairy lights, medical scans and a humanoid robot.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Change the view through the window to a Sri Lankan beach with coconut palms and the Indian Ocean. Furnish the room with teak and rattan: a four-poster bed on the right with a sheer white canopy and warm fairy lights, cushions in natural linen, a brass oil lamp on the bedside table. Left side: a wooden workbench with a robotic prosthetic hand prototype, test equipment and rattan storage baskets. A chalkboard titled \"Sri Lankan Innovation for Big Dreams\". Lots of potted tropical plants.",
@@ -149,7 +162,10 @@ const THEMES = [
     images: [
       { file: "kandyan-heritage-1.jpg", title: "Palm view", note: "Daylight, palms outside, terrarium on a stand by the window." },
       { file: "kandyan-heritage-sunset.jpg", title: "Hill-country sunset", note: "Misty hills at sunset, warm and dramatic." },
-      { file: "kandyan-heritage-filament.jpg", title: "Filament tower", note: "A lit filament and parts tower replaces the terrarium." }
+      { file: "kandyan-heritage-filament.jpg", title: "Filament tower", note: "A lit filament and parts tower replaces the terrarium." },
+      { file: "kandyan-heritage-recreate.jpg", title: "Carved bed, misty hills", note: "Beamed ceiling, brass lantern, woven baskets and dashboards set into the woodwork.", round: 2, prompt: 0 },
+      { file: "kandyan-heritage-reading-nook.jpg", title: "Reading nook", note: "Wooden daybed, oil lamp, robotics books and a wooden rover on the mat.", round: 2, prompt: 1 },
+      { file: "kandyan-heritage-vesak.jpg", title: "Vesak night", note: "Paper lanterns outside, glass domes glowing on the shelves.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Restyle the room with Kandyan hill-country craftsmanship: a dark timber beamed ceiling with a carved brass pendant lantern, honey-toned wooden shelving with woven baskets on every wall, a carved wooden bed on the left with a small brass plaque reading \"DREAM AWAKE\", a traditional patterned floor mat. Above the window, a carved wooden sign reading \"RoboJain: Autonomous Systems Lab\". Wall-mounted screens with soft blue dashboards blend into the woodwork. Sheer curtains, misty green hills outside.",
@@ -179,7 +195,10 @@ const THEMES = [
       { file: "neon-studio-bedroom.png", title: "Studio bedroom", note: "Two desks, pegboard, filament wall, bed in the corner." },
       { file: "neon-bedroom-workshop.png", title: "Bedroom workshop", note: "Pegboard and drone above, CARA project list on the right wall." },
       { file: "neon-creator-lounge.png", title: "Creator lounge", note: "Sofa replaces the bed; CARA feature board and \"Build Smart Live Better\" poster." },
-      { file: "neon-creator-goals.png", title: "Goals wall", note: "Goals whiteboard, MSc Robotics shelf, coffee table." }
+      { file: "neon-creator-goals.png", title: "Goals wall", note: "Goals whiteboard, MSc Robotics shelf, coffee table." },
+      { file: "neon-creator-recreate.jpg", title: "Open studio", note: "Logo wall, pegboard, CARA on screen, humanoid and rover on the console.", round: 2, prompt: 0 },
+      { file: "neon-creator-lounge-goals.jpg", title: "Studio lounge", note: "Sofa, coffee table, \"My Goals\" board and a \"Build Smart Live Better\" poster.", round: 2, prompt: 1 },
+      { file: "neon-creator-filming-night.jpg", title: "Night shoot", note: "Ring light on, logo glowing, everything else dimmed for filming.", round: 2, prompt: 2 }
     ],
     prompts: [
       "Turn the room into a robotics content-creator studio. Left wall: an illuminated \"RoboJain - Innovating for a Smarter Tomorrow\" logo with a list of focus areas (Robotics, AI & HRI, Assistive Technology, Affordable Solutions). Along it, a long wooden desk with an ergonomic chair and two monitors, one showing code and one showing a humanoid robot labelled \"CARA\". A pegboard of tools above. A low console under the window with a white humanoid robot and a small rover. Warm LED cove lighting, floating shelves with plants.",
@@ -206,3 +225,33 @@ const NEW_DIRECTIONS = [
   { name: "Kids' STEM corner", prompt: "Split the room so one corner is a colourful kids' robotics learning area: a low table, building kits, a small friendly robot, a pegboard with large tools, and a wall chart of simple circuits. The rest stays an adult workspace." },
   { name: "Greenhouse lab", prompt: "Fill the room with plants: a hydroponic grow rack along one wall with purple grow lights, a desk with a robot arm tending seedlings, terrariums, a hanging-plant ceiling, and a bed tucked in a green corner." }
 ];
+
+/* Theme 7: results of the "new directions" prompts. */
+THEMES.push({
+  id: "new-directions",
+  name: "New Directions",
+  tagline: "Six experiments from the prompt kit",
+  mood: "Mixed, experimental",
+  palette: ["#e8dccb", "#c08a3e", "#b04fd6", "#3fd29a"],
+  description:
+    "What the room looks like when it stops being a robotics bedroom: a calm Japandi studio, a Dubai high-rise suite, an elder-care test room, a cyberpunk night lab, a kids' STEM corner and a greenhouse lab. There's also a plain furnished living room for comparison.",
+  elements: [
+    "Japandi: oak wardrobes, paper lamp, platform bed",
+    "Dubai: Burj Khalifa view, black marble desk, robot display cases",
+    "Elder-care: armchair, care bed, companion robot",
+    "Cyberpunk: neon strips, haze, exposed robot torso",
+    "Kids' STEM: low play table, big pegboard tools, friendly robot",
+    "Greenhouse: grow racks, hanging plants, robot arms tending seedlings"
+  ],
+  promptNames: NEW_DIRECTIONS.map((d) => d.name),
+  prompts: NEW_DIRECTIONS.map((d) => d.prompt),
+  images: [
+    { file: "new-japandi.jpg", title: "Minimal Japandi lab", note: "Oak storage walls, floating desk with a small robot arm, low platform bed.", round: 2, prompt: 0 },
+    { file: "new-dubai-highrise.jpg", title: "Dubai high-rise studio", note: "Burj Khalifa at dusk, gold RoboJain sign, robots in lit display shelving.", round: 2, prompt: 1 },
+    { file: "new-elder-care.jpg", title: "Elder-care test room", note: "Armchair, care bed with rails, engineer desk, white companion robot.", round: 2, prompt: 2 },
+    { file: "new-cyberpunk.jpg", title: "Cyberpunk night lab", note: "Magenta-cyan neon, neon city outside, holographic panels and a robot torso.", round: 2, prompt: 3 },
+    { file: "new-kids-stem.jpg", title: "Kids' STEM corner", note: "Colourful play table and pegboard on one side, a grown-up desk on the other.", round: 2, prompt: 4 },
+    { file: "new-greenhouse.jpg", title: "Greenhouse lab", note: "Purple grow racks, a hanging-plant ceiling, two arms tending seedlings.", round: 2, prompt: 5 },
+    { file: "new-living-room.jpg", title: "Plain living room", note: "A simple furnished living room, useful as a no-robotics baseline.", round: 2 }
+  ]
+});

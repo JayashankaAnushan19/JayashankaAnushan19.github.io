@@ -41,24 +41,39 @@
       </figure>`;
   }
 
-  function promptCard(text, label) {
+  function promptCard(text, label, results) {
+    const res = (results || []).map((r) => `
+      <figure class="shot result" data-g="${r.ti}" data-i="${r.idx}">
+        <button class="shot-btn" aria-label="Open result: ${esc(r.img.title)}"><img src="${thumb(r.img.file)}" alt="Result: ${esc(r.img.title)}" loading="lazy" width="900" height="502"></button>
+      </figure>`).join("");
     return `
       <div class="prompt">
         <div class="prompt-head"><span>${esc(label)}</span><button class="copy" data-copy="${esc(fullPrompt(text))}">Copy</button></div>
         <p>${esc(text)}</p>
+        ${res ? `<div class="results"><span class="mini">Result${results.length > 1 ? "s" : ""}</span>${res}</div>` : ""}
       </div>`;
+  }
+
+  /* All prompt cards for one theme, each with the renders it produced. */
+  function themePrompts(t, ti) {
+    return t.prompts.map((p, pi) => {
+      const results = t.images.map((img, idx) => ({ img, ti, idx })).filter((r) => r.img.prompt === pi);
+      const label = t.promptNames ? t.promptNames[pi] : pi === 0 ? "Recreate" : "Variation " + pi;
+      return promptCard(p, label, results);
+    }).join("");
   }
 
   /* ---------- pages ---------- */
   function renderHome() {
     const total = THEMES.reduce((n, t) => n + t.images.length, 0);
+    const fromPrompts = THEMES.reduce((n, t) => n + t.images.filter((i) => i.round === 2).length, 0);
     app.innerHTML = header("home") + `
       <main>
         <section class="hero wrap">
           <div class="hero-text">
             <p class="eyebrow">Room concept board</p>
-            <h1>One empty room.<br><span class="grad">Six ways to build it.</span></h1>
-            <p class="lead">${total} AI renders of the same room, from a robotics R&amp;D lab to a Kandyan-heritage bedroom. Pick a theme to see every variation, or grab a prompt and make more.</p>
+            <h1>One empty room.<br><span class="grad">Seven ways to build it.</span></h1>
+            <p class="lead">${total} AI renders of the same room, from a robotics R&amp;D lab to a Kandyan-heritage bedroom. ${fromPrompts} of them were made with the prompt kit on this site. Pick a theme to see every variation, or grab a prompt and make more.</p>
             <div class="hero-cta">
               <a class="btn" href="#themes">Browse themes</a>
               <a class="btn ghost" href="prompts.html">Get the prompts</a>
@@ -104,7 +119,7 @@
           <div class="swatches big">${t.palette.map((c) => `<i style="background:${c}" title="${c}"></i>`).join("")}<em>${esc(t.mood)}</em></div>
         </section>
 
-        <section class="gallery">${t.images.map((img, i) => figure(img, ti, i)).join("")}</section>
+        ${galleries(t, ti)}
 
         <section class="two-col">
           <div class="panel">
@@ -118,7 +133,7 @@
           <div class="panel">
             <h2>Prompts for more like this</h2>
             <p class="mini">Copy adds the base-room lock text automatically. Attach your empty-room photo when you paste.</p>
-            ${t.prompts.map((p, i) => promptCard(p, i === 0 ? "Recreate" : "Variation " + i)).join("")}
+            ${themePrompts(t, ti)}
           </div>
         </section>
 
@@ -129,7 +144,21 @@
       </main>` + footer();
   }
 
+  /* First-round renders, then the ones made from this site's prompts. */
+  function galleries(t, ti) {
+    const all = t.images.map((img, i) => ({ img, i }));
+    const r1 = all.filter((x) => x.img.round !== 2);
+    const r2 = all.filter((x) => x.img.round === 2);
+    let html = "";
+    if (r1.length) html += `<section class="gallery">${r1.map((x) => figure(x.img, ti, x.i)).join("")}</section>`;
+    if (r2.length) html += `
+      ${r1.length ? `<h2 class="section-title">From the prompts <em>${r2.length} new</em></h2>` : ""}
+      <section class="gallery${r1.length ? " even" : ""}">${r2.map((x) => figure(x.img, ti, x.i)).join("")}</section>`;
+    return html;
+  }
+
   function renderPrompts() {
+    const nd = THEMES.findIndex((t) => t.id === "new-directions");
     app.innerHTML = header("prompts") + `
       <main class="wrap">
         <section class="theme-head">
@@ -145,16 +174,16 @@
 
         <h2 class="section-title">2 · Theme prompts</h2>
         <div class="prompt-themes">
-          ${THEMES.map((t) => `
+          ${THEMES.map((t, ti) => ti === nd ? "" : `
             <section class="panel">
               <div class="pt-head"><img src="${thumb(t.images[0].file)}" alt="" loading="lazy" width="900" height="528"><div><h3><a href="${themeHref(t)}">${esc(t.name)}</a></h3><p class="mini">${esc(t.tagline)}</p></div></div>
-              ${t.prompts.map((p, i) => promptCard(p, i === 0 ? "Recreate" : "Variation " + i)).join("")}
+              ${themePrompts(t, ti)}
             </section>`).join("")}
         </div>
 
-        <h2 class="section-title">3 · New directions to try</h2>
+        <h2 class="section-title">3 · New directions <a href="new-directions.html">see all →</a></h2>
         <div class="new-grid">
-          ${NEW_DIRECTIONS.map((d) => promptCard(d.prompt, d.name)).join("")}
+          ${themePrompts(THEMES[nd], nd)}
         </div>
 
         <h2 class="section-title">4 · Modifiers</h2>
