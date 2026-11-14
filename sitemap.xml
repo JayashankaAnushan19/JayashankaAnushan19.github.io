@@ -4,7 +4,7 @@
   <!-- Root portfolio -->
   <url>
     <loc>https://jayashankaanushan19.github.io/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -263,6 +263,12 @@
     <lastmod>2026-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://jayashankaanushan19.github.io/robojain/cara-waitlist.html</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jayashankaanushan19.github.io/robojain/products/</loc>

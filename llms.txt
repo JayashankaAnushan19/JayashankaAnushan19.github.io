@@ -6,13 +6,14 @@ This site has three parts:
 
 - **Portfolio** (`/`): professional profile, skills, experience, research interests, GitHub projects, videos and contact details.
 - **CARA** (`/CARA/`): full documentation and weekly research journal of CARA (Companion Assistive Robot for the Aged), an MSc Robotics thesis project at Middlesex University Dubai, 2026.
-- **RoboJain** (`/robojain/`): Jayashanka's robotics engineering studio in Dubai, UAE. It builds DIY-to-medium-scale robotic systems, embedded engineering and automation for real-world conditions, with RJ-Life software products and RJ-Robot hardware products.
+- **RoboJain** (`/robojain/`): Jayashanka's robotics engineering studio in Dubai, UAE. It builds DIY-to-medium-scale robotic systems, embedded engineering and automation for real-world conditions, with RJ-Life software products and RJ-Robot hardware products. RoboJain is in pre-launch: its first products are being built now, and people can register interest to be notified when services and products become available.
 
 Key facts:
 
-- Name: Jayashanka Anushan
+- Name: Jayashanka Anushan (also written Jayasanka Anushan)
 - Role: Robotics Engineer & MSc Researcher; founder of RoboJain
 - Location: Dubai, UAE
+- Availability: open to robotics engineering roles (ROS2, embedded systems, automation, assistive robotics) in the UAE, United Kingdom and United States, including relocation
 - Education: Middlesex University (MSc Robotics, Dubai); London Metropolitan University
 - Research focus: assistive robotics for elderly care, humanoid robot perception, multimodal emotion recognition, robot vision and sensor fusion, auditory perception, cloud robotics (AWS + ROSBridge)
 - Contact: jayasankaanushan199@gmail.com · RoboJain: robojain.robotics@gmail.com
@@ -50,6 +51,7 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 - [RobotSC (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/robotsc.html): Real-time robotics monitoring and control dashboard over WebSockets.
 - [BlindTalk (RJ-Robot)](https://jayashankaanushan19.github.io/robojain/products/blindtalk.html): Braille-based communication hardware for the visually impaired.
 - [CARA (RJ-Robot)](https://jayashankaanushan19.github.io/robojain/products/cara.html): Autonomous elderly monitoring and care robot, in development.
+- [Register interest in CARA](https://jayashankaanushan19.github.io/robojain/cara-waitlist.html): Join the waitlist to be notified when CARA moves to field testing and becomes available.
 - [Posts & Updates](https://jayashankaanushan19.github.io/robojain/posts.html): RoboJain updates from LinkedIn, Instagram and TikTok.
 
 ## Optional
