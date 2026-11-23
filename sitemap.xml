@@ -301,12 +301,4 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Gallery -->
-  <url>
-    <loc>https://jayashankaanushan19.github.io/gallery/</loc>
-    <lastmod>2026-07-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
 </urlset>

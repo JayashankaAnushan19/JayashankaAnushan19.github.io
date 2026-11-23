@@ -1,5 +1,5 @@
 # robots.txt — jayashankaanushan19.github.io
-# Portfolio of Jayashanka Anushan, CARA (MSc research project) and RoboJain (robotics studio).
+# Only the portfolio, CARA (MSc research project) and RoboJain (robotics studio) are meant for search and AI tools.
 #
 # Search engines and AI assistants are welcome to crawl, index and cite this site.
 # All crawlers share the rules below; the named AI agents are listed explicitly so
@@ -33,6 +33,9 @@ Disallow: /CARA2/
 Disallow: /oppein/
 Disallow: /smart_sense/
 Disallow: /ime/
+Disallow: /universe/
+Disallow: /build_my_room/
+Disallow: /gallery/
 
 Sitemap: https://jayashankaanushan19.github.io/sitemap.xml
 

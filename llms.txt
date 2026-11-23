@@ -61,4 +61,3 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 - [CARA research & literature review (detailed)](https://jayashankaanushan19.github.io/CARA/research/): Literature review and comparison with existing assistive robots.
 - [CARA image gallery](https://jayashankaanushan19.github.io/CARA/images/): Architecture diagrams, circuit diagrams and build photos.
 - [CARA field books](https://jayashankaanushan19.github.io/CARA/fieldbooks.html): Lab notes and research documents.
-- [Jay Gallery](https://jayashankaanushan19.github.io/gallery/): Illustrated albums of dragons and mythological bestiaries.
