@@ -7,7 +7,7 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +58,39 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Appendices",
+      "item": "https://jayashankaanushan19.github.io/CARA/appendix/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Appendix E — Raw Test Results",
+      "item": "https://jayashankaanushan19.github.io/CARA/appendix/e-raw-test-results.html"
+    }
+  ]
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -157,7 +190,7 @@
     <p><strong>Pass criterion:</strong> both lines readable; I2C ACK at 0x27 reported at boot; no garbage characters.</p>
     <p><strong>Recorded result:</strong> on power-up the display starts and shows the movement status, <code>STOPPED / Speed: 0</code>.</p>
     <figure class="post-image" style="margin:1rem 0 0; max-width:340px;">
-      <img src="e-evidence/H-04_1.jpeg" alt="Head unit with webcam, LCD showing STOPPED and Speed 0, and the 4x4 keypad">
+      <img src="e-evidence/H-04_1.jpeg" alt="Head unit with webcam, LCD showing STOPPED and Speed 0, and the 4x4 keypad" loading="lazy" decoding="async">
       <figcaption>H-04_1 — head unit after power-up (also the evidence for H-01).</figcaption>
     </figure>
   </div>
@@ -168,11 +201,11 @@
     <p><strong>Recorded result:</strong> keys 0–6, A and B tested on the fitted keypad. <code>0</code> opens the reminder-entry screen; <code>1–4</code> and <code>5, 6, 0, 0</code> appear correctly on the LCD; <code>A</code> and <code>B</code> show <code>ENROLL: Capture</code> and <code>ENROLL: Train</code>. <strong>Keys 7, 8, 9 and C do not register (a dead row).</strong> <code>#</code> and <code>*</code> are covered by tests X-01 / X-02, and <code>D</code> was not pressed because it resets patient enrolment.</p>
     <p><strong>Consequence:</strong> 12 of 16 keys work, so a reminder time containing 7, 8 or 9 (for example 08:00 or 19:00) cannot be entered from the keypad.</p>
     <div class="post-image-grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); margin-top:1rem;">
-      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_1_key0-entry-screen.jpeg" alt="LCD showing the reminder-entry screen after pressing key 0"><figcaption>H-05_1 — key 0, entry screen</figcaption></figure>
-      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_2_digits-1234.jpeg" alt="LCD showing 12:34 after pressing keys 1 to 4"><figcaption>H-05_2 — digits 1–4 (12:34)</figcaption></figure>
-      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_3_digits-5600.jpeg" alt="LCD showing 56:00 after pressing 5, 6, 0, 0"><figcaption>H-05_3 — digits 5, 6, 0, 0 (56:00)</figcaption></figure>
-      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_4_keyA-enroll-capture.jpeg" alt="LCD showing ENROLL: Capture after pressing A"><figcaption>H-05_4 — key A, ENROLL: Capture</figcaption></figure>
-      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_5_keyB-enroll-train.jpeg" alt="LCD showing ENROLL: Train after pressing B"><figcaption>H-05_5 — key B, ENROLL: Train</figcaption></figure>
+      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_1_key0-entry-screen.jpeg" alt="LCD showing the reminder-entry screen after pressing key 0" loading="lazy" decoding="async"><figcaption>H-05_1 — key 0, entry screen</figcaption></figure>
+      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_2_digits-1234.jpeg" alt="LCD showing 12:34 after pressing keys 1 to 4" loading="lazy" decoding="async"><figcaption>H-05_2 — digits 1–4 (12:34)</figcaption></figure>
+      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_3_digits-5600.jpeg" alt="LCD showing 56:00 after pressing 5, 6, 0, 0" loading="lazy" decoding="async"><figcaption>H-05_3 — digits 5, 6, 0, 0 (56:00)</figcaption></figure>
+      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_4_keyA-enroll-capture.jpeg" alt="LCD showing ENROLL: Capture after pressing A" loading="lazy" decoding="async"><figcaption>H-05_4 — key A, ENROLL: Capture</figcaption></figure>
+      <figure class="post-image" style="margin:0;"><img src="e-evidence/H-05_5_keyB-enroll-train.jpeg" alt="LCD showing ENROLL: Train after pressing B" loading="lazy" decoding="async"><figcaption>H-05_5 — key B, ENROLL: Train</figcaption></figure>
     </div>
   </div>
 
@@ -281,7 +314,7 @@
     <h4>M-01 / M-02 — Summary and Drift Analysis</h4>
     <p>Across all 10 trials (5 forward, 5 reverse), lateral drift was consistently 14–17 cm regardless of direction of travel — a narrow, repeatable range rather than random scatter. That consistency across both directions points to a small, fixed mechanical bias (for example an alignment or wheel-diameter difference between the left and right side) rather than control noise.</p>
     <figure class="post-image" style="margin:1rem 0 0; max-width:520px;">
-      <img src="e-evidence/m01-m02-drift-summary.png" alt="Fan diagram showing the net lateral drift for all 10 M-01/M-02 trials, plotted from a common start point">
+      <img src="e-evidence/m01-m02-drift-summary.png" alt="Fan diagram showing the net lateral drift for all 10 M-01/M-02 trials, plotted from a common start point" loading="lazy" decoding="async">
       <figcaption>Net drift for all 10 trials, each drawn as a straight line from the start point to the tape-measured end position.</figcaption>
     </figure>
     <p style="margin-top:.8rem;"><strong>What this diagram is, and isn't:</strong> the vertical axis is the intended ~1 m test distance for every trial, not a reconstructed trajectory — it shows net drift at the end of each trial, not the shape of the path actually driven between those two points.</p>

@@ -1,0 +1,543 @@
+# Jayashanka Anushan — full site text for AI assistants
+
+> Full text of the main public pages of https://jayashankaanushan19.github.io/ — the portfolio of Jayashanka Anushan, his MSc robotics project CARA, and his robotics studio RoboJain. A shorter summary: https://jayashankaanushan19.github.io/llms.txt — CARA's source code and detailed internal design are private and not included.
+
+---
+
+## Portfolio — Jayashanka Anushan
+Source: https://jayashankaanushan19.github.io/
+
+Robotics Engineer · Dubai, UAE
+## Jayashanka Anushan
+Automation-focused engineer building at the intersection of software, hardware, and infrastructure — ROS-based control systems, embedded prototypes, cloud robotics with AWS, and real-world operations automation. Robotics engineer: CARA assistive robot, ROS2, embedded systems and ML. MSc Robotics, Middlesex University Dubai.
+### About Me
+I'm Jayashanka Anushan, a Robotics Engineer and MSc researcher based in Dubai, UAE. I build at the intersection of software, hardware, and infrastructure — from ROS-based control systems and embedded prototypes to cloud-connected robots and smart operational automation.
+My research focuses on humanoid robotics and Human-Robot Interaction (HRI) — specifically building emotionally intelligent systems that perceive human behaviour through multimodal sensing (audio, vision, environmental signals) and respond naturally.
+Beyond research, I deploy real-world automation: smart warehouses, cloud-connected robots via AWS + ROSBridge, logistics automation, and smart infrastructure installations. If it blends robots + ops + impact, I'm in. 🤖⚡
+> "Robots will not replace humans — they will extend human capability."
+### Skills & Technologies
+### Public Projects
+### YouTube Channel
+// Fetching latest videos...
+### Find Me Everywhere
+No email app needed — message goes straight to the inbox.
+### Research & Publications
+Currently researching humanoid robotic perception and assistive robotics — focusing on emotionally intelligent systems that perceive human behaviour through multimodal sensing (audio, vision, environmental signals) and respond naturally. Targeting assistive applications for elderly environments. Publications upcoming — follow on LinkedIn or GitHub for updates.
+
+---
+
+## CARA — overview
+Source: https://jayashankaanushan19.github.io/CARA/
+
+## CARA
+Companion Assistive Robot for the Aged — a documentary on building a low-cost robot for elderly care in Sri Lanka.
+### A Generation Left Alone
+Sri Lanka's elderly population is growing faster than the care infrastructure built to support it. By 2041, one in four Sri Lankans will be over 60 — yet thousands of working-age adults have migrated abroad in search of better incomes, leaving elderly parents living alone in family homes across the island.
+For these individuals, the risks are real and daily: a fall with no one nearby to call for help, a medication dose missed without anyone to notice, days passing without a family member knowing if everything is alright. In rural areas, professional care services are scarce, and internet connectivity is often unreliable or absent entirely.
+> "The combination of rapid ageing, working-age migration, and limited connectivity creates a care gap that technology — designed specifically for this context — could meaningfully narrow." — Research motivation, Thesis Chapter 1
+Existing assistive robots address some of these challenges, but not in ways accessible to families in developing countries. They cost between $5,000 and $100,000, require continuous Wi-Fi, and were designed for high-income, well-connected environments. None of them were built with Sri Lanka's realities in mind.
+### Three Principles, One Robot
+CARA is not designed to be the most advanced robot — it is designed to be the most useful robot for a specific context. Every decision in the design flows from three constraints that were set at the outset and never compromised.
+##### Under $500, Total
+The complete bill of materials — every sensor, motor, processor, and cable — must cost under $500 USD. This is not a stretch goal; it is the boundary that determines whether the system is accessible to middle-income families in Sri Lanka or only to research institutions. Every hardware decision is evaluated against this constraint first.
+##### Zero Wi-Fi Dependency for Safety
+All safety-critical functions — fall detection alerts, medication reminders, daily check-ins — operate entirely over GSM cellular. Wi-Fi is deliberately excluded from every safety path, not as a fallback but as the primary design choice. GSM coverage is broadly available across Sri Lanka's rural and semi-urban areas even where broadband is not.
+##### Zero Required Interaction from the Elderly User
+CARA must monitor, detect, and alert without ever requiring the elderly user to press a button, speak a command, or understand how the system works. If the robot only works when the user actively engages with it, it fails the moment the user is cognitively impaired, frightened, or simply unconscious after a fall.
+### What CARA Can Do
+CARA integrates 15 capabilities across a dual-controller platform: an NVIDIA Jetson Nano handles AI and computer vision while an Arduino Mega 2560 manages all real-time peripherals. Here are the four things CARA does that matter most.
+##### Detects Falls Automatically
+MediaPipe Pose Estimation runs at 12–15 fps on the Jetson Nano's GPU. When hip and shoulder positions match a fall pattern for two continuous seconds, CARA triggers an alert — with no wearable device required from the user.
+##### Sends SMS Without Internet
+A A7670C GSM module sends text message alerts to registered family members within 30 seconds of a confirmed fall, a missed medication, or a daily check-in failure — all over the cellular network, with no Wi-Fi required. (SIM800L remains a valid, cheaper choice for a Sri Lanka deployment where 2G coverage is still active.)
+##### Moves Around the Home
+6 ultrasonic sensors provide 360° obstacle awareness. CARA follows its registered user through rooms using a combination of PIR motion detection and computer vision colour tracking, stopping safely at 20 cm from any object.
+##### Manages Medication Timing
+A real-time clock triggers audible reminders at four set times daily. The user acknowledges with the keypad (RFID-tap acknowledgement was tried and removed after testing found it unreliable on this hardware). If no confirmation arrives in 15 minutes, an escalating GSM alert is sent automatically.
+### Go Deeper
+This documentary site covers every aspect of the CARA project — from the initial research question to the hardware components and weekly build notes.
+### Final Update — v1.0 Development Complete
+The development blog tracked weekly progress as CARA moved from design to a working, tested prototype. Week 16 closes out v1.0: the thesis is submitted, the final test log is in, and the oral defense presentation is live.
+The thesis report went in on submission day, with a full rewrite of the raw-results appendix. Then the GSM module's long-standing silence on the assembled robot got a real answer: bench-isolated on its own rig, the module and SIM turned out fully functional, and the actual fault was pinned to a voltage margin — clean at 6.5V, degrading below it.
+
+---
+
+## CARA — about
+Source: https://jayashankaanushan19.github.io/CARA/about.html
+
+## About CARA
+The motivation, context, and design philosophy behind a low-cost companion robot for elderly care in developing countries.
+### The Problem
+Sri Lanka is undergoing one of the most rapid demographic transitions in South Asia. The proportion of people aged 60 and above stood at 12.4% in 2012 and is projected to reach 25% by 2041 — a shift that places enormous pressure on families and formal care systems alike. Compounding this, large-scale economic migration of working-age adults overseas has left a generation of elderly parents living alone in family homes, often in semi-urban or rural areas where internet connectivity is unreliable and professional care services are scarce.
+The risks for these individuals are significant: undetected falls, missed medications, delayed emergency responses, and chronic social isolation. Technology-assisted eldercare has emerged globally as one response to this challenge, yet the most capable assistive robots on the market today — PARO, Pepper, Care-O-Bot, ElliQ — cost between $5,000 and $100,000, require continuous Wi-Fi, and were designed for high-income, connected environments. None of them address the specific constraints of rural and semi-urban Sri Lanka.
+##### The Core Research Question
+Can a single robotic platform costing under $500, operating without Wi-Fi, and requiring zero interaction from the elderly user effectively address the primary safety and companionship needs of a person living alone?
+### What CARA Does
+CARA is a mobile companion robot designed to operate autonomously in a home environment. It moves through rooms using obstacle-avoidance navigation, follows its registered user, monitors them continuously using a camera and AI pose estimation, and reacts to safety events without requiring any action from the elderly person.
+When a fall is detected, CARA triggers a GSM SMS alert to registered family members, escalating automatically (repeated messages, then every 5 minutes) until acknowledged — over the same cellular network used by basic mobile phones, available even in areas with no broadband internet. When medication time comes, CARA announces it with an audible reminder and LCD message and waits for the user to acknowledge with the keypad. RFID-based acknowledgement was tried and removed after testing found it unreliable on this hardware (see the Blog) — the keypad is now the sole, reliable acknowledgement path.
+None of these core safety functions require the elderly user to press a button, speak a command, or understand any technology.
+### Design Philosophy
+##### Affordability First
+Total component cost under $500. Every hardware decision is weighed against cost impact. The platform must be accessible to middle-income families in developing countries, not just research institutions.
+##### Zero Wi-Fi Dependency
+All critical safety functions — fall detection alerting, medication reminders — operate entirely via GSM cellular. Wi-Fi is never a dependency for any safety-critical feature.
+##### Zero Required Interaction
+The elderly user should never need to interact with CARA for the robot to fulfil its safety functions. Monitoring, detection, and alerting happen passively and autonomously.
+##### Developing-World Context
+CARA is explicitly designed for deployment in Sri Lanka's residential settings — power-stable environments with GSM coverage but potentially no broadband. Every technical decision is grounded in this context.
+### Project Details
+Full Title
+A Low-Cost GSM-Based Companion Assistive Robot for Elderly Care and Human-Robot Interaction in Developing Countries
+Short Name
+CARA — Companion Assistive Robot for the Aged
+Institution
+Middlesex University Dubai
+Programme
+MSc Robotics
+Module
+PDE4445 — Dissertation (2025–2026)
+Student
+Jayashanka Anushan
+Supervisor
+Professor Judhi Prasetyo
+Prototype Version
+CARA v1.0 (research prototype)
+### Scope and Limitations
+CARA v1.0 is a research prototype evaluated in a controlled laboratory environment at Middlesex University Dubai. It is not a clinical or commercial product. The evaluation will measure performance across 15 defined features against specific quantitative targets, but real-world deployment in residential eldercare settings would require additional safety validation, extended user trials with actual elderly participants, and clinical review against ISO 13482:2014 (personal care robots safety standard).
+The prototype uses a USB webcam in a fixed-mount camera rather than depth cameras, operates at walking speed (0.3 m/s), and is designed for a single-floor indoor environment. These are deliberate constraints that keep the platform affordable and within research scope.
+##### How to navigate this site
+Each page covers one aspect of the project in depth. Use the navigation bar to move between pages. The Development Blog contains weekly build logs as the physical robot is constructed and tested. The Timeline shows where the project currently stands against the 12-week plan.
+
+---
+
+## CARA — objectives & research questions
+Source: https://jayashankaanushan19.github.io/CARA/objectives.html
+
+## Objectives & Research Questions
+Five interconnected research objectives define what CARA must achieve. Each objective is paired with a corresponding research question that the evaluation will answer.
+### Research Objectives
+These five objectives were defined at the outset of the project to give the design and evaluation a clear direction. They form the basis of the functional requirements, the feature set, and the testing protocol.
+##### Design and build a low-cost mobile robot platform
+Design and build a mobile robot platform with autonomous navigation, obstacle avoidance, and person-following capabilities — targeting a total component cost under $500 USD to ensure accessibility for families in developing countries.
+##### Implement AI-based fall detection
+Implement a computer vision fall detection system using MediaPipe Pose Estimation on NVIDIA Jetson Nano, achieving at least 80% detection accuracy across 20 standardised trials while minimising false positives to under 2 per hour of continuous operation.
+##### Develop a GSM-based emergency alerting system
+Develop a GSM-based emergency alerting system using the A7670C (SIM800L for a Sri Lanka deployment, where 2G is still active) that delivers SMS notifications to registered family members within 30 seconds of a confirmed fall event — operating without any Wi-Fi or internet connectivity.
+##### Create an automated medication management system
+Create an automated medication reminder and confirmation system using DS3231 RTC and MFRC522 RFID, capable of triggering scheduled reminders at four daily intervals and sending missed-dose alerts via GSM within 15 minutes of a non-confirmed dose.
+##### Evaluate performance against defined metrics
+Evaluate CARA's performance against all 15 defined functional requirements through structured lab trials, measuring fall detection accuracy, SMS delivery time, navigation success rate, medication reminder precision, and overall system reliability.
+### Research Questions
+The following research questions frame the inquiry. They are designed to be answerable through structured experimentation at the end of the project, providing the evaluative basis for the thesis conclusion.
+##### How effectively can a sub-$500 robot platform navigate and follow a user in a typical home environment?
+Measured by: percentage of navigation trials completed without collision; percentage of person-following sessions where the target remains within camera frame for more than 80% of session duration.
+##### Can MediaPipe Pose Estimation on a Jetson Nano reliably detect falls in standardised trials?
+Measured by: true positive rate (sensitivity) and false positive rate across 20 standardised fall simulation trials in varied room positions and lighting conditions.
+##### Can GSM-based SMS alerting consistently deliver notifications within 30 seconds without internet access?
+Measured by: average and maximum SMS delivery time across 15 triggered alert tests, conducted without Wi-Fi connectivity, in a lab environment with GSM coverage.
+##### How reliably can the medication management system trigger scheduled reminders and detect confirmation?
+Measured by: percentage of scheduled reminders triggered at the correct time (±1 minute); RFID confirmation detection rate across 20 trials; SMS alert delivery rate for missed doses.
+##### Can CARA achieve 80% or greater pass rates across all 15 defined functional requirements in structured evaluation?
+This is the overarching question synthesising all five objectives. The final evaluation chapter will report pass/fail results for each feature and an overall system effectiveness score.
+### Objectives–Features Mapping
+Each research objective directly drives a subset of CARA's 15 features. The table below shows how objectives map to the feature set.
+Objective
+Related Features
+Priority
+OBJ1 — Navigation & Platform
+Obstacle avoidance, person following, remote drive, battery management, cliff detection
+Critical
+OBJ2 — Fall Detection
+MediaPipe fall detection, fixed-angle camera head, visual LED state feedback
+OBJ3 — GSM Alerting
+Fall SMS alert, missed-dose SMS alert, daily check-in SMS, heat alert SMS
+OBJ4 — Medication
+Timed medication reminders, RFID confirmation, missed-dose alerting
+High
+OBJ5 — Evaluation
+Event logging, camera live feed, data export for analysis
+Medium
+
+---
+
+## CARA — features
+Source: https://jayashankaanushan19.github.io/CARA/features.html
+
+## 15 Integrated Features
+CARA integrates 15 capabilities across three priority tiers. Critical features are evaluated first and are non-negotiable for the thesis; high and medium priority features are implemented where hardware and time allow.
+### Critical Priority
+These features are the core purpose of CARA. Without them, the fundamental research objectives cannot be met. They are implemented and tested first.
+Feature
+Priority
+Description
+AI Fall Detection
+Critical
+GSM Fall Alert SMS
+Confirmed fall event triggers the GSM module (A7670C; SIM800L in a Sri Lanka deployment) to send SMS to registered family members within 30 seconds. Uses AT command set over the Arduino's hardware Serial1 (not SoftwareSerial) — no internet required. Includes 30-second cooldown to prevent SMS flooding. Status: two-way SMS round-trip confirmed on a bench setup (breadboard + Arduino); the module has not yet responded once wired into the assembled robot and needs its own dedicated power supply — not yet confirmed working end-to-end on the real chassis.
+Obstacle Avoidance Navigation
+Person Following
+Face recognition (LBPH) is the primary identity lock; a colour-band HSV fallback takes over when the face can't be reliably seen, with band-anchored re-acquisition of the face once it's visible again. Confirmed live on real hardware across two lighting conditions. The keypad is used for enrolment and medication acknowledgement; RFID logs tag scans but no longer confirms anything (see Medication Reminders). Publishes TARGET_LOST if neither the face nor the band is held. The HSV band fallback is reliable only at close range (~50cm; see Testing & Evaluation).
+Medication Reminders
+Design target: DS3231 RTC triggers audible buzzer + LCD message at 08:00, 13:00, 18:00, and 22:00 daily, confirmed by keypad acknowledge. Status: keypad acknowledgement works, now with an escalating alert (6 messages 5 minutes apart, then buzzer/LCD held active) rather than a single notification. RFID acknowledgement was implemented, then removed after testing found it unreliable specifically when the Mega is powered through the Jetson's USB port — a real power-quality fault, not a wiring issue (see Blog Week 16). The DS3231 RTC is currently disabled after a hardware fault, so live time-of-day scheduling isn't running yet — assessed as partially achieved.
+⚠️
+Missed-Dose SMS Alert
+Design target: if medication confirmation is not received within 15 minutes of a reminder trigger, the Arduino automatically calls the GSM SMS function to alert registered family members. Status: the escalating alert mechanism itself works (keypad-acknowledged, GSM module confirmed functional with its voltage requirement understood); the full chain hasn't been confirmed end-to-end on the assembled robot yet, since it also depends on the RTC-based scheduling above.
+### High Priority
+These features significantly extend CARA's usefulness and are planned for full implementation alongside the critical tier.
+Live Camera Feed (Phone Browser)
+High
+Flask MJPEG streaming server runs on Jetson Nano port 5000. Family members access cara.local:5000/video_feed from any phone browser on the local network — no app required.
+🕹️
+Remote Drive (Phone Browser)
+HTTP POST endpoint receives directional commands from a phone web interface. Motor commands are forwarded to Arduino via serial — but obstacle avoidance always takes precedence, regardless of remote command.
+🌡️
+Temperature Monitoring & Alert Postponed → v1.1
+DS18B20 sensor would monitor room temperature and, if ambient temperature exceeds 38°C for more than 5 minutes, trigger a heatstroke-risk SMS alert and LCD warning message. Proposed for v1.0 but postponed to v1.1 due to time constraints — not implemented in the current build.
+Battery Management & Low-Battery SMS Alert Postponed → v2.0
+Designed behaviour: a voltage divider monitors the LiPo pack, switching the status LED to a rapid blink pattern and showing a low-battery warning on the LCD below ≈25% capacity, then sending an SMS asking a family member to replace the battery once it's critically low or dead. None of this is implemented in the current build — not the voltage monitoring, not the SMS. Planned for v2.0, not v1.0/v1.1.
+Daily Check-In SMS
+At 12:00 noon each day, the health_management ROS node sends a status SMS confirming that CARA is online and the user was seen in the past 4 hours. Families receive silence-is-an-alert assurance.
+🎙️
+Greeting & LCD Messages
+When person presence is detected via PIR sensor, CARA displays a warm greeting on the 16×2 I2C LCD and activates a short audible chime. Messages rotate between time-appropriate greetings based on RTC hour.
+### Medium Priority
+These features enhance the interaction quality and data collection capabilities. They will be implemented if the core tiers are stable within the 12-week timeline.
+LED State Feedback
+Medium
+Cliff / Stair Detection Postponed → v1.1
+Three TCRT5000 infrared sensors mounted facing downward detect floor edge loss (staircase or dropped surface). Emergency stop is triggered if two or more sensors simultaneously lose floor reflection. Proposed for v1.0 but postponed to v1.1 due to time constraints — not implemented in the current build.
+Greeting Wave Gesture
+##### Feature Implementation Status
+Features are being implemented sequentially from Critical → High → Medium throughout Weeks 3–8 of the project. Current implementation status is logged in the Development Blog.
+
+---
+
+## CARA — research & literature review
+Source: https://jayashankaanushan19.github.io/CARA/research.html
+
+## Research & Literature Review
+A structured review of the existing body of work in elderly care robotics, fall detection, GSM alerting, indoor navigation, and human-robot interaction — leading to the research gap CARA addresses.
+### Full Research Paper
+The standalone IEEE-format research paper — condensed from the full dissertation, kept in sync with the project's actual current status.
+Viewer not loading? Open the PDF directly →
+### 2.1 — The Ageing Crisis
+Sri Lanka is undergoing one of the most rapid demographic transitions in South Asia. The proportion of people aged 60 and above increased from 12.4% in 2012, is approximately 18% in 2024, and is projected to reach 25% by 2041. This shift is driven by declining birth rates, increasing life expectancy, and the large-scale emigration of working-age adults seeking employment abroad.
+The rising old-age dependency ratio means a smaller working population must support a proportionally larger elderly population. For families where one or more adult children live abroad, the consequence is an elderly parent living alone — often in a semi-urban or rural setting — without consistent daily supervision or immediate access to medical care.
+This population faces elevated risks of falls (the leading cause of injury-related death in adults over 65), medication non-adherence, social isolation, and delayed emergency response. The combination creates a clear demand for technology-assisted care that operates within the infrastructure constraints of Sri Lanka's non-urban settings.
+### 2.2 — Existing Assistive Robots
+Several robotic systems have been developed for elderly care, but none meet the combined affordability, connectivity independence, and passive design requirements of the Sri Lankan context.
+PARO (AIST, Japan) is a robotic therapeutic seal that improves emotional well-being in elderly patients with dementia. Its AI animal-like behaviour provides comfort and reduces agitation, but at $5,000+ per unit, it provides no fall detection, navigation, or safety alerting.
+Pepper (SoftBank Robotics) supports elderly users through conversation, reminders, and social interaction. It requires continuous Wi-Fi, is not designed for home deployment, and costs over $15,000.
+Care-O-Bot 4 (Fraunhofer IPA) is an advanced research platform capable of manipulation, navigation, and task assistance. At over $100,000, it remains inaccessible for any consumer deployment and is not commercially available.
+ElliQ (Intuition Robotics) offers AI companion features, voice interaction, and proactive suggestions at $250/month subscription. It requires continuous internet, operates in English only, and is designed for North American residential settings.
+Robot
+Developer
+Cost
+Wi-Fi Req.
+Fall Detection
+Developing World
+Passive Use
+PARO
+AIST, Japan
+$5,000+
+Yes
+No
+Minimal
+Pepper
+SoftBank
+$15,000+
+Care-O-Bot 4
+Fraunhofer IPA
+$100,000+
+Partial
+ElliQ
+Intuition Robotics
+$250/month
+Stevie II
+Trinity College Dublin
+N/A
+CARA (this work)
+MDX Dubai
+<$500
+No — GSM only
+Yes — MediaPipe
+Yes — explicit
+Zero required
+### 2.3 — Fall Detection Methods
+Wearable accelerometers achieve 95%+ sensitivity for fall detection but depend on continuous user compliance — a significant problem for cognitively impaired or forgetful elderly users who may remove or forget the device.
+Vision-based pose estimation achieves detection rates around 92–96% in controlled settings, does not require the user to wear anything, but raises privacy concerns and struggles with occlusion (user behind furniture, in low-light areas).
+Floor-pressure sensor networks detect falls unobtrusively but require invasive installation, have limited spatial coverage, and are impractical for rental or shared housing.
+> "Systems using MediaPipe Pose Estimation have demonstrated approximately 95.8% accuracy in fall detection from standard RGB video streams, without depth cameras or wearable sensors." — Saraswat & Malathi, 2024
+### 2.4 — Indoor Navigation
+SLAM-based navigation (GMapping, RTAB-Map) paired with ROS provides reliable indoor localization and path planning, but requires LIDAR or depth cameras that add significant cost. CARA uses a simpler sensor-based approach: 6 ultrasonic sensors providing 360° coverage are sufficient for reactive obstacle avoidance in a home environment at 0.3 m/s operating speed.
+Person following in domestic environments typically uses one of three approaches: colour tracking, depth-sensor following, or acoustic source localisation. CARA combines PIR-triggered direction sensing with HSV orange-band tracking — a low-cost solution that avoids depth cameras entirely.
+### 2.5 — GSM-Based Health Alerting
+IoT health monitoring research consistently demonstrates that GSM SMS provides reliable alert delivery in areas with GSM coverage but limited or no internet. In Sri Lanka's rural and semi-urban areas, GSM coverage (2G/3G cellular) is broadly available, while fibre broadband penetration remains low outside major cities.
+The Hayes AT command protocol used by both the SIM800L and A7670C GSM module families has been widely validated in embedded health monitoring literature. Key implementation challenges are power management (~2A TX bursts) and AT command timing — both addressed in CARA's design through a dedicated 6.6V supply with 1000µF stabilisation. CARA's design targets the A7670C (4G/LTE) since 2G is decommissioned in the UAE, though SIM800L remains valid for a Sri Lanka deployment.
+### 2.6 — Human-Robot Interaction with Elderly Users
+Research on HRI acceptance among elderly populations identifies five key factors: perceived usefulness, ease of use, safety, reliability, and emotional connection (Sirizi et al., 2025). Critically, elderly users show stronger acceptance of robots that function autonomously without requiring technological literacy from the user.
+Non-verbal feedback cues — LED state colours, LCD messages, and contextual sounds — improve perceived safety and trust without demanding that the user understand how the system works. CARA's design is explicitly informed by this: all safety-critical functions (fall detection, medication alerting) require zero user action or interaction.
+### 2.7 — Research Gap
+Analysis of the existing literature reveals a consistent and critical gap: no existing assistive robot platform combines the four dimensions needed for developing-world deployment:
+##### 1. Cost Accessibility
+Existing platforms cost $5,000–$100,000+. CARA targets under $500 — an order of magnitude reduction that makes it accessible to middle-income families in Sri Lanka and similar contexts.
+##### 2. Connectivity Independence
+All existing social robots require continuous internet. CARA's safety functions depend entirely on GSM cellular — available in rural Sri Lanka where broadband is not.
+##### 3. Passive / Zero-Interaction Design
+Most systems require users to engage actively — speaking, pressing buttons, or wearing devices. CARA monitors passively and alerts automatically, without any required elderly action.
+##### 4. Integrated Feature Set
+Wearables detect falls but don't navigate. Robots navigate but don't detect falls. Smart home sensors don't provide companionship. CARA integrates 15 features in a single platform.
+##### Thesis Contribution
+CARA represents the first known attempt to integrate computer vision fall detection, GSM-only emergency alerting, autonomous navigation, medication management, and social companion features in a single platform designed explicitly for developing-world deployment under $500.
+### Key References
+- Shibata & Wada (2011). Robot therapy: A new approach for mental healthcare — PARO. Int. Journal of Social Robotics, 57, 378–386.
+- Bourke, O'Brien & Lyons (2007). Threshold-based accelerometer fall detection. Gait & Posture, 26(2), 194–199.
+- Saraswat & Malathi (2024). Pose estimation based fall detection using MediaPipe.
+- Arun et al. (2025). IoT-based patient health and fall monitoring with GSM alerts. IJRASET.
+- Sirizi et al. (2025). Evaluating HRI to support healthy aging-in-place. Journal of Applied Gerontology, 44(2), 266–277.
+- Full bibliography: 53 references cited in thesis document.
+
+---
+
+## CARA — development blog index
+Source: https://jayashankaanushan19.github.io/CARA/blog/
+
+## Development Blog
+Weekly updates from the build — implementation notes, challenges encountered, decisions made, and results observed.
+
+---
+
+## RoboJain — studio
+Source: https://jayashankaanushan19.github.io/robojain/
+
+## Where code meets creation.
+RoboJain designs and builds DIY-to-medium-scale robotic systems — practical, affordable, and engineered for real-world conditions, not just demo labs.
+At RoboJain, we believe robotics should be accessible, practical, and built for real-world needs. We specialise in developing DIY to medium-scale robotic solutions across a wide range of price points — making innovation affordable and achievable for businesses, institutions, and individuals alike.
+Whether it's hardware, software, or a fully integrated system, we transform ideas into engineered realities with precision, creativity, and cost-effectiveness. Innovation at RoboJain is powered by a focused team working across electronics, mechanical design, and software — building solutions that are flexible, professional, and aligned with the goals of the people they're built for.
+Our mission is simple: turn imagination into reality. From a small DIY project to a custom automation tool or a medium-scale robotic system — we work through feasibility, timelines, methods, and cost together, so every solution is tailored, efficient, and built to last.
+### What we build, and how we think about it.
+Every engagement starts as a conversation about feasibility, timeline, and cost — then becomes a working system.
+#### Robot design & structure
+Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.
+#### Embedded systems
+Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.
+#### ROS & autonomy
+ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.
+#### Human-robot interaction
+Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.
+#### Concept to deployment
+End-to-end development: from a sketch and a problem statement through to a tested, deployable product.
+#### Process & automation
+Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.
+Services launching soon — register your interest →
+### Not just concepts — things already running.
+One line of context most visitors never see: a RoboJain product has been in active production since May 2025.
+### Heads-down, building.
+The past several months have been quiet on purpose. Hardware, firmware, testing, iteration — real engineering work, not just concepts.
+We're building robotic systems that operate without Wi-Fi dependence, without enterprise budgets, and without assuming the end user is a tech expert. Most assistive and service robots on the market were designed for environments with reliable infrastructure and high price tolerance. We're designing for everyone else.
+Follow along for updates as the next system moves from lab to field test.
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Let's build something.
+Whether it's a small DIY project, a custom automation tool, or a medium-scale robotic system — bring us the problem and we'll work through feasibility, timeline, and cost together.
+
+---
+
+## RoboJain — services (launching soon)
+Source: https://jayashankaanushan19.github.io/robojain/services.html
+
+## RoboJain services are coming.
+RoboJain designs and builds DIY-to-medium-scale robotic systems — practical, affordable, and engineered for real-world conditions, not just demo labs. We're getting ready to take on projects. Register your interest to be first in line when services open.
+#### Robot design & structure
+Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.
+#### Embedded systems
+Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.
+#### ROS & autonomy
+ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.
+#### Human-robot interaction
+Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.
+#### Concept to deployment
+End-to-end development: from a sketch and a problem statement through to a tested, deployable product.
+#### Process & automation
+Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.
+#### DIY kit line
+Packaged hardware kits for hobbyists, students, and makerspaces across the GCC and South Asia.
+Every engagement starts as a conversation about feasibility, timeline, and cost — then becomes a working system. From a small DIY project to a custom automation tool or a medium-scale robotic system, we work through it together so every solution is tailored, efficient, and built to last.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — products
+Source: https://jayashankaanushan19.github.io/robojain/products/
+
+## Products
+Two distinct lines — software built for operational efficiency and hardware built for real-world impact. Each product is engineered to solve a specific problem, not just to demonstrate capability.
+### RoboJain Drive The Life
+Purpose-built platforms designed for operational efficiency, data visibility, and real-world deployment.
+#### LoanMaster
+Complete microfinance management platform — built for lending institutions that need full control over their financial operations.
+- End-to-end loan origination and disbursement
+- Borrower profile management with KYC tracking
+- Automated repayment scheduling and interest engine
+- Multi-branch operations and role-based staff access
+#### RobotSC
+Real-time robotics monitoring and control dashboard — WebSocket-powered data visualisation and command interface for robotic systems.
+- Live sensor data visualisation via WebSocket
+- 8 input + 8 output configurable control topics
+- Docker-containerised, ready for deployment
+- Built-in user management and authentication
+### RoboJain Lead the Robotics
+Physical systems engineered to solve real problems — for people who need hardware that works in the field, not just the lab.
+#### BlindTalk
+Braille-based communication device for the visually impaired — real-time text-to-Braille conversion in a compact, portable form factor.
+- Real-time text-to-Braille conversion hardware
+- Compact, portable and low-power design
+- Standard Braille encoding support
+- Simple, tool-free tactile operation
+#### CARA
+Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.
+- Automatic fall detection via computer vision
+- GSM-based SMS alerts — zero Wi-Fi dependency
+- Medication management with RFID confirmation
+- 360° obstacle-aware autonomous navigation
+
+---
+
+## RoboJain — CARA
+Source: https://jayashankaanushan19.github.io/robojain/products/cara.html
+
+## CARA
+Companion Assistive Robot for the Aged — an autonomous, low-cost robot designed to monitor elderly individuals living alone and alert family members over GSM when intervention is needed.
+Sri Lanka's elderly population is growing faster than the care infrastructure built to support it. By 2041, one in four Sri Lankans will be over 60 — yet thousands of working-age adults have migrated abroad, leaving elderly parents living alone in family homes across the island.
+For these individuals, the risks are daily and real: a fall with no one nearby to help, a medication dose missed without anyone noticing, or days passing without a family member knowing if everything is alright. In rural areas, professional care services are scarce and internet connectivity is often unreliable or entirely absent.
+Existing assistive robots cost between $5,000 and $100,000, require continuous Wi-Fi, and were designed for high-income, well-connected environments. None were built with developing-country realities in mind.
+##### Under $500, Total
+Every sensor, motor, processor, and cable must cost under $500 USD — the boundary that determines whether the system is accessible to middle-income families in Sri Lanka or only to research institutions.
+##### Zero Wi-Fi for Safety
+All safety-critical functions operate entirely over GSM cellular. Wi-Fi is excluded from every safety path by design — GSM coverage exists broadly across Sri Lanka's rural areas where broadband does not.
+##### Zero Required Interaction
+CARA monitors, detects, and alerts without ever requiring the elderly user to press a button or speak a command. If a robot only works when the user actively engages, it fails the moment the user cannot.
+### What CARA does — and why it matters.
+##### Automatic Fall Detection
+AI-powered vision continuously analyses posture and movement. When a fall is detected, an alert is triggered immediately — no wearable device, no button to press, and no action required from the user.
+##### SMS Alerts — No Internet Required
+Text message alerts reach registered family members within 30 seconds of a confirmed fall, a missed medication, or a failed daily check-in — all over the cellular network, with zero Wi-Fi dependency.
+##### Autonomous Home Navigation
+Full 360° obstacle awareness lets CARA follow its user through rooms safely and independently. The robot adapts to home layouts without pre-mapping and stops safely before any obstacle.
+##### Medication Management
+Audible reminders at set times each day prompt the user to take their medication. A simple confirmation gesture acknowledges the dose — and if no confirmation is received, the family is automatically alerted.
+### CARA is on its way.
+Register your interest to be notified when CARA moves to field testing and becomes available. Or reach out to discuss research collaboration or partnership opportunities.
+
+---
+
+## RoboJain — LoanMaster
+Source: https://jayashankaanushan19.github.io/robojain/products/loanmaster.html
+
+## LoanMaster
+Complete microfinance management platform — built for lending institutions that need full control over every stage of the loan lifecycle, from origination to final repayment.
+LoanMaster is a full-featured software platform designed specifically for microfinance companies — covering every aspect of financial operations from the moment a loan application is submitted to the day the final repayment is confirmed.
+Unlike generic accounting software, LoanMaster is purpose-built for lending institutions. It understands loan schedules, interest calculation methods, penalty structures, and the day-to-day workflows of borrower management — without requiring the organisation to adapt its processes to fit the software.
+Whether you operate from a single branch or manage a distributed network of lending officers across multiple locations, LoanMaster scales with your operation and keeps every stakeholder — from field officers to management — working from the same accurate, up-to-date financial data.
+Real figures from a live LoanMaster deployment. Company details withheld at client's request.
+### Everything a lending institution needs.
+##### Loan Origination & Management
+Handle the complete loan lifecycle — from application intake and credit assessment through disbursement approval and final closure — in one unified workflow.
+##### Borrower Profile & KYC
+Maintain rich borrower profiles with identification documents, contact details, guarantor information, and full loan history — all searchable and auditable.
+##### Repayment Schedule Tracking
+Automated repayment schedules with daily, weekly, or monthly cycles. Real-time tracking of paid, due, and overdue instalments across the entire portfolio.
+##### Interest & Penalty Engine
+Flexible interest calculation — flat rate, reducing balance, or custom — with configurable grace periods, late-payment penalties, and fee structures.
+##### Multi-branch Operations
+Manage multiple branches from a single system. Branch-level reporting, inter-branch transfers, and consolidated dashboards give management full visibility.
+##### Role-based Staff Access
+Assign permissions by role — loan officers, branch managers, auditors, and administrators each see exactly what they need to do their job, nothing more.
+##### Financial Reports & Analytics
+Portfolio performance reports, collection efficiency, PAR (Portfolio at Risk) analysis, and cash flow summaries — exportable and ready for audit or board review.
+##### Payment History & Ledger
+Complete transaction ledger for every loan account — immutable, timestamped records of every disbursement, repayment, fee, and adjustment.
+##### Alerts & Overdue Tracking
+Automatic flagging of overdue accounts, upcoming maturity dates, and portfolio anomalies — so your team stays ahead of collection issues before they escalate.
+### Screenshots & UI
+A look at the LoanMaster interface — dashboard, loan management, and reporting views.
+### Ready to streamline your lending operations?
+Contact to discuss your institution's requirements, deployment options, and pricing. We'll walk you through the system and scope a solution that fits your operation.
+
+---
+
+## RoboJain — RobotSC
+Source: https://jayashankaanushan19.github.io/robojain/products/robotsc.html
+
+## RobotSC
+Real-time robotics monitoring and control dashboard — a WebSocket-powered web platform that connects your sensor data to a unified interface for live visualisation and robot command control.
+RobotSC (Robot Statics Control) is a fully customised web-based system for collecting, visualising, and controlling robotic systems in real time. It keeps sensor data and control commands flowing with minimal latency between your robot and the dashboard.
+Engineers and operators get a single interface to watch live sensor statistics from any number of robotic inputs and to send control commands back — all without leaving the browser. The system is built to handle multiple data types simultaneously, making it adaptable to a wide range of robotic hardware configurations.
+RobotSC is built for simple, fast deployment on any server or local machine. Secure user management is built in, so the platform is ready for team environments from day one.
+### Built for engineers who need it to just work.
+##### Real-time Data Visualisation
+Live charts and readouts for all 8 sensor input topics — updating in real time over WebSocket without page reloads or manual refresh.
+##### Low-Latency Communication
+Persistent real-time connection between robotic hardware and the dashboard — sensor data and control commands flow instantly with no polling delay.
+##### Multi-Channel Control Output
+Send structured commands to your robot through multiple configurable output channels — mapped to drive, arm, speed, indicators, emergency stop, and custom controls.
+##### Flexible Data Handling
+Supports a wide range of sensor data formats — from simple status values to complex multi-axis payloads — all unified in a single interface without custom integration work.
+##### Fast, Simple Deployment
+The entire platform — interface, data layer, and management backend — deploys in a single step on any server or local machine, with no complex environment setup required.
+##### Built-in User Management
+Secure authentication with role-based access control. Operators, engineers, and administrators each get appropriate dashboard access out of the box.
+### Dashboard & Interface
+The RobotSC web interface — live sensor panels, control inputs, and system status views.
+### Connect your robot to a real dashboard.
+Enquire about integrating RobotSC into your robotic system. We'll walk you through the setup and scope a deployment that fits your hardware.
+
+---
+
+## RoboJain — BlindTalk
+Source: https://jayashankaanushan19.github.io/robojain/products/blindtalk.html
+
+## BlindTalk
+Braille-based communication hardware for the visually impaired — real-time text-to-Braille conversion in a compact, portable device that puts communication back in the hands of the user.
+BlindTalk is a hardware-based communication device that converts digital text input into tactile Braille output in real time. Designed for visually impaired users, it removes the dependency on screen-based interfaces and replaces it with a tactile language that millions of visually impaired people already know.
+The device is intentionally compact and portable — built to go where the user goes, not to sit on a desk as a fixed accessory. Low-power electronics and a durable Braille output module make BlindTalk practical for daily use, whether at home, in education, or in the workplace.
+Standard Braille encoding is supported out of the box, making BlindTalk compatible with existing Braille literacy and educational frameworks — reducing the learning curve for users and caregivers alike.
+BlindTalk is built around a simple belief: communication is a right, not a feature. Assistive hardware should work simply, reliably, and without requiring the user to adapt to the technology.
+### Hardware designed for real people, real use.
+##### Real-time Braille Output
+Text input is converted to tactile Braille and delivered to the output module in real time — no buffering delay, no screen required. The message appears as Braille as it is typed.
+##### Compact & Portable
+The entire device is engineered to be small enough to carry daily. Lightweight construction without compromising the durability of the tactile output mechanism.
+##### Low-power Design
+Power-efficient electronics extend battery life for all-day use — because an assistive device that runs out of charge mid-day isn't assistive at all.
+##### USB Connectivity
+Connect to any standard computer, tablet, or keyboard input source via USB. No special drivers or complex setup — plug in and use.
+##### Standard Braille Encoding
+Uses internationally recognised Braille encoding — compatible with existing literacy programmes, educational materials, and Braille standards used globally.
+##### Durable Tactile Module
+The Braille output pins are engineered for repeated actuation — built for daily use over months and years, not a fragile demo prototype.
+### Bring Braille communication to more people.
+Contact to discuss procurement, customisation, or deployment of BlindTalk for your organisation, institution, or community programme.
+
+---
+
+## RoboJain — register interest in CARA
+Source: https://jayashankaanushan19.github.io/robojain/cara-waitlist.html
+
+## CARA is on its way.
+Companion Assistive Robot for the Aged — an autonomous, affordable robot that monitors elderly individuals living alone and alerts family members when they need help. Register now to be the first to know when CARA is ready.
+### Register your interest
+We'll notify you when CARA moves to field testing and becomes available. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as CARA moves to field testing. Keep an eye on your inbox.

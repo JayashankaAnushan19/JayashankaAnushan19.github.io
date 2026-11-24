@@ -7,11 +7,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Gallery — System diagrams, circuit schematics, and build photos.">
+<meta name="description" content="CARA Gallery — system diagrams, circuit schematics and build photos of CARA, the low-cost companion assistive robot for elderly care.">
 <title>Gallery — CARA Project</title>
 <link rel="canonical" href="https://jayashankaanushan19.github.io/CARA/gallery.html">
 <meta name="author" content="Jayashanka Anushan">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jayashankaanushan19.github.io/CARA/gallery.html">
 <meta property="og:title" content="Gallery — CARA Project">
-<meta property="og:description" content="CARA Gallery — System diagrams, circuit schematics, and build photos.">
+<meta property="og:description" content="CARA Gallery — system diagrams, circuit schematics and build photos of CARA, the low-cost companion assistive robot for elderly care.">
 <meta property="og:site_name" content="CARA — Companion Assistive Robot for the Aged">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="The assembled CARA assistive robot">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gallery — CARA Project">
-<meta name="twitter:description" content="CARA Gallery — System diagrams, circuit schematics, and build photos.">
+<meta name="twitter:description" content="CARA Gallery — system diagrams, circuit schematics and build photos of CARA, the low-cost companion assistive robot for elderly care.">
 <meta name="twitter:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
 <meta name="twitter:image:alt" content="The assembled CARA assistive robot">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -165,6 +165,33 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Gallery",
+      "item": "https://jayashankaanushan19.github.io/CARA/gallery.html"
+    }
+  ]
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -298,7 +325,7 @@
         <div class="ph-icon">🔄</div>
         <div class="ph-label">ROS NODE GRAPH</div>
       </div> -->
-      <img src="assets/images/Software Architecture with ROS nodes and Arduino state machine.drawio.png" alt="ROS Node Graph"> 
+      <img src="assets/images/Software Architecture with ROS nodes and Arduino state machine.drawio.png" alt="ROS Node Graph" loading="lazy" decoding="async"> 
       <div class="gallery-info">
         <h4>ROS Node Graph</h4>
         <p>Complete ROS Noetic process space on Jetson Nano — 7 nodes, topics, publishers and subscribers.</p>
@@ -312,7 +339,7 @@
         <div class="ph-icon">↔️</div>
         <div class="ph-label">5-STATE MACHINE<br>FLOW DIAGRAM</div>
       </div>
-      <img src="assets/images/state-machine.png" alt="5-State Machine Diagram">
+      <img src="assets/images/state-machine.png" alt="5-State Machine Diagram" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>5-State Machine Diagram</h4>
         <p>IDLE → ACTIVE → MONITORING → ALERT → RESET state transition diagram with trigger conditions.</p>
@@ -325,7 +352,7 @@
         <div class="ph-icon">⚡</div>
         <div class="ph-label">CIRCUIT WIRING<br>DIAGRAM</div>
       </div>
-      <img src="assets/images/circuit-diagram.png" alt="Circuit Wiring Diagram">
+      <img src="assets/images/circuit-diagram.png" alt="Circuit Wiring Diagram" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Circuit Wiring Diagram</h4>
         <p>Full Arduino Mega 2560 pin assignment diagram — all 6 ultrasonic sensors, PIR, RFID, I2C bus, servos, motor driver, and GSM module.</p>
@@ -335,7 +362,7 @@
     -->
 
     <div class="gallery-card">
-      <img src="assets/images/power-topology.png" alt="Power System Design block diagram: custom 18650 battery pack feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct ~12V line to the L298N motor driver">
+      <img src="assets/images/power-topology.png" alt="Power System Design block diagram: custom 18650 battery pack feeding three converters (5V buck for Arduino, 6.6V buck for GSM, 19V boost with 2A fuse for Jetson Nano) plus a direct ~12V line to the L298N motor driver" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Power System Topology</h4>
         <p>Custom 18650 pack (~12V, up to 12A) → buck converters (5V Arduino rail, 6.6V A7670C GSM rail) → boost converter (19V Jetson Nano rail) → L298N motor driver direct ~12V. Replaces the original 3S LiPo pack after one cell failed.</p>
@@ -349,7 +376,7 @@
   <div class="gallery-grid">
 
     <div class="gallery-card">
-      <img src="assets/images/cara-final-assembly.jpg" alt="The final assembled CARA robot — 4-wheel chassis with encoder motors, custom battery pack, Jetson and Arduino stack, ultrasonic ring, and camera tower, on tile flooring">
+      <img src="assets/images/cara-final-assembly.jpg" alt="The final assembled CARA robot — 4-wheel chassis with encoder motors, custom battery pack, Jetson and Arduino stack, ultrasonic ring, and camera tower, on tile flooring" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>CARA — Final Assembly</h4>
         <p>The robot as it stood for the oral defense: 4-motor drive with encoder feedback, custom 18650 battery pack, full sensor ring, and camera tower — superseding the 2-motor Week 9 build shown in earlier photos.</p>
@@ -358,7 +385,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/electronics-bay.jpeg" alt="Aluminium chassis close-up showing the camera tower mounting posts, bundled and numbered wiring harness, and front ultrasonic sensors">
+      <img src="assets/images/electronics-bay.jpeg" alt="Aluminium chassis close-up showing the camera tower mounting posts, bundled and numbered wiring harness, and front ultrasonic sensors" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Electronics Bay</h4>
         <p>Arduino Mega, Jetson Nano, buck converters, A7670C GSM module, and RFID mounted inside the chassis compartment.</p>
@@ -367,7 +394,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/camera-tower.jpeg" alt="Camera tower head unit with USB webcam, lit 16x2 LCD, 4x4 keypad, and RC522 RFID reader mounted on the 3D-printed housing">
+      <img src="assets/images/camera-tower.jpeg" alt="Camera tower head unit with USB webcam, lit 16x2 LCD, 4x4 keypad, and RC522 RFID reader mounted on the 3D-printed housing" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Camera Tower</h4>
         <p>USB webcam on the camera tower. The single MG90S servo here did a one-shot greeting wave, then was repurposed for camera tilt (Week 12) — isolation testing on both candidate pins later confirmed it a failed component (Week 16), so it's been removed from the dashboard; the camera is fixed-angle. Left/right aiming is done by rotating the chassis itself, not a pan servo.</p>
@@ -376,7 +403,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/tracking-wristband.jpg" alt="Red HSV tracking wristband worn on a wrist, held against blue and red calibration reference paper">
+      <img src="assets/images/tracking-wristband.jpg" alt="Red HSV tracking wristband worn on a wrist, held against blue and red calibration reference paper" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Person-Tracking Wristband</h4>
         <p>The physical wristband for the HSV colour-band person-tracking fallback — built and worn for the first time, closing a gap that had sat as an untuned placeholder since Week 11.</p>
@@ -385,7 +412,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/replacement-motors-bench-test.jpg" alt="Two replacement geared motors with built-in encoders and wheels attached, wired to an L298N motor driver and Arduino Uno on a workbench">
+      <img src="assets/images/replacement-motors-bench-test.jpg" alt="Two replacement geared motors with built-in encoders and wheels attached, wired to an L298N motor driver and Arduino Uno on a workbench" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Replacement Drive Motors — Bench Test</h4>
         <p>The new geared motors (with built-in encoders) and wheels, wired to the L298N and bench-tested — the fix for the torque/gear-ratio limitation that had left turning as an accepted hardware constraint since Week 09.</p>
@@ -394,7 +421,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/keypad-wiring.jpg" alt="4x4 matrix keypad wired to an Arduino Uno on a workbench, resting on a multimeter and tool box">
+      <img src="assets/images/keypad-wiring.jpg" alt="4x4 matrix keypad wired to an Arduino Uno on a workbench, resting on a multimeter and tool box" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Keypad Wiring</h4>
         <p>The 4×4 matrix keypad used for medication-reminder acknowledgement and patient enrolment, bench-wired to confirm row/column mapping before integration onto the main firmware.</p>
@@ -408,7 +435,7 @@
   <div class="gallery-grid">
 
     <div class="gallery-card">
-      <img src="assets/images/web-dashboard.png" alt="CARA Care web dashboard showing the live camera feed, movement controls, patient face recognition panel, and scheduled medicine delivery panel">
+      <img src="assets/images/web-dashboard.png" alt="CARA Care web dashboard showing the live camera feed, movement controls, patient face recognition panel, and scheduled medicine delivery panel" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Web Control Dashboard</h4>
         <p>The browser-based remote interface — live camera feed, directional drive controls with adjustable speed, patient face-recognition enrolment, and scheduled medicine delivery, all served from the Jetson Nano over the local network.</p>
@@ -417,7 +444,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/dashboard-action-log.png" alt="CARA Care System Action Log panel showing a timestamped table of admin logins, medicine-schedule edits, enrolment resets, and a motor command">
+      <img src="assets/images/dashboard-action-log.png" alt="CARA Care System Action Log panel showing a timestamped table of admin logins, medicine-schedule edits, enrolment resets, and a motor command" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>System Action Log</h4>
         <p>Real command history — every drive, enrolment, and reminder action taken through the dashboard, timestamped with actor, action, and status.</p>
@@ -426,7 +453,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/dashboard-settings.png" alt="CARA Care Settings panel showing the local network link, up to 5 emergency contact numbers, and an admin password change form">
+      <img src="assets/images/dashboard-settings.png" alt="CARA Care Settings panel showing the local network link, up to 5 emergency contact numbers, and an admin password change form" loading="lazy" decoding="async">
       <div class="gallery-info">
         <h4>Settings Panel</h4>
         <p>Same-network access link, up to 5 emergency contact numbers for fall/reminder alerts, and the admin password used to unlock the logs and this settings page.</p>
@@ -440,7 +467,7 @@
   <div class="gallery-grid">
 
     <div class="gallery-card">
-      <img src="assets/images/cad-chassis-base.png" alt="SolidWorks render of the base chassis plate — the flat aluminium deck with wheel, sensor, and mounting-post cutouts">
+      <img src="assets/images/cad-chassis-base.png" alt="SolidWorks render of the base chassis plate — the flat aluminium deck with wheel, sensor, and mounting-post cutouts" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-med" style="margin-bottom:.4rem;">Chassis</span>
         <h4>Chassis Base Plate</h4>
@@ -450,7 +477,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/cad-full-prototype.png" alt="Multi-angle SolidWorks composite of the full 3-tier chassis prototype with camera tower, fan, ultrasonic sensors, and pan servo">
+      <img src="assets/images/cad-full-prototype.png" alt="Multi-angle SolidWorks composite of the full 3-tier chassis prototype with camera tower, fan, ultrasonic sensors, and pan servo" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-blue" style="margin-bottom:.4rem;">Full Assembly</span>
         <h4>Full Prototype Assembly</h4>
@@ -460,7 +487,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/cover-camera.png" alt="SolidWorks render of the Camera Cover — a rounded dome-shaped housing for the camera module">
+      <img src="assets/images/cover-camera.png" alt="SolidWorks render of the Camera Cover — a rounded dome-shaped housing for the camera module" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-teal" style="margin-bottom:.4rem;">Camera Housing</span>
         <h4>Camera Cover</h4>
@@ -470,7 +497,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/cover-lcd.png" alt="SolidWorks render of the LCD Cover — a rectangular housing with a window cutout for the 16x2 display, engraved with the author's student ID">
+      <img src="assets/images/cover-lcd.png" alt="SolidWorks render of the LCD Cover — a rectangular housing with a window cutout for the 16x2 display, engraved with the author's student ID" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-teal" style="margin-bottom:.4rem;">Display Housing</span>
         <h4>LCD Cover</h4>
@@ -480,7 +507,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/cover-electronics-holder.png" alt="SolidWorks render of a combined mounting bracket with three labelled bays for the Jetson, Arduino, and GSM module">
+      <img src="assets/images/cover-electronics-holder.png" alt="SolidWorks render of a combined mounting bracket with three labelled bays for the Jetson, Arduino, and GSM module" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-teal" style="margin-bottom:.4rem;">Electronics Mount</span>
         <h4>Jetson / Arduino / GSM Holder</h4>
@@ -490,7 +517,7 @@
     </div>
 
     <div class="gallery-card">
-      <img src="assets/images/cover-wire-management.png" alt="SolidWorks render of a two-piece wire-management tray and cover with cable routing slots">
+      <img src="assets/images/cover-wire-management.png" alt="SolidWorks render of a two-piece wire-management tray and cover with cable routing slots" loading="lazy" decoding="async">
       <div class="gallery-info">
         <span class="tag tag-teal" style="margin-bottom:.4rem;">Wire Management</span>
         <h4>Wire Management Tray &amp; Cover</h4>
@@ -756,7 +783,7 @@
   <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous image">‹</button>
   <button class="lightbox-next" id="lightbox-next" aria-label="Next image">›</button>
   <div class="lightbox-stage">
-    <img id="lightbox-img" src="" alt="">
+    <img id="lightbox-img" src="" alt="" loading="lazy" decoding="async">
     <div class="lightbox-caption">
       <h4 id="lightbox-title"></h4>
       <p id="lightbox-desc"></p>

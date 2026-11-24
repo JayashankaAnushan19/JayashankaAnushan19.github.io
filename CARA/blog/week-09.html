@@ -7,11 +7,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 09 — A full-system integration test brings every chassis module onto one sketch, surfacing an unresponsive RFID reader and underpowered drive motors. The cara_jetson ROS2 package grows a real camera + patient-tracking + enrollment pipeline.">
+<meta name="description" content="CARA Week 09 — a full-system integration test surfaces an unresponsive RFID reader and underpowered motors, while the ROS2 perception pipeline grows.">
 <title>Week 09 — CARA Blog</title>
 <link rel="canonical" href="https://jayashankaanushan19.github.io/CARA/blog/week-09.html">
 <meta name="author" content="Jayashanka Anushan">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://jayashankaanushan19.github.io/CARA/blog/week-09.html">
 <meta property="og:title" content="Week 09 — CARA Blog">
-<meta property="og:description" content="CARA Week 09 — A full-system integration test brings every chassis module onto one sketch, surfacing an unresponsive RFID reader and underpowered drive motors. The cara_jetson ROS2 package grows a real camera + patient-tracking + enrollment pipeline.">
+<meta property="og:description" content="CARA Week 09 — a full-system integration test surfaces an unresponsive RFID reader and underpowered motors, while the ROS2 perception pipeline grows.">
 <meta property="og:site_name" content="CARA — Companion Assistive Robot for the Aged">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="The assembled CARA assistive robot">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Week 09 — CARA Blog">
-<meta name="twitter:description" content="CARA Week 09 — A full-system integration test brings every chassis module onto one sketch, surfacing an unresponsive RFID reader and underpowered drive motors. The cara_jetson ROS2 package grows a real camera + patient-tracking + enrollment pipeline.">
+<meta name="twitter:description" content="CARA Week 09 — a full-system integration test surfaces an unresponsive RFID reader and underpowered motors, while the ROS2 perception pipeline grows.">
 <meta name="twitter:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
 <meta name="twitter:image:alt" content="The assembled CARA assistive robot">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -58,6 +58,71 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Blog",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Week 09",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/week-09.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Full Integration Test Finds RFID & Motor Issues, Perception Pipeline Scaffolding Begins",
+  "name": "Week 09 — CARA Blog",
+  "description": "CARA Week 09 — a full-system integration test surfaces an unresponsive RFID reader and underpowered motors, while the ROS2 perception pipeline grows.",
+  "url": "https://jayashankaanushan19.github.io/CARA/blog/week-09.html",
+  "mainEntityOfPage": "https://jayashankaanushan19.github.io/CARA/blog/week-09.html",
+  "datePublished": "2026-08-13",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan",
+    "url": "https://jayashankaanushan19.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://jayashankaanushan19.github.io/CARA/blog/#blog",
+    "name": "CARA Development Blog",
+    "url": "https://jayashankaanushan19.github.io/CARA/blog/"
+  }
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -112,7 +177,7 @@ SETTIME 2026 08 10 14 30 00
     <p>Before the full assembly test, the three buck/boost converters supplying the system needed their output voltages set and locked in: 6.6V for the GSM module, 5V for the Arduino, and 19V for the Jetson. Each was checked against a multimeter under load and adjusted until it held steady, then fixed onto the chassis rather than left loose on jumper wires.</p>
 
     <figure class="post-image">
-      <img src="images/blog-09-converter-voltage-tuning.jpeg" alt="Multimeter reading 6.60V across one of the buck/boost converter boards during voltage adjustment">
+      <img src="images/blog-09-converter-voltage-tuning.jpeg" alt="Multimeter reading 6.60V across one of the buck/boost converter boards during voltage adjustment" loading="lazy" decoding="async">
       <figcaption>Converter output verified at 6.6V for the GSM rail before locking the trimmer and mounting the board to the chassis.</figcaption>
     </figure>
 
@@ -127,7 +192,7 @@ SETTIME 2026 08 10 14 30 00
     </ul>
 
     <figure class="post-image">
-      <img src="images/blog-09-rfid-isolation-test-uno.jpeg" alt="Serial monitor output titled RFID Isolation Test on UNO, showing VersionReg = 0x0 and a message confirming the module itself needs replacing">
+      <img src="images/blog-09-rfid-isolation-test-uno.jpeg" alt="Serial monitor output titled RFID Isolation Test on UNO, showing VersionReg = 0x0 and a message confirming the module itself needs replacing" loading="lazy" decoding="async">
       <figcaption>The Uno cross-check from the last bullet above: same RFID wiring, isolated onto a separate board — still <code>VersionReg = 0x0</code>, confirming the module itself, not the Mega's pins, is at fault.</figcaption>
     </figure>
 

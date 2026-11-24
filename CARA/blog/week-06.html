@@ -7,7 +7,7 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +58,71 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Blog",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Week 06",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/week-06.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jetson Online via SSH, ROS Jazzy Installed & GSM Module A7670C Received",
+  "name": "Week 06 — CARA Blog",
+  "description": "CARA Week 06 — Jetson brought online over SSH and ROS Jazzy installed. GSM module A7670C (4G/LTE) received and bench testing started.",
+  "url": "https://jayashankaanushan19.github.io/CARA/blog/week-06.html",
+  "mainEntityOfPage": "https://jayashankaanushan19.github.io/CARA/blog/week-06.html",
+  "datePublished": "2026-07-23",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan",
+    "url": "https://jayashankaanushan19.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://jayashankaanushan19.github.io/CARA/blog/#blog",
+    "name": "CARA Development Blog",
+    "url": "https://jayashankaanushan19.github.io/CARA/blog/"
+  }
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -99,7 +164,7 @@
     <p>A quick round of system checks confirmed the board was healthy before installing anything on top of it — disk space, memory, and live CPU load.</p>
 
     <figure class="post-image">
-      <img src="images/blog-06-jetson-top-command.jpeg" alt="top command output on the Jetson showing system load, memory, and running processes">
+      <img src="images/blog-06-jetson-top-command.jpeg" alt="top command output on the Jetson showing system load, memory, and running processes" loading="lazy" decoding="async">
       <figcaption>System check via <code>top</code> before the ROS Jazzy install — memory and CPU load nominal, nothing competing for resources.</figcaption>
     </figure>
 
@@ -111,12 +176,12 @@
     <p>The replacement for the SIM800L — a SIMCom A7670C 4G/LTE Cat-1 module — arrived this week, along with the 1000µF capacitors (to buffer TX current spikes) and a set of JST connectors for cleaner wiring than loose jumper leads.</p>
 
     <figure class="post-image">
-      <img src="images/blog-06-gsm-module-received.jpeg" alt="Parts received: A7670C GSM module in an anti-static bag, JST connector sets, and 1000uF capacitors">
+      <img src="images/blog-06-gsm-module-received.jpeg" alt="Parts received: A7670C GSM module in an anti-static bag, JST connector sets, and 1000uF capacitors" loading="lazy" decoding="async">
       <figcaption>Everything ordered after the SIM800L failure arrived together: the A7670C module, JST connector sets, and a bag of 1000µF capacitors.</figcaption>
     </figure>
 
     <figure class="post-image">
-      <img src="images/blog-06-a7670c-board.jpeg" alt="SIMCom A7670C GSM module board close-up, showing the module chip, antenna connector, and pin header">
+      <img src="images/blog-06-a7670c-board.jpeg" alt="SIMCom A7670C GSM module board close-up, showing the module chip, antenna connector, and pin header" loading="lazy" decoding="async">
       <figcaption>The A7670C module itself — LTE Cat-1, which is what actually matters here: Du and Etisalat still broadcast LTE, unlike the 2G the SIM800L needed.</figcaption>
     </figure>
 
@@ -124,12 +189,12 @@
     <p>Testing started immediately: bench power supply, correct voltage, and a code snippet at a baud rate the module would actually respond to. The SIM800L troubleshooting earlier in the project made this faster — the same bench-testing approach (fixed voltage, watch for AT-command response before worrying about network registration) applied directly.</p>
 
     <figure class="post-image">
-      <img src="images/blog-06-a7670c-bench-test-1.jpeg" alt="A7670C module under bench power supply testing, module LED lit green, connected to Arduino UNO">
+      <img src="images/blog-06-a7670c-bench-test-1.jpeg" alt="A7670C module under bench power supply testing, module LED lit green, connected to Arduino UNO" loading="lazy" decoding="async">
       <figcaption>Bench PSU set to 5.9V for the initial power-on test. Module lit up green — responding.</figcaption>
     </figure>
 
     <figure class="post-image">
-      <img src="images/blog-06-a7670c-bench-test-2.jpeg" alt="A7670C module wired to breadboard and Arduino UNO for AT command testing">
+      <img src="images/blog-06-a7670c-bench-test-2.jpeg" alt="A7670C module wired to breadboard and Arduino UNO for AT command testing" loading="lazy" decoding="async">
       <figcaption>Wired into the breadboard alongside the Arduino UNO for AT-command testing — same setup pattern used for every GSM module on this project.</figcaption>
     </figure>
 

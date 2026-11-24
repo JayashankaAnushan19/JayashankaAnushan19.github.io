@@ -7,11 +7,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 04 — Fall detection at 60.6% confidence. Flask UI tested on mobile. SolidWorks prototype done. SIM800L failed (2G unsupported in UAE) — SIM7600 ordered.">
+<meta name="description" content="CARA Week 04 — fall detection at 60.6% confidence, Flask UI tested on mobile, SolidWorks prototype done. SIM800L failed (no 2G in UAE); SIM7600 ordered.">
 <title>Week 04 — CARA Blog</title>
 <link rel="canonical" href="https://jayashankaanushan19.github.io/CARA/blog/week-04.html">
 <meta name="author" content="Jayashanka Anushan">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://jayashankaanushan19.github.io/CARA/blog/week-04.html">
 <meta property="og:title" content="Week 04 — CARA Blog">
-<meta property="og:description" content="CARA Week 04 — Fall detection at 60.6% confidence. Flask UI tested on mobile. SolidWorks prototype done. SIM800L failed (2G unsupported in UAE) — SIM7600 ordered.">
+<meta property="og:description" content="CARA Week 04 — fall detection at 60.6% confidence, Flask UI tested on mobile, SolidWorks prototype done. SIM800L failed (no 2G in UAE); SIM7600 ordered.">
 <meta property="og:site_name" content="CARA — Companion Assistive Robot for the Aged">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="The assembled CARA assistive robot">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Week 04 — CARA Blog">
-<meta name="twitter:description" content="CARA Week 04 — Fall detection at 60.6% confidence. Flask UI tested on mobile. SolidWorks prototype done. SIM800L failed (2G unsupported in UAE) — SIM7600 ordered.">
+<meta name="twitter:description" content="CARA Week 04 — fall detection at 60.6% confidence, Flask UI tested on mobile, SolidWorks prototype done. SIM800L failed (no 2G in UAE); SIM7600 ordered.">
 <meta name="twitter:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
 <meta name="twitter:image:alt" content="The assembled CARA assistive robot">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -58,6 +58,71 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Blog",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Week 04",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/week-04.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Fall Detection Live on Laptop, Flask UI Built & SIM800L 2G Issue Found",
+  "name": "Week 04 — CARA Blog",
+  "description": "CARA Week 04 — fall detection at 60.6% confidence, Flask UI tested on mobile, SolidWorks prototype done. SIM800L failed (no 2G in UAE); SIM7600 ordered.",
+  "url": "https://jayashankaanushan19.github.io/CARA/blog/week-04.html",
+  "mainEntityOfPage": "https://jayashankaanushan19.github.io/CARA/blog/week-04.html",
+  "datePublished": "2026-07-09",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan",
+    "url": "https://jayashankaanushan19.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://jayashankaanushan19.github.io/CARA/blog/#blog",
+    "name": "CARA Development Blog",
+    "url": "https://jayashankaanushan19.github.io/CARA/blog/"
+  }
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -119,7 +184,7 @@
     <p>When confidence exceeds 70%, the system sends <code>"fall_detected"</code> over the Arduino serial connection. The Arduino immediately transitions to ALERT state: buzzer activates, LED on, motors locked, LCD shows alert. The full chain was verified end-to-end using a video file as input.</p>
 
     <figure class="post-image">
-      <img src="images/blog-04-fall-arduino-code.png" alt="Arduino IDE showing the firmware pin-map header alongside a live serial monitor reading FALL_DETECTED, confirming the Arduino received the alert triggered by video-based fall analysis">
+      <img src="images/blog-04-fall-arduino-code.png" alt="Arduino IDE showing the firmware pin-map header alongside a live serial monitor reading FALL_DETECTED, confirming the Arduino received the alert triggered by video-based fall analysis" loading="lazy" decoding="async">
       <figcaption>Arduino side of the chain confirmed — the firmware (left) and live serial monitor (right) show <code>FALL_DETECTED</code> arriving and the state machine responding, triggered by the video-analysed fall event.</figcaption>
     </figure>
 
@@ -141,7 +206,7 @@
     </ul>
 
     <figure class="post-image">
-      <img src="images/blog-04-mobile-monitor.png" alt="CARA Live Monitor on mobile phone — camera feed with face landmarks, fall detection ON, remote control buttons, Monitoring state shown">
+      <img src="images/blog-04-mobile-monitor.png" alt="CARA Live Monitor on mobile phone — camera feed with face landmarks, fall detection ON, remote control buttons, Monitoring state shown" loading="lazy" decoding="async">
       <figcaption>CARA Live Monitor tested on mobile via local network (10.231.167.38:5000). Camera live, fall detection active, MediaPipe landmarks visible on face. Remote drive controls at bottom.</figcaption>
     </figure>
 
@@ -165,12 +230,12 @@
     </div>
 
     <figure class="post-image">
-      <img src="images/blog-04-solidworks-base.png" alt="SolidWorks base plate design — 20x30cm platform with mounting holes for components">
+      <img src="images/blog-04-solidworks-base.png" alt="SolidWorks base plate design — 20x30cm platform with mounting holes for components" loading="lazy" decoding="async">
       <figcaption>SolidWorks base design — 20×30cm platform. Mounting holes positioned for Arduino, motor driver, battery, and sensor brackets.</figcaption>
     </figure>
 
     <figure class="post-image">
-      <img src="images/blog-04-solidworks-prototype.png" alt="SolidWorks first prototype renders — multiple views showing full robot with camera tower, sensors, and yellow standoffs">
+      <img src="images/blog-04-solidworks-prototype.png" alt="SolidWorks first prototype renders — multiple views showing full robot with camera tower, sensors, and yellow standoffs" loading="lazy" decoding="async">
       <figcaption>First prototype hardware design finalized in SolidWorks. Multiple render views: camera tower with servo-driven head, base with yellow standoffs, sensors positioned around the platform.</figcaption>
     </figure>
 
@@ -180,7 +245,7 @@
     <p>The DS3231 Real Time Clock module was tested on a breadboard with Arduino UNO. The module keeps accurate time independently of the microcontroller — this is the timekeeping source for the medication reminder schedule. Once set, the DS3231 maintains time even if the Arduino loses power.</p>
 
     <figure class="post-image">
-      <img src="images/blog-04-rtc-testing.png" alt="DS3231 RTC module on breadboard with Arduino — I2C connection, coin battery visible">
+      <img src="images/blog-04-rtc-testing.png" alt="DS3231 RTC module on breadboard with Arduino — I2C connection, coin battery visible" loading="lazy" decoding="async">
       <figcaption>DS3231 RTC module testing. I2C connection to Arduino. The coin battery (CR2032) maintains time when the main power is off — critical for medication reminder accuracy.</figcaption>
     </figure>
 
@@ -202,8 +267,8 @@
 
     <figure class="post-image">
       <div class="post-image-grid">
-        <img src="images/blog-04-gsm-sim800l.png" alt="SIM800L GSM module alongside Arduino UNO and antenna connector — testing setup">
-        <img src="images/blog-04-gsm-bench-psu.png" alt="SIM800L module wired to the bench power supply, antenna connector visible, current reading 0.08A">
+        <img src="images/blog-04-gsm-sim800l.png" alt="SIM800L GSM module alongside Arduino UNO and antenna connector — testing setup" loading="lazy" decoding="async">
+        <img src="images/blog-04-gsm-bench-psu.png" alt="SIM800L module wired to the bench power supply, antenna connector visible, current reading 0.08A" loading="lazy" decoding="async">
       </div>
       <figcaption>SIM800L GSM module (left, blue) with Arduino UNO and external antenna connector. AT commands responding correctly — the issue is the network, not the module.</figcaption>
     </figure>
@@ -233,7 +298,7 @@
     <p>The Arduino Mega ordered back in <a href="week-03.html">Week 03</a> — while waiting on the DIY kit's replacement motors — arrived this week. It replaces the UNO for the next round of integration: enough digital and analog pins to run the motors, HC-SR04, PIR, LCD, buzzer, and LED alongside the RFID, GSM, and RTC modules being added now, all at once.</p>
 
     <figure class="post-image">
-      <img src="images/blog-04-received-the-ordered-arduino-mega-board.jpeg" alt="Arduino Mega board received, ordered for the extra I/O pins needed for full integration">
+      <img src="images/blog-04-received-the-ordered-arduino-mega-board.jpeg" alt="Arduino Mega board received, ordered for the extra I/O pins needed for full integration" loading="lazy" decoding="async">
       <figcaption>The ordered Arduino Mega board arrived — enough digital and analog pins to run every module at once.</figcaption>
     </figure>
 
@@ -242,10 +307,10 @@
 
     <figure class="post-image">
       <div class="post-image-grid">
-        <img src="images/blog-04-assemble-all-the-items-together (1).jpeg" alt="All CARA hardware components laid out together for a fit check">
-        <img src="images/blog-04-assemble-all-the-items-together (2).jpeg" alt="CARA components staged together — second angle">
-        <img src="images/blog-04-assemble-all-the-items-together (3).jpeg" alt="CARA components staged together — third angle">
-        <img src="images/blog-04-assemble-all-the-items-together (4).jpeg" alt="CARA components staged together — fourth angle">
+        <img src="images/blog-04-assemble-all-the-items-together (1).jpeg" alt="All CARA hardware components laid out together for a fit check" loading="lazy" decoding="async">
+        <img src="images/blog-04-assemble-all-the-items-together (2).jpeg" alt="CARA components staged together — second angle" loading="lazy" decoding="async">
+        <img src="images/blog-04-assemble-all-the-items-together (3).jpeg" alt="CARA components staged together — third angle" loading="lazy" decoding="async">
+        <img src="images/blog-04-assemble-all-the-items-together (4).jpeg" alt="CARA components staged together — fourth angle" loading="lazy" decoding="async">
       </div>
       <figcaption>All components staged together ahead of final assembly — chassis, Arduino Mega, sensors, RTC, GSM module, and camera.</figcaption>
     </figure>

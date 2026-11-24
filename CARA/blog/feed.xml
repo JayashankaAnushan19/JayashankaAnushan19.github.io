@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CARA Development Blog</title>
+    <link>https://jayashankaanushan19.github.io/CARA/blog/</link>
+    <atom:link href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Weekly build logs from CARA — Companion Assistive Robot for the Aged, an MSc Robotics project by Jayashanka Anushan, Middlesex University Dubai.</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Oct 2026 12:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Week 16 — Report Submitted, and the GSM Mystery Finally Cracked</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-16.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-16.html</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 16 — the thesis report is submitted, and the GSM module&#x27;s long silence is finally root-caused to a real voltage-margin fault, not a dead part.</description>
+    </item>
+    <item>
+      <title>Week 15 — First Integrated Tests — Fully Assembled, and the Drive Train Fights Back</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-15.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-15.html</guid>
+      <pubDate>Thu, 24 Sep 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 15 — the robot is fully assembled: first integrated tests, encoder speed control, SMS support and tracking latency cut from 710 ms to about 100 ms.</description>
+    </item>
+    <item>
+      <title>Week 14 — New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-14.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-14.html</guid>
+      <pubDate>Thu, 17 Sep 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 14 — replacement motors bench-tested, a defective keypad traced, wristband tracking fixed, the CARA Care dashboard verified, and 4WD wiring ready.</description>
+    </item>
+    <item>
+      <title>Week 13 — From Finishing Covers to a Shared-Power Fault — Root Cause Found, Fix Underway</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-13.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-13.html</guid>
+      <pubDate>Thu, 10 Sep 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 13 — finishing covers designed, a shared-power fault traced to the 5V regulator, a supervisor meeting, and the report reframed as a standalone paper.</description>
+    </item>
+    <item>
+      <title>Week 12 — From Report Audit to a Big Engineering Day — LCD Fixed, Obstacle Fusion Built, Pipeline Verified Live</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-12.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-12.html</guid>
+      <pubDate>Thu, 03 Sep 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 12 — the robot drives autonomously for the first time, a faulty battery cell is found, person-following comes online and medicine reminders ship.</description>
+    </item>
+    <item>
+      <title>Week 11 — Jetson Drives &amp; Displays Its Own IP — Real Firmware, a Live-Caught Safety Bug, and ROS2 Nodes Go Live</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-11.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-11.html</guid>
+      <pubDate>Thu, 27 Aug 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 11 — the full autonomous pipeline runs live end to end for the first time, a dark LCD is traced to power, and a stray test sketch is caught in time.</description>
+    </item>
+    <item>
+      <title>Week 10 — Remote Control Hardened, and the RFID Mystery from Week 09 Finally Solved</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-10.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-10.html</guid>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 10 — remote control hardened for always-on operation, a damaged I2C pin fixed with a bit-banged driver, and the RFID module replaced and working.</description>
+    </item>
+    <item>
+      <title>Week 09 — Full Integration Test Finds RFID &amp; Motor Issues, Perception Pipeline Scaffolding Begins</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-09.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-09.html</guid>
+      <pubDate>Thu, 13 Aug 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 09 — a full-system integration test surfaces an unresponsive RFID reader and underpowered motors, while the ROS2 perception pipeline grows.</description>
+    </item>
+    <item>
+      <title>Week 08 — Camera Tower Complete — Full Assembly Testing Next</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-08.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-08.html</guid>
+      <pubDate>Thu, 06 Aug 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 08 (in progress) — Camera tower and remaining wire connections completed on the aluminium chassis, ready for a full assembly test.</description>
+    </item>
+    <item>
+      <title>Week 07 — GSM Bring-Up Continues, Camera Tower Assembly Begins</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-07.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-07.html</guid>
+      <pubDate>Thu, 30 Jul 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 07 — A7670C GSM bring-up continues on the bench. Camera tower assembly starts, with integrated sensor-counting tests running alongside it.</description>
+    </item>
+    <item>
+      <title>Week 06 — Jetson Online via SSH, ROS Jazzy Installed &amp; GSM Module A7670C Received</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-06.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-06.html</guid>
+      <pubDate>Thu, 23 Jul 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 06 — Jetson brought online over SSH and ROS Jazzy installed. GSM module A7670C (4G/LTE) received and bench testing started.</description>
+    </item>
+    <item>
+      <title>Week 05 — Milestone M3 Reached — Hardware Ready, Jetson Nano In Hand and ROS Setup Begins</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-05.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-05.html</guid>
+      <pubDate>Thu, 16 Jul 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 05 — Milestone M3 (Hardware Ready): chassis, motors and sensors integrated on the state machine. Jetson in hand and ROS Jazzy setup begins.</description>
+    </item>
+    <item>
+      <title>Week 04 — Fall Detection Live on Laptop, Flask UI Built &amp; SIM800L 2G Issue Found</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-04.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-04.html</guid>
+      <pubDate>Thu, 09 Jul 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 04 — fall detection at 60.6% confidence, Flask UI tested on mobile, SolidWorks prototype done. SIM800L failed (no 2G in UAE); SIM7600 ordered.</description>
+    </item>
+    <item>
+      <title>Week 03 — Hardware Build — From Unit Testing to a Moving Robot</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-03.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-03.html</guid>
+      <pubDate>Thu, 02 Jul 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 03 — modules unit tested, replacement motors fitted and the state machine running. A PLA print, then an aluminium chassis, replaced the kit.</description>
+    </item>
+    <item>
+      <title>Week 02 — Architecture Done — System, Software &amp; Hardware Designs Finalised</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-02.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-02.html</guid>
+      <pubDate>Thu, 25 Jun 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 02 — architecture finalised and the dual-controller split decided. Physical design sketched, DIY kit assembled, and broken gear motors found.</description>
+    </item>
+    <item>
+      <title>Week 01 — Project Kick-Off — Requirements, Literature, and the Research Gap</title>
+      <link>https://jayashankaanushan19.github.io/CARA/blog/week-01.html</link>
+      <guid isPermaLink="true">https://jayashankaanushan19.github.io/CARA/blog/week-01.html</guid>
+      <pubDate>Thu, 18 Jun 2026 12:00:00 +0000</pubDate>
+      <description>CARA Week 01 — project kick-off, literature review, requirements definition, and research gap identification for a low-cost elderly-care robot.</description>
+    </item>
+  </channel>
+</rss>

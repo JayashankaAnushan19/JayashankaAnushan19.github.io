@@ -40,3 +40,4 @@ Disallow: /gallery/
 Sitemap: https://jayashankaanushan19.github.io/sitemap.xml
 
 # AI-readable site summary: https://jayashankaanushan19.github.io/llms.txt
+# Full text for AI assistants: https://jayashankaanushan19.github.io/llms-full.txt

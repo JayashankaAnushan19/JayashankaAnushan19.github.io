@@ -22,7 +22,6 @@ Key facts:
 ## Portfolio
 
 - [Jayashanka Anushan — Robotics Engineer](https://jayashankaanushan19.github.io/): Profile, skills (ROS2, Python, C++, AWS, computer vision, SLAM, sensor fusion, embedded systems), experience, research areas and contact.
-- [Blog & Posts](https://jayashankaanushan19.github.io/posts.html): LinkedIn updates on robotics, automation and engineering work from Dubai, UAE.
 - [Résumé (PDF)](https://jayashankaanushan19.github.io/assets/Jayashanka-Anushan-Resume.pdf): Downloadable CV.
 
 ## CARA — Companion Assistive Robot for the Aged
@@ -39,6 +38,7 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 - [Documentation](https://jayashankaanushan19.github.io/CARA/docs.html): Functional and non-functional requirements, safety design and system specifications.
 - [Timeline](https://jayashankaanushan19.github.io/CARA/timeline.html): Gantt chart of the real build.
 - [Development blog](https://jayashankaanushan19.github.io/CARA/blog/): Weekly build logs (Weeks 01–16), implementation notes and lessons learned.
+- [Development blog RSS feed](https://jayashankaanushan19.github.io/CARA/blog/feed.xml): Subscribe to new CARA build logs.
 - [Appendices](https://jayashankaanushan19.github.io/CARA/appendix/): Wiring diagram, firmware listing, fall detection node, ethics approval, raw test results and AI usage statement.
 - [Gallery](https://jayashankaanushan19.github.io/CARA/gallery.html): System diagrams, circuit schematics and build photos.
 - [Contact](https://jayashankaanushan19.github.io/CARA/contact.html): Contact the CARA researcher.
@@ -46,6 +46,7 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 ## RoboJain
 
 - [RoboJain — Where Code Meets Creation](https://jayashankaanushan19.github.io/robojain/): Studio overview, services and contact.
+- [Services — launching soon](https://jayashankaanushan19.github.io/robojain/services.html): Robot design & structure, embedded systems, ROS & autonomy, human-robot interaction, concept to deployment, and process & automation; register interest to be first in line.
 - [Products](https://jayashankaanushan19.github.io/robojain/products/): RJ-Life software solutions and RJ-Robot hardware developments.
 - [LoanMaster (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/loanmaster.html): Microfinance management software for lending institutions.
 - [RobotSC (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/robotsc.html): Real-time robotics monitoring and control dashboard over WebSockets.
@@ -55,6 +56,8 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 - [Posts & Updates](https://jayashankaanushan19.github.io/robojain/posts.html): RoboJain updates from LinkedIn, Instagram and TikTok.
 
 ## Optional
+
+- [Full site text (llms-full.txt)](https://jayashankaanushan19.github.io/llms-full.txt): Readable text of the main portfolio, CARA overview and RoboJain pages in one file.
 
 - [CARA weekly blog, Week 01](https://jayashankaanushan19.github.io/CARA/blog/week-01.html) through [Week 16](https://jayashankaanushan19.github.io/CARA/blog/week-16.html): Week-by-week engineering record of the CARA build.
 - [CARA technical documentation (detailed)](https://jayashankaanushan19.github.io/CARA/docs/): System requirements, hardware specs, communication design and safety architecture.

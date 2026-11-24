@@ -7,11 +7,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 11 — real Jetson firmware, the full autonomous pipeline runs live end to end for the first time, turn speed goes proportional to kill overshoot, a dark LCD gets root-caused to a power issue, a near-incident with a stray test sketch is caught in time, and a sensor-fusion obstacle-detection idea gets designed but not yet built.">
+<meta name="description" content="CARA Week 11 — the full autonomous pipeline runs live end to end for the first time, a dark LCD is traced to power, and a stray test sketch is caught in time.">
 <title>Week 11 — CARA Blog</title>
 <link rel="canonical" href="https://jayashankaanushan19.github.io/CARA/blog/week-11.html">
 <meta name="author" content="Jayashanka Anushan">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://jayashankaanushan19.github.io/CARA/blog/week-11.html">
 <meta property="og:title" content="Week 11 — CARA Blog">
-<meta property="og:description" content="CARA Week 11 — real Jetson firmware, the full autonomous pipeline runs live end to end for the first time, turn speed goes proportional to kill overshoot, a dark LCD gets root-caused to a power issue, a near-incident with a stray test sketch is caught in time, and a sensor-fusion obstacle-detection idea gets designed but not yet built.">
+<meta property="og:description" content="CARA Week 11 — the full autonomous pipeline runs live end to end for the first time, a dark LCD is traced to power, and a stray test sketch is caught in time.">
 <meta property="og:site_name" content="CARA — Companion Assistive Robot for the Aged">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="The assembled CARA assistive robot">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Week 11 — CARA Blog">
-<meta name="twitter:description" content="CARA Week 11 — real Jetson firmware, the full autonomous pipeline runs live end to end for the first time, turn speed goes proportional to kill overshoot, a dark LCD gets root-caused to a power issue, a near-incident with a stray test sketch is caught in time, and a sensor-fusion obstacle-detection idea gets designed but not yet built.">
+<meta name="twitter:description" content="CARA Week 11 — the full autonomous pipeline runs live end to end for the first time, a dark LCD is traced to power, and a stray test sketch is caught in time.">
 <meta name="twitter:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
 <meta name="twitter:image:alt" content="The assembled CARA assistive robot">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -58,6 +58,71 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Blog",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Week 11",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/week-11.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jetson Drives & Displays Its Own IP — Real Firmware, a Live-Caught Safety Bug, and ROS2 Nodes Go Live",
+  "name": "Week 11 — CARA Blog",
+  "description": "CARA Week 11 — the full autonomous pipeline runs live end to end for the first time, a dark LCD is traced to power, and a stray test sketch is caught in time.",
+  "url": "https://jayashankaanushan19.github.io/CARA/blog/week-11.html",
+  "mainEntityOfPage": "https://jayashankaanushan19.github.io/CARA/blog/week-11.html",
+  "datePublished": "2026-08-27",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan",
+    "url": "https://jayashankaanushan19.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://jayashankaanushan19.github.io/CARA/blog/#blog",
+    "name": "CARA Development Blog",
+    "url": "https://jayashankaanushan19.github.io/CARA/blog/"
+  }
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>

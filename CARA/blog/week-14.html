@@ -7,11 +7,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DX08C95RT5');
+  if (location.hostname === 'jayashankaanushan19.github.io') gtag('config', 'G-DX08C95RT5');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CARA Week 14 — replacement motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, a 'CARA Care' admin dashboard verified live end to end, and the week closes with 4 new motors mapped, wired, and ready for real 4WD.">
+<meta name="description" content="CARA Week 14 — replacement motors bench-tested, a defective keypad traced, wristband tracking fixed, the CARA Care dashboard verified, and 4WD wiring ready.">
 <title>Week 14 — CARA Blog</title>
 <link rel="canonical" href="https://jayashankaanushan19.github.io/CARA/blog/week-14.html">
 <meta name="author" content="Jayashanka Anushan">
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://jayashankaanushan19.github.io/CARA/blog/week-14.html">
 <meta property="og:title" content="Week 14 — CARA Blog">
-<meta property="og:description" content="CARA Week 14 — replacement motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, a 'CARA Care' admin dashboard verified live end to end, and the week closes with 4 new motors mapped, wired, and ready for real 4WD.">
+<meta property="og:description" content="CARA Week 14 — replacement motors bench-tested, a defective keypad traced, wristband tracking fixed, the CARA Care dashboard verified, and 4WD wiring ready.">
 <meta property="og:site_name" content="CARA — Companion Assistive Robot for the Aged">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
@@ -28,7 +28,7 @@
 <meta property="og:image:alt" content="The assembled CARA assistive robot">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Week 14 — CARA Blog">
-<meta name="twitter:description" content="CARA Week 14 — replacement motors bench-tested with a sign-inversion bug fixed, a spare keypad traced to a defective membrane, a real wristband exposing and fixing two HSV tracking failure modes, a 'CARA Care' admin dashboard verified live end to end, and the week closes with 4 new motors mapped, wired, and ready for real 4WD.">
+<meta name="twitter:description" content="CARA Week 14 — replacement motors bench-tested, a defective keypad traced, wristband tracking fixed, the CARA Care dashboard verified, and 4WD wiring ready.">
 <meta name="twitter:image" content="https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg">
 <meta name="twitter:image:alt" content="The assembled CARA assistive robot">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
@@ -58,6 +58,71 @@
   "dateModified": "2026-10-08"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Jayashanka Anushan",
+      "item": "https://jayashankaanushan19.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "CARA",
+      "item": "https://jayashankaanushan19.github.io/CARA/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Blog",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Week 14",
+      "item": "https://jayashankaanushan19.github.io/CARA/blog/week-14.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "New Motors Bench-Tested — Real Torque, Working Encoders, Closed-Loop Control",
+  "name": "Week 14 — CARA Blog",
+  "description": "CARA Week 14 — replacement motors bench-tested, a defective keypad traced, wristband tracking fixed, the CARA Care dashboard verified, and 4WD wiring ready.",
+  "url": "https://jayashankaanushan19.github.io/CARA/blog/week-14.html",
+  "mainEntityOfPage": "https://jayashankaanushan19.github.io/CARA/blog/week-14.html",
+  "datePublished": "2026-09-17",
+  "dateModified": "2026-10-08",
+  "inLanguage": "en",
+  "image": "https://jayashankaanushan19.github.io/CARA/assets/images/cara-og.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan",
+    "url": "https://jayashankaanushan19.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://jayashankaanushan19.github.io/#person",
+    "name": "Jayashanka Anushan"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://jayashankaanushan19.github.io/CARA/blog/#blog",
+    "name": "CARA Development Blog",
+    "url": "https://jayashankaanushan19.github.io/CARA/blog/"
+  }
+}
+</script>
+<link rel="alternate" type="application/rss+xml" title="CARA Development Blog" href="https://jayashankaanushan19.github.io/CARA/blog/feed.xml">
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -103,7 +168,7 @@
     <p>A separate, initially confusing symptom — the motor seemingly not getting "enough voltage to rotate" — turned out to be the bench power supply's own current limit set too low, sagging voltage under the starting/stiction current a motor draws when it first begins moving. Not a driver or wiring fault at all.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-arduino-l298n-wiring.jpg" alt="Close-up of an Arduino Uno wired to an L298N motor driver board with color-coded jumper wires">
+      <img src="images/blog-14-arduino-l298n-wiring.jpg" alt="Close-up of an Arduino Uno wired to an L298N motor driver board with color-coded jumper wires" loading="lazy" decoding="async">
       <figcaption>Arduino Uno and the spare L298N driver for the bench bring-up — Channel A ended up doing the work after Channel B showed a dead output on this board.</figcaption>
     </figure>
 
@@ -111,7 +176,7 @@
     <p>The encoder's Yellow/Green signal lines and Blue/Black power lines were verified independently of the motor driver, before trusting them in any control loop. Single-edge pulse counting on one interrupt pin, with direction sense read from the other channel, gave roughly 328–330 counts per manual full output-shaft revolution — matching the datasheet's math (11 pulses per motor revolution × 30:1 gearbox = 330 theoretical counts) closely enough to trust the wiring as correct.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-encoder-led-active.jpg" alt="Close-up of the gear motor's built-in optical encoder disc lit up by its internal green LED sensor, wheel and wiring visible">
+      <img src="images/blog-14-encoder-led-active.jpg" alt="Close-up of the gear motor's built-in optical encoder disc lit up by its internal green LED sensor, wheel and wiring visible" loading="lazy" decoding="async">
       <figcaption>The encoder's optical sensor lit up mid-test — confirming the disc and sensor are actually generating pulses before trusting them in a control loop.</figcaption>
     </figure>
 
@@ -121,7 +186,7 @@
     <p>The trace then revealed a genuine, consistent sign inversion: commanding "forward" — a positive PID output — reliably drove the encoder count <em>negative</em> on every run, which is textbook positive-feedback runaway rather than convergence toward a target. Fixed by swapping the IN1/IN2 polarity mapping in the direction-drive function, so a positive PID output actually increases the count instead of decreasing it.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-encoder-sign-inversion-bug.jpg" alt="Arduino IDE serial monitor showing the encoder count running away negative (-1124 and decreasing) while the code labels the direction Forward, live evidence of the sign-inversion bug">
+      <img src="images/blog-14-encoder-sign-inversion-bug.jpg" alt="Arduino IDE serial monitor showing the encoder count running away negative (-1124 and decreasing) while the code labels the direction Forward, live evidence of the sign-inversion bug" loading="lazy" decoding="async">
       <figcaption>The live trace that caught the bug: count going negative and falling while the firmware still labels the direction "Forward."</figcaption>
     </figure>
 
@@ -135,7 +200,7 @@
     <p>The explicit decision was <strong>not</strong> to port this Uno PID code directly into <code>cara_main_mega.ino</code> yet. Real load and gain requirements will differ once running in the full integrated system with all four motors, the chassis weight, and everything else drawing power at once — so today's scope was deliberately limited to proving the motors spin correctly and are fully controllable via encoder feedback on the bench, not integrating them into the main robot code.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-dual-motor-bench-test.jpg" alt="Two new gear motors with wheels attached, side by side on a workbench, wired together to an Arduino and L298N driver for bench testing">
+      <img src="images/blog-14-dual-motor-bench-test.jpg" alt="Two new gear motors with wheels attached, side by side on a workbench, wired together to an Arduino and L298N driver for bench testing" loading="lazy" decoding="async">
       <figcaption>Two of the new motors bench-tested together later the same evening — one step toward four-wheel drive, still bench-only.</figcaption>
     </figure>
 
@@ -145,21 +210,21 @@
     <p>Separate from the motor work, a spare 4×4 matrix keypad (Alnicov membrane, 16 keys) was bench-tested on its own Arduino Uno, independent of the main robot's own keypad on the Mega. The board kept resetting mid-session on every keypress, printing garbled characters. A plain Serial-only sketch with no keypad code ran indefinitely without resetting, which ruled out the USB connection, power, and the board itself. Raw <code>digitalRead</code> testing on the row/column pins then found the actual cause: row pin D8 was stuck LOW at rest (<code>Rows: 1101</code>) — the <code>Keypad.h</code> library was reading that as a permanently-held key, and that's what triggered the erratic resets. Moving that row to D10 fixed it.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-keypad-bench-setup.jpg" alt="4x4 matrix keypad's ribbon connector wired directly into an Arduino Uno's digital pins, with a multimeter box in the background">
+      <img src="images/blog-14-keypad-bench-setup.jpg" alt="4x4 matrix keypad's ribbon connector wired directly into an Arduino Uno's digital pins, with a multimeter box in the background" loading="lazy" decoding="async">
       <figcaption>The spare keypad wired to its own Arduino Uno for isolated bench testing, away from the main robot's Mega.</figcaption>
     </figure>
 
     <p>With that fixed, every candidate pin D2–D11 was individually grounded (<code>INPUT_PULLUP</code> plus a touch to GND) while watching raw <code>digitalRead</code> output — a full sweep rather than trusting the first working configuration. Every pin came back clean except D2, which never responded even after two firm retries, confirmed genuinely dead on this board. Swapped to D11, landing on a final confirmed-good pin set: rows = {3, 11, 10, 9}, columns = {7, 6, 5, 4}.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-keypad-connector-closeup.jpg" alt="Close-up of the 4x4 keypad's flex connector soldered to a small breakout PCB with an 8-pin header">
+      <img src="images/blog-14-keypad-connector-closeup.jpg" alt="Close-up of the 4x4 keypad's flex connector soldered to a small breakout PCB with an 8-pin header" loading="lazy" decoding="async">
       <figcaption>The keypad's own 8-pin flex-to-header connector — the thing that eventually turned out to be the real fault, not the Arduino side.</figcaption>
     </figure>
 
     <p>Even with all 8 Arduino pins individually verified good, the library-based test still missed most keys and occasionally swapped two (D and # confused), inconsistently between runs. A custom raw matrix-scan sketch — driving each row LOW by hand and reading columns directly, bypassing <code>Keypad.h</code> entirely — isolated it further: Row 0 (1,2,3,A) and Row 3 (*,0,#,D) consistently worked, but Row 1 (4,5,6,B) and Row 2 (7,8,9,C) never registered at all, no matter which already-verified-good Arduino pin was assigned to them. Since changing which pin drove which row had zero effect on which physical buttons failed, that ruled the Arduino and the code out completely.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-keypad-final-wiring.jpg" alt="4x4 keypad fully wired to an Arduino Uno with color-coded jumper wires, a digital multimeter reading 000 in the background">
+      <img src="images/blog-14-keypad-final-wiring.jpg" alt="4x4 keypad fully wired to an Arduino Uno with color-coded jumper wires, a digital multimeter reading 000 in the background" loading="lazy" decoding="async">
       <figcaption>Final wiring on the confirmed-good pin set, multimeter in hand for the GND-continuity checks that isolated the fault to the keypad itself.</figcaption>
     </figure>
 
@@ -171,7 +236,7 @@
     <p>The wristband color-fallback tracking, sketched back in <a href="week-11.html">Week 11</a> and only ever tested against paper swatches held up separately, got its first real physical band: a 4cm-wide strip cut from the same sheet of paper used in calibration testing, wrapped around the wrist. Every test from here on used this actual band, not a swatch held near the camera.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-physical-band-on-wrist.jpg" alt="A 4cm-wide red paper strip wrapped around a wrist as the physical wristband for CARA's HSV color-band person-tracking fallback">
+      <img src="images/blog-14-physical-band-on-wrist.jpg" alt="A 4cm-wide red paper strip wrapped around a wrist as the physical wristband for CARA's HSV color-band person-tracking fallback" loading="lazy" decoding="async">
       <figcaption>The first real physical band — a 4cm strip cut from the calibration sheet, not a swatch held up separately.</figcaption>
     </figure>
 
@@ -183,14 +248,14 @@
     <p>Ten real tests against the actual band, across near/distance/lighting variations, exposed two genuine failure modes rather than confirming the fix worked on the first try. First: the band's color mask repeatedly split into two vertical slivers under near, angled lighting — a specular highlight down the middle of the curved paper cutting the blob in half. Whether either half happened to land inside the aspect-ratio tolerance was pure luck, no reliable pattern either way.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-band-sliver-split-fail.png" alt="Band shape test tool showing the wristband's color mask split into two separate thin vertical slivers, both rejected with aspect ratios of 3.93 and 3.22 against a 1.5 target">
+      <img src="images/blog-14-band-sliver-split-fail.png" alt="Band shape test tool showing the wristband's color mask split into two separate thin vertical slivers, both rejected with aspect ratios of 3.93 and 3.22 against a 1.5 target" loading="lazy" decoding="async">
       <figcaption>The sliver-split failure caught live: a specular highlight cuts the band's mask into two thin candidates (ratio 3.93 and 3.22), both correctly rejected — but for the wrong reason, since neither is really "the band."</figcaption>
     </figure>
 
     <p>Second: a same-colored full sheet of paper, held up deliberately next to the band as a confusion test, beat the band outright on area — and critically, a full sheet's aspect ratio held portrait (roughly 1.4:1) sits inside the same tolerance window the band itself needs, so the shape filter alone would not have reliably told the two apart even with it in place.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-band-vs-paper-confusion.png" alt="HSV band calibrator live view showing a large sheet of paper detected as the tracking target (area 14077) instead of the smaller actual wristband, both the same color">
+      <img src="images/blog-14-band-vs-paper-confusion.png" alt="HSV band calibrator live view showing a large sheet of paper detected as the tracking target (area 14077) instead of the smaller actual wristband, both the same color" loading="lazy" decoding="async">
       <figcaption>The confusion test that mattered: a same-colored sheet of paper (area 14077) winning purely on size — a real gap the shape filter alone didn't close.</figcaption>
     </figure>
 
@@ -200,7 +265,7 @@
     <p>A full batch of 51 <code>band_shape_test.py</code> captures against the real band, after the close-kernel and area fixes, confirmed the fix directly: the band now registers as one solid accepted blob instead of the earlier two-sliver split.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-band-shape-fix-confirmed.png" alt="Band shape test tool showing the wristband detected as a single accepted candidate after the morphological close and max-area fixes, labelled ACCEPTED with a clean ratio">
+      <img src="images/blog-14-band-shape-fix-confirmed.png" alt="Band shape test tool showing the wristband detected as a single accepted candidate after the morphological close and max-area fixes, labelled ACCEPTED with a clean ratio" loading="lazy" decoding="async">
       <figcaption>One of the post-fix batch captures — a single accepted candidate, no more sliver splitting.</figcaption>
     </figure>
 
@@ -226,14 +291,14 @@
     <p>The web UI got a full redesign, built out on top of the earlier static <code>dashboard_mockup.html</code> reference: a tabbed layout — Live Dashboard, Action Log, Connected IPs, Medicine Log, Error Log, Settings — with real drive controls, live camera feed, patient enrollment, and medicine scheduling on the main view, all now wired to a real backend instead of the mockup's hardcoded sample rows. Settings are backed by an actual <code>settings.json</code> (admin password plus five emergency/family contact slots), and three rolling JSON logs — action, medicine-change, and error — each capped at 300 entries so they can't grow unbounded on a device left running for months. Existing actions were wired into them directly: enrollment, drive commands, and reminder changes all now leave a real trail instead of just returning a response and moving on.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-dashboard-live-view.png" alt="CARA Care dashboard live view showing the camera feed, movement D-pad controls with a speed slider, patient face recognition panel, and scheduled medicine delivery form">
+      <img src="images/blog-14-dashboard-live-view.png" alt="CARA Care dashboard live view showing the camera feed, movement D-pad controls with a speed slider, patient face recognition panel, and scheduled medicine delivery form" loading="lazy" decoding="async">
       <figcaption>The redesigned dashboard's main view — live camera feed, drive controls, patient enrollment, and medicine scheduling in one place.</figcaption>
     </figure>
 
     <p>Access is session-based — a real login gated on the stored password, honestly still the default <code>1234</code> until changed, flagged rather than glossed over. The Settings tab is upfront about what's actually wired up: the sharing link is same-network-only right now (<code>http://localhost:5001/dashboard</code>), with public internet access via ngrok noted as a planned addition, not something claimed working before it is.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-dashboard-settings.png" alt="CARA Care dashboard Settings tab showing the local sharing link, five emergency contact number slots, and a change-password form">
+      <img src="images/blog-14-dashboard-settings.png" alt="CARA Care dashboard Settings tab showing the local sharing link, five emergency contact number slots, and a change-password form" loading="lazy" decoding="async">
       <figcaption>Settings — the sharing link is honestly labeled same-network-only, contacts and password change both real, backend-wired forms.</figcaption>
     </figure>
 
@@ -241,7 +306,7 @@
     <p>A real bug turned up before anything else could be tested: <code>@app.before_request</code> had been registered before <code>app = Flask(__name__)</code> even existed, which would have crashed on import — caught by an actual <code>py_compile</code> check, not assumed fixed after writing it. With that cleared, the whole system was live-tested against the running server with real requests, not just a read-through: an unauthenticated request to <code>/logs/actions</code> correctly returned 401, a wrong password was correctly rejected and logged as a failed attempt, the correct password established a real session and unlocked the log routes, a real reminder add-then-delete round-tripped through to the medicine log with the right timestamp and label, a deliberately invalid drive command was rejected and appeared in the error log with a real error code, and <code>/connected_ips</code> showed the actual client IP rather than a placeholder. Test data — one dummy reminder used for the round-trip check — was deleted afterward rather than left sitting in the real reminders file.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-dashboard-action-log.png" alt="CARA Care dashboard Action Log tab showing a real captured sequence: a failed login attempt, a successful login, a motor command, medicine schedule changes, and an enrollment reset, each with a real timestamp">
+      <img src="images/blog-14-dashboard-action-log.png" alt="CARA Care dashboard Action Log tab showing a real captured sequence: a failed login attempt, a successful login, a motor command, medicine schedule changes, and an enrollment reset, each with a real timestamp" loading="lazy" decoding="async">
       <figcaption>The Action Log capturing exactly this verification pass — the failed-then-successful login is the first two rows.</figcaption>
     </figure>
 
@@ -257,12 +322,12 @@
     <p>All 4 motors got physically connected the same day, encoders included, using extension cables in different colors than the motors' own leads. The exact color mapping was recorded deliberately, since it's exactly the kind of detail that's easy to get backwards later and silently cause a repeat of this week's earlier direction-sign bug — the extension wire colors for the two encoder signal lines land on colors that mean something <em>different</em> from what they'd naturally suggest (extension-green carries Channel A, not the motor's own green wire, which is actually Channel B; extension-red carries Channel B, not power). No firmware has been written for the new encoders yet — pins decided and hardware connected only, wiring the code in is next session's task.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-four-motor-chassis-front.jpg" alt="Aluminium chassis with all four new gear motors and blue wheels mounted, one at each corner, Arduino Mega and breadboard wired on top with ultrasonic sensor pairs front and back">
+      <img src="images/blog-14-four-motor-chassis-front.jpg" alt="Aluminium chassis with all four new gear motors and blue wheels mounted, one at each corner, Arduino Mega and breadboard wired on top with ultrasonic sensor pairs front and back" loading="lazy" decoding="async">
       <figcaption>All four corners mounted for the first time — new motors, blue wheels, Arduino Mega and sensor wiring on top.</figcaption>
     </figure>
 
     <figure class="post-image">
-      <img src="images/blog-14-four-motor-chassis-side.jpg" alt="Side view of the four-motor chassis showing the aluminium plate, ultrasonic sensor pair, and dense wiring routed to the Mega and shield stack">
+      <img src="images/blog-14-four-motor-chassis-side.jpg" alt="Side view of the four-motor chassis showing the aluminium plate, ultrasonic sensor pair, and dense wiring routed to the Mega and shield stack" loading="lazy" decoding="async">
       <figcaption>Side view of the same assembly — the chassis is now physically a 4WD platform, even with the drive code still to come.</figcaption>
     </figure>
 
@@ -270,12 +335,12 @@
     <p>The battery saga that started with a dead 3rd LiPo cell back in <a href="week-12.html">Week 12</a> — recovery attempted, outcome never confirmed — gets a real resolution: a custom-built replacement pack, assembled from genuine Samsung <code>INR18650-32E</code> 18650 lithium-ion cells rather than another off-the-shelf LiPo. Rated by the builder at <strong>12V output, up to 12A</strong>, with a dedicated Li-ion charger (AC 100–240V input, 12V/2A output) rather than improvising one.</p>
 
     <figure class="post-image">
-      <img src="images/blog-14-custom-battery-pack.jpg" alt="Custom-built green shrink-wrapped battery pack with XT60 connectors, next to its dedicated Li-ion charger rated AC100-240V input, 12V output">
+      <img src="images/blog-14-custom-battery-pack.jpg" alt="Custom-built green shrink-wrapped battery pack with XT60 connectors, next to its dedicated Li-ion charger rated AC100-240V input, 12V output" loading="lazy" decoding="async">
       <figcaption>The custom pack and its dedicated charger — a real replacement for the LiPo pack that lost a cell back in Week 12.</figcaption>
     </figure>
 
     <figure class="post-image">
-      <img src="images/blog-14-battery-cell-samsung-18650.jpg" alt="A single genuine Samsung INR18650-32E 18650 lithium-ion cell held in hand, showing the fire-hazard handling warning label">
+      <img src="images/blog-14-battery-cell-samsung-18650.jpg" alt="A single genuine Samsung INR18650-32E 18650 lithium-ion cell held in hand, showing the fire-hazard handling warning label" loading="lazy" decoding="async">
       <figcaption>One of the pack's Samsung INR18650-32E cells — genuine, labeled, not an unmarked generic.</figcaption>
     </figure>
 
