@@ -47,6 +47,14 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 
 - [RoboJain — Where Code Meets Creation](https://jayashankaanushan19.github.io/robojain/): Studio overview, services and contact.
 - [Services — launching soon](https://jayashankaanushan19.github.io/robojain/services.html): Robot design & structure, embedded systems, ROS & autonomy, human-robot interaction, concept to deployment, and process & automation; register interest to be first in line.
+- [About RoboJain](https://jayashankaanushan19.github.io/robojain/about.html): Mission, founder, product lines, current R&D work and the four-stage project approach.
+- [RoboJain FAQ](https://jayashankaanushan19.github.io/robojain/faq.html): Answers on what RoboJain builds, when services launch, how projects work, products, CARA, DIY kits and contact.
+- [Service: Robot design & structure](https://jayashankaanushan19.github.io/robojain/services/robot-design.html): Chassis design, fabrication and assembly, from compact assistive devices to larger automated systems.
+- [Service: Embedded systems](https://jayashankaanushan19.github.io/robojain/services/embedded-systems.html): Microcontroller hardware, sensor integration, power systems and communication modules.
+- [Service: ROS & autonomy](https://jayashankaanushan19.github.io/robojain/services/ros-autonomy.html): ROS 2 control architectures, navigation stacks and on-device AI.
+- [Service: Human-robot interaction](https://jayashankaanushan19.github.io/robojain/services/human-robot-interaction.html): Interfaces and behaviours designed around how people actually use systems.
+- [Service: Concept to deployment](https://jayashankaanushan19.github.io/robojain/services/concept-to-deployment.html): End-to-end development from a problem statement to a tested, deployable product.
+- [Service: Process & automation](https://jayashankaanushan19.github.io/robojain/services/process-automation.html): Feasibility studies and system integration without enterprise-scale budgets.
 - [Products](https://jayashankaanushan19.github.io/robojain/products/): RJ-Life software solutions and RJ-Robot hardware developments.
 - [LoanMaster (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/loanmaster.html): Microfinance management software for lending institutions.
 - [RobotSC (RJ-Life)](https://jayashankaanushan19.github.io/robojain/products/robotsc.html): Real-time robotics monitoring and control dashboard over WebSockets.

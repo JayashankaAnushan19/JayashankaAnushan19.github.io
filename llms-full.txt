@@ -315,6 +315,7 @@ RoboJain designs and builds DIY-to-medium-scale robotic systems — practical, a
 At RoboJain, we believe robotics should be accessible, practical, and built for real-world needs. We specialise in developing DIY to medium-scale robotic solutions across a wide range of price points — making innovation affordable and achievable for businesses, institutions, and individuals alike.
 Whether it's hardware, software, or a fully integrated system, we transform ideas into engineered realities with precision, creativity, and cost-effectiveness. Innovation at RoboJain is powered by a focused team working across electronics, mechanical design, and software — building solutions that are flexible, professional, and aligned with the goals of the people they're built for.
 Our mission is simple: turn imagination into reality. From a small DIY project to a custom automation tool or a medium-scale robotic system — we work through feasibility, timelines, methods, and cost together, so every solution is tailored, efficient, and built to last.
+More about RoboJain →
 ### What we build, and how we think about it.
 Every engagement starts as a conversation about feasibility, timeline, and cost — then becomes a working system.
 #### Robot design & structure
@@ -348,6 +349,49 @@ Hardware, firmware, and software come together — tested iteratively, not all a
 The system goes where it's needed, with documentation and support for the people using it.
 ### Let's build something.
 Whether it's a small DIY project, a custom automation tool, or a medium-scale robotic system — bring us the problem and we'll work through feasibility, timeline, and cost together.
+Questions first? Read the FAQ →
+
+---
+
+## RoboJain — about
+Source: https://jayashankaanushan19.github.io/robojain/about.html
+
+## About RoboJain
+Where code meets creation. A robotics engineering studio in Dubai, UAE, building DIY-to-medium-scale robotic systems, embedded engineering, and automation for real-world conditions.
+### What we believe
+At RoboJain, we believe robotics should be accessible, practical, and built for real-world needs. We specialise in developing DIY to medium-scale robotic solutions across a wide range of price points — making innovation affordable and achievable for businesses, institutions, and individuals alike.
+Whether it's hardware, software, or a fully integrated system, we transform ideas into engineered realities with precision, creativity, and cost-effectiveness. Innovation at RoboJain is powered by a focused team working across electronics, mechanical design, and software — building solutions that are flexible, professional, and aligned with the goals of the people they're built for.
+Our mission is simple: turn imagination into reality. From a small DIY project to a custom automation tool or a medium-scale robotic system — we work through feasibility, timelines, methods, and cost together, so every solution is tailored, efficient, and built to last.
+### Two product lines
+#### Software
+Purpose-built platforms designed for operational efficiency, data visibility, and real-world deployment.
+- LoanMaster — microfinance management platform
+- RobotSC — robotics monitoring and control dashboard
+#### Hardware
+Physical systems engineered to solve real problems — for people who need hardware that works in the field, not just the lab.
+- BlindTalk — Braille-based communication device
+- CARA — Companion Assistive Robot for the Aged
+### Heads-down, building.
+The past several months have been quiet on purpose. Hardware, firmware, testing, iteration — real engineering work, not just concepts.
+We're building robotic systems that operate without Wi-Fi dependence, without enterprise budgets, and without assuming the end user is a tech expert. Most assistive and service robots on the market were designed for environments with reliable infrastructure and high price tolerance. We're designing for everyone else.
+#### Primary R&D project — hardware integration
+Sensor fusion, power systems, and enclosure work underway. Field testing planned post-validation.
+#### Offline-first communication module
+GSM-based alerting designed to function without internet connectivity — built for low-infrastructure environments.
+#### Public release & documentation
+Full technical writeup, demo footage, and project details — coming once validation is complete.
+#### DIY kit line
+Packaged hardware kits for hobbyists, students, and makerspaces across the GCC and South Asia.
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
 
 ---
 
@@ -375,6 +419,235 @@ Every engagement starts as a conversation about feasibility, timeline, and cost 
 Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
 ### You're on the list.
 Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: Robot design & structure
+Source: https://jayashankaanushan19.github.io/robojain/services/robot-design.html
+
+## Robot design & structure
+Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.
+### Why RoboJain
+RoboJain builds across the full range — from DIY to medium-scale — with a focused team working across electronics, mechanical design, and software.
+The aim is physical systems engineered to solve real problems — for people who need hardware that works in the field, not just the lab.
+#### CARA
+Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.
+- 360° obstacle-aware autonomous navigation
+- Automatic fall detection via computer vision
+#### BlindTalk
+Braille-based communication device for the visually impaired — real-time text-to-Braille conversion in a compact, portable form factor.
+- Compact, portable and low-power design
+- Braille output pins engineered for repeated actuation
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: Embedded systems
+Source: https://jayashankaanushan19.github.io/robojain/services/embedded-systems.html
+
+## Embedded systems
+Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.
+### Why RoboJain
+We're building robotic systems that operate without Wi-Fi dependence, without enterprise budgets, and without assuming the end user is a tech expert.
+Work in progress right now includes an offline-first communication module: GSM-based alerting designed to function without internet connectivity — built for low-infrastructure environments.
+#### CARA
+Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.
+- GSM-based SMS alerts — zero Wi-Fi dependency
+- Medication management with RFID confirmation
+#### BlindTalk
+Braille-based communication device for the visually impaired — real-time text-to-Braille conversion in a compact, portable form factor.
+- Real-time text-to-Braille conversion hardware
+- Power-efficient electronics for all-day use
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: ROS & autonomy
+Source: https://jayashankaanushan19.github.io/robojain/services/ros-autonomy.html
+
+## ROS & autonomy
+ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.
+### Why RoboJain
+Autonomy has to hold up outside the lab. RoboJain designs for environments without reliable infrastructure — where a robot has to keep making decisions on its own.
+Monitoring matters as much as autonomy: engineers and operators need a single interface to watch live sensor data and send commands back.
+#### CARA
+Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.
+- 360° obstacle-aware autonomous navigation
+- Automatic fall detection via computer vision
+#### RobotSC
+Real-time robotics monitoring and control dashboard — WebSocket-powered data visualisation and command interface for robotic systems.
+- Live sensor data visualisation via WebSocket
+- 8 input + 8 output configurable control topics
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: Human-robot interaction
+Source: https://jayashankaanushan19.github.io/robojain/services/human-robot-interaction.html
+
+## Human-robot interaction
+Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.
+### Why RoboJain
+Most assistive and service robots on the market were designed for environments with reliable infrastructure and high price tolerance. We're designing for everyone else — without assuming the end user is a tech expert.
+BlindTalk is built around a simple belief: communication is a right, not a feature.
+#### CARA
+Companion Assistive Robot for the Aged — autonomous elderly monitoring and care robot built for low-infrastructure environments.
+- Medication management with RFID confirmation
+- GSM-based SMS alerts to family members
+#### BlindTalk
+Braille-based communication device for the visually impaired — real-time text-to-Braille conversion in a compact, portable form factor.
+- Standard Braille encoding support
+- Simple, tool-free tactile operation
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: Concept to deployment
+Source: https://jayashankaanushan19.github.io/robojain/services/concept-to-deployment.html
+
+## Concept to deployment
+End-to-end development: from a sketch and a problem statement through to a tested, deployable product.
+### Why RoboJain
+Not just concepts — things already running. A RoboJain product has been in active production since May 2025: a live LoanMaster deployment with 3,848+ active customers, 705+ ongoing loans managed and Rs. 14.6M+ active portfolio tracked.
+Whether it's hardware, software, or a fully integrated system, we transform ideas into engineered realities with precision, creativity, and cost-effectiveness.
+#### LoanMaster
+Complete microfinance management platform — built for lending institutions that need full control over their financial operations.
+- Live in production since May 2025
+- End-to-end loan origination and disbursement
+#### RobotSC
+Real-time robotics monitoring and control dashboard — WebSocket-powered data visualisation and command interface for robotic systems.
+- Docker-containerised, ready for deployment
+- Built-in user management and authentication
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — service: Process & automation
+Source: https://jayashankaanushan19.github.io/robojain/services/process-automation.html
+
+## Process & automation
+Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.
+### Why RoboJain
+From a small DIY project to a custom automation tool or a medium-scale robotic system — we work through feasibility, timelines, methods, and cost together, so every solution is tailored, efficient, and built to last.
+Robotics should be accessible, practical, and built for real-world needs — affordable and achievable for businesses, institutions, and individuals alike.
+#### LoanMaster
+Complete microfinance management platform — built for lending institutions that need full control over their financial operations.
+- Automated repayment scheduling and interest engine
+- Multi-branch operations and role-based staff access
+#### RobotSC
+Real-time robotics monitoring and control dashboard — WebSocket-powered data visualisation and command interface for robotic systems.
+- Live sensor data visualisation via WebSocket
+- Docker-containerised, ready for deployment
+### From conversation to working system.
+Every project — DIY or medium-scale — moves through the same four stages.
+#### Discuss
+We talk through the problem, constraints, and what "done" actually looks like for you.
+#### Scope
+Feasibility, timeline, and cost are laid out clearly before any build work begins.
+#### Build
+Hardware, firmware, and software come together — tested iteratively, not all at once at the end.
+#### Deploy
+The system goes where it's needed, with documentation and support for the people using it.
+### Register your interest
+Tell us what you'd like built. We'll let you know as soon as RoboJain starts taking projects. No spam — just one email when it matters.
+### You're on the list.
+Thank you for registering. We'll reach out as soon as RoboJain starts taking projects. Keep an eye on your inbox.
+
+---
+
+## RoboJain — FAQ
+Source: https://jayashankaanushan19.github.io/robojain/faq.html
+
+## Questions & answers
+Everything people ask about RoboJain — what we build, when services open, and how to get involved early.
+RoboJain is a robotics engineering studio in Dubai, UAE. It develops DIY-to-medium-scale robotic systems, embedded engineering, and automation — practical, affordable, and engineered for real-world conditions, not just demo labs.
+More about RoboJain →
+RoboJain was founded in 2025 by Jayashanka Anushan, a Robotics Engineer and MSc Robotics Researcher based in Dubai, UAE.
+Jayashanka Anushan's portfolio →
+RoboJain is headquartered in Dubai, UAE, and currently operates online.
+Six services: robot design & structure, embedded systems, ROS & autonomy, human-robot interaction, concept to deployment, and process & automation.
+See all services →
+Not yet — RoboJain services are launching soon. You can register your interest and you'll get one email as soon as RoboJain starts taking projects.
+Register your interest →
+Every project — DIY or medium-scale — moves through the same four stages: Discuss (the problem, constraints, and what "done" looks like), Scope (feasibility, timeline, and cost laid out before any build work), Build (hardware, firmware, and software tested iteratively), and Deploy (with documentation and support for the people using it).
+Our approach →
+From a small DIY project to a custom automation tool or a medium-scale robotic system, across a wide range of price points — for businesses, institutions, and individuals alike.
+Two product lines. RJ-Life (software): LoanMaster, a microfinance management platform, and RobotSC, a real-time robotics monitoring and control dashboard. RJ-Robot (hardware): BlindTalk, a Braille-based communication device for the visually impaired, and CARA, the Companion Assistive Robot for the Aged.
+See the products →
+Yes. A live LoanMaster deployment has been in active production since May 2025, with 3,848+ active customers, 705+ ongoing loans managed and Rs. 14.6M+ active portfolio tracked.
+LoanMaster →
+CARA (Companion Assistive Robot for the Aged) is an autonomous elderly monitoring and care robot for low-infrastructure homes, with automatic fall detection via computer vision, GSM-based SMS alerts with zero Wi-Fi dependency, and medication management with RFID confirmation. It is in development — you can join the waitlist to be notified when it moves to field testing.
+Join the CARA waitlist →
+RoboJain designs robotic systems that operate without Wi-Fi dependence. An offline-first communication module — GSM-based alerting that works without internet connectivity — is in progress now.
+A DIY kit line is on the roadmap: packaged hardware kits for hobbyists, students, and makerspaces across the GCC and South Asia.
+Register interest in DIY kits →
+Email robojain.robotics@gmail.com, or follow the build on LinkedIn (RoboJain), Instagram (@robojainrobotics) and TikTok (@robojain).
+Email RoboJain →
 
 ---
 

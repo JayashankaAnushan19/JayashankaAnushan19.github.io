@@ -44,12 +44,12 @@
     "@type": "ItemList",
     "name": "RoboJain services (launching soon)",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "item": { "@type": "Service", "name": "Robot design & structure", "description": "Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
-      { "@type": "ListItem", "position": 2, "item": { "@type": "Service", "name": "Embedded systems", "description": "Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
-      { "@type": "ListItem", "position": 3, "item": { "@type": "Service", "name": "ROS & autonomy", "description": "ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
-      { "@type": "ListItem", "position": 4, "item": { "@type": "Service", "name": "Human-robot interaction", "description": "Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
-      { "@type": "ListItem", "position": 5, "item": { "@type": "Service", "name": "Concept to deployment", "description": "End-to-end development: from a sketch and a problem statement through to a tested, deployable product.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
-      { "@type": "ListItem", "position": 6, "item": { "@type": "Service", "name": "Process & automation", "description": "Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } }
+      { "@type": "ListItem", "position": 1, "item": { "@type": "Service", "name": "Robot design & structure", "url": "https://jayashankaanushan19.github.io/robojain/services/robot-design.html", "description": "Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
+      { "@type": "ListItem", "position": 2, "item": { "@type": "Service", "name": "Embedded systems", "url": "https://jayashankaanushan19.github.io/robojain/services/embedded-systems.html", "description": "Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
+      { "@type": "ListItem", "position": 3, "item": { "@type": "Service", "name": "ROS & autonomy", "url": "https://jayashankaanushan19.github.io/robojain/services/ros-autonomy.html", "description": "ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
+      { "@type": "ListItem", "position": 4, "item": { "@type": "Service", "name": "Human-robot interaction", "url": "https://jayashankaanushan19.github.io/robojain/services/human-robot-interaction.html", "description": "Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
+      { "@type": "ListItem", "position": 5, "item": { "@type": "Service", "name": "Concept to deployment", "url": "https://jayashankaanushan19.github.io/robojain/services/concept-to-deployment.html", "description": "End-to-end development: from a sketch and a problem statement through to a tested, deployable product.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } },
+      { "@type": "ListItem", "position": 6, "item": { "@type": "Service", "name": "Process & automation", "url": "https://jayashankaanushan19.github.io/robojain/services/process-automation.html", "description": "Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.", "provider": { "@id": "https://jayashankaanushan19.github.io/robojain/#organization" } } }
     ]
   }
 }
@@ -130,6 +130,9 @@
   .svc-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
   .svc h3{ font-size:17px; }
   .svc p{ font-size:14px; color:var(--ink-dim); }
+  .svc-link{ display:block; text-decoration:none; color:inherit; transition:background 0.2s; }
+  .svc-link:hover{ background:var(--panel-2); text-decoration:none; }
+  .svc-link .go{ display:inline-block; margin-top:10px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--teal); letter-spacing:0.06em; }
   .soon{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); border:1px solid rgba(196,125,42,0.3); border-radius:2px; padding:2px 7px; flex-shrink:0; }
   .roadmap{ background:var(--panel); border:1px dashed var(--border); border-radius:8px; padding:20px 22px; margin-bottom:52px; }
   .roadmap h3{ font-size:16px; margin-bottom:4px; }
@@ -210,30 +213,36 @@
 
     <div class="section-label">What we'll offer</div>
     <div class="svc-grid">
-      <div class="svc">
+      <a class="svc svc-link" href="services/robot-design.html">
         <div class="svc-top"><h3>Robot design &amp; structure</h3><span class="soon">Soon</span></div>
         <p>Chassis design, fabrication, and assembly for platforms ranging from compact assistive devices to larger automated systems.</p>
-      </div>
-      <div class="svc">
+        <span class="go">Learn more →</span>
+      </a>
+      <a class="svc svc-link" href="services/embedded-systems.html">
         <div class="svc-top"><h3>Embedded systems</h3><span class="soon">Soon</span></div>
         <p>Microcontroller-driven hardware, sensor integration, power systems, and communication modules built for reliability in the field.</p>
-      </div>
-      <div class="svc">
+        <span class="go">Learn more →</span>
+      </a>
+      <a class="svc svc-link" href="services/ros-autonomy.html">
         <div class="svc-top"><h3>ROS &amp; autonomy</h3><span class="soon">Soon</span></div>
         <p>ROS 2-based control architectures, navigation stacks, and on-device AI deployment for real-time decision making.</p>
-      </div>
-      <div class="svc">
+        <span class="go">Learn more →</span>
+      </a>
+      <a class="svc svc-link" href="services/human-robot-interaction.html">
         <div class="svc-top"><h3>Human-robot interaction</h3><span class="soon">Soon</span></div>
         <p>Interfaces and behaviours designed around how people actually use systems — not just how they're demoed.</p>
-      </div>
-      <div class="svc">
+        <span class="go">Learn more →</span>
+      </a>
+      <a class="svc svc-link" href="services/concept-to-deployment.html">
         <div class="svc-top"><h3>Concept to deployment</h3><span class="soon">Soon</span></div>
         <p>End-to-end development: from a sketch and a problem statement through to a tested, deployable product.</p>
-      </div>
-      <div class="svc">
+        <span class="go">Learn more →</span>
+      </a>
+      <a class="svc svc-link" href="services/process-automation.html">
         <div class="svc-top"><h3>Process &amp; automation</h3><span class="soon">Soon</span></div>
         <p>Feasibility studies and system integration for businesses looking to automate without enterprise-scale budgets.</p>
-      </div>
+        <span class="go">Learn more →</span>
+      </a>
     </div>
 
     <div class="roadmap">
@@ -314,6 +323,20 @@
         <div>
           <div class="pl-label">In development</div>
           <div class="pl-title">Join the CARA waitlist →</div>
+        </div>
+        <span class="pl-arrow">↗</span>
+      </a>
+      <a class="product-link" href="about.html">
+        <div>
+          <div class="pl-label">The studio</div>
+          <div class="pl-title">About RoboJain →</div>
+        </div>
+        <span class="pl-arrow">↗</span>
+      </a>
+      <a class="product-link" href="faq.html">
+        <div>
+          <div class="pl-label">Questions</div>
+          <div class="pl-title">RoboJain FAQ →</div>
         </div>
         <span class="pl-arrow">↗</span>
       </a>
