@@ -165,6 +165,32 @@
   ]
 }
 </script>
+<style id="rjf-css">
+  footer.rjf{ --f-bg:#0A1019; --f-line:#142236; --f-ink:#DDE4F0; --f-dim:#7F93AE; --f-faint:#435872; --f-acc:#3DAA88;
+    background:var(--f-bg); border-top:1px solid var(--f-line); padding:56px 0 28px; text-align:left; margin-top:0; }
+  [data-theme="light"] footer.rjf{ --f-bg:#E8EDF5; --f-line:#CBD8EC; --f-ink:#0D1829; --f-dim:#3E5470; --f-faint:#7A95B8; --f-acc:#1A7A5E; }
+  .rjf-in{ max-width:1100px; margin:0 auto; padding:0 32px; }
+  @media(max-width:600px){ .rjf-in{ padding:0 20px; } }
+  .rjf-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 0.8fr; gap:36px; }
+  @media(max-width:860px){ .rjf-grid{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .rjf-grid{ grid-template-columns:1fr; gap:28px; } }
+  .rjf-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:var(--f-ink); text-decoration:none; }
+  .rjf-brand:hover{ text-decoration:none; color:var(--f-ink); }
+  .rjf-brand img{ width:28px; height:28px; }
+  footer.rjf p.rjf-tag{ font-family:'IBM Plex Sans',sans-serif; font-size:14px; letter-spacing:0; color:var(--f-dim); margin:12px 0 18px; line-height:1.6; max-width:280px; }
+  .rjf-cta{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--f-acc); border:1px solid var(--f-acc); border-radius:3px; padding:9px 14px; text-decoration:none; }
+  .rjf-cta:hover{ background:var(--f-acc); color:var(--f-bg); text-decoration:none; }
+  .rjf h2{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--f-faint); margin:4px 0 14px; }
+  .rjf ul{ list-style:none; margin:0; padding:0; }
+  .rjf li{ margin-bottom:9px; }
+  .rjf li a{ font-family:'IBM Plex Sans',sans-serif; font-size:14px; color:var(--f-dim); text-decoration:none; }
+  .rjf li a:hover, .rjf li a[aria-current="page"]{ color:var(--f-acc); text-decoration:none; }
+  .rjf-bottom{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; margin-top:44px; padding-top:22px; border-top:1px solid var(--f-line); }
+  .rjf-social{ display:flex; flex-wrap:wrap; gap:18px; }
+  .rjf-social a, .rjf-founder{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.06em; color:var(--f-dim); text-decoration:none; }
+  .rjf-social a:hover, .rjf-founder:hover{ color:var(--f-acc); text-decoration:none; }
+  footer.rjf p.rjf-legal{ width:100%; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--f-faint); margin:6px 0 0; text-align:left; }
+</style>
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
 </head>
@@ -263,9 +289,58 @@
   </div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p>ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
+<footer class="rjf">
+  <div class="rjf-in">
+    <div class="rjf-grid">
+      <div>
+        <a class="rjf-brand" href="./"><img src="assets/robojain-logo.svg" alt="" width="28" height="28" loading="lazy">RoboJain</a>
+        <p class="rjf-tag">Robotics engineering studio in Dubai, UAE — DIY-to-medium-scale robotic systems, embedded engineering, and automation.</p>
+        <a class="rjf-cta" href="services.html#formCard">Register interest →</a>
+      </div>
+      <nav aria-label="Services">
+        <h2>Services</h2>
+        <ul>
+          <li><a href="services/robot-design.html">Robot design &amp; structure</a></li>
+          <li><a href="services/embedded-systems.html">Embedded systems</a></li>
+          <li><a href="services/ros-autonomy.html">ROS &amp; autonomy</a></li>
+          <li><a href="services/human-robot-interaction.html">Human-robot interaction</a></li>
+          <li><a href="services/concept-to-deployment.html">Concept to deployment</a></li>
+          <li><a href="services/process-automation.html">Process &amp; automation</a></li>
+          <li><a href="services.html">All services</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Products">
+        <h2>Products</h2>
+        <ul>
+          <li><a href="products/loanmaster.html">LoanMaster</a></li>
+          <li><a href="products/robotsc.html">RobotSC</a></li>
+          <li><a href="products/blindtalk.html">BlindTalk</a></li>
+          <li><a href="products/cara.html">CARA</a></li>
+          <li><a href="cara-waitlist.html" aria-current="page">CARA waitlist</a></li>
+          <li><a href="products/">All products</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Company">
+        <h2>Company</h2>
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="posts.html">Updates</a></li>
+          <li><a href="./#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="rjf-bottom">
+      <div class="rjf-social">
+        <a href="https://www.linkedin.com/company/robotjain/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/robojainrobotics/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@robojain" target="_blank" rel="noopener">TikTok</a>
+        <a href="mailto:robojain.robotics@gmail.com">Email</a>
+      </div>
+      <a class="rjf-founder" href="../">Founded by Jayashanka Anushan ↗</a>
+      <p class="rjf-legal">ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
+    </div>
   </div>
 </footer>
 
