@@ -633,14 +633,29 @@
   [data-theme="light"] .rj-form input,[data-theme="light"] .rj-form textarea{ background:#FFFFFF; border-color:#CBD8EC; }
   [data-theme="light"] .rj-form input:focus,[data-theme="light"] .rj-form textarea:focus{ border-color:#2B65B0; }
 </style>
+<style id="who-css">
+  section.who{ padding:64px 0; }
+  .who-h{ font-size:clamp(24px,3vw,32px); margin-bottom:24px; }
+  .who-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media(max-width:900px){ .who-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .who-grid{ grid-template-columns:1fr; } }
+  .who-card{ display:flex; flex-direction:column; gap:8px; padding:22px; background:var(--panel); border:1px solid var(--border); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, transform .2s; }
+  .who-card:hover{ border-color:var(--copper); transform:translateY(-2px); text-decoration:none; }
+  .who-ic{ width:34px; height:34px; color:var(--copper); }
+  .who-ic svg{ width:100%; height:100%; }
+  .who-t{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px; }
+  .who-d{ font-size:14px; color:var(--ink-dim); line-height:1.55; flex:1; }
+  .who-go{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.06em; color:var(--copper); }
+</style>
 <style id="rjf-css">
   footer.rjf{ --f-bg:#0A1019; --f-line:#142236; --f-ink:#DDE4F0; --f-dim:#7F93AE; --f-faint:#435872; --f-acc:#3DAA88;
     background:var(--f-bg); border-top:1px solid var(--f-line); padding:56px 0 28px; text-align:left; margin-top:0; }
   [data-theme="light"] footer.rjf{ --f-bg:#E8EDF5; --f-line:#CBD8EC; --f-ink:#0D1829; --f-dim:#3E5470; --f-faint:#7A95B8; --f-acc:#1A7A5E; }
   .rjf-in{ max-width:1100px; margin:0 auto; padding:0 32px; }
   @media(max-width:600px){ .rjf-in{ padding:0 20px; } }
-  .rjf-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 0.8fr; gap:36px; }
-  @media(max-width:860px){ .rjf-grid{ grid-template-columns:1fr 1fr; } }
+  .rjf-grid{ display:grid; grid-template-columns:1.25fr 1.05fr 0.9fr 1.05fr 0.75fr; gap:32px; }
+  @media(max-width:980px){ .rjf-grid{ grid-template-columns:1fr 1fr 1fr; } }
+  @media(max-width:700px){ .rjf-grid{ grid-template-columns:1fr 1fr; } }
   @media(max-width:480px){ .rjf-grid{ grid-template-columns:1fr; gap:28px; } }
   .rjf-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:var(--f-ink); text-decoration:none; }
   .rjf-brand:hover{ text-decoration:none; color:var(--f-ink); }
@@ -658,6 +673,14 @@
   .rjf-social a, .rjf-founder{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.06em; color:var(--f-dim); text-decoration:none; }
   .rjf-social a:hover, .rjf-founder:hover{ color:var(--f-acc); text-decoration:none; }
   footer.rjf p.rjf-legal{ width:100%; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--f-faint); margin:6px 0 0; text-align:left; }
+  .rjf-sticky{ display:none; }
+  @media(max-width:760px){
+    .rjf-sticky{ display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:90; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 16px; border-radius:6px; background:var(--f-acc); color:#0D1829; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; text-decoration:none; box-shadow:0 6px 24px rgba(0,0,0,.35); }
+    .rjf-sticky:hover{ text-decoration:none; color:#0D1829; }
+    [data-theme="light"] .rjf-sticky{ color:#fff; }
+    footer.rjf{ padding-bottom:96px; }
+  }
 </style>
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
@@ -666,7 +689,7 @@
 
 <nav>
   <div class="wrap">
-    <div class="logo"><img src="assets/robojain-logo.svg" alt="RoboJain" class="logo-img">RoboJain</div>
+    <a class="logo" href="./" aria-label="RoboJain home" style="color:inherit;text-decoration:none;"><img src="assets/robojain-logo.svg" alt="RoboJain" class="logo-img">RoboJain</a>
     <div class="navlinks">
       <a href="#overview"><span class="num">01</span>Overview</a>
       <a href="#capabilities"><span class="num">02</span>Capabilities</a>
@@ -756,6 +779,39 @@
     </div>
   </div>
 </header>
+
+<section id="who" class="who">
+  <div class="wrap">
+    <div class="module-label reveal">Who it's for</div>
+    <h2 class="who-h reveal">I'm here as a…</h2>
+    <div class="who-grid reveal">
+      <a class="who-card" href="for/businesses.html">
+        <span class="who-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+        <span class="who-t">Businesses</span>
+        <span class="who-d">Automation and custom systems without enterprise-scale budgets.</span>
+        <span class="who-go">See what's for you →</span>
+      </a>
+      <a class="who-card" href="for/institutions.html">
+        <span class="who-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+        <span class="who-t">Institutions &amp; researchers</span>
+        <span class="who-d">Assistive robotics, ROS 2 autonomy and human-robot interaction.</span>
+        <span class="who-go">See what's for you →</span>
+      </a>
+      <a class="who-card" href="for/makers.html">
+        <span class="who-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="who-t">Students &amp; makers</span>
+        <span class="who-d">A DIY kit line for students and makerspaces is on the roadmap.</span>
+        <span class="who-go">See what's for you →</span>
+      </a>
+      <a class="who-card" href="for/investors.html">
+        <span class="who-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+        <span class="who-t">Investors &amp; partners</span>
+        <span class="who-d">Two product lines, software in production, hardware in R&amp;D.</span>
+        <span class="who-go">See what's for you →</span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section id="overview">
   <div class="wrap">
@@ -1001,7 +1057,7 @@
         <p class="rjf-tag">Robotics engineering studio in Dubai, UAE — DIY-to-medium-scale robotic systems, embedded engineering, and automation.</p>
         <a class="rjf-cta" href="services.html#formCard">Register interest →</a>
       </div>
-      <nav aria-label="Services">
+      <div class="rjf-col" role="navigation" aria-label="Services">
         <h2>Services</h2>
         <ul>
           <li><a href="services/robot-design.html">Robot design &amp; structure</a></li>
@@ -1012,8 +1068,8 @@
           <li><a href="services/process-automation.html">Process &amp; automation</a></li>
           <li><a href="services.html">All services</a></li>
         </ul>
-      </nav>
-      <nav aria-label="Products">
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Products">
         <h2>Products</h2>
         <ul>
           <li><a href="products/loanmaster.html">LoanMaster</a></li>
@@ -1023,8 +1079,17 @@
           <li><a href="cara-waitlist.html">CARA waitlist</a></li>
           <li><a href="products/">All products</a></li>
         </ul>
-      </nav>
-      <nav aria-label="Company">
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Who it's for">
+        <h2>Who it's for</h2>
+        <ul>
+          <li><a href="for/businesses.html">Businesses</a></li>
+          <li><a href="for/institutions.html">Institutions &amp; researchers</a></li>
+          <li><a href="for/makers.html">Students &amp; makers</a></li>
+          <li><a href="for/investors.html">Investors &amp; partners</a></li>
+        </ul>
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Company">
         <h2>Company</h2>
         <ul>
           <li><a href="./" aria-current="page">Home</a></li>
@@ -1033,7 +1098,7 @@
           <li><a href="posts.html">Updates</a></li>
           <li><a href="./#contact">Contact</a></li>
         </ul>
-      </nav>
+      </div>
     </div>
     <div class="rjf-bottom">
       <div class="rjf-social">
@@ -1046,6 +1111,7 @@
       <p class="rjf-legal">ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
     </div>
   </div>
+  <a class="rjf-sticky" href="services.html#formCard"><span>Launching soon</span><span>Register interest →</span></a>
 </footer>
 
 <script>

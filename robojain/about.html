@@ -246,8 +246,9 @@
   [data-theme="light"] footer.rjf{ --f-bg:#E8EDF5; --f-line:#CBD8EC; --f-ink:#0D1829; --f-dim:#3E5470; --f-faint:#7A95B8; --f-acc:#1A7A5E; }
   .rjf-in{ max-width:1100px; margin:0 auto; padding:0 32px; }
   @media(max-width:600px){ .rjf-in{ padding:0 20px; } }
-  .rjf-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr 0.8fr; gap:36px; }
-  @media(max-width:860px){ .rjf-grid{ grid-template-columns:1fr 1fr; } }
+  .rjf-grid{ display:grid; grid-template-columns:1.25fr 1.05fr 0.9fr 1.05fr 0.75fr; gap:32px; }
+  @media(max-width:980px){ .rjf-grid{ grid-template-columns:1fr 1fr 1fr; } }
+  @media(max-width:700px){ .rjf-grid{ grid-template-columns:1fr 1fr; } }
   @media(max-width:480px){ .rjf-grid{ grid-template-columns:1fr; gap:28px; } }
   .rjf-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:var(--f-ink); text-decoration:none; }
   .rjf-brand:hover{ text-decoration:none; color:var(--f-ink); }
@@ -265,6 +266,14 @@
   .rjf-social a, .rjf-founder{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.06em; color:var(--f-dim); text-decoration:none; }
   .rjf-social a:hover, .rjf-founder:hover{ color:var(--f-acc); text-decoration:none; }
   footer.rjf p.rjf-legal{ width:100%; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--f-faint); margin:6px 0 0; text-align:left; }
+  .rjf-sticky{ display:none; }
+  @media(max-width:760px){
+    .rjf-sticky{ display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:90; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 16px; border-radius:6px; background:var(--f-acc); color:#0D1829; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; text-decoration:none; box-shadow:0 6px 24px rgba(0,0,0,.35); }
+    .rjf-sticky:hover{ text-decoration:none; color:#0D1829; }
+    [data-theme="light"] .rjf-sticky{ color:#fff; }
+    footer.rjf{ padding-bottom:96px; }
+  }
 </style>
 <!-- Ahrefs Web Analytics -->
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="3xEZamVSextZseHXKcjx8g" async></script>
@@ -384,7 +393,7 @@
         <p class="rjf-tag">Robotics engineering studio in Dubai, UAE — DIY-to-medium-scale robotic systems, embedded engineering, and automation.</p>
         <a class="rjf-cta" href="services.html#formCard">Register interest →</a>
       </div>
-      <nav aria-label="Services">
+      <div class="rjf-col" role="navigation" aria-label="Services">
         <h2>Services</h2>
         <ul>
           <li><a href="services/robot-design.html">Robot design &amp; structure</a></li>
@@ -395,8 +404,8 @@
           <li><a href="services/process-automation.html">Process &amp; automation</a></li>
           <li><a href="services.html">All services</a></li>
         </ul>
-      </nav>
-      <nav aria-label="Products">
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Products">
         <h2>Products</h2>
         <ul>
           <li><a href="products/loanmaster.html">LoanMaster</a></li>
@@ -406,8 +415,17 @@
           <li><a href="cara-waitlist.html">CARA waitlist</a></li>
           <li><a href="products/">All products</a></li>
         </ul>
-      </nav>
-      <nav aria-label="Company">
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Who it's for">
+        <h2>Who it's for</h2>
+        <ul>
+          <li><a href="for/businesses.html">Businesses</a></li>
+          <li><a href="for/institutions.html">Institutions &amp; researchers</a></li>
+          <li><a href="for/makers.html">Students &amp; makers</a></li>
+          <li><a href="for/investors.html">Investors &amp; partners</a></li>
+        </ul>
+      </div>
+      <div class="rjf-col" role="navigation" aria-label="Company">
         <h2>Company</h2>
         <ul>
           <li><a href="./">Home</a></li>
@@ -416,7 +434,7 @@
           <li><a href="posts.html">Updates</a></li>
           <li><a href="./#contact">Contact</a></li>
         </ul>
-      </nav>
+      </div>
     </div>
     <div class="rjf-bottom">
       <div class="rjf-social">
@@ -429,6 +447,7 @@
       <p class="rjf-legal">ROBOJAIN — DUBAI, UAE — EST. 2025 — THINK / BUILD / REPEAT</p>
     </div>
   </div>
+  <a class="rjf-sticky" href="services.html#formCard"><span>Launching soon</span><span>Register interest →</span></a>
 </footer>
 
 <script>

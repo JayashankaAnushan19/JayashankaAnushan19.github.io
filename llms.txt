@@ -49,6 +49,10 @@ CARA is a low-cost, GSM-based companion assistive robot for elderly care in deve
 - [Services — launching soon](https://jayashankaanushan19.github.io/robojain/services.html): Robot design & structure, embedded systems, ROS & autonomy, human-robot interaction, concept to deployment, and process & automation; register interest to be first in line.
 - [About RoboJain](https://jayashankaanushan19.github.io/robojain/about.html): Mission, founder, product lines, current R&D work and the four-stage project approach.
 - [RoboJain FAQ](https://jayashankaanushan19.github.io/robojain/faq.html): Answers on what RoboJain builds, when services launch, how projects work, products, CARA, DIY kits and contact.
+- [For businesses](https://jayashankaanushan19.github.io/robojain/for/businesses.html): Automation, custom tools and robotic systems without enterprise-scale budgets; LoanMaster live in production since May 2025.
+- [For institutions & researchers](https://jayashankaanushan19.github.io/robojain/for/institutions.html): Assistive robotics, ROS 2 autonomy and human-robot interaction; CARA and BlindTalk.
+- [For students & makers](https://jayashankaanushan19.github.io/robojain/for/makers.html): DIY robotics kit line on the roadmap for the GCC and South Asia; follow the CARA build blog.
+- [For investors & partners](https://jayashankaanushan19.github.io/robojain/for/investors.html): Two product lines, software in production since May 2025, hardware R&D in progress.
 - [Service: Robot design & structure](https://jayashankaanushan19.github.io/robojain/services/robot-design.html): Chassis design, fabrication and assembly, from compact assistive devices to larger automated systems.
 - [Service: Embedded systems](https://jayashankaanushan19.github.io/robojain/services/embedded-systems.html): Microcontroller hardware, sensor integration, power systems and communication modules.
 - [Service: ROS & autonomy](https://jayashankaanushan19.github.io/robojain/services/ros-autonomy.html): ROS 2 control architectures, navigation stacks and on-device AI.
